@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#02A9A2">
+<meta name="color-scheme" content="light">
+<title>Destinations | Eureka Trips</title>
+<meta name="description" content="Explore every Eureka Trips destination — Philippines, Bali, Thailand, Egypt, Vietnam, Sri Lanka, Andamans and Meghalaya. Group adventures for 21-39s.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://images.unsplash.com">
+<link rel="preload" as="image" href="https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=1920&q=92&auto=format&fm=webp&fit=crop" fetchpriority="high">
+<style>
+  @import url('https://fonts.cdnfonts.com/css/apfel-grotesk');
+  @import url('https://fonts.cdnfonts.com/css/proxima-nova-2');
+  @font-face{font-family:'Apfel Grotesk';font-weight:400;font-style:normal;font-display:swap}
+  @font-face{font-family:'Apfel Grotesk';font-weight:500;font-style:normal;font-display:swap}
+</style>
+<link rel="preload" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Outfit:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,700;1,400;1,600&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Outfit:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,700;1,400;1,600&display=swap"></noscript>
+<style>
+/* ─────────────────────────────────────────
+   RESET
+───────────────────────────────────────── */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;overflow-x:clip;width:100%}
+body{font-family:'Apfel Grotesk','Poppins',system-ui,sans-serif;background:#fff;color:#3A3B3B;overflow-x:clip;line-height:1.6;font-weight:400}
+a{text-decoration:none;color:inherit}
+button{cursor:pointer;font-family:inherit;border:none;outline:none;background:none}
+img{display:block;max-width:100%}
+::selection{background:#02A9A2;color:#fff}
+::-webkit-scrollbar{width:3px}
+::-webkit-scrollbar-thumb{background:#02A9A2;border-radius:2px}
+
+:root{
+  --white:#ffffff;--off:#f7f7f5;--off2:#eef5f3;
+  --teal:#02A9A2;--teal-d:#027A74;--teal-l:#e8f8f4;
+  --dark:#3A3B3B;--body:#6B7575;--body2:#6B7575;
+  --border:#e5e7eb;--border2:#d1fae5;
+  --sh:0 1px 3px rgba(0,0,0,.06),0 1px 2px rgba(0,0,0,.04);
+  --sh2:0 4px 24px rgba(0,0,0,.08);--sh3:0 12px 48px rgba(0,0,0,.12);
+  --r:8px;--r2:16px;--r3:24px;
+  --serif:'Playfair Display',Georgia,serif;
+}
+
+/* ─────────────────────────────────────────
+   NAVBAR (glass overlay, matches homepage)
+───────────────────────────────────────── */
+.navbar{position:fixed;top:0;left:0;right:0;z-index:1000;height:84px;background:transparent;display:flex;align-items:center;padding:0 clamp(1.25rem,4vw,3rem);gap:1.5rem;transition:transform .35s cubic-bezier(.4,0,.2,1),background .3s,box-shadow .3s,height .3s}
+.navbar.hide{transform:translateY(-100%)}
+.navbar.solid{background:#fff;height:70px;border-bottom:1px solid #e5e7eb;box-shadow:0 1px 12px rgba(0,0,0,.06)}
+.nav-logo{flex-shrink:0;text-decoration:none}
+.nav-logo-img{height:76px;width:auto;object-fit:contain;flex-shrink:0;display:block;transition:height .3s}
+.navbar.solid .nav-logo-img{height:60px}
+.nav-pill{display:flex;align-items:center;justify-content:center;gap:clamp(1rem,2vw,2rem);flex:1;background:rgba(40,50,55,.45);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1.5px solid rgba(255,255,255,.55);border-radius:50px;padding:.75rem clamp(1.5rem,3vw,2.5rem);max-width:760px;margin:0 auto;transition:background .3s,border-color .3s,backdrop-filter .3s}
+.navbar.solid .nav-pill{background:transparent;border-color:transparent;backdrop-filter:none;padding:.5rem 0}
+.nav-pill a{font-size:14px;font-weight:600;color:#fff;white-space:nowrap;text-decoration:none;transition:color .2s;letter-spacing:.1px;display:flex;align-items:center;gap:4px}
+.nav-pill a:hover{color:#02A9A2}
+.nav-pill a.active{color:#02A9A2}
+.navbar.solid .nav-pill a{color:#6B7575}
+.navbar.solid .nav-pill a:hover,.navbar.solid .nav-pill a.active{color:#02A9A2}
+.nav-plus{font-size:16px;font-weight:400;opacity:.7}
+.nav-right{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.nav-soc{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.5);color:#fff;transition:all .25s;flex-shrink:0}
+.nav-soc:hover{background:rgba(0,0,0,.55)}
+.nav-soc svg{width:16px;height:16px;fill:currentColor}
+.navbar.solid .nav-soc{background:#fff;border-color:#e5e7eb;color:#6B7575}
+.navbar.solid .nav-soc:hover{background:#f3f4f6}
+.hbg{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px;flex-shrink:0}
+.hbg span{display:block;width:22px;height:2px;background:#fff;border-radius:1px;transition:all .28s}
+.navbar.solid .hbg span{background:#111}
+.hbg.open span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
+.hbg.open span:nth-child(2){opacity:0}
+.hbg.open span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
+
+/* Mobile drawer */
+.mob-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:1001;opacity:0;pointer-events:none;transition:opacity .3s}
+.mob-overlay.show{opacity:1;pointer-events:auto}
+.mob-drawer{position:fixed;top:0;right:-320px;width:300px;height:100%;background:#fff;z-index:1002;transition:right .35s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;box-shadow:-8px 0 40px rgba(0,0,0,.2)}
+.mob-drawer.open{right:0}
+.mob-drawer-head{display:flex;align-items:center;justify-content:space-between;padding:1.5rem}
+.mob-close{font-size:20px;color:#111;width:32px;height:32px;display:flex;align-items:center;justify-content:center}
+.mob-links{display:flex;flex-direction:column;padding:0 1.5rem;gap:1.25rem}
+.mob-links a{font-size:16px;font-weight:600;color:#111}
+.mob-foot{margin-top:auto;padding:1.5rem}
+.mob-cta-btn{width:100%;background:var(--teal);color:#fff;padding:14px;border-radius:50px;font-weight:600;font-size:14px}
+
+/* ─────────────────────────────────────────
+   HERO
+───────────────────────────────────────── */
+/* ─────────────────────────────────────────
+   DESTINATION CATEGORY BAR
+───────────────────────────────────────── */
+.cat-bar-wrap{
+  margin-top:84px;
+  position:sticky;top:0;z-index:998;
+  background:#fff;border-bottom:1px solid var(--border);
+}
+.cat-bar{
+  max-width:1400px;margin:0 auto;padding:0 clamp(1.25rem,4vw,3rem);
+  display:flex;align-items:center;justify-content:center;gap:8px;
+}
+.cat-bar-track{
+  display:flex;align-items:center;justify-content:center;gap:clamp(1.25rem,2.5vw,2.25rem);
+  overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;
+  padding:10px 20px;
+}
+.cat-bar-track::-webkit-scrollbar{display:none}
+.cat-item{
+  display:flex;flex-direction:column;align-items:center;gap:6px;
+  flex-shrink:0;cursor:pointer;position:relative;
+  transition:color .2s;white-space:nowrap;padding:4px 2px 10px;
+}
+.cat-ic-wrap{position:relative;width:34px;height:34px;display:flex;align-items:center;justify-content:center}
+.cat-ic{width:26px;height:26px;color:#9aa0a6;display:flex;align-items:center;justify-content:center;transition:color .2s}
+.cat-ic svg{width:100%;height:100%}
+.cat-ic-emoji{font-size:22px;line-height:1}
+.cat-lbl{font-family:'Poppins',sans-serif;font-size:13.5px;font-weight:600;color:var(--body);transition:color .2s}
+.cat-item:hover .cat-ic{color:var(--dark)}
+.cat-item:hover .cat-lbl{color:var(--dark)}
+.cat-item.active .cat-ic{color:#F5A623}
+.cat-item.active .cat-lbl{color:#F5A623}
+.cat-item.active::after{
+  content:'';position:absolute;bottom:0;left:15%;right:15%;height:2px;background:#F5A623;
+}
+.cat-trending{
+  position:absolute;top:-6px;right:-22px;
+  background:#F5A623;color:#fff;font-size:7.5px;font-weight:700;letter-spacing:.2px;
+  padding:2px 5px;border-radius:4px;white-space:nowrap;z-index:1;
+}
+.cat-bar-arrow{
+  flex-shrink:0;width:34px;height:34px;border-radius:50%;background:#f0f0f0;border:none;
+  display:flex;align-items:center;justify-content:center;color:var(--dark);transition:background .2s;
+}
+.cat-bar-arrow:hover{background:#e2e2e2}
+.cat-bar-arrow svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2.4}
+
+@media(max-width:640px){
+  .cat-bar-wrap{margin-top:70px;top:0}
+}
+
+.dest-hero-wrap{padding:1.5rem clamp(1rem,3vw,2rem) 0}
+.dest-hero{
+  position:relative;overflow:hidden;
+  border-radius:32px;
+  background:linear-gradient(160deg,#DCEAF8 0%,#E8F1FA 50%,#EAF3FB 100%);
+  padding:clamp(2.5rem,5vw,4rem) clamp(1rem,3vw,2rem) 0;
+  display:flex;flex-direction:column;align-items:center;
+}
+.dest-hero-content{position:relative;z-index:2;width:100%;max-width:820px;margin:0 auto;padding:0 1.5rem;text-align:center;display:flex;flex-direction:column;align-items:center}
+.dest-hero-h1{font-family:'Apfel Grotesk','Poppins',sans-serif;font-size:clamp(30px,5vw,54px);color:#3A3B3B;line-height:1.2;font-weight:700;letter-spacing:0.2px;margin-bottom:1rem;min-height:2.4em}
+.dest-hero-h1 .rotator{color:#E76F51;display:inline-block;position:relative;min-width:9ch;text-align:left}
+
+.dest-hero-sub{font-family:'Poppins',sans-serif;font-size:clamp(14px,1.3vw,17px);color:#4A4F4F;max-width:560px;line-height:1.5;letter-spacing:-0.2px;font-weight:400;margin:0 auto 2rem}
+.dest-hero-ctas{display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;margin-bottom:clamp(2rem,4vw,3rem)}
+.btn-hero-primary,.btn-hero-outline{display:inline-block;padding:13px 30px;border-radius:50px;font-family:'Proxima Nova','Poppins',sans-serif;font-size:14px;font-weight:600;letter-spacing:.2px;transition:all .25s;cursor:pointer;text-decoration:none;border:none}
+.btn-hero-primary{background:var(--teal);color:#fff}
+.btn-hero-primary:hover{background:var(--teal-d)}
+.btn-hero-outline{background:#FFA43B;color:#fff}
+.btn-hero-outline:hover{background:#F28C13}
+
+/* ─────────────────────────────────────────
+   MARQUEE — infinite scrolling photo strip
+───────────────────────────────────────── */
+.marquee-sec{background:#fff;padding:2rem 0;overflow:hidden}
+.marquee-track{display:flex;gap:1rem;width:max-content;animation:marqueeScroll 42s linear infinite}
+.marquee-track:hover{animation-play-state:paused}
+@keyframes marqueeScroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+.marquee-item{flex-shrink:0;width:220px;height:150px;border-radius:14px;overflow:hidden;box-shadow:var(--sh)}
+.marquee-item img{width:100%;height:100%;object-fit:cover}
+
+/* ─────────────────────────────────────────
+   TRIP GRID
+───────────────────────────────────────── */
+section{padding:clamp(1.25rem,2.5vw,2rem) clamp(1.25rem,4vw,3rem)}
+.container{max-width:1320px;margin:0 auto}
+.dest-sec-h{text-align:center;font-family:'Apfel Grotesk','Poppins',sans-serif;font-size:clamp(28px,3.6vw,40px);font-weight:700;color:#111;letter-spacing:0.2px;margin-bottom:.75rem}
+.dest-sec-p{text-align:center;font-family:'Poppins',sans-serif;font-size:16px;color:var(--body);line-height:1.5;letter-spacing:-0.2px;font-weight:400;max-width:600px;margin:0 auto clamp(2rem,4vw,3rem)}
+
+.dest-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.5rem}
+.dc2{position:relative;background:transparent;border-radius:16px;overflow:hidden;box-shadow:0 0 0 1.5px rgba(15,75,65,.18),0 8px 24px rgba(15,75,65,.12);cursor:pointer;height:420px;transition:transform .3s ease,box-shadow .3s}
+.dc2:hover{transform:translateY(-5px);box-shadow:0 0 0 1px rgba(15,75,65,.22),0 16px 36px rgba(15,75,65,.18)}
+.dc2-img{position:absolute;inset:0;overflow:hidden}
+.dc2-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s ease}
+.dc2:hover .dc2-img img{transform:scale(1.05)}
+.dc2-img-ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.5) 0%,transparent 55%)}
+.dc2-badge-row{position:absolute;top:12px;left:12px;display:flex;gap:5px;z-index:2}
+.dc2-tag{padding:4px 10px;border-radius:20px;font-family:'Proxima Nova','Poppins',sans-serif;font-size:12px;font-weight:600;background:rgba(255,255,255,.92);color:#6B7575;border:1px solid rgba(2,169,162,.25)}
+.dc2-hot{background:#fef2f2;color:#dc2626;font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px}
+.dc2-body{position:absolute;left:4px;right:4px;bottom:4px;padding:.85rem 1rem 1rem;display:flex;flex-direction:column;gap:.3rem;background:#fff;border-radius:14px;box-shadow:0 4px 20px rgba(0,0,0,.15)}
+.dc2-dur{font-family:'Proxima Nova','Poppins',sans-serif;font-size:11px;font-weight:600;color:var(--teal);letter-spacing:1.2px;text-transform:uppercase}
+.dc2-name{font-family:'Outfit','Poppins',sans-serif;font-size:21px;font-weight:600;color:#0a0a0a;line-height:1.2}
+.dc2-route{font-family:'Proxima Nova','Poppins',sans-serif;font-size:12.5px;color:#E8760A;font-weight:600}
+.dc2-dates{font-family:'Poppins',sans-serif;font-size:12px;color:#111;font-weight:500}
+.dc2-empty{grid-column:1/-1;text-align:center;padding:3rem 1rem;font-family:'Poppins',sans-serif;font-size:15px;color:var(--body)}
+.dc2-guide-link{display:inline-block;font-family:'Poppins',sans-serif;font-size:12.5px;font-weight:700;color:var(--teal-d);margin:.35rem 0;text-decoration:underline;text-underline-offset:2px}
+.dc2-guide-link:hover{color:var(--teal)}
+.dc2-div{border:none;border-top:1px solid #e5e7eb;margin:.25rem 0}
+.dc2-foot{display:flex;align-items:flex-end;justify-content:space-between}
+.dc2-price-lbl{font-size:10.5px;color:#6B7575;font-weight:600}
+.dc2-price{font-family:'Outfit','Poppins',sans-serif;font-size:21px;font-weight:700;color:var(--teal);line-height:1}
+.dc2-btn{width:32px;height:32px;border-radius:50%;background:#6B7575;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .25s}
+.dc2:hover .dc2-btn{background:var(--teal)}
+.dc2-btn svg{width:11px;height:11px;stroke:#fff;stroke-width:2.5;fill:none;stroke-linecap:round;stroke-linejoin:round}
+
+/* ─────────────────────────────────────────
+   FAQ
+───────────────────────────────────────── */
+.dest-faq{background:#fff;padding-top:clamp(3rem,6vw,5rem);padding-bottom:clamp(1rem,2vw,1.5rem)}
+.faq-row{display:grid;grid-template-columns:.85fr 1.15fr;gap:clamp(2.5rem,5vw,4rem);align-items:start}
+.faq-txt h2{font-family:'Apfel Grotesk','Poppins',sans-serif;font-size:clamp(28px,3.4vw,38px);font-weight:700;color:var(--dark);margin-bottom:1rem;letter-spacing:0.2px}
+.faq-txt p{font-family:'Poppins',sans-serif;font-size:15px;color:var(--body);line-height:1.5;letter-spacing:-0.2px;font-weight:400;max-width:420px;margin-bottom:1.75rem}
+.faq-btns{display:flex;gap:.9rem;flex-wrap:wrap}
+.faq-btn-outline{padding:.85rem 1.75rem;border-radius:50px;border:1.5px solid var(--teal);color:var(--teal);font-family:'Proxima Nova','Poppins',sans-serif;font-size:14px;font-weight:600;background:#fff;transition:all .22s}
+.faq-btn-outline:hover{background:var(--teal-l)}
+.faq-btn-solid{padding:.85rem 1.75rem;border-radius:50px;border:none;background:#377472;color:#fff;font-family:'Proxima Nova','Poppins',sans-serif;font-size:14px;font-weight:600;transition:all .22s}
+.faq-btn-solid:hover{background:var(--teal-d)}
+.faq-list{display:flex;flex-direction:column;gap:.9rem}
+.faq-item{background:transparent}
+.faq-q{background:#F1F9F9;border-radius:50px;display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:1.1rem 1.75rem;cursor:pointer;font-family:'Outfit','Poppins',sans-serif;font-size:15px;font-weight:600;color:var(--dark)}
+.faq-icon{width:22px;height:22px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:18px;font-weight:400;color:var(--dark)}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .35s ease}
+.faq-a-in{padding:.85rem 1.75rem 0;font-family:'Poppins',sans-serif;font-size:14px;color:var(--body);line-height:1.6;letter-spacing:-0.2px;font-weight:400}
+.faq-a-in ul{margin:.5rem 0 .5rem 1.1rem}
+.faq-a-in li{margin-bottom:.3rem}
+
+/* ─────────────────────────────────────────
+   FOOTER (shared)
+───────────────────────────────────────── */
+.footer-wrap{position:relative;background:#013A38;overflow:hidden}
+.footer-wrap-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;z-index:0}
+.footer{
+  position:relative;z-index:1;
+  background:rgba(1,58,56,.72);
+  backdrop-filter:blur(18px) saturate(1.4);-webkit-backdrop-filter:blur(18px) saturate(1.4);
+  border-radius:28px 28px 0 0;border:1px solid rgba(255,255,255,.08);
+  margin-top:clamp(220px,32vw,380px);
+  padding:clamp(2rem,3vw,3rem) clamp(1.25rem,4vw,3rem) 1.5rem;
+}
+.footer-grid{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:1.4fr 1fr 1fr 1.2fr;gap:2.5rem;padding-bottom:2.5rem;border-bottom:1px solid rgba(255,255,255,.1)}
+.ft-logo-img{height:64px;margin-bottom:1rem;display:block}
+.ft-mission{font-family:'Poppins',sans-serif;font-size:14px;color:rgba(255,255,255,.92);line-height:1.5;letter-spacing:-0.2px;font-weight:400;margin-bottom:1.25rem;max-width:280px}
+.ft-social{display:flex;gap:10px}
+.fsb{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;color:#fff;transition:all .25s}
+.fsb:hover{background:var(--teal)}
+.fsb svg{width:15px;height:15px}
+.ft-col-h{font-family:'Proxima Nova','Poppins',sans-serif;font-size:16px;font-weight:600;letter-spacing:.3px;text-transform:uppercase;color:#fff;margin-bottom:1.25rem}
+.ft-col-links{display:flex;flex-direction:column;gap:.7rem}
+.ft-col-links a{font-size:13.5px;color:rgba(255,255,255,.65);transition:color .2s}
+.ft-col-links a:hover{color:var(--teal)}
+.ft-col-links a.active{color:var(--teal)}
+.ft-contact-item{display:flex;gap:.75rem;align-items:flex-start;margin-bottom:1.1rem}
+.ft-contact-icon{width:32px;height:32px;border-radius:8px;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ft-contact-icon svg{width:15px;height:15px;stroke:#fff;fill:none;stroke-width:1.8}
+.ft-contact-lbl{font-size:11px;color:rgba(255,255,255,.5);margin-bottom:2px}
+.ft-contact-val{font-size:13.5px;color:#fff;font-weight:500}
+.ft-badges{max-width:1280px;margin:1.5rem auto 0;display:flex;flex-wrap:wrap;align-items:center;gap:1.5rem}
+.ft-badge{height:38px}
+.ft-pay-row{max-width:1280px;margin:1.25rem auto 0;display:flex;flex-wrap:wrap;align-items:center;gap:1.25rem}
+.footer-btm{max-width:1280px;margin:1.75rem auto 0;display:flex;flex-wrap:wrap;justify-content:space-between;gap:1rem}
+.ft-copy{font-size:12.5px;color:rgba(255,255,255,.55)}
+.ft-legal{display:flex;gap:1.25rem}
+.ft-legal a{font-size:12.5px;color:rgba(255,255,255,.55)}
+.ft-legal a:hover{color:#fff}
+
+.fu{opacity:0;transform:translateY(24px);transition:opacity .8s ease,transform .8s ease}
+.fu.in{opacity:1;transform:none}
+.d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.32s}.d4{transition-delay:.44s}.d5{transition-delay:.56s}
+
+/* ─────────────────────────────────────────
+   RESPONSIVE
+───────────────────────────────────────── */
+@media(max-width:1024px){
+  .nav-pill{display:none}
+  .hbg{display:flex}
+  .dest-grid{grid-template-columns:repeat(2,1fr)}
+  .footer-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:768px){
+  .faq-row{grid-template-columns:1fr}
+  .dest-hero-h1{font-size:clamp(28px,8vw,38px)}
+}
+@media(max-width:560px){
+  .dest-grid{grid-template-columns:1fr}
+  .footer-grid{grid-template-columns:1fr}
+  .dest-hero-ctas{flex-direction:column;width:100%}
+  .dest-hero-ctas a{text-align:center}
+}
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+  <a href="index.html" class="nav-logo">
+    <img class="nav-logo-img" src="https://etrips.digitalgrowthtechnology.com/wp-content/uploads/2026/01/Eureka-Logo-1-02-scaled-e1769966688826.png" alt="Eureka Trips" onerror="this.style.display='none'">
+  </a>
+    <div class="nav-pill">
+    <a href="about-us.html">About Us</a>
+    <a href="index.html#trips">Our Trips <span class="nav-plus">+</span></a>
+    <a href="destinations.html" class="active">Destinations</a>
+    <a href="group-trip.html">Group Trip</a>
+    <a href="custom-trips.html">Build Your Adventure</a>
+    <a href="blog.html">Blog</a>
+    <a href="contact-us.html">Contact Us</a>
+  </div>
+<div class="nav-right">
+    <a href="https://www.facebook.com/profile.php?id=61550700038721" target="_blank" class="nav-soc" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
+    <a href="https://www.instagram.com/eureka.trips" target="_blank" class="nav-soc" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
+    <div class="hbg" id="hbg" onclick="openDrawer()"><span></span><span></span><span></span></div>
+  </div>
+</nav>
+
+<!-- MOBILE DRAWER -->
+<div class="mob-overlay" id="mobOverlay" onclick="closeDrawer()"></div>
+<div class="mob-drawer" id="mobDrawer">
+  <div class="mob-drawer-head">
+    <span style="font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:#111">eureka! <em style="color:#02A9A2;font-style:italic">trips</em></span>
+    <button class="mob-close" onclick="closeDrawer()">✕</button>
+  </div>
+    <nav class="mob-links">
+    <a href="about-us.html" onclick="closeDrawer()">About Us</a>
+    <a href="index.html#trips" onclick="closeDrawer()">Our Trips</a>
+    <a href="destinations.html" class="active" onclick="closeDrawer()">Destinations</a>
+    <a href="group-trip.html" onclick="closeDrawer()">Group Trip</a>
+    <a href="custom-trips.html" onclick="closeDrawer()">Build Your Adventure</a>
+    <a href="blog.html" onclick="closeDrawer()">Blog</a>
+    <a href="contact-us.html" onclick="closeDrawer()">Contact Us</a>
+    <a href="tel:+919792496457" onclick="closeDrawer()">📞 +91 97924 96457</a>
+  </nav>
+  <div class="mob-foot">
+    <button class="mob-cta-btn" onclick="openWA('Hi EUREKA Trips! I want to plan a trip.');closeDrawer()">💬 Book on WhatsApp</button>
+  </div>
+</div>
+
+<!-- DESTINATION CATEGORY BAR -->
+<div class="cat-bar-wrap">
+  <div class="cat-bar">
+    <button class="cat-bar-arrow" onclick="catBarScroll(-1)" aria-label="Scroll left"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
+    <div class="cat-bar-track" id="catBarTrack">
+      <div class="cat-item" data-region="Coming up" onclick="selectRegionCat(this)">
+        <div class="cat-ic-wrap"><span class="cat-ic cat-ic-emoji">✨</span></div>
+        <span class="cat-lbl">Coming up</span>
+      </div>
+      <div class="cat-item" data-region="Asia" onclick="selectRegionCat(this)">
+        <div class="cat-ic-wrap"><span class="cat-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2 3h-4z"/><path d="M9 5h6l1.5 3h-9z"/><path d="M7 8h10l2 4H5z"/><path d="M6 12h12v8H6z"/><path d="M4 21h16"/></svg></span></div>
+        <span class="cat-lbl">Asia</span>
+      </div>
+      <div class="cat-item" data-region="Europe" onclick="selectRegionCat(this)">
+        <div class="cat-ic-wrap"><span class="cat-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l-1.5 5h3z"/><path d="M9.5 9h5l-1 4h-3z"/><path d="M8.5 15h7l-1.2 4.5h-4.6z"/><path d="M4 21h16"/><path d="M7 21l3-8M17 21l-3-8"/></svg></span></div>
+        <span class="cat-lbl">Europe</span>
+      </div>
+      <div class="cat-item" data-region="Middle east" onclick="selectRegionCat(this)">
+        <div class="cat-ic-wrap"><span class="cat-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21v-7a8 8 0 0116 0v7"/><path d="M4 21h16"/><path d="M12 6V3M10.5 4.5h3"/></svg></span></div>
+        <span class="cat-lbl">Middle east</span>
+      </div>
+      <div class="cat-item" data-region="Domestic" onclick="selectRegionCat(this)">
+        <div class="cat-ic-wrap"><span class="cat-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11l8-7 8 7"/><path d="M6 10v10h12V10"/><path d="M10 20v-6h4v6"/></svg></span></div>
+        <span class="cat-lbl">Domestic</span>
+      </div>
+      <div class="cat-item" data-region="Africa" onclick="selectRegionCat(this)">
+        <div class="cat-ic-wrap"><span class="cat-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v6"/><path d="M5 9c0-2 3-3 7-3s7 1 7 3-3 2-7 2-7 0-7-2z"/><path d="M12 12v9"/><path d="M8 21h8"/></svg></span></div>
+        <span class="cat-lbl">Africa</span>
+      </div>
+      <div class="cat-item active" data-region="All Trips" onclick="selectRegionCat(this)">
+        <div class="cat-ic-wrap"><span class="cat-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3c2.5 2.5 2.5 15.5 0 18M12 3c-2.5 2.5-2.5 15.5 0 18"/></svg></span></div>
+        <span class="cat-lbl">All Trips</span>
+      </div>
+    </div>
+    <button class="cat-bar-arrow" onclick="catBarScroll(1)" aria-label="Scroll right"><svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></button>
+  </div>
+</div>
+
+<!-- HERO -->
+<div class="dest-hero-wrap" id="home">
+<section class="dest-hero">
+  <div class="dest-hero-content">
+    <h1 class="dest-hero-h1" id="heroH1">Make every <span class="rotator" id="rotator">Trip</span> unforgettable!</h1>
+    <p class="dest-hero-sub">Get your dream trip planned with expert guided destinations, booking, transport, party and more — all in one.</p>
+    <div class="dest-hero-ctas">
+      <a href="custom-trips.html" class="btn-hero-primary">Request A Trip</a>
+      <a href="index.html#trips" class="btn-hero-outline">Explore Trips</a>
+    </div>
+  </div>
+  <div class="marquee-track" id="marqueeTrack" style="padding-bottom:2.5rem"></div>
+</section>
+</div>
+
+<!-- TRIP GRID -->
+<section id="destGrid">
+  <div class="container">
+    <div class="dest-grid" id="destTripsGrid"></div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="dest-faq" id="faqs">
+  <div class="container">
+    <div class="faq-row">
+      <div class="faq-txt fu">
+        <h2 id="faqHeadingEl">Frequently asked questions</h2>
+        <p id="faqIntroEl">Got questions about this trip? We've gathered the essential details right here to help you plan your adventure.</p>
+        <div class="faq-btns">
+          <a href="#faqs" class="faq-btn-outline">View all FAQs</a>
+          <a href="contact-us.html" class="faq-btn-solid">Chat With Us</a>
+        </div>
+      </div>
+
+      <div class="faq-list fu d1" id="faqListEl">
+        <div class="faq-item open">
+          <div class="faq-q" onclick="toggleFaq(this)">How does it work?<span class="faq-icon">−</span></div>
+          <div class="faq-a" style="max-height:400px"><div class="faq-a-in">
+            <ul>
+              <li>Read through this page so you know exactly what's included and what's not.</li>
+              <li>Got questions? Reach our team over call, WhatsApp, or email — they know these trips inside out.</li>
+              <li>Hit the Book button and fill out a short form.</li>
+              <li>We'll send payment details by email for you to complete.</li>
+              <li>Once you're confirmed, we'll send your booking confirmation and help with flights and visas.</li>
+            </ul>
+            You'll also be added to the trip WhatsApp group 1–2 weeks before departure.
+          </div></div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">Who can join this trip?<span class="faq-icon">+</span></div>
+          <div class="faq-a"><div class="faq-a-in">Anyone aged 21–39 can join. You're welcome to come solo, with a friend or partner, or as part of a group — either way, you'll be travelling alongside young travellers just like you.</div></div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">What documents will I need?<span class="faq-icon">+</span></div>
+          <div class="faq-a"><div class="faq-a-in">
+            <ul>
+              <li>A passport valid for at least 6 months</li>
+              <li>Visa-on-arrival is free for Indians for stays up to 14 days (destination dependent)</li>
+              <li>Confirmed hotel booking voucher</li>
+              <li>Return flight tickets</li>
+              <li>Proof of sufficient funds</li>
+            </ul>
+          </div></div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">What about flights?<span class="faq-icon">+</span></div>
+          <div class="faq-a"><div class="faq-a-in">Book your arrival flight to land before 4 PM on Day 1. Your return flight can be booked from either the trip's start or end city, whichever suits you better — our team will help you plan whichever works best, including any extension you'd like to add on. Airport pickup isn't included, but shared airport shuttles are easy to arrange, and our team helps coordinate them with fellow travellers landing around the same time.</div></div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">What's not included that I should budget for?<span class="faq-icon">+</span></div>
+          <div class="faq-a"><div class="faq-a-in">Your trip cost already covers daily breakfast, a couple of lunches, one local dinner, activities, sightseeing and plenty more. The main extra costs to plan for are your international flights, any remaining meals, and local airport transfers — visa-on-arrival is typically free for Indian travellers. We're happy to help you budget based on your own travel style.</div></div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">Are there optional activities?<span class="faq-icon">+</span></div>
+          <div class="faq-a"><div class="faq-a-in">Yes — depending on the destination, things like surfing lessons, spa treatments, cooking classes, ATV rides, scuba upgrades, and day trips to nearby islands are available as add-ons. These can be booked on the ground with your trip leader, or in advance with our help.</div></div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">Can I extend my trip?<span class="faq-icon">+</span></div>
+          <div class="faq-a"><div class="faq-a-in">Absolutely — add a few extra days before or after your trip and our team will help sort out hotels and activities tailored to what you want to do with the extra time.</div></div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">What does the Eureka Trips team actually do?<span class="faq-icon">+</span></div>
+          <div class="faq-a"><div class="faq-a-in">We handle the logistics so you don't have to — answering questions, helping with flights or extra nights, and sending you a full trip dossier beforehand with everything you need to know. On the trip itself, your dedicated trip leader is there the whole way, planning the days, finding the best food, and keeping the group's energy up.</div></div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">What's the group like?<span class="faq-icon">+</span></div>
+          <div class="faq-a"><div class="faq-a-in">Our groups typically run around 60% women and 40% men, and most travellers join solo — the rest come along with friends, partners, or siblings. It's a genuinely mixed, easygoing crowd.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<div class="footer-wrap">
+  <img class="footer-wrap-bg" src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1920&q=80&auto=format&fm=webp&fit=crop" alt="Misty green mountain range over a bay" loading="lazy">
+
+  <footer class="footer">
+    <div class="footer-grid">
+      <div>
+        <img class="ft-logo-img" src="https://etrips.digitalgrowthtechnology.com/wp-content/uploads/2026/01/Eureka-Logo-1-02-scaled-e1769966688826.png" alt="Eureka Trips" onerror="this.style.display='none'">
+        <p class="ft-mission" style="margin-top:1rem">Our mission is to inspire travel experiences that open your mind, ignite your curiosity, and broaden your horizons so you can discover your own &ldquo;Eureka moment&rdquo;</p>
+        <div class="ft-social">
+          <a href="https://www.instagram.com/eureka.trips" target="_blank" class="fsb" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
+          <a href="https://www.google.com/search?q=Eureka+Trips" target="_blank" class="fsb" aria-label="Google"><svg viewBox="0 0 48 48"><path fill="currentColor" d="M43.6 20.1H42V20H24v8h11.3C33.6 32.8 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.1 8 2.9l5.7-5.7C34.1 6.8 29.3 5 24 5 13.5 5 5 13.5 5 24s8.5 19 19 19 19-8.5 19-19c0-1.3-.1-2.5-.4-3.9z"/></svg></a>
+        </div>
+      </div>
+
+      <div>
+                <div class="ft-col-h">Company</div>
+        <div class="ft-col-links">
+          <a href="about-us.html">About Us</a>
+          <a href="index.html#trips">Our Trips</a>
+          <a href="destinations.html">Destinations</a>
+          <a href="whats-included.html">What's Included</a>
+          <a href="index.html#reviews">Reviews</a>
+          <a href="blog.html">Blogs</a>
+        </div>
+      </div>
+
+      <div>
+                <div class="ft-col-h">Explore</div>
+        <div class="ft-col-links">
+          <a href="contact-us.html">Contact Us</a>
+          <a href="custom-trips.html">Adventure Planner</a>
+          <a href="group-trip.html">Group Trip</a>
+          <a href="#faqs">FAQ</a>
+          <a href="booking-page.html">Book Your Trip</a>
+        </div>
+      </div>
+
+      <div>
+        <div class="ft-col-h">Contact Information</div>
+        <div class="ft-contact-item">
+          <div class="ft-contact-icon"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg></div>
+          <div><div class="ft-contact-lbl">Phone Number</div><div class="ft-contact-val">+91 9792496457</div></div>
+        </div>
+        <div class="ft-contact-item">
+          <div class="ft-contact-icon"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4V4z"/><path d="M4 6l8 7 8-7"/></svg></div>
+          <div><div class="ft-contact-lbl">Email Address</div><div class="ft-contact-val">hello@eurekatrips.com</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ft-badges">
+      <img class="ft-badge" src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Tripadvisor_Logo_circle-green_vertical-lockup_registered_RGB.svg/200px-Tripadvisor_Logo_circle-green_vertical-lockup_registered_RGB.svg.png" alt="Tripadvisor 5.0 stars" loading="lazy">
+      <span style="color:#fff;font-size:13px;font-weight:700;opacity:.9">100% Carbon Neutral Tours</span>
+      <span style="color:#fff;font-size:13px;font-weight:700;opacity:.9">#SmallChange Sustainable Travel</span>
+      <span style="color:#fff;font-size:13px;font-weight:700;opacity:.9">Google 4.9 ★★★★★</span>
+    </div>
+
+    <div class="ft-pay-row">
+      <span style="color:#fff;font-size:12px;font-weight:700;opacity:.85">We accept:</span>
+      <span style="color:rgba(255,255,255,.85);font-size:13px;font-weight:600">MasterCard</span>
+      <span style="color:rgba(255,255,255,.85);font-size:13px;font-weight:600">VISA</span>
+      <span style="color:rgba(255,255,255,.85);font-size:13px;font-weight:600">American Express</span>
+      <span style="color:rgba(255,255,255,.85);font-size:13px;font-weight:600">G Pay</span>
+      <span style="color:rgba(255,255,255,.85);font-size:13px;font-weight:600">Apple Pay</span>
+    </div>
+
+    <div class="footer-btm">
+      <span class="ft-copy">&copy; 2026 Eureka Trips. All rights reserved.</span>
+            <div class="ft-legal"><a href="privacy-policy.html">Privacy Policy</a><a href="terms-conditions.html">Terms &amp; Conditions</a></div>
+    </div>
+  </footer>
+</div>
+
+<script>
+/* ═════════════════════════════════════════════════════════════
+   SUPABASE INTEGRATION — Eureka Trips Admin Panel data
+═════════════════════════════════════════════════════════════ */
+var SB_URL = 'https://caigrloiymgfxubzprbg.supabase.co/rest/v1';
+var SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNhaWdybG9peW1nZnh1YnpwcmJnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODMzOTM1MjksImV4cCI6MjA5ODk2OTUyOX0.zA5Q1kAAk66fgX_Ertnrbb4TJmM5yPE71zy-alK-yqE';
+
+async function sbGet(table, query) {
+  try {
+    var r = await fetch(SB_URL + '/' + table + '?' + (query || ''), {
+      headers: { apikey: SB_KEY, Authorization: 'Bearer ' + SB_KEY }
+    });
+    if (!r.ok) return [];
+    var data = await r.json();
+    return Array.isArray(data) ? data : [];
+  } catch (e) { console.error('Supabase fetch error [' + table + ']', e); return []; }
+}
+async function sbSettings() {
+  var rows = await sbGet('settings', '');
+  var s = {};
+  rows.forEach(function(r) { s[r.key] = r.value; });
+  return s;
+}
+function esc(s) { if (s === null || s === undefined) return ''; return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function setText(id, val) { if (!val) return; var el = document.getElementById(id); if (el) el.innerHTML = val; }
+
+function openWA(msg){window.open('https://wa.me/919792496457?text='+encodeURIComponent(msg),'_blank');}
+
+function openDrawer(){document.getElementById('hbg').classList.add('open');document.getElementById('mobDrawer').classList.add('open');document.getElementById('mobOverlay').classList.add('show');document.body.style.overflow='hidden';}
+function closeDrawer(){document.getElementById('hbg').classList.remove('open');document.getElementById('mobDrawer').classList.remove('open');document.getElementById('mobOverlay').classList.remove('show');document.body.style.overflow='';}
+
+var lastScroll=0;
+window.addEventListener('scroll',function(){
+  var nb=document.getElementById('navbar');
+  var hero=document.getElementById('home');
+  var s=window.scrollY;
+  var solidThreshold=hero?hero.offsetHeight-100:window.innerHeight-100;
+  if(s>lastScroll && s>80){nb.classList.add('hide');}else{nb.classList.remove('hide');}
+  nb.classList.toggle('solid', s>solidThreshold);
+  lastScroll=s;
+},{passive:true});
+
+function initObs(){
+  var o=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){
+        var el=e.target;
+        o.unobserve(el);
+        requestAnimationFrame(function(){
+          requestAnimationFrame(function(){ el.classList.add('in'); });
+        });
+      }
+    });
+  },{threshold:.08});
+  var els=document.querySelectorAll('.fu:not(.in), .fr:not(.in)');
+  for(var i=0;i<els.length;i++)o.observe(els[i]);
+}
+
+function toggleFaq(q){
+  var item=q.parentElement;
+  var ans=item.querySelector('.faq-a');
+  var icon=q.querySelector('.faq-icon');
+  var wasOpen=item.classList.contains('open');
+  document.querySelectorAll('.faq-item.open').forEach(function(it){
+    it.classList.remove('open');
+    it.querySelector('.faq-a').style.maxHeight=null;
+    it.querySelector('.faq-icon').textContent='+';
+  });
+  if(!wasOpen){
+    item.classList.add('open');
+    ans.style.maxHeight=ans.scrollHeight+'px';
+    icon.textContent='−';
+  }
+}
+
+/* Hero word rotator: Trip / Holiday / Adventure — typewriter effect */
+function initRotator(words){
+  words = (words && words.length) ? words : ['Trip','Holiday','Adventure'];
+  var wIdx=0, cIdx=0, deleting=false;
+  var el=document.getElementById('rotator');
+  if(!el) return;
+  el.textContent='';
+
+  function tick(){
+    var word=words[wIdx];
+    if(!deleting){
+      cIdx++;
+      el.textContent=word.slice(0,cIdx);
+      if(cIdx===word.length){
+        deleting=true;
+        setTimeout(tick,1400);
+        return;
+      }
+      setTimeout(tick,90);
+    }else{
+      cIdx--;
+      el.textContent=word.slice(0,cIdx);
+      if(cIdx===0){
+        deleting=false;
+        wIdx=(wIdx+1)%words.length;
+        setTimeout(tick,300);
+        return;
+      }
+      setTimeout(tick,45);
+    }
+  }
+  setTimeout(tick,600);
+}
+
+/* Marquee — build a doubled strip for seamless infinite scroll */
+(function(){
+  var photos=[
+    'https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=400&q=75&auto=format&fm=webp&fit=crop',
+    'https://images.unsplash.com/photo-1528181304800-259b08848526?w=400&q=75&auto=format&fm=webp&fit=crop',
+    'https://images.unsplash.com/photo-1524492412937-b28074a5d7da?w=400&q=75&auto=format&fm=webp&fit=crop',
+    'https://images.unsplash.com/photo-1499678329028-101435549a4e?w=400&q=75&auto=format&fm=webp&fit=crop',
+    'https://images.unsplash.com/photo-1519046904884-53103b34b206?w=400&q=75&auto=format&fm=webp&fit=crop',
+    'https://images.unsplash.com/photo-1533105079780-92b9be482077?w=400&q=75&auto=format&fm=webp&fit=crop',
+    'https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=400&q=75&auto=format&fm=webp&fit=crop',
+    'https://images.unsplash.com/photo-1530521954074-e64f6810b32d?w=400&q=75&auto=format&fm=webp&fit=crop',
+    'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=400&q=75&auto=format&fm=webp&fit=crop',
+    'https://images.unsplash.com/photo-1543087903-1ac2ec7aa8c5?w=400&q=75&auto=format&fm=webp&fit=crop'
+  ];
+  var track=document.getElementById('marqueeTrack');
+  var doubled=photos.concat(photos);
+  var html='';
+  for(var i=0;i<doubled.length;i++){
+    html+='<div class="marquee-item"><img src="'+doubled[i]+'" alt="Destination photo" loading="lazy"></div>';
+  }
+  track.innerHTML=html;
+})();
+
+/* Trip grid — reuse the same TRIPS dataset as the homepage */
+var TRIPS=[
+  {id:1,name:"Philippines Hop & Chill",region:"Asia",route:"Manila \u2022 Cebu \u2022 Puerto Princesa \u2022 El Nido",dur:"9 NIGHTS / 10 DAYS",price:94000,dates:["22 Nov","27 Dec","17 Jan"],tags:["adventure","beach"],hot:true,img:"https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=800&q=80&auto=format&fm=webp&fit=crop"},
+  {id:2,name:"Bali & Gili Experience",slug:"bali",region:"Asia",route:"Seminyak \u2022 Gili T \u2022 Ubud",dur:"8 NIGHTS / 9 DAYS",price:54000,dates:["18 July","15 Aug","12 Sep"],tags:["adventure","beach"],hot:false,img:"https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=800&q=80&auto=format&fm=webp&fit=crop"},
+  {id:3,name:"Thailand & Fullmoon Party",slug:"thailand",region:"Asia",route:"Phuket \u2022 Koh Samui \u2022 Koh Phangan \u2022 Krabi",dur:"7 NIGHTS / 8 DAYS",price:54000,dates:["25 Aug","23 Sep","21 Nov"],tags:["adventure","beach"],hot:false,img:"https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=800&q=80&auto=format&fm=webp&fit=crop"},
+  {id:4,name:"Egypt & The Nile",region:"Africa",route:"Cairo \u2022 Aswan \u2022 Edfu \u2022 Luxor \u2022 Hurghada",dur:"8 NIGHTS / 9 DAYS",price:116000,dates:["14 Jan","18 Mar"],tags:["culture","adventure"],hot:true,img:"https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=800&q=80&auto=format&fm=webp&fit=crop"},
+  {id:5,name:"Vietnam Intro",slug:"vietnam",region:"Asia",route:"Saigon \u2022 H\u1ed9i An \u2022 Hanoi \u2022 Halong Bay",dur:"7 NIGHTS / 8 DAYS",price:57000,dates:["3 Apr","4 July"],tags:["culture","adventure"],hot:false,img:"https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=800&q=80&auto=format&fm=webp&fit=crop"},
+  {id:6,name:"Sri Lanka Uncovered",slug:"srilanka",region:"Asia",route:"Colombo \u2022 Kandy \u2022 Ella \u2022 Mirissa \u2022 Colombo",dur:"8 NIGHTS / 10 DAYS",price:56000,dates:["26 Sep","21 Nov","26 Dec"],tags:["culture","beach"],hot:false,img:"https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=800&q=80&auto=format&fm=webp&fit=crop"},
+  {id:7,name:"Andamans Explored",region:"Domestic",route:"Port Blair \u2022 Havelock \u2022 Neil Island",dur:"6 NIGHTS / 7 DAYS",price:36000,dates:["21 Mar"],tags:["beach","nature"],hot:false,img:"https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=800&q=80&auto=format&fm=webp&fit=crop"},
+  {id:8,name:"Meghalaya Explorers",region:"Domestic",route:"Cherrapunji \u2022 Shnongpdeng \u2022 Shillong",dur:"6 NIGHTS / 7 DAYS",price:26000,dates:["21 Dec"],tags:["nature","adventure"],hot:false,img:"https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=800&q=80&auto=format&fm=webp&fit=crop"}
+];
+var BL={adventure:"Adventure",beach:"Beach",culture:"Culture",nature:"Nature"};
+
+var currentRegionFilter='All Trips';
+var AVAILABLE_GUIDES=['bali'];
+
+function renderDestGrid(){
+  var g=document.getElementById('destTripsGrid');
+  if(!g) return;
+  var list = currentRegionFilter==='All Trips' ? TRIPS
+    : currentRegionFilter==='Coming up' ? TRIPS.filter(function(t){ return t.hot; })
+    : TRIPS.filter(function(t){ return t.region===currentRegionFilter; });
+
+  if(!list.length){
+    g.innerHTML='<div class="dc2-empty">No trips found for this category yet — check back soon!</div>';
+    return;
+  }
+
+  var out='';
+  for(var i=0;i<list.length;i++){
+    var t=list[i];
+    var tags='';
+    for(var j=0;j<t.tags.length;j++){ tags+='<span class="dc2-tag">'+(BL[t.tags[j]]||t.tags[j])+'</span>'; }
+    var hot=t.hot?'<span class="dc2-hot">\uD83D\uDD25 Hot</span>':'';
+    var dStr=t.dates.join(' | ');
+    var pr='\u20B9'+t.price.toLocaleString('en-IN');
+    var msg='Hi EUREKA Trips! I am interested in "'+t.name+'". Can you share details and available dates?';
+    out+='<div class="dc2 fu"'+(t.slug?' id="'+t.slug+'"':'')+' onclick="openWA(\''+msg.replace(/'/g,"&#39;")+'\')">';
+    out+='<div class="dc2-img"><img width="800" height="600" src="'+t.img+'" alt="'+t.name+'" loading="lazy"></div>';
+    out+='<div class="dc2-img-ov"></div>';
+    out+='<div class="dc2-badge-row">'+tags+hot+'</div>';
+    out+='<div class="dc2-body">';
+    out+='<div class="dc2-dur">'+t.dur+'</div>';
+    out+='<div class="dc2-name">'+t.name+'</div>';
+    out+='<div class="dc2-route">'+t.route+'</div>';
+    if(t.slug && AVAILABLE_GUIDES.indexOf(t.slug)!==-1){
+      out+='<a class="dc2-guide-link" href="destination-guide.html?dest='+t.slug+'" onclick="event.stopPropagation()">\uD83D\uDCD6 View Destination Guide</a>';
+    }
+    out+='<div class="dc2-dates">'+dStr+'</div>';
+    out+='<hr class="dc2-div">';
+    out+='<div class="dc2-foot">';
+    out+='<div><div class="dc2-price-lbl">Starting From</div><div class="dc2-price">'+pr+'*</div></div>';
+    out+='<button class="dc2-btn" aria-label="View trip"><svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></button>';
+    out+='</div></div></div>';
+  }
+  g.innerHTML=out;
+  initObs();
+}
+renderDestGrid();
+
+function selectRegionCat(el){
+  document.querySelectorAll('.cat-item').forEach(function(c){ c.classList.remove('active'); });
+  el.classList.add('active');
+  currentRegionFilter = el.dataset.region;
+  renderDestGrid();
+}
+function catBarScroll(dir){
+  var track=document.getElementById('catBarTrack');
+  if(!track) return;
+  track.scrollBy({left:dir*220, behavior:'smooth'});
+}
+
+/* ═════════════════════════════════════════════════════════════
+   LOAD & APPLY DESTINATIONS PAGE DATA FROM SUPABASE
+═════════════════════════════════════════════════════════════ */
+function buildFaqItem(f, idx) {
+  return '' +
+  '<div class="faq-item' + (idx===0?' open':'') + '">' +
+    '<div class="faq-q" onclick="toggleFaq(this)">' + esc(f.question) + '<span class="faq-icon">' + (idx===0?'−':'+') + '</span></div>' +
+    '<div class="faq-a"' + (idx===0?' style="max-height:600px"':'') + '><div class="faq-a-in">' + (f.answer||'') + '</div></div>' +
+  '</div>';
+}
+
+async function loadDestinationsPageData() {
+  var s = await sbSettings();
+
+  /* ── HERO ── */
+  if (s.dest_hero_heading && s.dest_hero_heading.indexOf('{rotator}') !== -1) {
+    var parts = s.dest_hero_heading.split('{rotator}');
+    document.getElementById('heroH1').innerHTML = esc(parts[0]) + '<span class="rotator" id="rotator"></span>' + esc(parts[1]||'');
+  }
+  var rotatorWords = s.dest_rotator_words ? s.dest_rotator_words.split(',').map(function(w){ return w.trim(); }).filter(Boolean) : null;
+  initRotator(rotatorWords);
+
+  /* ── CATEGORY BAR (shared with Home Page, page_scope = home) ── */
+  var catRows = await sbGet('nav_categories', 'page_scope=eq.home&active=eq.true&order=sort_order.asc');
+  if (catRows.length) {
+    var catTrack = document.getElementById('catBarTrack');
+    if (catTrack) {
+      catTrack.innerHTML = catRows.map(function(c) {
+        var isAll = c.label === 'All Trips';
+        return '<div class="cat-item' + (isAll?' active':'') + '" data-region="' + esc(c.label) + '" onclick="selectRegionCat(this)"><div class="cat-ic-wrap"><span class="cat-ic cat-ic-emoji">' + esc(c.icon||'') + '</span></div><span class="cat-lbl">' + esc(c.label) + '</span></div>';
+      }).join('');
+    }
+  }
+
+  /* ── HERO PHOTO MARQUEE (shared with Home Page) ── */
+  var photoRows = await sbGet('hero_photos', 'active=eq.true&order=sort_order.asc');
+  if (photoRows.length) {
+    var track = document.getElementById('marqueeTrack');
+    if (track) {
+      var urls = photoRows.map(function(r){ return r.image_url; });
+      var doubled = urls.concat(urls);
+      track.innerHTML = doubled.map(function(u){ return '<div class="marquee-item"><img src="'+esc(u)+'" alt="Destination photo" loading="lazy"></div>'; }).join('');
+    }
+  }
+
+  /* ── AVAILABLE DESTINATION GUIDES ── */
+  var destRows = await sbGet('destinations', 'has_guide=eq.true&active=eq.true');
+  AVAILABLE_GUIDES = destRows.map(function(d){ return d.id; });
+
+  /* ── TRIP GRID ── */
+  var tripRows = await sbGet('trips', 'active=eq.true&order=sort_order.asc');
+  if (tripRows.length) {
+    TRIPS = tripRows.map(function(t) {
+      return {
+        id: t.id, name: t.name, region: t.region, route: t.route, dur: t.duration, price: t.price || 0,
+        dates: t.dates || [], tags: t.tags || [], hot: t.hot, img: t.image_url, slug: t.destination_slug,
+        page_slug: t.page_slug
+      };
+    });
+    renderDestGrid();
+  }
+
+  /* ── FAQ SECTION ── */
+  setText('faqHeadingEl', s.dest_faq_heading);
+  setText('faqIntroEl', s.dest_faq_intro);
+  var faqRows = await sbGet('faqs', 'page_scope=eq.destinations&order=sort_order.asc');
+  if (faqRows.length) {
+    document.getElementById('faqListEl').innerHTML = faqRows.map(buildFaqItem).join('');
+  }
+}
+loadDestinationsPageData();
+
+initObs();
+</script>
+</body>
+</html>

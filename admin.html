@@ -1,0 +1,2667 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eureka Trips — Admin Panel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
+<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;font-family:'Poppins',sans-serif;background:#f4f6f5;color:#3A3B3B;font-weight:400}
+a{text-decoration:none;color:inherit}
+button{cursor:pointer;font-family:inherit;border:none;outline:none}
+input,select,textarea{font-family:inherit}
+::-webkit-scrollbar{width:4px;height:4px}
+::-webkit-scrollbar-thumb{background:#02A9A2;border-radius:2px}
+
+:root{
+  --teal:#02A9A2; --teal-d:#027A74; --teal-l:#e8f8f4;
+  --coral:#E76F51; --dark:#3A3B3B; --body:#6B7575;
+  --cream:#f7f7f5; --cream2:#eef5f3; --white:#ffffff;
+  --border:rgba(58,59,59,0.10); --border2:rgba(58,59,59,0.18);
+  --red:#c0392b; --red2:#fadbd8; --green2:#d5f5e3;
+  --shadow:0 1px 3px rgba(0,0,0,.06),0 1px 2px rgba(0,0,0,.04);
+  --shadow-md:0 12px 48px rgba(0,0,0,.12);
+  --r:12px; --head:'Playfair Display',Georgia,serif;
+}
+
+.app{display:flex;height:100vh;overflow:hidden}
+
+/* ── SIDEBAR ── */
+.sidebar{width:255px;flex-shrink:0;background:var(--dark);display:flex;flex-direction:column;overflow-y:auto;z-index:10}
+.sidebar-logo{padding:1.75rem 1.5rem 1.25rem;border-bottom:1px solid rgba(255,255,255,0.08)}
+.sidebar-logo-name{font-family:var(--head);font-size:21px;font-weight:700;color:white}
+.sidebar-logo-sub{font-size:9px;color:rgba(255,255,255,0.3);letter-spacing:3px;text-transform:uppercase;margin-top:3px}
+.sidebar-badge{margin:1rem 1.5rem;background:rgba(2,169,162,0.15);border:1px solid rgba(2,169,162,0.3);border-radius:6px;padding:8px 12px;font-size:11px;color:#5eead4;display:flex;align-items:center;gap:8px}
+.sidebar-badge-dot{width:6px;height:6px;border-radius:50%;background:var(--teal);flex-shrink:0;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+.sidebar-nav{flex:1;padding:0.5rem 0}
+.nav-section{padding:1.1rem 1.5rem 0.4rem;font-size:9.5px;color:#f4a261;letter-spacing:2px;text-transform:uppercase;font-weight:700;display:flex;align-items:center;gap:6px}
+.nav-item{display:flex;align-items:center;gap:10px;padding:0.6rem 1.5rem 0.6rem 2rem;font-size:12.5px;color:rgba(255,255,255,0.55);cursor:pointer;transition:all 0.2s;border-left:2px solid transparent;font-weight:400}
+.nav-item:hover{color:rgba(255,255,255,0.9);background:rgba(255,255,255,0.04)}
+.nav-item.active{color:white;background:rgba(255,255,255,0.07);border-left-color:var(--coral)}
+.nav-item.sub{padding-left:2.75rem;font-size:11.5px;color:rgba(255,255,255,0.4)}
+.nav-icon{font-size:13px;width:16px;text-align:center;flex-shrink:0}
+.sidebar-footer{padding:1.25rem 1.5rem;border-top:1px solid rgba(255,255,255,0.08)}
+.sidebar-footer a{font-size:12px;color:rgba(255,255,255,0.3);display:flex;align-items:center;gap:8px;transition:color 0.2s}
+.sidebar-footer a:hover{color:rgba(255,255,255,0.6)}
+
+/* ── MAIN ── */
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden}
+.topbar{height:60px;background:var(--white);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 2rem;flex-shrink:0}
+.topbar-title-wrap{display:flex;flex-direction:column;justify-content:center}
+.topbar-title{font-family:var(--head);font-size:20px;font-weight:700;color:var(--dark);line-height:1.2}
+.topbar-crumb{font-size:10.5px;color:var(--teal-d);letter-spacing:0.4px;text-transform:uppercase;font-weight:600}
+.topbar-right{display:flex;align-items:center;gap:12px}
+.btn-add{background:var(--teal);color:white;padding:9px 20px;border-radius:30px;font-size:12px;font-weight:600;letter-spacing:0.5px;transition:all 0.2s;display:flex;align-items:center;gap:7px}
+.btn-add:hover{background:var(--teal-d)}
+.content{flex:1;overflow-y:auto;padding:2rem}
+.page-hint{background:var(--teal-l);border:1px solid rgba(2,169,162,.25);border-radius:8px;padding:10px 14px;font-size:12px;color:var(--teal-d);margin-bottom:1.25rem;display:flex;gap:8px;align-items:flex-start}
+
+/* ── TOAST ── */
+.toast{position:fixed;bottom:24px;right:24px;z-index:9999;background:var(--dark);color:white;padding:12px 20px;border-radius:8px;font-size:13px;box-shadow:var(--shadow-md);transform:translateY(80px);opacity:0;transition:all 0.35s ease;display:flex;align-items:center;gap:10px;max-width:320px}
+.toast.show{transform:translateY(0);opacity:1}
+.toast.error{background:var(--red)}
+.toast.success{background:var(--teal-d)}
+
+/* ── CARDS / TABLES ── */
+.card{background:var(--white);border-radius:var(--r);border:1px solid var(--border);box-shadow:var(--shadow);overflow:hidden;margin-bottom:1.25rem}
+.card-head{padding:1.25rem 1.5rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.75rem}
+.card-title{font-family:var(--head);font-size:17px;font-weight:700;color:var(--dark)}
+.card-body{padding:1.5rem}
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{padding:10px 14px;text-align:left;font-size:9px;font-weight:600;color:var(--body);text-transform:uppercase;letter-spacing:1.5px;border-bottom:1px solid var(--border);background:var(--cream);white-space:nowrap}
+td{padding:12px 14px;border-bottom:1px solid var(--border);color:var(--dark);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:var(--cream)}
+
+/* ── BADGES ── */
+.badge{display:inline-flex;align-items:center;padding:3px 10px;border-radius:20px;font-size:10px;font-weight:500;letter-spacing:0.3px;white-space:nowrap}
+.badge-green{background:var(--green2);color:#1a6b3a}
+.badge-red{background:var(--red2);color:var(--red)}
+.badge-gold{background:#fef3e2;color:#c2760a}
+.badge-sage{background:var(--teal-l);color:var(--teal-d)}
+
+/* ── BUTTONS ── */
+.btn-sm{padding:6px 14px;border-radius:20px;font-size:11px;font-weight:600;letter-spacing:0.3px;transition:all 0.2s;cursor:pointer}
+.btn-edit{background:var(--cream2);color:var(--teal-d);border:1px solid var(--border)}
+.btn-edit:hover{background:var(--teal-l);border-color:var(--teal)}
+.btn-del{background:var(--red2);color:var(--red);border:1px solid rgba(192,57,43,0.2)}
+.btn-del:hover{background:var(--red);color:white}
+.btn-save{background:var(--teal);color:white;border:none;padding:11px 28px;border-radius:30px;font-size:12px;font-weight:600;letter-spacing:0.5px;transition:all 0.2s}
+.btn-save:hover{background:var(--teal-d)}
+.btn-cancel{background:transparent;color:var(--body);border:1px solid var(--border);padding:11px 24px;border-radius:30px;font-size:12px;font-weight:500;transition:all 0.2s}
+.btn-cancel:hover{border-color:var(--dark);color:var(--dark)}
+
+/* ── FORM ── */
+.form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:1rem}
+.fg{display:flex;flex-direction:column;gap:5px}
+.fg label{font-size:10px;font-weight:600;color:var(--body);text-transform:uppercase;letter-spacing:1px}
+.fg input,.fg select,.fg textarea{padding:10px 14px;border:1px solid var(--border2);border-radius:8px;font-size:13.5px;color:var(--dark);background:var(--cream);outline:none;transition:border-color 0.2s;font-weight:400}
+.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--teal);background:var(--white)}
+.fg textarea{resize:vertical;min-height:80px;line-height:1.6}
+.fg.full{grid-column:1/-1}
+.fg .hint{font-size:10px;color:var(--body);margin-top:2px}
+.form-actions{display:flex;gap:10px;margin-top:1.25rem;flex-wrap:wrap}
+.toggle-wrap{display:flex;align-items:center;gap:10px}
+.toggle{width:40px;height:22px;border-radius:11px;background:var(--border2);position:relative;cursor:pointer;transition:background 0.2s;flex-shrink:0;border:none}
+.toggle.on{background:var(--teal)}
+.toggle::after{content:'';position:absolute;width:16px;height:16px;border-radius:50%;background:white;top:3px;left:3px;transition:left 0.2s;box-shadow:0 1px 4px rgba(0,0,0,0.2)}
+.toggle.on::after{left:21px}
+.toggle-label{font-size:13px;color:var(--dark);font-weight:400}
+
+/* ── MODAL ── */
+.modal-overlay{position:fixed;inset:0;z-index:2000;background:rgba(15,25,18,0.5);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;padding:1.5rem}
+.modal-overlay.open{display:flex}
+.modal{background:var(--white);border-radius:var(--r);width:100%;max-width:720px;max-height:90vh;overflow-y:auto;box-shadow:var(--shadow-md)}
+.modal-head{padding:1.5rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:var(--white);z-index:5}
+.modal-title{font-family:var(--head);font-size:22px;font-weight:700;color:var(--dark)}
+.modal-close{width:32px;height:32px;border-radius:50%;background:var(--cream2);border:1px solid var(--border);color:var(--body);font-size:14px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.2s;flex-shrink:0}
+.modal-close:hover{background:var(--red);color:white;border-color:var(--red)}
+.modal-body{padding:1.5rem}
+
+/* ── STATS BAR ── */
+.stats-bar{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:1rem;margin-bottom:1.5rem}
+.stat-card{background:var(--white);border:1px solid var(--border);border-radius:var(--r);padding:1.25rem 1.5rem;box-shadow:var(--shadow)}
+.stat-val{font-family:var(--head);font-size:30px;font-weight:700;color:var(--teal-d);line-height:1}
+.stat-lbl{font-size:11px;color:var(--body);margin-top:5px;letter-spacing:0.2px}
+
+/* ── BLOG EDITOR ── */
+.ql-container{border-radius:0 0 8px 8px;border-color:var(--border2) !important;background:var(--cream);font-family:'Poppins',sans-serif !important;font-size:14px !important}
+.ql-toolbar{border-radius:8px 8px 0 0;border-color:var(--border2) !important;background:var(--cream2)}
+.ql-editor{min-height:260px;font-family:'Poppins',sans-serif;font-size:14px;line-height:1.75;color:var(--dark)}
+
+/* ── EMPTY / LOADING ── */
+.empty{text-align:center;padding:3rem;color:var(--body)}
+.empty-icon{font-size:36px;margin-bottom:1rem;opacity:0.5}
+.empty-text{font-size:14px}
+.loading{display:flex;align-items:center;justify-content:center;gap:10px;padding:2rem;color:var(--body);font-size:13px}
+.spinner{width:18px;height:18px;border:2px solid var(--border);border-top-color:var(--teal);border-radius:50%;animation:spin 0.7s linear infinite;flex-shrink:0}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ── IMAGE PREVIEW ── */
+.img-preview-lg{width:100%;height:160px;object-fit:cover;border-radius:8px;border:1px solid var(--border);margin-top:8px;display:none}
+
+/* ── TABS ── */
+.sub-tabs{display:flex;gap:0;border-bottom:1px solid var(--border);margin-bottom:1.5rem}
+.sub-tab{padding:10px 20px;font-size:12px;font-weight:500;color:var(--body);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all 0.2s;letter-spacing:0.2px}
+.sub-tab.active{color:var(--teal-d);border-bottom-color:var(--teal);font-weight:600}
+.sub-tab:hover{color:var(--teal-d)}
+.sub-pane{display:none}
+.sub-pane.active{display:block}
+
+/* ── IMAGE UPLOAD ── */
+.upload-box{border:2px dashed var(--border2);border-radius:10px;padding:1.25rem;text-align:center;cursor:pointer;transition:all 0.25s;background:var(--cream);position:relative}
+.upload-box:hover{border-color:var(--teal);background:var(--teal-l)}
+.upload-box input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.upload-box-icon{font-size:24px;margin-bottom:6px}
+.upload-box-text{font-size:12px;color:var(--body)}
+.upload-box-text strong{color:var(--teal-d);font-weight:600}
+.upload-progress{display:none;margin-top:8px;background:var(--cream2);border-radius:20px;overflow:hidden;height:4px}
+.upload-progress-bar{height:100%;background:linear-gradient(90deg,var(--teal),var(--coral));border-radius:20px;transition:width 0.3s;width:0%}
+.upload-status{font-size:11px;color:var(--body);margin-top:6px;display:none;text-align:center}
+.upload-or{display:flex;align-items:center;gap:10px;margin:10px 0;font-size:10px;color:var(--body);text-transform:uppercase;letter-spacing:1px}
+.upload-or::before,.upload-or::after{content:'';flex:1;height:1px;background:var(--border)}
+
+/* ── NESTED ROW LISTS ── */
+.nrow{border:1px solid var(--border);border-radius:8px;padding:1rem;margin-bottom:0.75rem;background:var(--cream)}
+.nrow-label{font-size:10px;color:var(--body);text-transform:uppercase;letter-spacing:1.5px;font-weight:600}
+.nrow input,.nrow textarea,.nrow select{padding:8px 12px;border:1px solid var(--border2);border-radius:6px;font-size:12.5px;width:100%;background:white;margin-bottom:6px}
+
+/* ── QUICK TOGGLE LIST (Featured Tribe Trips) ── */
+.qt-row{display:flex;align-items:center;gap:12px;padding:10px 14px;border-bottom:1px solid var(--border)}
+.qt-row:last-child{border-bottom:none}
+.qt-img{width:44px;height:34px;border-radius:5px;object-fit:cover;flex-shrink:0;background:var(--cream2)}
+.qt-name{flex:1;font-size:13px;color:var(--dark)}
+.qt-meta{font-size:11px;color:var(--body)}
+
+@media(max-width:768px){.sidebar{width:210px}.stats-bar{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.sidebar{display:none}.content{padding:1rem}}
+</style>
+</head>
+<body>
+
+<div class="app">
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <div class="sidebar-logo-name">Eureka Trips</div>
+    <div class="sidebar-logo-sub">Admin Panel</div>
+  </div>
+  <div class="sidebar-badge">
+    <div class="sidebar-badge-dot"></div>
+    <span>Connected to Supabase</span>
+  </div>
+  <nav class="sidebar-nav" id="sidebarNav"></nav>
+  <div class="sidebar-footer">
+    <a href="index.html" target="_blank">🌐 &nbsp; View Website</a>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<div class="main">
+  <div class="topbar">
+    <div class="topbar-title-wrap">
+      <div class="topbar-crumb" id="topbarCrumb">Home Page</div>
+      <div class="topbar-title" id="topbarTitle">Page Settings</div>
+    </div>
+    <div class="topbar-right">
+      <button class="btn-add" id="topbarAddBtn" onclick="openAddModal()">+ Add New</button>
+    </div>
+  </div>
+  <div class="content" id="mainContent">
+    <div class="loading"><div class="spinner"></div> Loading...</div>
+  </div>
+</div>
+
+</div><!-- /app -->
+
+<div class="toast" id="toast"></div>
+
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal" id="modal">
+    <div class="modal-head">
+      <div class="modal-title" id="modalTitle">Add Item</div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<script>
+// ── CONFIG ────────────────────────────────────────────────────
+var SB_URL = 'https://caigrloiymgfxubzprbg.supabase.co/rest/v1';
+var SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNhaWdybG9peW1nZnh1YnpwcmJnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODMzOTM1MjksImV4cCI6MjA5ODk2OTUyOX0.zA5Q1kAAk66fgX_Ertnrbb4TJmM5yPE71zy-alK-yqE';
+var STORAGE_URL = 'https://caigrloiymgfxubzprbg.supabase.co/storage/v1';
+var BUCKET = 'eureka-images';
+
+// ── API HELPERS ───────────────────────────────────────────────
+async function sbFetch(table, params) {
+  params = params || '';
+  var r = await fetch(SB_URL + '/' + table + '?' + params, { headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY } });
+  var data = await r.json();
+  if (!r.ok) { console.error('Supabase fetch error [' + table + ']', data); return []; }
+  return data;
+}
+async function sbInsert(table, data) {
+  var r = await fetch(SB_URL + '/' + table, { method: 'POST', headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=representation' }, body: JSON.stringify(data) });
+  var result = await r.json();
+  if (!r.ok) { console.error('Supabase insert error [' + table + ']', result); throw new Error(result.message || 'Insert failed'); }
+  return result;
+}
+async function sbUpdate(table, id, data, idCol) {
+  idCol = idCol || 'id';
+  var r = await fetch(SB_URL + '/' + table + '?' + idCol + '=eq.' + id, { method: 'PATCH', headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=representation' }, body: JSON.stringify(data) });
+  var result = await r.json();
+  if (!r.ok) { console.error('Supabase update error [' + table + ']', result); throw new Error(result.message || 'Update failed'); }
+  return result;
+}
+async function sbDelete(table, id, idCol) {
+  idCol = idCol || 'id';
+  var r = await fetch(SB_URL + '/' + table + '?' + idCol + '=eq.' + id, { method: 'DELETE', headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY } });
+  if (!r.ok) { var result = await r.json().catch(function(){return {};}); console.error('Supabase delete error [' + table + ']', result); throw new Error(result.message || 'Delete failed'); }
+}
+async function sbUpsert(table, data, onConflict) {
+  var url = SB_URL + '/' + table;
+  if (onConflict) url += '?on_conflict=' + onConflict;
+  var r = await fetch(url, { method: 'POST', headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json', 'Prefer': 'resolution=merge-duplicates,return=representation' }, body: JSON.stringify(data) });
+  var result = await r.json();
+  if (!r.ok) { console.error('Supabase upsert error [' + table + ']', result); throw new Error(result.message || 'Save failed'); }
+  return result;
+}
+
+// ── IMAGE UPLOAD ──────────────────────────────────────────────
+async function uploadImage(file, targetInputId, previewId, progressId, statusId) {
+  if (!file) return;
+  if (!file.type.startsWith('image/')) { toast('Please select an image file', 'error'); return; }
+  if (file.size > 5 * 1024 * 1024) { toast('Image must be under 5MB', 'error'); return; }
+  var prog = document.getElementById(progressId);
+  var status = document.getElementById(statusId);
+  if (prog) { prog.style.display = 'block'; prog.querySelector('.upload-progress-bar').style.width = '30%'; }
+  if (status) { status.style.display = 'block'; status.textContent = 'Uploading...'; }
+  try {
+    var ext = file.name.split('.').pop().toLowerCase();
+    var filename = Date.now() + '-' + Math.random().toString(36).substr(2,6) + '.' + ext;
+    var r = await fetch(STORAGE_URL + '/object/' + BUCKET + '/' + filename, {
+      method: 'POST', headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': file.type, 'x-upsert': 'true' }, body: file
+    });
+    if (prog) prog.querySelector('.upload-progress-bar').style.width = '80%';
+    if (!r.ok) { var err = await r.json(); throw new Error(err.message || 'Upload failed'); }
+    var publicUrl = STORAGE_URL + '/object/public/' + BUCKET + '/' + filename;
+    var input = document.getElementById(targetInputId);
+    if (input) { input.value = publicUrl; input.dispatchEvent(new Event('input')); }
+    if (previewId) { var prev = document.getElementById(previewId); if (prev) { prev.src = publicUrl; prev.style.display = 'block'; } }
+    if (prog) prog.querySelector('.upload-progress-bar').style.width = '100%';
+    if (status) { status.textContent = '✓ Uploaded successfully!'; status.style.color = 'var(--teal-d)'; }
+    toast('Image uploaded!', 'success');
+    setTimeout(function() {
+      if (prog) prog.style.display = 'none';
+      if (status) { status.style.display = 'none'; status.style.color = ''; }
+      if (prog) prog.querySelector('.upload-progress-bar').style.width = '0%';
+    }, 2000);
+  } catch(e) {
+    toast('Upload failed: ' + e.message, 'error');
+    if (prog) prog.style.display = 'none';
+    if (status) status.style.display = 'none';
+    console.error('Upload error:', e);
+  }
+}
+function imageField(label, inputId, previewId, currentUrl) {
+  var progId = inputId + '_prog', statusId = inputId + '_status';
+  return '<div class="fg full"><label>' + label + '</label>' +
+    '<div class="upload-box" onclick="document.getElementById(\'' + inputId + '_file\').click()">' +
+      '<input type="file" id="' + inputId + '_file" accept="image/*" style="position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%" onchange="uploadImage(this.files[0],\'' + inputId + '\',\'' + previewId + '\',\'' + progId + '\',\'' + statusId + '\')">' +
+      '<div class="upload-box-icon">📸</div>' +
+      '<div class="upload-box-text"><strong>Click to upload</strong> or drag & drop<br>JPG, PNG, WEBP · Max 5MB</div>' +
+    '</div>' +
+    '<div class="upload-progress" id="' + progId + '"><div class="upload-progress-bar"></div></div>' +
+    '<div class="upload-status" id="' + statusId + '"></div>' +
+    '<div class="upload-or">or paste URL</div>' +
+    '<input type="text" id="' + inputId + '" value="' + esc(currentUrl||'') + '" placeholder="https://..." oninput="previewImg(this,\'' + previewId + '\')">' +
+    '<img id="' + previewId + '" class="img-preview-lg" ' + (currentUrl ? 'src="' + esc(currentUrl) + '" style="display:block"' : '') + ' onerror="this.style.display=\'none\'">' +
+  '</div>';
+}
+function previewImg(input, previewId) {
+  var prev = document.getElementById(previewId);
+  if (prev) { prev.src = input.value; prev.style.display = input.value ? 'block' : 'none'; prev.onerror = function(){ this.style.display='none'; }; }
+}
+
+// ── VIDEO UPLOAD ──────────────────────────────────────────────
+async function uploadVideo(file, targetInputId, previewId, progressId, statusId) {
+  if (!file) return;
+  if (!file.type.startsWith('video/')) { toast('Please select a video file', 'error'); return; }
+  if (file.size > 100 * 1024 * 1024) { toast('Video must be under 100MB', 'error'); return; }
+  var prog = document.getElementById(progressId);
+  var status = document.getElementById(statusId);
+  if (prog) { prog.style.display = 'block'; prog.querySelector('.upload-progress-bar').style.width = '30%'; }
+  if (status) { status.style.display = 'block'; status.textContent = 'Uploading...'; }
+  try {
+    var ext = file.name.split('.').pop().toLowerCase();
+    var filename = Date.now() + '-' + Math.random().toString(36).substr(2,6) + '.' + ext;
+    var r = await fetch(STORAGE_URL + '/object/' + BUCKET + '/' + filename, {
+      method: 'POST', headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': file.type, 'x-upsert': 'true' }, body: file
+    });
+    if (prog) prog.querySelector('.upload-progress-bar').style.width = '80%';
+    if (!r.ok) { var err = await r.json(); throw new Error(err.message || 'Upload failed'); }
+    var publicUrl = STORAGE_URL + '/object/public/' + BUCKET + '/' + filename;
+    var input = document.getElementById(targetInputId);
+    if (input) { input.value = publicUrl; input.dispatchEvent(new Event('input')); }
+    if (previewId) { var prev = document.getElementById(previewId); if (prev) { prev.src = publicUrl; prev.style.display = 'block'; prev.load(); } }
+    if (prog) prog.querySelector('.upload-progress-bar').style.width = '100%';
+    if (status) { status.textContent = '✓ Uploaded successfully!'; status.style.color = 'var(--teal-d)'; }
+    toast('Video uploaded!', 'success');
+    setTimeout(function() {
+      if (prog) prog.style.display = 'none';
+      if (status) { status.style.display = 'none'; status.style.color = ''; }
+      if (prog) prog.querySelector('.upload-progress-bar').style.width = '0%';
+    }, 2000);
+  } catch(e) {
+    toast('Upload failed: ' + e.message, 'error');
+    if (prog) prog.style.display = 'none';
+    if (status) status.style.display = 'none';
+    console.error('Upload error:', e);
+  }
+}
+function videoField(label, inputId, previewId, currentUrl) {
+  var progId = inputId + '_prog', statusId = inputId + '_status';
+  return '<div class="fg full"><label>' + label + '</label>' +
+    '<div class="upload-box" onclick="document.getElementById(\'' + inputId + '_file\').click()">' +
+      '<input type="file" id="' + inputId + '_file" accept="video/*" style="position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%" onchange="uploadVideo(this.files[0],\'' + inputId + '\',\'' + previewId + '\',\'' + progId + '\',\'' + statusId + '\')">' +
+      '<div class="upload-box-icon">🎬</div>' +
+      '<div class="upload-box-text"><strong>Click to upload</strong> a video<br>MP4, WEBM · Max 100MB</div>' +
+    '</div>' +
+    '<div class="upload-progress" id="' + progId + '"><div class="upload-progress-bar"></div></div>' +
+    '<div class="upload-status" id="' + statusId + '"></div>' +
+    '<div class="upload-or">or paste video URL</div>' +
+    '<input type="text" id="' + inputId + '" value="' + esc(currentUrl||'') + '" placeholder="https://..." oninput="var v=document.getElementById(\''+previewId+'\'); if(v){v.src=this.value; v.style.display=this.value?\'block\':\'none\';}">' +
+    '<video id="' + previewId + '" controls style="width:100%;max-height:200px;border-radius:8px;border:1px solid var(--border);margin-top:8px;' + (currentUrl?'display:block':'display:none') + '" ' + (currentUrl?'src="'+esc(currentUrl)+'"':'') + '></video>' +
+  '</div>';
+}
+
+// ── HELPERS ───────────────────────────────────────────────────
+function setLoading() { document.getElementById('mainContent').innerHTML = '<div class="loading"><div class="spinner"></div> Loading...</div>'; }
+function val(id) { var el = document.getElementById(id); return el ? el.value.trim() : ''; }
+function esc(str) { if (!str && str !== 0) return ''; return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function csv(str) { return str ? str.split(',').map(function(s){return s.trim();}).filter(Boolean) : []; }
+function lines(str) { return str ? str.split('\n').map(function(s){return s.trim();}).filter(Boolean) : []; }
+function fg(label, type, id, value, options, placeholder, extra, hint) {
+  extra = extra || '';
+  var hintHtml = hint ? '<div class="hint">'+hint+'</div>' : '';
+  if (type === 'select') {
+    var opts = options.split('|').map(function(o) { return '<option value="'+esc(o)+'"'+(String(value)===o?' selected':'')+'>'+esc(o)+'</option>'; }).join('');
+    return '<div class="fg"><label>'+esc(label)+'</label><select id="'+id+'">'+opts+'</select>'+hintHtml+'</div>';
+  }
+  return '<div class="fg"><label>'+esc(label)+'</label><input type="'+type+'" id="'+id+'" value="'+esc(value)+'" placeholder="'+esc(placeholder||'')+'" '+extra+'>'+hintHtml+'</div>';
+}
+function ta(label, id, value, rows, hint) {
+  return '<div class="fg full"><label>'+esc(label)+'</label><textarea id="'+id+'" rows="'+(rows||3)+'">'+esc(value||'')+'</textarea>'+(hint?'<div class="hint">'+hint+'</div>':'')+'</div>';
+}
+// ── RICH TEXT (Quill) FIELDS — for long descriptive text where bullets/bold/etc help ──
+var richEditors = {};
+function rta(label, id, value, hint) {
+  return '<div class="fg full"><label>'+esc(label)+'</label><div class="rich-editor" data-richid="'+id+'" style="background:white">'+(value||'')+'</div>'+(hint?'<div class="hint">'+hint+'</div>':'')+'</div>';
+}
+function initRichEditors() {
+  document.querySelectorAll('.rich-editor[data-richid]').forEach(function(el) {
+    var id = el.getAttribute('data-richid');
+    if (richEditors[id]) return;
+    if (el.offsetParent === null) return; // skip hidden tabs; initialized lazily when they become visible
+    richEditors[id] = new Quill(el, { theme: 'snow' });
+  });
+}
+function rval(id) {
+  if (richEditors[id]) return richEditors[id].root.innerHTML;
+  var el = document.querySelector('.rich-editor[data-richid="'+id+'"]');
+  return el ? el.innerHTML : '';
+}
+function toggle(id, checked, label) {
+  return '<div class="toggle-wrap"><button type="button" id="'+id+'" class="toggle'+(checked?' on':'')+'" onclick="this.classList.toggle(\'on\')"></button><span class="toggle-label">'+esc(label)+'</span></div>';
+}
+function toast(msg, type) {
+  var t = document.getElementById('toast');
+  t.textContent = (type === 'success' ? '✓  ' : type === 'error' ? '✕  ' : 'ℹ  ') + msg;
+  t.className = 'toast show ' + (type || '');
+  setTimeout(function() { t.className = 'toast'; }, 3000);
+}
+var lastActiveSubTab = null;
+function switchSubTab(el, paneId) {
+  el.closest('.card-body, .modal-body, .content').querySelectorAll('.sub-tab').forEach(function(t){t.classList.remove('active')});
+  el.closest('.card-body, .modal-body, .content').querySelectorAll('.sub-pane').forEach(function(p){p.classList.remove('active')});
+  el.classList.add('active');
+  document.getElementById(paneId).classList.add('active');
+  lastActiveSubTab = paneId;
+  setTimeout(initRichEditors, 30);
+}
+async function deleteItem(table, id, reloadFn, idCol) {
+  if (!confirm('Are you sure you want to delete this item? This cannot be undone.')) return;
+  try { await sbDelete(table, id, idCol); toast('Deleted successfully', 'success'); reloadFn(); }
+  catch(e) { toast('Error deleting item', 'error'); }
+}
+function pageHint(text) { return '<div class="page-hint">💡 <div>'+text+'</div></div>'; }
+
+// ── MODAL ─────────────────────────────────────────────────────
+function restoreLastActiveSubTab() {
+  if (lastActiveSubTab) {
+    var pane = document.getElementById(lastActiveSubTab);
+    if (pane) {
+      document.querySelectorAll('.sub-tab').forEach(function(t){ t.classList.remove('active'); });
+      document.querySelectorAll('.sub-pane').forEach(function(p){ p.classList.remove('active'); });
+      pane.classList.add('active');
+      document.querySelectorAll('.sub-tab').forEach(function(b){
+        var oc = b.getAttribute('onclick');
+        if (oc && oc.indexOf("'"+lastActiveSubTab+"'") !== -1) b.classList.add('active');
+      });
+    }
+  }
+}
+function openModal(title, bodyHTML) {
+  document.getElementById('modalTitle').textContent = title;
+  document.getElementById('modalBody').innerHTML = bodyHTML;
+  document.getElementById('modalOverlay').classList.add('open');
+  quillEditor = null;
+  richEditors = {};
+  restoreLastActiveSubTab();
+  setTimeout(initRichEditors, 60);
+}
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('open');
+  editingId = null; quillEditor = null; richEditors = {}; lastActiveSubTab = null;
+}
+document.getElementById('modalOverlay').addEventListener('click', function(e){ if (e.target === this) closeModal(); });
+
+var editingId = null;
+var quillEditor = null;
+var currentTab = null;
+
+/* =====================================================================
+   NAV STRUCTURE — grouped by page, exactly how an admin thinks about it
+===================================================================== */
+var NAV = [
+  { section: 'Home Page', icon: '🏠', items: [
+    { id:'home-settings', label:'Page Settings', icon:'⚙️' },
+    { id:'home-herophotos', label:'Hero Photos', icon:'🖼️' },
+    { id:'home-catbar',   label:'Category Bar',  icon:'🗂️' },
+    { id:'home-subhero',  label:'Sub Hero Section', icon:'🌄' },
+    { id:'home-minisubhero', label:'Mini Sub Hero', icon:'✨' },
+    { id:'home-upcomingsettings', label:'Upcoming Trips Settings', icon:'🧳' },
+    { id:'home-trips',    label:'↳ Trip Cards', icon:'🏷️', sub:true },
+    { id:'home-video',    label:'Video Settings', icon:'🎬' },
+    { id:'home-reviewsettings', label:'Review Section Settings', icon:'⭐' },
+    { id:'home-reviews',  label:'↳ Review Cards', icon:'💬', sub:true },
+    { id:'home-stats',    label:'Stats Grid Settings', icon:'📊' },
+    { id:'home-whysettings', label:'Reason Section Settings', icon:'💚' },
+    { id:'home-why',      label:'↳ Reason Cards', icon:'💚', sub:true },
+    { id:'home-blogpreview-settings', label:'Blog Preview Settings', icon:'📰' },
+    { id:'home-blogpreview-featured', label:'↳ Featured Posts', icon:'📰', sub:true },
+    { id:'home-bookingform', label:'Booking Form Settings', icon:'📋' }
+  ]},
+  { section: 'Trip Detail Pages', icon: '📄', items: [
+    { id:'trips-manage', label:'Trips & Itineraries', icon:'🗺️' }
+  ]},
+  { section: 'Build Adventure Page', icon: '🧭', items: [
+    { id:'ba-hero',      label:'Hero Settings',       icon:'🎬' },
+    { id:'ba-catbar',    label:'Category Bar',        icon:'🗂️' },
+    { id:'ba-settings',  label:'Build Adventure Settings', icon:'⚙️' },
+    { id:'ba-asiacards', label:'"This Summer" Cards',  icon:'🌏' },
+    { id:'ba-tribe',     label:'Choose Your Tribe Cards', icon:'🌍' },
+    { id:'ba-groupbanner', label:'Group Banner', icon:'🌊' },
+    { id:'ba-reelsroll', label:'Reels Roll', icon:'🎞️' },
+    { id:'ba-stats',     label:'Stats Banner',         icon:'📊' },
+    { id:'ba-testimonials', label:'Testimonials',      icon:'💬' }
+  ]},
+  { section: 'Group Trip Page', icon: '👥', items: [
+    { id:'gt-list', label:'Group Trips', icon:'🗺️' },
+    { id:'gt-testimonials', label:'Testimonials', icon:'💬' }
+  ]},
+  { section: 'Destinations Page', icon: '📍', items: [
+    { id:'dest-settings', label:'Destination Hero Settings', icon:'🎬' },
+    { id:'dest-herophotos', label:'Hero Photos', icon:'🖼️' },
+    { id:'dest-guides',   label:'Destination Guides', icon:'📖' },
+    { id:'dest-faqs',     label:'FAQs',          icon:'❓' }
+  ]},
+  { section: 'About Us Page', icon: 'ℹ️', items: [
+    { id:'about-hero',     label:'Hero Settings', icon:'🎬' },
+    { id:'about-eureka',   label:'About Eureka',  icon:'💚' },
+    { id:'about-more',     label:'More About Cards', icon:'🗂️' },
+    { id:'about-why',      label:'Why Eureka',    icon:'✨' },
+    { id:'about-story',    label:'Our Story',     icon:'📖' },
+    { id:'about-gallery',  label:'Gallery',       icon:'🖼️' },
+    { id:'about-faqs',     label:'FAQs',          icon:'❓' }
+  ]},
+  { section: 'Contact Us Page', icon: '✉️', items: [
+    { id:'contact-hero',  label:'Hero Settings',  icon:'🎬' },
+    { id:'contact-touch', label:'Get in Touch Cards', icon:'💬' },
+    { id:'contact-form',  label:'Message Form',   icon:'📋' },
+    { id:'contact-trust', label:'Trust Section',  icon:'⭐' }
+  ]},
+  { section: 'Blog', icon: '📝', items: [
+    { id:'blog-hero', label:'Hero Settings', icon:'🎬' },
+    { id:'blog-posts', label:'Blog Posts', icon:'📝' }
+  ]},
+  { section: 'Global Settings', icon: '🌐', items: [
+    { id:'global-settings', label:'Logo, Contact & Social', icon:'🌐' }
+  ]}
+];
+
+var TAB_CONFIG = {
+  'home-settings':    { crumb:'Home Page', title:'Page Settings', add:false, load: function(){ renderSettingsGroup('home'); } },
+  'home-herophotos':  { crumb:'Home Page', title:'Hero Photos', add:true, load: function(){ loadHeroPhotos('home'); }, addFn: function(){ openHeroPhotoModal(null,'home'); } },
+  'home-catbar':      { crumb:'Home Page', title:'Category Bar', add:true, load: function(){ loadCategoryBar('home'); }, addFn: function(){ openCategoryModal(null,'home'); } },
+  'home-subhero':     { crumb:'Home Page', title:'Sub Hero Section', add:false, load: function(){ renderSettingsGroup('subhero'); } },
+  'home-minisubhero': { crumb:'Home Page', title:'Mini Sub Hero Section', add:false, load: function(){ renderSettingsGroup('minisubhero'); } },
+  'home-upcomingsettings': { crumb:'Home Page', title:'Upcoming Trips Settings', add:false, load: function(){ renderSettingsGroup('upcomingtrips'); } },
+  'home-trips':       { crumb:'Home Page', title:'Trip Cards', add:true, load: loadTripCards, addFn: function(){ openTripCardModal(null); } },
+  'home-video':       { crumb:'Home Page', title:'Video Settings', add:false, load: function(){ renderSettingsGroup('video'); } },
+  'home-reviewsettings': { crumb:'Home Page', title:'Review Section Settings', add:false, load: function(){ renderSettingsGroup('reviewsection'); } },
+  'home-reviews':     { crumb:'Home Page', title:'Review Cards', add:true, load: function(){ loadReviews('home'); }, addFn: function(){ openReviewModal(null,'home'); } },
+  'home-stats':       { crumb:'Home Page', title:'Stats Grid Settings', add:true, load: function(){ loadStats('home'); }, addFn: function(){ openStatModal(null,'home'); } },
+  'home-whysettings': { crumb:'Home Page', title:'Reason Section Settings', add:false, load: function(){ renderSettingsGroup('reasonsection'); } },
+  'home-why':         { crumb:'Home Page', title:'Reason Cards', add:true, load: function(){ loadWhy('home'); }, addFn: function(){ openWhyModal(null,'home'); } },
+  'home-blogpreview-settings': { crumb:'Home Page', title:'Blog Preview Settings', add:false, load: function(){ renderSettingsGroup('blogpreview'); } },
+  'home-blogpreview-featured': { crumb:'Home Page', title:'Featured Posts', add:false, load: loadFeaturedBlogPosts },
+  'home-bookingform': { crumb:'Home Page', title:'Booking Form Settings', add:false, load: function(){ renderSettingsGroup('bookingform'); } },
+
+  'trips-manage':     { crumb:'Trip Detail Pages (trip-page.html & group-trip.html)', title:'Trips & Itineraries', add:true, load: loadTrips, addFn: function(){ renderTripEditorPage(null, [], []); } },
+
+  'ba-hero':          { crumb:'Build Adventure Page', title:'Hero Settings', add:false, load: function(){ renderSettingsGroup('bahero'); } },
+  'ba-catbar':        { crumb:'Build Adventure Page', title:'Category Bar', add:true, load: function(){ loadCategoryBar('build-adventure'); }, addFn: function(){ openCategoryModal(null,'build-adventure'); } },
+  'ba-settings':      { crumb:'Build Adventure Page', title:'Build Adventure Settings', add:false, load: function(){ renderSettingsGroup('buildadventure'); } },
+  'ba-asiacards':     { crumb:'Build Adventure Page', title:'"This Summer" Cards', add:true, load: loadAsiaCards, addFn: function(){ openAsiaCardModal(null); } },
+  'ba-tribe':         { crumb:'Build Adventure Page', title:'Choose Your Tribe Cards', add:true, load: loadTribeCards, addFn: function(){ openTribeCardModal(null); } },
+  'ba-groupbanner':   { crumb:'Build Adventure Page', title:'Group Banner', add:false, load: function(){ renderSettingsGroup('bagroupbanner'); } },
+  'ba-reelsroll':     { crumb:'Build Adventure Page', title:'Reels Roll', add:false, load: loadPassportPhotos },
+  'ba-stats':         { crumb:'Build Adventure Page', title:'Stats Banner', add:true, load: function(){ loadStatsBanner('build-adventure'); }, addFn: function(){ openStatsBannerModal(null,'build-adventure'); } },
+  'ba-testimonials':  { crumb:'Build Adventure Page', title:'Testimonials', add:true, load: function(){ loadTestimonials('custom-trips'); }, addFn: function(){ openTestimonialModal(null,'custom-trips'); } },
+
+  'gt-list':          { crumb:'Group Trip Page', title:'Group Trips', add:true, load: loadGroupTrips, addFn: function(){ renderGroupTripEditorPage(null, [], []); } },
+  'gt-testimonials':  { crumb:'Group Trip Page', title:'Testimonials', add:true, load: function(){ loadTestimonials('group-trip'); }, addFn: function(){ openTestimonialModal(null,'group-trip'); } },
+
+  'dest-settings':    { crumb:'Destinations Page', title:'Destination Hero Settings', add:false, load: function(){ renderSettingsGroup('destinations'); } },
+  'dest-herophotos':  { crumb:'Destinations Page', title:'Hero Photos', add:true, load: function(){ loadHeroPhotos('destinations'); }, addFn: function(){ openHeroPhotoModal(null,'destinations'); } },
+  'dest-guides':      { crumb:'Destinations Page', title:'Destination Guides', add:true, load: loadDestinationGuides, addFn: function(){ renderDestGuideEditorPage(null); } },
+  'dest-faqs':        { crumb:'Destinations Page', title:'FAQs', add:true, load: function(){ loadFaqs('destinations'); }, addFn: function(){ openFaqModal(null,'destinations'); } },
+
+  'about-hero':       { crumb:'About Us Page', title:'Hero Settings', add:false, load: function(){ renderSettingsGroup('abouthero'); } },
+  'about-eureka':     { crumb:'About Us Page', title:'About Eureka', add:false, load: function(){ renderSettingsGroup('abouteureka'); } },
+  'about-more':       { crumb:'About Us Page', title:'More About Cards', add:false, load: function(){ renderSettingsGroup('aboutmore'); } },
+  'about-why':        { crumb:'About Us Page', title:'Why Eureka', add:false, load: function(){ renderSettingsGroup('aboutwhy'); } },
+  'about-story':      { crumb:'About Us Page', title:'Our Story', add:false, load: function(){ renderSettingsGroup('aboutstory'); } },
+  'about-gallery':    { crumb:'About Us Page', title:'Gallery', add:true, load: function(){ loadGallery('about'); }, addFn: function(){ openGalleryModal(null,'about'); } },
+  'about-faqs':       { crumb:'About Us Page', title:'FAQs', add:true, load: function(){ loadFaqs('about'); }, addFn: function(){ openFaqModal(null,'about'); } },
+
+  'contact-hero':     { crumb:'Contact Us Page', title:'Hero Settings', add:false, load: function(){ renderSettingsGroup('contacthero'); } },
+  'contact-touch':    { crumb:'Contact Us Page', title:'Get in Touch Cards', add:false, load: function(){ renderSettingsGroup('contacttouch'); } },
+  'contact-form':     { crumb:'Contact Us Page', title:'Message Form', add:false, load: function(){ renderSettingsGroup('contactform'); } },
+  'contact-trust':    { crumb:'Contact Us Page', title:'Trust Section', add:false, load: function(){ renderSettingsGroup('contacttrust'); } },
+
+  'blog-hero':        { crumb:'Blog', title:'Hero Settings', add:false, load: function(){ renderSettingsGroup('blogpage'); } },
+  'blog-posts':       { crumb:'Blog', title:'Blog Posts', add:true, load: loadBlog, addFn: function(){ openBlogModal(null); } },
+
+  'global-settings':  { crumb:'Global Settings', title:'Logo, Contact & Social', add:false, load: function(){ renderSettingsGroup('global'); } }
+};
+
+function buildSidebar() {
+  var html = '';
+  NAV.forEach(function(group) {
+    html += '<div class="nav-section">' + group.icon + ' ' + esc(group.section) + '</div>';
+    group.items.forEach(function(item) {
+      html += '<div class="nav-item' + (item.sub?' sub':'') + '" data-tab="' + item.id + '" onclick="showTab(\'' + item.id + '\')"><span class="nav-icon">' + item.icon + '</span> ' + esc(item.label) + '</div>';
+    });
+  });
+  document.getElementById('sidebarNav').innerHTML = html;
+}
+function showTab(tabId) {
+  currentTab = tabId;
+  var cfg = TAB_CONFIG[tabId];
+  document.querySelectorAll('.nav-item').forEach(function(el){ el.classList.remove('active'); });
+  var el = document.querySelector('.nav-item[data-tab="'+tabId+'"]');
+  if (el) el.classList.add('active');
+  document.getElementById('topbarCrumb').textContent = cfg.crumb;
+  document.getElementById('topbarTitle').textContent = cfg.title;
+  document.getElementById('topbarAddBtn').style.display = cfg.add ? 'flex' : 'none';
+  cfg.load();
+}
+function openAddModal() {
+  editingId = null;
+  var cfg = TAB_CONFIG[currentTab];
+  if (cfg && cfg.addFn) cfg.addFn();
+}
+
+/* =====================================================================
+   TRIPS  (shared by Home Page carousel + Trip Detail Pages)
+===================================================================== */
+async function loadTrips() {
+  setLoading();
+  var rows = await sbFetch('trips', 'order=sort_order.asc');
+  if (!Array.isArray(rows)) { console.error('trips fetch error:', rows); rows = []; }
+  var html = pageHint('These trips power the homepage carousel and each trip\'s own detail page (trip-page.html).') +
+    '<div class="stats-bar">' +
+    '<div class="stat-card"><div class="stat-val">' + rows.length + '</div><div class="stat-lbl">Total Trips</div></div>' +
+    '<div class="stat-card"><div class="stat-val">' + rows.filter(function(r){return r.hot}).length + '</div><div class="stat-lbl">Marked Hot</div></div>' +
+    '<div class="stat-card"><div class="stat-val">' + rows.filter(function(r){return r.active}).length + '</div><div class="stat-lbl">Active</div></div>' +
+    '</div>';
+  if (rows.length === 0) {
+    html += '<div class="card"><div class="card-body"><div class="empty"><div class="empty-icon">🧳</div><div class="empty-text">No trips yet. Click "+ Add New" to get started.</div></div></div></div>';
+  } else {
+    html += '<div class="card"><div class="table-wrap"><table><thead><tr><th>Trip Name</th><th>Type</th><th>Price</th><th>Tags</th><th>Status</th><th>Actions</th></tr></thead><tbody>';
+    rows.forEach(function(r) {
+      html += '<tr>' +
+        '<td><strong>' + esc(r.name) + '</strong></td>' +
+        '<td>' + esc(r.trip_type||'—') + '</td>' +
+        '<td>₹' + (r.price||0).toLocaleString() + '</td>' +
+        '<td>' + (r.tags||[]).map(function(t){return '<span class="badge badge-sage">'+esc(t)+'</span>'}).join(' ') + '</td>' +
+        '<td>' + (r.hot ? '<span class="badge badge-gold">Hot</span> ' : '') + '<span class="badge ' + (r.active?'badge-green':'badge-red') + '">' + (r.active?'Active':'Hidden') + '</span></td>' +
+        '<td><div style="display:flex;gap:6px">' +
+          '<button class="btn-sm btn-edit" onclick="editTrip(\'' + r.id + '\')">Edit</button>' +
+          '<button class="btn-sm btn-del" onclick="deleteItem(\'trips\',\'' + r.id + '\',loadTrips)">Delete</button>' +
+        '</div></td></tr>';
+    });
+    html += '</tbody></table></div></div>';
+  }
+  document.getElementById('mainContent').innerHTML = html;
+}
+async function editTrip(id) {
+  var rows = await sbFetch('trips', 'id=eq.' + id);
+  var r = rows[0];
+  editingId = id;
+  var results = await Promise.all([
+    sbFetch('trip_itinerary', 'trip_id=eq.' + id + '&order=sort_order'),
+    sbFetch('trip_reviews', 'trip_id=eq.' + id + '&order=sort_order')
+  ]);
+  renderTripEditorPage(r, Array.isArray(results[0])?results[0]:[], Array.isArray(results[1])?results[1]:[]);
+}
+function renderTripEditorPage(r, itin, revs) {
+  document.querySelectorAll('.nav-item').forEach(function(el){ el.classList.remove('active'); });
+  document.getElementById('topbarCrumb').textContent = 'Trip Detail Pages (trip-page.html & group-trip.html)';
+  document.getElementById('topbarTitle').textContent = r ? ('Editing: ' + r.name) : 'Add Trip';
+  document.getElementById('topbarAddBtn').style.display = 'none';
+
+  var heroHtml = pageHint('This is the hero banner at the top of the trip page — the background image, trip title, and route breadcrumb.') + '<div class="form-grid">' +
+    fg('Trip ID (unique slug, no spaces)', 'text', 'tp_id', r ? r.id : '', '', 'e.g. bali-gili-experience') +
+    fg('Trip Name (hero title)', 'text', 'tp_name', r ? r.name : '', '', 'e.g. Philippines Hop & Chill') +
+    fg('Route Breadcrumb', 'text', 'tp_route', r ? r.route : '', '', 'e.g. Manila, Cebu, Puerto Princesa, El Nido') +
+    imageField('Hero Background Image', 'tp_img', 'tp_imgprev', r?r.image_url||'':'') +
+  '</div>' +
+  '<div class="form-actions">' +
+    '<button class="btn-save" onclick="saveTrip(\'' + (r?r.id:'') + '\')">Save Trip Hero</button>' +
+  '</div>';
+
+  var subheroHtml = pageHint('The headline + paragraph shown just below the hero image on the trip page.') + '<div class="form-grid">' +
+    fg('Detail Headline', 'text', 'tp_dtitle', r?r.detail_title:'', '', 'e.g. Mezcal in Mexico City, Chichén Itzá at sunrise...') +
+  '</div>' +
+    rta('Sub Hero Paragraph', 'tp_overview', r?r.overview:'') +
+  '<div class="form-actions">' +
+    '<button class="btn-save" onclick="saveTrip(\'' + (r?r.id:'') + '\')">Save Sub Hero</button>' +
+  '</div>';
+
+  var joyScaleHtml = pageHint('The 4 rating bars shown below the Sub Hero paragraph — icon, label, and percentage are all editable per row.') +
+    '<div class="form-grid">' +
+    fg('Row 1 Icon', 'text', 'tp_joy1icon', r?r.joy1_icon:'🕺', '', 'emoji') +
+    fg('Row 1 Label', 'text', 'tp_joy1label', r?r.joy1_label:'Night Life', '', '') +
+    fg('Row 1 Percent (0-100)', 'number', 'tp_joy1pct', r?r.joy1_percent:70, '', '') +
+    fg('Row 2 Icon', 'text', 'tp_joy2icon', r?r.joy2_icon:'🍽️', '', 'emoji') +
+    fg('Row 2 Label', 'text', 'tp_joy2label', r?r.joy2_label:'Foodie Trip', '', '') +
+    fg('Row 2 Percent (0-100)', 'number', 'tp_joy2pct', r?r.joy2_percent:60, '', '') +
+    fg('Row 3 Icon', 'text', 'tp_joy3icon', r?r.joy3_icon:'⛰️', '', 'emoji') +
+    fg('Row 3 Label', 'text', 'tp_joy3label', r?r.joy3_label:'Adventure', '', '') +
+    fg('Row 3 Percent (0-100)', 'number', 'tp_joy3pct', r?r.joy3_percent:80, '', '') +
+    fg('Row 4 Icon', 'text', 'tp_joy4icon', r?r.joy4_icon:'🏔️', '', 'emoji') +
+    fg('Row 4 Label', 'text', 'tp_joy4label', r?r.joy4_label:'Physical Rating', '', '') +
+    fg('Row 4 Percent (0-100)', 'number', 'tp_joy4pct', r?r.joy4_percent:85, '', '') +
+    '</div>' +
+  '<div class="form-actions">' +
+    '<button class="btn-save" onclick="saveTrip(\'' + (r?r.id:'') + '\')">Save Joy Scale</button>' +
+  '</div>' +
+  '<div style="margin-top:1.75rem;padding-top:1.5rem;border-top:1px solid var(--border)">' +
+    '<div class="card-title" style="margin-bottom:0.75rem;font-size:15px">Joy Pics — auto-sliding photo strip</div>' +
+    (function(){ tpJoyPicsCounter = (r && r.joy_pics) ? r.joy_pics.length : 0; return ''; })() +
+    '<div id="tpJoyPicsList">' + ((r && r.joy_pics && r.joy_pics.length) ? r.joy_pics.map(function(url, i){ return renderJoyPicField(url, i); }).join('') : '') + '</div>' +
+    '<button type="button" class="btn-sm btn-edit" onclick="addJoyPicSlot()">+ Add Another Photo</button>' +
+    '<div class="form-actions"><button class="btn-save" onclick="saveTripJoyPics(\''+(r?r.id:'')+'\')">Save Joy Pics</button></div>' +
+  '</div>';
+
+  var accordionsHtml = pageHint('The three expandable accordion panels: What\'s Included, What\'s Not Included, and Accommodation.') + '<div class="form-grid">' +
+    ta('What\'s Included (one per line)', 'tp_incl', r&&r.inclusions?r.inclusions.join('\n'):'', 4) +
+    ta('What\'s Not Included (one per line)', 'tp_excl', r&&r.exclusions?r.exclusions.join('\n'):'', 4) +
+    '</div>' +
+    rta('Accommodation Description', 'tp_accomtext', r?r.accommodation_text:'') +
+    '<div class="form-grid">' +
+    ta('Hotel List (one per line)', 'tp_accomlist', r&&r.accommodation_list?r.accommodation_list.join('\n'):'', 3) +
+    '</div>' +
+    (function(){ tpAccomPicsCounter = (r && r.gallery_images) ? r.gallery_images.length : 0; return ''; })() +
+    '<div class="nrow-label" style="margin:1rem 0 0.75rem">Accommodation Gallery Photos</div>' +
+    '<div id="tpAccomPicsList">' + ((r && r.gallery_images && r.gallery_images.length) ? r.gallery_images.map(function(url, i){ return renderAccomPicField(url, i); }).join('') : '') + '</div>' +
+    '<button type="button" class="btn-sm btn-edit" onclick="addAccomPicSlot()">+ Add Another Photo</button>' +
+  '<div class="form-actions">' +
+    '<button class="btn-save" onclick="saveTrip(\'' + (r?r.id:'') + '\')">Save Trip Accordions</button>' +
+  '</div>';
+
+  var reelRollHtml = pageHint('The two-row scroll-driven photo wall shown right after the Accommodation section — each row scrolls in the opposite direction.') +
+    (function(){ reelCounters.row1 = (r && r.reelroll_row1) ? r.reelroll_row1.length : 0; reelCounters.row2 = (r && r.reelroll_row2) ? r.reelroll_row2.length : 0; return ''; })() +
+    '<div class="nrow-label" style="margin-bottom:0.75rem">Row 1 (top)</div>' +
+    '<div id="tpReelList_row1">' + ((r && r.reelroll_row1 && r.reelroll_row1.length) ? r.reelroll_row1.map(function(url,i){ return renderReelPicField('row1', url, i); }).join('') : '') + '</div>' +
+    '<button type="button" class="btn-sm btn-edit" onclick="addReelPicSlot(\'row1\')">+ Add Photo to Row 1</button>' +
+    '<div class="nrow-label" style="margin:1.5rem 0 0.75rem">Row 2 (bottom)</div>' +
+    '<div id="tpReelList_row2">' + ((r && r.reelroll_row2 && r.reelroll_row2.length) ? r.reelroll_row2.map(function(url,i){ return renderReelPicField('row2', url, i); }).join('') : '') + '</div>' +
+    '<button type="button" class="btn-sm btn-edit" onclick="addReelPicSlot(\'row2\')">+ Add Photo to Row 2</button>' +
+    '<div class="form-actions"><button class="btn-save" onclick="saveTripReelRoll(\''+(r?r.id:'')+'\')">Save Reel Roll</button></div>';
+
+  var infoHtml = '<div class="form-grid">' +
+    fg('Trip Type', 'select', 'tp_type', r ? r.trip_type : '', 'domestic|international') +
+    fg('Price (₹)', 'number', 'tp_price', r ? r.price : '', '', '54000') +
+    fg('Duration', 'text', 'tp_duration', r ? r.duration : '', '', 'e.g. 8 NIGHTS / 9 DAYS') +
+    fg('Page Slug (links to trip-page.html)', 'text', 'tp_slug', r ? r.page_slug : '', '', 'e.g. bali-gili-experience') +
+    fg('Dates (comma separated)', 'text', 'tp_dates', r ? (r.dates||[]).join(', ') : '', '', 'e.g. 18 July, 15 Aug, 12 Sep') +
+    fg('Tags (comma separated)', 'text', 'tp_tags', r ? (r.tags||[]).join(', ') : '', '', 'e.g. adventure, beach') +
+    fg('Region (Destinations page filter)', 'select', 'tp_region', r ? r.region : '', 'Asia|Europe|Middle east|Domestic|Africa') +
+    fg('Destination Guide Link', 'text', 'tp_destslug', r ? r.destination_slug : '', '', 'e.g. bali — must match a Destination\'s ID. Only shows if that destination has a guide.') +
+  '</div>' +
+  '<div style="display:flex;gap:1.5rem;margin-top:1rem;flex-wrap:wrap">' +
+    toggle('tp_hot', r?r.hot:false, 'Mark as Hot') +
+    toggle('tp_active', r?r.active:true, 'Show on Website') +
+  '</div>' +
+  '<div class="form-actions">' +
+    '<button class="btn-save" onclick="saveTrip(\'' + (r?r.id:'') + '\')">Save Trip Info</button>' +
+    '<button class="btn-cancel" onclick="loadTrips()">← Back to All Trips</button>' +
+  '</div>';
+
+  var itinTopHtml = '<div class="form-grid">' +
+    fg('Section Heading', 'text', 'tp_itinh', r?r.itinerary_heading:'', '', 'e.g. Trip Highlights') +
+    '</div>' +
+    ta('Section Subtext', 'tp_itinsub', r?r.itinerary_subtext:'', 2, 'e.g. Visit iconic waterfalls, explore pristine beaches...') +
+  '<div class="form-actions" style="margin-bottom:1.5rem"><button class="btn-save" onclick="saveTripItinHeader(\''+(r?r.id:'')+'\')">Save Heading</button></div>';
+
+  var itinHtml = (r ? itinTopHtml : '') + pageHint('Day-by-day itinerary shown in the Trip Highlights section. Each day has 3 fixed photo slots: a tall main photo and two smaller stacked photos.') +
+    '<div id="itinList">' + (itin.length===0 ? '<div style="color:var(--body);font-size:13px;font-style:italic;padding:1rem 0">No itinerary days added yet.</div>' :
+      itin.map(function(d){ return nrowItinerary(d); }).join('')) + '</div>' +
+    '<div style="margin-top:1.25rem;padding-top:1.25rem;border-top:1px solid var(--border)">' +
+      '<div class="nrow-label" style="margin-bottom:0.75rem">Add New Day</div>' +
+      '<div class="nrow">' +
+        '<input type="number" id="itin_new_num" placeholder="Day number, e.g. 1">' +
+        '<input type="text" id="itin_new_eyebrow" placeholder="Eyebrow, e.g. DAY 1 – ARRIVAL IN MANILA">' +
+        '<input type="text" id="itin_new_title" placeholder="Title, e.g. Bring It On, Philippines!">' +
+        '<textarea id="itin_new_paras" rows="3" placeholder="Paragraphs — one per line"></textarea>' +
+        imageField('Main Tall Photo', 'itin_new_photo1', 'itin_new_photo1prev', '') +
+        imageField('Top Small Photo', 'itin_new_photo2', 'itin_new_photo2prev', '') +
+        imageField('Bottom Small Photo', 'itin_new_photo3', 'itin_new_photo3prev', '') +
+        '<button class="btn-sm btn-edit" onclick="addItineraryDay(\''+esc(r?r.id:'')+'\')">+ Add Day</button>' +
+      '</div>' +
+    '</div>';
+
+  var finalCtaHtml = pageHint('The "Interested in learning more" form section near the bottom of the trip page.') + '<div class="form-grid">' +
+    fg('Heading', 'text', 'tp_fcta_heading', r?r.fcta_heading:'', '', 'e.g. Interested in learning more about our Philippines Hop & Chill trip?') +
+    fg('Lead Text', 'text', 'tp_fcta_lead', r?r.fcta_lead:'', '', 'e.g. Get instant travel assistance, best prices & expert planning.') +
+    imageField('Side Photo', 'tp_fcta_img', 'tp_fcta_imgprev', r?r.fcta_image||'':'') +
+    fg('Name Field Placeholder', 'text', 'tp_fcta_name', r?r.fcta_name_placeholder:'Your Name', '', '') +
+    fg('Email Field Placeholder', 'text', 'tp_fcta_email', r?r.fcta_email_placeholder:'Enter Your Email', '', '') +
+    fg('Phone Field Placeholder', 'text', 'tp_fcta_phone', r?r.fcta_phone_placeholder:'+91-0000-000-000', '', '') +
+    fg('Checkbox Text', 'text', 'tp_fcta_check', r?r.fcta_checkbox_text:'By checking this box you are agreeing to the policy.', '', '') +
+    fg('Button Text', 'text', 'tp_fcta_btn', r?r.fcta_button_text:'View Trips', '', '') +
+    '</div>' +
+  '<div class="form-actions">' +
+    '<button class="btn-save" onclick="saveTripFinalCta(\'' + (r?r.id:'') + '\')">Save Final CTA</button>' +
+  '</div>';
+
+  var revHtml = pageHint("Reviews shown specifically on this trip's page.") +
+    '<div id="tripRevList">' + (revs.length===0 ? '<div style="color:var(--body);font-size:13px;font-style:italic;padding:1rem 0">No reviews added yet.</div>' :
+      revs.map(function(v){ return nrowTripReview(v); }).join('')) + '</div>' +
+    '<div style="margin-top:1.25rem;padding-top:1.25rem;border-top:1px solid var(--border)">' +
+      '<div class="nrow-label" style="margin-bottom:0.75rem">Add New Review</div>' +
+      '<div class="nrow">' +
+        '<input type="text" id="trv_new_name" placeholder="Name">' +
+        '<input type="text" id="trv_new_init" placeholder="Initials, e.g. RD">' +
+        '<input type="text" id="trv_new_color" placeholder="Avatar color hex, e.g. #F59E0B">' +
+        '<input type="number" id="trv_new_stars" placeholder="Stars (1-5)" min="1" max="5" value="5">' +
+        '<input type="text" id="trv_new_ago" placeholder="e.g. 8 months ago">' +
+        '<textarea id="trv_new_quote" rows="2" placeholder="Review quote"></textarea>' +
+        '<button class="btn-sm btn-edit" onclick="addTripReview(\''+esc(r?r.id:'')+'\')">+ Add Review</button>' +
+      '</div>' +
+    '</div>';
+
+  var html = '<button class="btn-cancel" style="margin-bottom:1.25rem" onclick="loadTrips()">← Back to All Trips</button>' +
+    '<div class="card"><div class="card-body">' +
+    '<div class="sub-tabs">' +
+      '<div class="sub-tab active" onclick="switchSubTab(this,\'ttab-hero\')">🎬 Trip Hero</div>' +
+      '<div class="sub-tab" onclick="switchSubTab(this,\'ttab-subhero\')">📝 Sub Hero</div>' +
+      '<div class="sub-tab" onclick="switchSubTab(this,\'ttab-joy\')">😊 Joy Scale</div>' +
+      '<div class="sub-tab" onclick="switchSubTab(this,\'ttab-accordions\')">📂 Trip Accordions</div>' +
+      '<div class="sub-tab" onclick="switchSubTab(this,\'ttab-reel\')">🎞️ Reel Roll</div>' +
+      '<div class="sub-tab" onclick="switchSubTab(this,\'ttab-info\')">📋 Trip Info</div>' +
+      '<div class="sub-tab" onclick="switchSubTab(this,\'ttab-itin\')">🌟 Trip Highlights</div>' +
+      '<div class="sub-tab" onclick="switchSubTab(this,\'ttab-fcta\')">📣 Final CTA</div>' +
+      '<div class="sub-tab" onclick="switchSubTab(this,\'ttab-rev\')">⭐ Reviews</div>' +
+    '</div>' +
+    '<div id="ttab-hero" class="sub-pane active">' + heroHtml + '</div>' +
+    '<div id="ttab-subhero" class="sub-pane">' + subheroHtml + '</div>' +
+    '<div id="ttab-joy" class="sub-pane">' + joyScaleHtml + '</div>' +
+    '<div id="ttab-accordions" class="sub-pane">' + accordionsHtml + '</div>' +
+    '<div id="ttab-reel" class="sub-pane">' + reelRollHtml + '</div>' +
+    '<div id="ttab-info" class="sub-pane">' + infoHtml + '</div>' +
+    '<div id="ttab-itin" class="sub-pane">' + (r ? itinHtml : '<div class="empty"><div class="empty-text">Save the trip details first, then add itinerary days.</div></div>') + '</div>' +
+    '<div id="ttab-fcta" class="sub-pane">' + finalCtaHtml + '</div>' +
+    '<div id="ttab-rev" class="sub-pane">' + (r ? revHtml : '<div class="empty"><div class="empty-text">Save the trip details first, then add reviews.</div></div>') + '</div>' +
+    '</div></div>';
+
+  document.getElementById('mainContent').innerHTML = html;
+  richEditors = {};
+  setTimeout(initRichEditors, 60);
+}
+function nrowItinerary(d) {
+  var photos = d.photos || [];
+  return '<div class="nrow" id="itinrow_'+d.id+'">' +
+    '<input type="number" id="itinnum_'+d.id+'" value="'+d.day_number+'" placeholder="Day number">' +
+    '<input type="text" id="itineyebrow_'+d.id+'" value="'+esc(d.eyebrow||'')+'" placeholder="Eyebrow">' +
+    '<input type="text" id="itintitle_'+d.id+'" value="'+esc(d.title||'')+'" placeholder="Title">' +
+    '<textarea id="itinparas_'+d.id+'" rows="3" placeholder="Paragraphs — one per line">'+esc((d.paragraphs||[]).join('\n'))+'</textarea>' +
+    imageField('Main Tall Photo', 'itinphoto1_'+d.id, 'itinphoto1_'+d.id+'prev', photos[0]||'') +
+    imageField('Top Small Photo', 'itinphoto2_'+d.id, 'itinphoto2_'+d.id+'prev', photos[1]||'') +
+    imageField('Bottom Small Photo', 'itinphoto3_'+d.id, 'itinphoto3_'+d.id+'prev', photos[2]||'') +
+    '<div style="display:flex;gap:6px">' +
+      '<button class="btn-sm btn-edit" onclick="saveItineraryDay(\''+d.id+'\')">Save</button>' +
+      '<button class="btn-sm btn-del" onclick="deleteItem(\'trip_itinerary\',\''+d.id+'\',function(){editTrip(\''+d.trip_id+'\')})">Delete</button>' +
+    '</div></div>';
+}
+function nrowTripReview(v) {
+  return '<div class="nrow" id="trvrow_'+v.id+'">' +
+    '<input type="text" id="trvname_'+v.id+'" value="'+esc(v.name||'')+'" placeholder="Name">' +
+    '<input type="text" id="trvinit_'+v.id+'" value="'+esc(v.initials||'')+'" placeholder="Initials">' +
+    '<input type="text" id="trvcolor_'+v.id+'" value="'+esc(v.color||'')+'" placeholder="Color hex">' +
+    '<input type="number" id="trvstars_'+v.id+'" value="'+(v.stars||5)+'" min="1" max="5" placeholder="Stars">' +
+    '<input type="text" id="trvago_'+v.id+'" value="'+esc(v.ago_label||'')+'" placeholder="Ago label">' +
+    '<textarea id="trvquote_'+v.id+'" rows="2" placeholder="Quote">'+esc(v.quote||'')+'</textarea>' +
+    '<div style="display:flex;gap:6px">' +
+      '<button class="btn-sm btn-edit" onclick="saveTripReview(\''+v.id+'\')">Save</button>' +
+      '<button class="btn-sm btn-del" onclick="deleteItem(\'trip_reviews\',\''+v.id+'\',function(){editTrip(\''+v.trip_id+'\')})">Delete</button>' +
+    '</div></div>';
+}
+async function saveTrip(oldId) {
+  var id = val('tp_id');
+  if (!id) { toast('Trip ID is required', 'error'); return; }
+  var accomPhotos = [];
+  document.querySelectorAll('#tpAccomPicsList input').forEach(function(inp) {
+    if (/^tp_ap_\d+$/.test(inp.id)) { var v = inp.value.trim(); if (v) accomPhotos.push(v); }
+  });
+  var data = {
+    id: id, name: val('tp_name'), trip_type: val('tp_type'), price: Number(val('tp_price'))||0,
+    duration: val('tp_duration'), route: val('tp_route'), page_slug: val('tp_slug'),
+    dates: csv(val('tp_dates')), tags: csv(val('tp_tags')), region: val('tp_region'), destination_slug: val('tp_destslug'), detail_title: val('tp_dtitle'), overview: rval('tp_overview'),
+    joy1_icon: val('tp_joy1icon'), joy1_label: val('tp_joy1label'), joy1_percent: Number(val('tp_joy1pct'))||0,
+    joy2_icon: val('tp_joy2icon'), joy2_label: val('tp_joy2label'), joy2_percent: Number(val('tp_joy2pct'))||0,
+    joy3_icon: val('tp_joy3icon'), joy3_label: val('tp_joy3label'), joy3_percent: Number(val('tp_joy3pct'))||0,
+    joy4_icon: val('tp_joy4icon'), joy4_label: val('tp_joy4label'), joy4_percent: Number(val('tp_joy4pct'))||0,
+    inclusions: lines(val('tp_incl')), exclusions: lines(val('tp_excl')),
+    accommodation_text: rval('tp_accomtext'), accommodation_list: lines(val('tp_accomlist')),
+    image_url: val('tp_img'), gallery_images: accomPhotos,
+    hot: document.getElementById('tp_hot').classList.contains('on'),
+    active: document.getElementById('tp_active').classList.contains('on')
+  };
+  try {
+    if (oldId) {
+      if (oldId !== id) { toast('Trip ID cannot be changed after creation', 'error'); return; }
+      await sbUpdate('trips', id, data);
+    } else { await sbInsert('trips', data); }
+    toast('Trip saved!', 'success');
+    editingId = id; editTrip(id);
+  } catch(e) { toast('Error saving trip', 'error'); console.error(e); }
+}
+async function saveTripJoyPics(id) {
+  var photos = [];
+  document.querySelectorAll('#tpJoyPicsList input').forEach(function(inp) {
+    if (/^tp_jp_\d+$/.test(inp.id)) { var v = inp.value.trim(); if (v) photos.push(v); }
+  });
+  try { await sbUpdate('trips', id, { joy_pics: photos }); toast('Joy Pics saved!', 'success'); } catch(e) { toast('Error saving joy pics', 'error'); }
+}
+async function saveTripFinalCta(id) {
+  var data = {
+    fcta_heading: val('tp_fcta_heading'), fcta_lead: val('tp_fcta_lead'), fcta_image: val('tp_fcta_img'),
+    fcta_name_placeholder: val('tp_fcta_name'), fcta_email_placeholder: val('tp_fcta_email'), fcta_phone_placeholder: val('tp_fcta_phone'),
+    fcta_checkbox_text: val('tp_fcta_check'), fcta_button_text: val('tp_fcta_btn')
+  };
+  try { await sbUpdate('trips', id, data); toast('Final CTA saved!', 'success'); } catch(e) { toast('Error saving Final CTA', 'error'); }
+}
+async function addItineraryDay(tripId) {
+  var photos = [val('itin_new_photo1'), val('itin_new_photo2'), val('itin_new_photo3')].filter(Boolean);
+  var data = { trip_id: tripId, day_number: Number(val('itin_new_num'))||0, eyebrow: val('itin_new_eyebrow'), title: val('itin_new_title'), paragraphs: lines(val('itin_new_paras')), photos: photos };
+  try { await sbInsert('trip_itinerary', data); toast('Day added!', 'success'); editTrip(tripId); } catch(e) { toast('Error adding day', 'error'); }
+}
+async function saveItineraryDay(id) {
+  var photos = [val('itinphoto1_'+id), val('itinphoto2_'+id), val('itinphoto3_'+id)].filter(Boolean);
+  var data = { day_number: Number(val('itinnum_'+id))||0, eyebrow: val('itineyebrow_'+id), title: val('itintitle_'+id), paragraphs: lines(val('itinparas_'+id)), photos: photos };
+  try { await sbUpdate('trip_itinerary', id, data); toast('Day saved!', 'success'); } catch(e) { toast('Error saving day', 'error'); }
+}
+async function saveTripItinHeader(id) {
+  var data = { itinerary_heading: val('tp_itinh'), itinerary_subtext: val('tp_itinsub') };
+  try { await sbUpdate('trips', id, data); toast('Heading saved!', 'success'); } catch(e) { toast('Error saving heading', 'error'); }
+}
+async function addTripReview(tripId) {
+  var data = { trip_id: tripId, name: val('trv_new_name'), initials: val('trv_new_init'), color: val('trv_new_color'), stars: Number(val('trv_new_stars'))||5, ago_label: val('trv_new_ago'), quote: val('trv_new_quote'), verified: true };
+  try { await sbInsert('trip_reviews', data); toast('Review added!', 'success'); editTrip(tripId); } catch(e) { toast('Error adding review', 'error'); }
+}
+async function saveTripReview(id) {
+  var data = { name: val('trvname_'+id), initials: val('trvinit_'+id), color: val('trvcolor_'+id), stars: Number(val('trvstars_'+id))||5, ago_label: val('trvago_'+id), quote: val('trvquote_'+id) };
+  try { await sbUpdate('trip_reviews', id, data); toast('Review saved!', 'success'); } catch(e) { toast('Error saving review', 'error'); }
+}
+
+/* =====================================================================
+   HERO PHOTOS (Home Page — the scrolling marquee photo strip)
+===================================================================== */
+async function loadHeroPhotos(scope) {
+  scope = scope || 'home';
+  setLoading();
+  var rows = await sbFetch('hero_photos', 'order=sort_order.asc');
+  if (!Array.isArray(rows)) rows = [];
+  var html = pageHint('These photos scroll continuously in the strip beneath the hero heading and buttons. Order here matches the order shown on the site — use the arrows to reorder.') +
+    '<div class="card"><div class="table-wrap"><table><thead><tr><th style="width:70px">Order</th><th>Photo</th><th>Status</th><th>Actions</th></tr></thead><tbody>';
+  if (rows.length === 0) {
+    html += '</tbody></table></div><div class="empty"><div class="empty-icon">🖼️</div><div class="empty-text">No hero photos yet.</div></div></div>';
+  } else {
+    rows.forEach(function(r, i) {
+      html += '<tr>' +
+        '<td><div style="display:flex;gap:4px">' +
+          '<button class="btn-sm btn-edit" style="padding:4px 8px" ' + (i===0?'disabled':'') + ' onclick="moveHeroPhoto(\''+r.id+'\',-1,\''+scope+'\')">↑</button>' +
+          '<button class="btn-sm btn-edit" style="padding:4px 8px" ' + (i===rows.length-1?'disabled':'') + ' onclick="moveHeroPhoto(\''+r.id+'\',1,\''+scope+'\')">↓</button>' +
+        '</div></td>' +
+        '<td>' + (r.image_url?'<img src="'+esc(r.image_url)+'" style="width:70px;height:48px;object-fit:cover;border-radius:6px">':'—') + '</td>' +
+        '<td><span class="badge ' + (r.active?'badge-green':'badge-red') + '">' + (r.active?'Active':'Hidden') + '</span></td>' +
+        '<td><div style="display:flex;gap:6px">' +
+          '<button class="btn-sm btn-edit" onclick="editHeroPhoto(\'' + r.id + '\',\''+scope+'\')">Edit</button>' +
+          '<button class="btn-sm btn-del" onclick="deleteItem(\'hero_photos\',\'' + r.id + '\',function(){loadHeroPhotos(\''+scope+'\')})">Delete</button>' +
+        '</div></td></tr>';
+    });
+    html += '</tbody></table></div></div>';
+  }
+  document.getElementById('mainContent').innerHTML = html;
+}
+async function moveHeroPhoto(id, dir, scope) {
+  var rows = await sbFetch('hero_photos', 'order=sort_order.asc');
+  if (!Array.isArray(rows)) return;
+  var idx = rows.findIndex(function(r){ return r.id === id; });
+  var swapIdx = idx + dir;
+  if (swapIdx < 0 || swapIdx >= rows.length) return;
+  var a = rows[idx], b = rows[swapIdx];
+  try {
+    await Promise.all([
+      sbUpdate('hero_photos', a.id, { sort_order: b.sort_order }),
+      sbUpdate('hero_photos', b.id, { sort_order: a.sort_order })
+    ]);
+    loadHeroPhotos(scope);
+  } catch(e) { toast('Error reordering', 'error'); }
+}
+async function editHeroPhoto(id, scope) {
+  var rows = await sbFetch('hero_photos', 'id=eq.' + id);
+  editingId = id;
+  openHeroPhotoModal(rows[0], scope);
+}
+function openHeroPhotoModal(r, scope) {
+  var html = '<div class="form-grid">' +
+    imageField('Photo', 'hp_img', 'hp_imgprev', r?r.image_url||'':'') +
+    fg('Sort Order', 'number', 'hp_sort', r?r.sort_order:0, '', '') +
+    '</div>' +
+    '<div style="margin-top:1rem">' + toggle('hp_active', r?r.active:true, 'Show on Website') + '</div>' +
+    '<div class="form-actions">' +
+      '<button class="btn-save" onclick="saveHeroPhoto(\'' + (r?r.id:'') + '\',\''+scope+'\')">Save Photo</button>' +
+      '<button class="btn-cancel" onclick="closeModal()">Cancel</button>' +
+    '</div>';
+  openModal(r?'Edit Hero Photo':'Add Hero Photo', html);
+}
+async function saveHeroPhoto(id, scope) {
+  var data = { image_url: val('hp_img'), sort_order: Number(val('hp_sort'))||0, active: document.getElementById('hp_active').classList.contains('on') };
+  try {
+    if (id) await sbUpdate('hero_photos', id, data); else await sbInsert('hero_photos', data);
+    toast('Photo saved!', 'success'); closeModal(); loadHeroPhotos(scope);
+  } catch(e) { toast('Error saving photo', 'error'); }
+}
+
+/* =====================================================================
+   ASIA CARDS (Build Adventure Page — "This Summer, Think Asia" grid)
+===================================================================== */
+async function loadAsiaCards() {
+  setLoading();
+  var results = await Promise.all([ sbFetch('asia_cards', 'order=sort_order.asc'), sbFetch('settings', 'key=eq.ba_asia_heading') ]);
+  var rows = Array.isArray(results[0]) ? results[0] : [];
+  var headingVal = (Array.isArray(results[1]) && results[1][0]) ? results[1][0].value : '';
+  var html = '<div class="card"><div class="card-body"><div class="form-grid">' +
+      fg('Section Heading', 'text', 'ac_heading', headingVal, '', 'e.g. This Summer, Think Asia') +
+    '</div><div class="form-actions"><button class="btn-save" onclick="saveAsiaHeading()">Save Heading</button></div></div></div>' +
+    pageHint('These are the 8 destination cards in the "This Summer, Think Asia" grid. Use the arrows to reorder.') +
+    '<div class="card"><div class="table-wrap"><table><thead><tr><th style="width:70px">Order</th><th>Photo</th><th>Name</th><th>Link</th><th>Status</th><th>Actions</th></tr></thead><tbody>';
+  if (rows.length === 0) {
+    html += '</tbody></table></div><div class="empty"><div class="empty-icon">🌏</div><div class="empty-text">No cards yet.</div></div></div>';
+  } else {
+    rows.forEach(function(r, i) {
+      html += '<tr>' +
+        '<td><div style="display:flex;gap:4px">' +
+          '<button class="btn-sm btn-edit" style="padding:4px 8px" ' + (i===0?'disabled':'') + ' onclick="moveAsiaCard(\''+r.id+'\',-1)">↑</button>' +
+          '<button class="btn-sm btn-edit" style="padding:4px 8px" ' + (i===rows.length-1?'disabled':'') + ' onclick="moveAsiaCard(\''+r.id+'\',1)">↓</button>' +
+        '</div></td>' +
+        '<td>' + (r.image_url?'<img src="'+esc(r.image_url)+'" style="width:60px;height:44px;object-fit:cover;border-radius:5px">':'—') + '</td>' +
+        '<td><strong>' + esc(r.name) + '</strong></td>' +
+        '<td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--body);font-size:12px">' + esc(r.link||'') + '</td>' +
+        '<td><span class="badge ' + (r.active?'badge-green':'badge-red') + '">' + (r.active?'Active':'Hidden') + '</span></td>' +
+        '<td><div style="display:flex;gap:6px">' +
+          '<button class="btn-sm btn-edit" onclick="editAsiaCard(\'' + r.id + '\')">Edit</button>' +
+          '<button class="btn-sm btn-del" onclick="deleteItem(\'asia_cards\',\'' + r.id + '\',loadAsiaCards)">Delete</button>' +
+        '</div></td></tr>';
+    });
+    html += '</tbody></table></div></div>';
+  }
+  document.getElementById('mainContent').innerHTML = html;
+}
+async function saveAsiaHeading() {
+  try { await sbUpsert('settings', { key: 'ba_asia_heading', value: val('ac_heading') }, 'key'); toast('Heading saved!', 'success'); } catch(e) { toast('Error saving heading', 'error'); }
+}
+async function moveAsiaCard(id, dir) {
+  var rows = await sbFetch('asia_cards', 'order=sort_order.asc');
+  if (!Array.isArray(rows)) return;
+  var idx = rows.findIndex(function(r){ return r.id === id; });
+  var swapIdx = idx + dir;
+  if (swapIdx < 0 || swapIdx >= rows.length) return;
+  var a = rows[idx], b = rows[swapIdx];
+  try {
+    await Promise.all([
+      sbUpdate('asia_cards', a.id, { sort_order: b.sort_order }),
+      sbUpdate('asia_cards', b.id, { sort_order: a.sort_order })
+    ]);
+    loadAsiaCards();
+  } catch(e) { toast('Error reordering', 'error'); }
+}
+async function editAsiaCard(id) {
+  var rows = await sbFetch('asia_cards', 'id=eq.' + id);
+  editingId = id;
+  openAsiaCardModal(rows[0]);
+}
+function openAsiaCardModal(r) {
+  var html = '<div class="form-grid">' +
+    fg('Name', 'text', 'ac_name', r?r.name:'', '', 'e.g. Bali') +
+    fg('Link', 'text', 'ac_link', r?r.link:'', '', 'e.g. destinations.html#bali') +
+    fg('Sort Order', 'number', 'ac_sort', r?r.sort_order:0, '', '') +
+    imageField('Photo', 'ac_img', 'ac_imgprev', r?r.image_url||'':'') +
+    '</div>' +
+    '<div style="margin-top:1rem">' + toggle('ac_active', r?r.active:true, 'Show on Website') + '</div>' +
+    '<div class="form-actions">' +
+      '<button class="btn-save" onclick="saveAsiaCard(\'' + (r?r.id:'') + '\')">Save Card</button>' +
+      '<button class="btn-cancel" onclick="closeModal()">Cancel</button>' +
+    '</div>';
+  openModal(r?'Edit Card':'Add Card', html);
+}
+async function saveAsiaCard(id) {
+  var data = { name: val('ac_name'), link: val('ac_link'), sort_order: Number(val('ac_sort'))||0, image_url: val('ac_img'), active: document.getElementById('ac_active').classList.contains('on') };
+  try {
+    if (id) await sbUpdate('asia_cards', id, data); else await sbInsert('asia_cards', data);
+    toast('Card saved!', 'success'); closeModal(); loadAsiaCards();
+  } catch(e) { toast('Error saving card', 'error'); }
+}
+
+/* =====================================================================
+   REELS ROLL (Build Adventure Page — "Your Passport To Good Stuff"
+   two auto-scrolling photo columns)
+===================================================================== */
+var passportCounters = { a: 0, b: 0 };
+function renderPassportPicField(col, r) {
+  var isNew = !r || !r.id;
+  var idx = isNew ? ('new' + (passportCounters[col]++)) : r.id;
+  var boxId = 'pp_' + col + '_' + idx;
+  var wrapId = boxId + '_wrap';
+  return '<div class="nrow" id="'+wrapId+'">' +
+    imageField('Photo', boxId, boxId+'prev', (r&&r.image_url)||'') +
+    '<div style="display:flex;gap:6px">' +
+    (isNew
+      ? '<button type="button" class="btn-sm btn-edit" onclick="saveNewPassportPhoto(\''+col+'\',\''+idx+'\')">Save</button>' +
+        '<button type="button" class="btn-sm btn-del" onclick="document.getElementById(\''+wrapId+'\').remove()">Remove</button>'
+      : '<button type="button" class="btn-sm btn-edit" onclick="saveExistingPassportPhoto(\''+r.id+'\',\''+boxId+'\')">Save</button>' +
+        '<button type="button" class="btn-sm btn-del" onclick="deleteItem(\'passport_photos\',\''+r.id+'\',loadPassportPhotos)">Delete</button>') +
+    '</div></div>';
+}
+async function loadPassportPhotos() {
+  setLoading();
+  var rows = await sbFetch('passport_photos', 'order=column_key.asc,sort_order.asc');
+  if (!Array.isArray(rows)) rows = [];
+  var colA = rows.filter(function(r){ return r.column_key === 'a'; });
+  var colB = rows.filter(function(r){ return r.column_key === 'b'; });
+  passportCounters.a = 0; passportCounters.b = 0;
+  var html = pageHint('The two auto-scrolling photo columns in "Your Passport To Good Stuff" — Column A scrolls up, Column B scrolls down.') +
+    '<div class="card"><div class="card-body">' +
+    '<div class="nrow-label" style="margin-bottom:0.75rem">Column A (scrolls up)</div>' +
+    '<div id="ppListA">' + colA.map(function(r){ return renderPassportPicField('a', r); }).join('') + '</div>' +
+    '<button type="button" class="btn-sm btn-edit" onclick="addPassportPhotoSlot(\'a\')">+ Add Photo to Column A</button>' +
+    '<div class="nrow-label" style="margin:1.5rem 0 0.75rem">Column B (scrolls down)</div>' +
+    '<div id="ppListB">' + colB.map(function(r){ return renderPassportPicField('b', r); }).join('') + '</div>' +
+    '<button type="button" class="btn-sm btn-edit" onclick="addPassportPhotoSlot(\'b\')">+ Add Photo to Column B</button>' +
+    '</div></div>';
+  document.getElementById('mainContent').innerHTML = html;
+}
+function addPassportPhotoSlot(col) {
+  var container = document.getElementById(col === 'a' ? 'ppListA' : 'ppListB');
+  container.insertAdjacentHTML('beforeend', renderPassportPicField(col, null));
+}
+async function saveNewPassportPhoto(col, idx) {
+  var url = val('pp_'+col+'_'+idx);
+  if (!url) { toast('Add a photo first', 'error'); return; }
+  try { await sbInsert('passport_photos', { column_key: col, image_url: url }); toast('Photo added!', 'success'); loadPassportPhotos(); }
+  catch(e) { toast('Error adding photo', 'error'); }
+}
+async function saveExistingPassportPhoto(id, boxId) {
+  var url = val(boxId);
+  try { await sbUpdate('passport_photos', id, { image_url: url }); toast('Photo saved!', 'success'); }
+  catch(e) { toast('Error saving photo', 'error'); }
+}
+
+/* =====================================================================
+   CATEGORY BAR (Home Page — the region/filter pill strip)
+===================================================================== */
+async function loadCategoryBar(scope) {
+  scope = scope || 'home';
+  setLoading();
+  var rows = await sbFetch('nav_categories', 'page_scope=eq.' + scope + '&order=sort_order.asc');
+  if (!Array.isArray(rows)) rows = [];
+  var linkHint = scope === 'home'
+    ? 'These pills appear in the scrollable category bar just below the navbar on the homepage. Order here matches the order shown on the site — use the arrows to reorder.'
+    : 'These pills appear in the filter bar at the top of the Build Adventure page. The "Link" field here must exactly match a Tribe Card\'s Country field for filtering to work — use "Explore" for the show-all pill.';
+  var linkColLabel = scope === 'home' ? 'Link' : 'Filter Value';
+  var html = pageHint(linkHint) +
+    '<div class="card"><div class="table-wrap"><table><thead><tr><th style="width:70px">Order</th><th>Icon</th><th>Label</th><th>' + linkColLabel + '</th><th>Status</th><th>Actions</th></tr></thead><tbody>';
+  if (rows.length === 0) {
+    html += '</tbody></table></div><div class="empty"><div class="empty-icon">🗂️</div><div class="empty-text">No category pills yet.</div></div></div>';
+  } else {
+    rows.forEach(function(r, i) {
+      html += '<tr>' +
+        '<td><div style="display:flex;gap:4px">' +
+          '<button class="btn-sm btn-edit" style="padding:4px 8px" ' + (i===0?'disabled style="opacity:.3"':'') + ' onclick="moveCategory(\''+r.id+'\',-1,\''+scope+'\')">↑</button>' +
+          '<button class="btn-sm btn-edit" style="padding:4px 8px" ' + (i===rows.length-1?'disabled style="opacity:.3"':'') + ' onclick="moveCategory(\''+r.id+'\',1,\''+scope+'\')">↓</button>' +
+        '</div></td>' +
+        '<td style="font-size:18px">' + esc(r.icon||'') + '</td>' +
+        '<td><strong>' + esc(r.label) + '</strong></td>' +
+        '<td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--body);font-size:12px">' + esc(r.link||'') + '</td>' +
+        '<td><span class="badge ' + (r.active?'badge-green':'badge-red') + '">' + (r.active?'Active':'Hidden') + '</span></td>' +
+        '<td><div style="display:flex;gap:6px">' +
+          '<button class="btn-sm btn-edit" onclick="editCategory(\'' + r.id + '\',\''+scope+'\')">Edit</button>' +
+          '<button class="btn-sm btn-del" onclick="deleteItem(\'nav_categories\',\'' + r.id + '\',function(){loadCategoryBar(\''+scope+'\')})">Delete</button>' +
+        '</div></td></tr>';
+    });
+    html += '</tbody></table></div></div>';
+  }
+  document.getElementById('mainContent').innerHTML = html;
+}
+async function moveCategory(id, dir, scope) {
+  var rows = await sbFetch('nav_categories', 'page_scope=eq.' + scope + '&order=sort_order.asc');
+  if (!Array.isArray(rows)) return;
+  var idx = rows.findIndex(function(r){ return r.id === id; });
+  var swapIdx = idx + dir;
+  if (swapIdx < 0 || swapIdx >= rows.length) return;
+  var a = rows[idx], b = rows[swapIdx];
+  try {
+    await Promise.all([
+      sbUpdate('nav_categories', a.id, { sort_order: b.sort_order }),
+      sbUpdate('nav_categories', b.id, { sort_order: a.sort_order })
+    ]);
+    loadCategoryBar(scope);
+  } catch(e) { toast('Error reordering', 'error'); }
+}
+async function editCategory(id, scope) {
+  var rows = await sbFetch('nav_categories', 'id=eq.' + id);
+  editingId = id;
+  openCategoryModal(rows[0], scope);
+}
+function openCategoryModal(r, scope) {
+  var linkLabel = scope === 'home' ? 'Link' : 'Filter Value (must match a Tribe Card\'s Country)';
+  var linkHint = scope === 'home' ? 'e.g. destinations.html?region=Asia' : 'e.g. Europe, Japan, or Explore for show-all';
+  var html = '<div class="form-grid">' +
+    fg('Icon (emoji)', 'text', 'cb_icon', r?r.icon:'', '', 'e.g. 🏯 — pick any emoji') +
+    fg('Label', 'text', 'cb_label', r?r.label:'', '', 'e.g. Asia') +
+    fg(linkLabel, 'text', 'cb_link', r?r.link:'', '', linkHint) +
+    fg('Sort Order', 'number', 'cb_sort', r?r.sort_order:0, '', '') +
+    '</div>' +
+    '<div style="margin-top:1rem">' + toggle('cb_active', r?r.active:true, 'Show on Website') + '</div>' +
+    '<div class="form-actions">' +
+      '<button class="btn-save" onclick="saveCategory(\'' + (r?r.id:'') + '\',\''+scope+'\')">Save Category</button>' +
+      '<button class="btn-cancel" onclick="closeModal()">Cancel</button>' +
+    '</div>';
+  openModal(r?'Edit Category':'Add Category', html);
+}
+async function saveCategory(id, scope) {
+  var data = { icon: val('cb_icon'), label: val('cb_label'), link: val('cb_link'), sort_order: Number(val('cb_sort'))||0, active: document.getElementById('cb_active').classList.contains('on'), page_scope: scope };
+  try {
+    if (id) await sbUpdate('nav_categories', id, data); else await sbInsert('nav_categories', data);
+    toast('Category saved!', 'success'); closeModal(); loadCategoryBar(scope);
+  } catch(e) { toast('Error saving category', 'error'); }
+}
+
+/* =====================================================================
+   GROUP TRIPS  (Group Trip Page — rich flagship trip template,
+   e.g. "Group Trip 1" = Epic Philippines)
+===================================================================== */
+async function loadGroupTrips() {
+  setLoading();
+  var rows = await sbFetch('group_trips', 'order=sort_order.asc');
+  if (!Array.isArray(rows)) { console.error('group_trips fetch error:', rows); rows = []; }
+  var html = pageHint('Each row here is one flagship Group Trip page (e.g. "Epic Philippines"). Click Edit to manage its gallery, highlights, inclusions, accommodation, itinerary, and trip-specific reviews.') +
+    '<div class="card"><div class="table-wrap"><table><thead><tr><th>Title</th><th>Route</th><th>Price</th><th>Status</th><th>Actions</th></tr></thead><tbody>';
+  if (rows.length === 0) {
+    html += '</tbody></table></div><div class="empty"><div class="empty-icon">🗺️</div><div class="empty-text">No group trips yet. Click "+ Add New" to get started.</div></div></div>';
+  } else {
+    rows.forEach(function(r, i) {
+      html += '<tr><td><strong>' + esc(r.title || r.id) + '</strong><br><span style="font-size:11px;color:var(--body)">ID: ' + esc(r.id) + '</span></td>' +
+        '<td>' + esc(r.route||'—') + '</td><td>₹' + (r.price||0).toLocaleString() + '</td>' +
+        '<td><span class="badge ' + (r.active?'badge-green':'badge-red') + '">' + (r.active?'Active':'Hidden') + '</span></td>' +
+        '<td><div style="display:flex;gap:6px">' +
+          '<button class="btn-sm btn-edit" onclick="editGroupTrip(\'' + r.id + '\')">Edit</button>' +
+          '<button class="btn-sm btn-del" onclick="deleteItem(\'group_trips\',\'' + r.id + '\',loadGroupTrips)">Delete</button>' +
+        '</div></td></tr>';
+    });
+    html += '</tbody></table></div></div>';
+  }
+  document.getElementById('mainContent').innerHTML = html;
+}
+async function editGroupTrip(id) {
+  var rows = await sbFetch('group_trips', 'id=eq.' + id);
+  var r = rows[0];
+  editingId = id;
+  var results = await Promise.all([
+    sbFetch('group_trip_itinerary', 'group_trip_id=eq.' + id + '&order=sort_order'),
+    sbFetch('group_trip_dates', 'group_trip_id=eq.' + id + '&order=sort_order')
+  ]);
+  renderGroupTripEditorPage(r, Array.isArray(results[0])?results[0]:[], Array.isArray(results[1])?results[1]:[]);
+}
+var gtHighlightCounter = 0;
+var tpJoyPicsCounter = 0;
+var tpAccomPicsCounter = 0;
+var reelCounters = { row1: 0, row2: 0 };
+function renderReelPicField(field, url, idx) {
+  var boxId = 'tp_reel_' + field + '_' + idx;
+  return '<div class="nrow" id="'+boxId+'_wrap">' +
+    imageField('Photo (optional)', boxId, boxId+'prev', url||'') +
+    '<button type="button" class="btn-sm btn-del" onclick="document.getElementById(\''+boxId+'_wrap\').remove()">Remove This Photo</button>' +
+  '</div>';
+}
+function addReelPicSlot(field) {
+  var container = document.getElementById('tpReelList_'+field);
+  var idx = reelCounters[field] || 0;
+  container.insertAdjacentHTML('beforeend', renderReelPicField(field, '', idx));
+  reelCounters[field] = idx + 1;
+}
+async function saveTripReelRoll(id) {
+  var row1 = [], row2 = [];
+  document.querySelectorAll('#tpReelList_row1 input').forEach(function(inp) {
+    if (/^tp_reel_row1_\d+$/.test(inp.id)) { var v = inp.value.trim(); if (v) row1.push(v); }
+  });
+  document.querySelectorAll('#tpReelList_row2 input').forEach(function(inp) {
+    if (/^tp_reel_row2_\d+$/.test(inp.id)) { var v = inp.value.trim(); if (v) row2.push(v); }
+  });
+  try { await sbUpdate('trips', id, { reelroll_row1: row1, reelroll_row2: row2 }); toast('Reel Roll saved!', 'success'); }
+  catch(e) { toast('Error saving reel roll', 'error'); }
+}
+function renderAccomPicField(url, idx) {
+  var boxId = 'tp_ap_' + idx;
+  return '<div class="nrow" id="tp_ap_wrap_'+idx+'">' +
+    imageField('Accommodation Photo (optional)', boxId, boxId+'prev', url||'') +
+    '<button type="button" class="btn-sm btn-del" onclick="document.getElementById(\'tp_ap_wrap_'+idx+'\').remove()">Remove This Photo</button>' +
+  '</div>';
+}
+function addAccomPicSlot() {
+  var container = document.getElementById('tpAccomPicsList');
+  container.insertAdjacentHTML('beforeend', renderAccomPicField('', tpAccomPicsCounter));
+  tpAccomPicsCounter++;
+}
+function renderJoyPicField(url, idx) {
+  var boxId = 'tp_jp_' + idx;
+  return '<div class="nrow" id="tp_jp_wrap_'+idx+'">' +
+    imageField('Joy Pic (optional)', boxId, boxId+'prev', url||'') +
+    '<button type="button" class="btn-sm btn-del" onclick="document.getElementById(\'tp_jp_wrap_'+idx+'\').remove()">Remove This Photo</button>' +
+  '</div>';
+}
+function addJoyPicSlot() {
+  var container = document.getElementById('tpJoyPicsList');
+  container.insertAdjacentHTML('beforeend', renderJoyPicField('', tpJoyPicsCounter));
+  tpJoyPicsCounter++;
+}
+function renderHighlightPhotoField(url, idx) {
+  var boxId = 'gt_hl_' + idx;
+  return '<div class="nrow" id="gt_hl_wrap_'+idx+'">' +
+    imageField('Highlight Photo (optional)', boxId, boxId+'prev', url||'') +
+    '<button type="button" class="btn-sm btn-del" onclick="document.getElementById(\'gt_hl_wrap_'+idx+'\').remove()">Remove This Photo</button>' +
+  '</div>';
+}
+function addHighlightPhotoSlot() {
+  var container = document.getElementById('gtHighlightsList');
+  container.insertAdjacentHTML('beforeend', renderHighlightPhotoField('', gtHighlightCounter));
+  gtHighlightCounter++;
+}
+
+function renderGroupTripEditorPage(r, itin, dates) {
+  dates = dates || [];
+  document.querySelectorAll('.nav-item').forEach(function(el){ el.classList.remove('active'); });
+  document.getElementById('topbarCrumb').textContent = 'Group Trip Page';
+  document.getElementById('topbarTitle').textContent = r ? ('Editing: ' + r.title) : 'Add Group Trip';
+  document.getElementById('topbarAddBtn').style.display = 'none';
+  var heroHtml = pageHint('This is the top hero section of the Group Trip page — title, waypoint breadcrumb, tags, price, meta line, and buttons.') + '<div class="form-grid">' +
+    fg('Trip ID (unique slug)', 'text', 'gt_id', r?r.id:'', '', 'e.g. epic-philippines') +
+    fg('Title', 'text', 'gt_title', r?r.title:'', '', 'e.g. Epic Philippines') +
+    fg('Waypoints Breadcrumb (comma separated)', 'text', 'gt_waypoints', r&&r.waypoints?r.waypoints.join(', '):'', '', 'e.g. Seminyak, Nusa Penida, Gili Islands, Ubud') +
+    fg('Tags (comma separated)', 'text', 'gt_tags', r?(r.tags||[]).join(', '):'', '', 'e.g. Solo, Adventure, Beach, Culture, Over 2 Weeks') +
+    fg('Price (₹)', 'number', 'gt_price', r?r.price:'', '', '245000') +
+    fg('Duration Label', 'text', 'gt_duration', r?r.duration_label:'', '', 'e.g. 18 days') +
+    fg('Meta Location', 'text', 'gt_route', r?r.route:'', '', 'e.g. Bangkok - Chiang Mai') +
+    fg('Age Label', 'text', 'gt_age', r?r.age_label:'', '', 'e.g. Ages 18 to 40s') +
+    fg('Primary Button Text', 'text', 'gt_btn1', r?r.btn1_text:'Check available start dates', '', '') +
+    fg('Secondary Button Text', 'text', 'gt_btn2', r?r.btn2_text:'Download Brochure', '', '') +
+    fg('Brochure Link', 'text', 'gt_brochure', r?r.brochure_link:'', '', 'e.g. link to a PDF') +
+  '</div>' +
+  '<div style="margin-top:1rem">' + toggle('gt_active', r?r.active:true, 'Show on Website') + '</div>' +
+  '<div class="form-actions"><button class="btn-save" onclick="saveGroupTripDetails(\''+(r?r.id:'')+'\')">Save Group Hero</button><button class="btn-cancel" onclick="closeModal()">Cancel</button></div>';
+
+  var detailCardHtml = pageHint('This is the "Sub Hero Text" card — the descriptive headline + paragraphs shown right after the Group Hero Pics section.') + '<div class="form-grid">' +
+    fg('Detail Headline', 'text', 'gt_dtitle', r?r.detail_title:'', '', 'The big descriptive headline') +
+    rta('Detail Paragraph 1', 'gt_dp1', r?r.detail_para1:'') +
+    rta('Detail Paragraph 2', 'gt_dp2', r?r.detail_para2:'') +
+  '</div><div class="form-actions"><button class="btn-save" onclick="saveGroupTripDetails(\''+(r?r.id:'')+'\')">Save Sub Hero Text</button></div>';
+
+  var galleryHtml = pageHint('The video tile + up to 5 photos shown in the gallery grid at the top of the page. Each photo below is labeled with its exact position in the grid.') +
+    videoField('Video (upload or paste URL)', 'gt_video', 'gt_videoprev', r?r.gallery_video_url||'':'') +
+    imageField('Video Poster Image (shown before playback)', 'gt_videoposter', 'gt_videoposterprev', r?r.gallery_video_poster||'':'') +
+    '<div class="form-grid">' +
+    fg('Video Caption', 'text', 'gt_videocap', r?r.gallery_video_caption:'', '', "e.g. pov: you open my camera roll after going to Thailand with Eureka Trips") +
+    '</div>' +
+    (function(){
+      var gp = (r && r.gallery_photos) ? r.gallery_photos : [];
+      var labels = ['Photo 1 — top row, left', 'Photo 2 — top row, right', 'Photo 3 — bottom row, left', 'Photo 4 — bottom row, middle', 'Photo 5 — bottom row, right'];
+      var out = '';
+      for (var i = 0; i < 5; i++) out += imageField(labels[i], 'gt_galphoto'+(i+1), 'gt_galphoto'+(i+1)+'prev', gp[i]||'');
+      return out;
+    })() +
+  '<div class="form-actions"><button class="btn-save" onclick="saveGroupTripGallery(\''+(r?r.id:'')+'\')">Save Gallery</button></div>';
+
+  gtHighlightCounter = (r && r.highlight_photos) ? r.highlight_photos.length : 0;
+  var highlightsHtml = pageHint('Photos shown in the "Highlights" tab slider. Add or remove as many as you like — the URL/upload field is optional per photo, so you can leave a blank slot and fill it in later.') +
+    '<div id="gtHighlightsList">' + ((r && r.highlight_photos && r.highlight_photos.length) ? r.highlight_photos.map(function(url, i){ return renderHighlightPhotoField(url, i); }).join('') : '') + '</div>' +
+    '<button type="button" class="btn-sm btn-edit" onclick="addHighlightPhotoSlot()">+ Add Another Photo</button>' +
+    '<div class="form-actions"><button class="btn-save" onclick="saveGroupTripHighlights(\''+(r?r.id:'')+'\')">Save Highlights</button></div>';
+
+  var socialHtml = pageHint('The photo collage + "2000+ Solo Travellers" social proof section further down the page.') +
+    imageField('Stack 1, Photo 1 (top)', 'gt_soc_p1', 'gt_soc_p1prev', r?r.social_photo1||'':'') +
+    imageField('Stack 1, Photo 2 (middle, tallest)', 'gt_soc_p2', 'gt_soc_p2prev', r?r.social_photo2||'':'') +
+    imageField('Stack 1, Photo 3 (bottom)', 'gt_soc_p3', 'gt_soc_p3prev', r?r.social_photo3||'':'') +
+    imageField('Stack 2, Photo 1 (top)', 'gt_soc_p4', 'gt_soc_p4prev', r?r.social_photo4||'':'') +
+    imageField('Stack 2, Photo 2 (bottom)', 'gt_soc_p5', 'gt_soc_p5prev', r?r.social_photo5||'':'') +
+    imageField('Waterfall Photo (large, right column top)', 'gt_soc_wf', 'gt_soc_wfprev', r?r.social_waterfall_photo||'':'') +
+    imageField('Beach Photo (right column, with caption)', 'gt_soc_beach', 'gt_soc_beachprev', r?r.social_beach_photo||'':'') +
+    '<div class="form-grid">' +
+    fg('Beach Photo Caption', 'text', 'gt_soc_beachcap', r?r.social_beach_caption:'', '', 'e.g. #eurekamoment') +
+    fg('Banner Line 1', 'text', 'gt_soc_bl1', r?r.social_banner_line1:'', '', 'e.g. Social group trip for 21-39 years old') +
+    fg('Banner Line 2', 'text', 'gt_soc_bl2', r?r.social_banner_line2:'', '', 'e.g. For cool adults, only!') +
+    fg('Heading', 'text', 'gt_soc_heading', r?r.social_heading:'', '', 'e.g. 2000+ Solo Travellers') +
+    fg('Subheading', 'text', 'gt_soc_subheading', r?r.social_subheading:'', '', 'e.g. Since 2023') +
+    '</div>' +
+    ta('Checklist Items (one per line)', 'gt_soc_checklist', r&&r.social_checklist?r.social_checklist.join('\n'):'', 4, 'e.g. Like-minded travellers, one per line') +
+  '<div class="form-actions"><button class="btn-save" onclick="saveGroupTripSocial(\''+(r?r.id:'')+'\')">Save Group Gallery</button></div>';
+
+  var inclusionsHtml = pageHint('The 6-category Inclusions grid — icon and label stay fixed to the site style, you just edit the value shown for each.') + '<div class="form-grid">' +
+    fg('🏨 Accommodation', 'text', 'gt_inc_accom', r?r.inclusion_accommodation:'', '', 'e.g. 3 & 4 Star Hotels') +
+    fg('🚀 Activities', 'text', 'gt_inc_activities', r?r.inclusion_activities:'', '', 'e.g. 10 Days of EPIC Activities') +
+    fg('🍽️ Meals', 'text', 'gt_inc_meals', r?r.inclusion_meals:'', '', 'e.g. 9 Breakfasts, 2 Lunch & 1 Dinner') +
+    fg('👥 Group Size', 'text', 'gt_inc_groupsize', r?r.inclusion_groupsize:'', '', 'e.g. 12-16 People avg.') +
+    fg('🚌 Transport', 'text', 'gt_inc_transport', r?r.inclusion_transport:'', '', 'e.g. Coach, Ferry & Flight') +
+    fg('🧑‍✈️ Team', 'text', 'gt_inc_team', r?r.inclusion_team:'', '', 'e.g. Awesome Trip Manager') +
+  '</div><div class="form-actions"><button class="btn-save" onclick="saveGroupTripInclusions(\''+(r?r.id:'')+'\')">Save Inclusions</button></div>';
+
+  var accomHtml = pageHint('The Accommodation and Exclusions tabs, plus the Map tab note.') + '<div class="form-grid">' +
+    rta('Accommodation Description', 'gt_accomtext', r?r.accommodation_text:'') +
+    ta('Hotel List (one per line)', 'gt_accomlist', r&&r.accommodation_list?r.accommodation_list.join('\n'):'', 3) +
+    imageField('Accommodation Photo', 'gt_accomimg', 'gt_accomimgprev', r?r.accommodation_image||'':'') +
+    ta('Exclusions (one per line)', 'gt_exclusions', r&&r.exclusions?r.exclusions.join('\n'):'', 3) +
+    ta('Map Tab Note', 'gt_mapnote', r?r.map_note:'', 2, 'e.g. Interactive route map coming soon — Seminyak → Nusa Penida → Gili Islands → Ubud.') +
+  '</div><div class="form-actions"><button class="btn-save" onclick="saveGroupTripAccom(\''+(r?r.id:'')+'\')">Save</button></div>';
+
+  var itinTopHtml = '<div class="form-grid">' +
+    fg('Itinerary Heading', 'gt_itinh', r?r.itinerary_heading:'', '', '', 'e.g. Itinerary') +
+    ta('Itinerary Subtext', 'gt_itinsub', r?r.itinerary_subtext:'', 2) +
+  '</div><div class="form-actions" style="margin-bottom:1.5rem"><button class="btn-save" onclick="saveGroupTripItinHeader(\''+(r?r.id:'')+'\')">Save Heading</button></div>';
+  var itinHtml = (r ? itinTopHtml : '') + pageHint('Day-by-day itinerary. Each day can show a meals tag and an "included today" tag.') +
+    '<div id="gtItinList">' + (itin.length===0 ? '<div style="color:var(--body);font-size:13px;font-style:italic;padding:1rem 0">No itinerary days added yet.</div>' :
+      itin.map(function(d){ return nrowGtItinerary(d); }).join('')) + '</div>' +
+    '<div style="margin-top:1.25rem;padding-top:1.25rem;border-top:1px solid var(--border)">' +
+      '<div class="nrow-label" style="margin-bottom:0.75rem">Add New Day</div>' +
+      '<div class="nrow">' +
+        '<input type="number" id="gtitin_new_num" placeholder="Day number, e.g. 1">' +
+        '<input type="text" id="gtitin_new_title" placeholder="Title, e.g. Arrive in Manila">' +
+        '<textarea id="gtitin_new_desc" rows="3" placeholder="Description"></textarea>' +
+        '<input type="text" id="gtitin_new_meals" placeholder="Meals tag, e.g. Meals: Filipino Welcome Dinner">' +
+        '<input type="text" id="gtitin_new_included" placeholder="Included tag, e.g. Included Today: Meetup & Manila Nightlife">' +
+        imageField('Photo (optional)', 'gtitin_new_img', 'gtitin_new_imgprev', '') +
+        '<button class="btn-sm btn-edit" onclick="addGtItineraryDay(\''+esc(r?r.id:'')+'\')">+ Add Day</button>' +
+      '</div>' +
+    '</div>';
+
+  var datesHtml = pageHint('The "Available Start Dates" batch cards, with the expandable booking details for each.') +
+    '<div id="gtDatesList">' + (dates.length===0 ? '<div style="color:var(--body);font-size:13px;font-style:italic;padding:1rem 0">No dates added yet.</div>' :
+      dates.map(function(d){ return nrowGtDate(d); }).join('')) + '</div>' +
+    '<div style="margin-top:1.25rem;padding-top:1.25rem;border-top:1px solid var(--border)">' +
+      '<div class="nrow-label" style="margin-bottom:0.75rem">Add New Start Date</div>' +
+      '<div class="nrow">' + nrowGtDateFields(null, 'new') + '</div>' +
+      '<button class="btn-sm btn-edit" onclick="addGtDate(\''+esc(r?r.id:'')+'\')">+ Add Date</button>' +
+    '</div>';
+
+  var fctaHtml = pageHint('The closing banner near the bottom of the page — background image, heading, paragraph, and one button.') + '<div class="form-grid">' +
+    fg('Heading', 'text', 'gt_fcta_heading', r?r.fcta_heading:'', '', 'e.g. Plan Your Perfect Trip with Eureka Trips') +
+    fg('Button Text', 'text', 'gt_fcta_btntext', r?r.fcta_btn_text:'Book Trip', '', '') +
+    fg('Button Link', 'text', 'gt_fcta_btnlink', r?r.fcta_btn_link:'#dates', '', '') +
+    '</div>' +
+    ta('Paragraph', 'gt_fcta_text', r?r.fcta_text:'', 2) +
+    imageField('Background Image', 'gt_fcta_img', 'gt_fcta_imgprev', r?r.fcta_image||'':'') +
+  '<div class="form-actions">' +
+    '<button class="btn-save" onclick="saveGtFinalCta(\'' + (r?r.id:'') + '\')">Save Final CTA</button>' +
+  '</div>';
+
+  var html = '<button class="btn-cancel" style="margin-bottom:1.25rem" onclick="loadGroupTrips()">← Back to All Trips</button>' +
+    '<div class="card"><div class="card-body">' +
+    '<div class="sub-tabs">' +
+      '<div class="sub-tab active" onclick="switchSubTab(this,\'gttab-hero\')">🎬 Group Hero</div>' +
+      '<div class="sub-tab" onclick="switchSubTab(this,\'gttab-gallery\')">🖼️ Group Hero Pics</div>' +
+      '<div class="sub-tab" onclick="switchSubTab(this,\'gttab-detailcard\')">📝 Sub Hero Text</div>' +
+      '<div class="sub-tab" onclick="switchSubTab(this,\'gttab-highlights\')">✨ Highlights</div>' +
+      '<div class="sub-tab" onclick="switchSubTab(this,\'gttab-social\')">📸 Group Gallery</div>' +
+      '<div class="sub-tab" onclick="switchSubTab(this,\'gttab-inclusions\')">✅ Inclusions</div>' +
+      '<div class="sub-tab" onclick="switchSubTab(this,\'gttab-accom\')">🏨 Accom. & Exclusions</div>' +
+      '<div class="sub-tab" onclick="switchSubTab(this,\'gttab-itin\')">🗓️ Itinerary</div>' +
+      '<div class="sub-tab" onclick="switchSubTab(this,\'gttab-dates\')">📅 Available Dates</div>' +
+      '<div class="sub-tab" onclick="switchSubTab(this,\'gttab-fcta\')">📣 Final CTA</div>' +
+    '</div>' +
+    '<div id="gttab-hero" class="sub-pane active">' + heroHtml + '</div>' +
+    '<div id="gttab-gallery" class="sub-pane">' + (r ? galleryHtml : '<div class="empty"><div class="empty-text">Save details first.</div></div>') + '</div>' +
+    '<div id="gttab-detailcard" class="sub-pane">' + detailCardHtml + '</div>' +
+    '<div id="gttab-highlights" class="sub-pane">' + (r ? highlightsHtml : '<div class="empty"><div class="empty-text">Save details first.</div></div>') + '</div>' +
+    '<div id="gttab-social" class="sub-pane">' + (r ? socialHtml : '<div class="empty"><div class="empty-text">Save details first.</div></div>') + '</div>' +
+    '<div id="gttab-inclusions" class="sub-pane">' + (r ? inclusionsHtml : '<div class="empty"><div class="empty-text">Save details first.</div></div>') + '</div>' +
+    '<div id="gttab-accom" class="sub-pane">' + (r ? accomHtml : '<div class="empty"><div class="empty-text">Save details first.</div></div>') + '</div>' +
+    '<div id="gttab-itin" class="sub-pane">' + (r ? itinHtml : '<div class="empty"><div class="empty-text">Save details first.</div></div>') + '</div>' +
+    '<div id="gttab-dates" class="sub-pane">' + (r ? datesHtml : '<div class="empty"><div class="empty-text">Save details first.</div></div>') + '</div>' +
+    '<div id="gttab-fcta" class="sub-pane">' + (r ? fctaHtml : '<div class="empty"><div class="empty-text">Save details first.</div></div>') + '</div>' +
+    '</div></div>';
+
+  document.getElementById('mainContent').innerHTML = html;
+  richEditors = {};
+  restoreLastActiveSubTab();
+  setTimeout(initRichEditors, 60);
+}
+function nrowGtItinerary(d) {
+  return '<div class="nrow" id="gtitinrow_'+d.id+'">' +
+    '<input type="number" id="gtitinnum_'+d.id+'" value="'+d.day_number+'" placeholder="Day number">' +
+    '<input type="text" id="gtitintitle_'+d.id+'" value="'+esc(d.title||'')+'" placeholder="Title">' +
+    '<textarea id="gtitindesc_'+d.id+'" rows="3" placeholder="Description">'+esc(d.description||'')+'</textarea>' +
+    '<input type="text" id="gtitinmeals_'+d.id+'" value="'+esc(d.meals_tag||'')+'" placeholder="Meals tag">' +
+    '<input type="text" id="gtitinincluded_'+d.id+'" value="'+esc(d.included_tag||'')+'" placeholder="Included tag">' +
+    imageField('Photo (optional)', 'gtitinimg_'+d.id, 'gtitinimg_'+d.id+'prev', d.image_url||'') +
+    '<div style="display:flex;gap:6px">' +
+      '<button class="btn-sm btn-edit" onclick="saveGtItineraryDay(\''+d.id+'\')">Save</button>' +
+      '<button class="btn-sm btn-del" onclick="deleteItem(\'group_trip_itinerary\',\''+d.id+'\',function(){editGroupTrip(\''+d.group_trip_id+'\')})">Delete</button>' +
+    '</div></div>';
+}
+function nrowGtDateFields(d, idSuffix) {
+  d = d || {};
+  var tiers = d.price_tiers ? d.price_tiers.map(function(t){ var p = t.split('|'); return p[0]+' | '+(p[1]||''); }).join('\n') : '';
+  return '<div class="nrow-inner">' +
+    '<input type="text" id="gtdate_day_'+idSuffix+'" value="'+esc(d.date_day||'')+'" placeholder="Day, e.g. 28">' +
+    '<input type="text" id="gtdate_month_'+idSuffix+'" value="'+esc(d.date_month||'')+'" placeholder="Month, e.g. June">' +
+    '<input type="text" id="gtdate_dur_'+idSuffix+'" value="'+esc(d.duration_label||'')+'" placeholder="Duration label, e.g. 10 Days">' +
+    '<input type="text" id="gtdate_startday_'+idSuffix+'" value="'+esc(d.start_day_label||'')+'" placeholder="Start day of week, e.g. Saturday">' +
+    '<input type="text" id="gtdate_startdate_'+idSuffix+'" value="'+esc(d.start_date_label||'')+'" placeholder="Start date, e.g. 28 May 2026">' +
+    '<input type="text" id="gtdate_endday_'+idSuffix+'" value="'+esc(d.end_day_label||'')+'" placeholder="End day of week, e.g. Sunday">' +
+    '<input type="text" id="gtdate_enddate_'+idSuffix+'" value="'+esc(d.end_date_label||'')+'" placeholder="End date, e.g. 06 June 2026">' +
+    '<input type="text" id="gtdate_spots_'+idSuffix+'" value="'+esc(d.spots_label||'')+'" placeholder="Spots label, e.g. Last 5 Spots">' +
+    '<input type="number" id="gtdate_price_'+idSuffix+'" value="'+(d.price||'')+'" placeholder="Price, e.g. 56000">' +
+    '<input type="text" id="gtdate_startloc_'+idSuffix+'" value="'+esc(d.trip_start_location||'')+'" placeholder="Trip start location, e.g. Seminyak, 12:00 (Local Time)">' +
+    '<input type="text" id="gtdate_endloc_'+idSuffix+'" value="'+esc(d.trip_end_location||'')+'" placeholder="Trip end location, e.g. Ubud, 12:00 (Local Time)">' +
+    '<textarea id="gtdate_flight_'+idSuffix+'" rows="2" placeholder="Flight info paragraph">'+esc(d.flight_info||'')+'</textarea>' +
+    '<input type="text" id="gtdate_deph_'+idSuffix+'" value="'+esc(d.deposit_heading||'')+'" placeholder="Deposit heading, e.g. Book now by paying just 15k">' +
+    '<input type="text" id="gtdate_deps_'+idSuffix+'" value="'+esc(d.deposit_subtext||'')+'" placeholder="Deposit subtext">' +
+    '<textarea id="gtdate_tiers_'+idSuffix+'" rows="3" placeholder="Price tiers — one per line as: Book Before Label | Price&#10;e.g. 1st May, 2026 | 54000">'+esc(tiers)+'</textarea>' +
+    '<input type="text" id="gtdate_wa_'+idSuffix+'" value="'+esc(d.whatsapp_message||'')+'" placeholder="WhatsApp booking message, e.g. Hi EUREKA Trips! I want to book the 28 June departure.">' +
+  '</div>';
+}
+function nrowGtDate(d) {
+  return '<div class="nrow" id="gtdaterow_'+d.id+'">' +
+    nrowGtDateFields(d, d.id) +
+    '<div style="display:flex;gap:6px;margin-top:6px">' +
+      '<button class="btn-sm btn-edit" onclick="saveGtDate(\''+d.id+'\')">Save</button>' +
+      '<button class="btn-sm btn-del" onclick="deleteItem(\'group_trip_dates\',\''+d.id+'\',function(){editGroupTrip(\''+d.group_trip_id+'\')})">Delete</button>' +
+    '</div></div>';
+}
+function gtDateFieldsFromForm(idSuffix) {
+  var tierLines = lines(val('gtdate_tiers_'+idSuffix));
+  var tiers = tierLines.map(function(line){ var parts = line.split('|'); return (parts[0]||'').trim() + '|' + (parts[1]||'').trim(); });
+  return {
+    date_day: val('gtdate_day_'+idSuffix), date_month: val('gtdate_month_'+idSuffix), duration_label: val('gtdate_dur_'+idSuffix),
+    start_day_label: val('gtdate_startday_'+idSuffix), start_date_label: val('gtdate_startdate_'+idSuffix),
+    end_day_label: val('gtdate_endday_'+idSuffix), end_date_label: val('gtdate_enddate_'+idSuffix),
+    spots_label: val('gtdate_spots_'+idSuffix), price: Number(val('gtdate_price_'+idSuffix))||0,
+    trip_start_location: val('gtdate_startloc_'+idSuffix), trip_end_location: val('gtdate_endloc_'+idSuffix),
+    flight_info: val('gtdate_flight_'+idSuffix), deposit_heading: val('gtdate_deph_'+idSuffix), deposit_subtext: val('gtdate_deps_'+idSuffix),
+    price_tiers: tiers, whatsapp_message: val('gtdate_wa_'+idSuffix)
+  };
+}
+async function addGtDate(tripId) {
+  var data = gtDateFieldsFromForm('new');
+  data.group_trip_id = tripId;
+  try { await sbInsert('group_trip_dates', data); toast('Date added!', 'success'); editGroupTrip(tripId); } catch(e) { toast('Error adding date', 'error'); }
+}
+async function saveGtDate(id) {
+  var data = gtDateFieldsFromForm(id);
+  try { await sbUpdate('group_trip_dates', id, data); toast('Date saved!', 'success'); } catch(e) { toast('Error saving date', 'error'); }
+}
+async function saveGtFinalCta(id) {
+  var data = { fcta_heading: val('gt_fcta_heading'), fcta_btn_text: val('gt_fcta_btntext'), fcta_btn_link: val('gt_fcta_btnlink'), fcta_text: val('gt_fcta_text'), fcta_image: val('gt_fcta_img') };
+  try { await sbUpdate('group_trips', id, data); toast('Final CTA saved!', 'success'); } catch(e) { toast('Error saving Final CTA', 'error'); }
+}
+async function saveGroupTripDetails(oldId) {
+  var id = val('gt_id');
+  if (!id) { toast('Trip ID is required', 'error'); return; }
+  var data = {
+    id: id, title: val('gt_title'), route: val('gt_route'), waypoints: csv(val('gt_waypoints')), tags: csv(val('gt_tags')), price: Number(val('gt_price'))||0,
+    duration_label: val('gt_duration'), age_label: val('gt_age'), brochure_link: val('gt_brochure'),
+    btn1_text: val('gt_btn1'), btn2_text: val('gt_btn2'),
+    detail_title: val('gt_dtitle'), detail_para1: rval('gt_dp1'), detail_para2: rval('gt_dp2'),
+    active: document.getElementById('gt_active').classList.contains('on')
+  };
+  try {
+    if (oldId) { if (oldId!==id) { toast('Trip ID cannot be changed', 'error'); return; } await sbUpdate('group_trips', id, data); }
+    else { await sbInsert('group_trips', data); }
+    toast('Group trip saved!', 'success'); editingId = id; editGroupTrip(id); loadGroupTrips();
+  } catch(e) { toast('Error saving group trip', 'error'); console.error(e); }
+}
+async function saveGroupTripGallery(id) {
+  var photos = [];
+  for (var i = 1; i <= 5; i++) { var v = val('gt_galphoto'+i); if (v) photos.push(v); }
+  var data = { gallery_video_url: val('gt_video'), gallery_video_poster: val('gt_videoposter'), gallery_video_caption: val('gt_videocap'), gallery_photos: photos };
+  try { await sbUpdate('group_trips', id, data); toast('Gallery saved!', 'success'); } catch(e) { toast('Error saving gallery', 'error'); }
+}
+async function saveGroupTripHighlights(id) {
+  var photos = [];
+  document.querySelectorAll('#gtHighlightsList input').forEach(function(inp) {
+    if (/^gt_hl_\d+$/.test(inp.id)) { var v = inp.value.trim(); if (v) photos.push(v); }
+  });
+  var data = { highlight_photos: photos };
+  try { await sbUpdate('group_trips', id, data); toast('Highlights saved!', 'success'); } catch(e) { toast('Error saving highlights', 'error'); }
+}
+async function saveGroupTripSocial(id) {
+  var data = {
+    social_photo1: val('gt_soc_p1'), social_photo2: val('gt_soc_p2'), social_photo3: val('gt_soc_p3'),
+    social_photo4: val('gt_soc_p4'), social_photo5: val('gt_soc_p5'),
+    social_waterfall_photo: val('gt_soc_wf'), social_beach_photo: val('gt_soc_beach'), social_beach_caption: val('gt_soc_beachcap'),
+    social_banner_line1: val('gt_soc_bl1'), social_banner_line2: val('gt_soc_bl2'),
+    social_heading: val('gt_soc_heading'), social_subheading: val('gt_soc_subheading'),
+    social_checklist: lines(val('gt_soc_checklist'))
+  };
+  try { await sbUpdate('group_trips', id, data); toast('Group gallery saved!', 'success'); } catch(e) { toast('Error saving group gallery', 'error'); }
+}
+async function saveGroupTripInclusions(id) {
+  var data = { inclusion_accommodation: val('gt_inc_accom'), inclusion_activities: val('gt_inc_activities'), inclusion_meals: val('gt_inc_meals'), inclusion_groupsize: val('gt_inc_groupsize'), inclusion_transport: val('gt_inc_transport'), inclusion_team: val('gt_inc_team') };
+  try { await sbUpdate('group_trips', id, data); toast('Inclusions saved!', 'success'); } catch(e) { toast('Error saving inclusions', 'error'); }
+}
+async function saveGroupTripAccom(id) {
+  var data = { accommodation_text: rval('gt_accomtext'), accommodation_list: lines(val('gt_accomlist')), accommodation_image: val('gt_accomimg'), exclusions: lines(val('gt_exclusions')), map_note: val('gt_mapnote') };
+  try { await sbUpdate('group_trips', id, data); toast('Saved!', 'success'); } catch(e) { toast('Error saving', 'error'); }
+}
+async function saveGroupTripItinHeader(id) {
+  var data = { itinerary_heading: val('gt_itinh'), itinerary_subtext: val('gt_itinsub') };
+  try { await sbUpdate('group_trips', id, data); toast('Saved!', 'success'); } catch(e) { toast('Error saving', 'error'); }
+}
+async function addGtItineraryDay(tripId) {
+  var data = { group_trip_id: tripId, day_number: Number(val('gtitin_new_num'))||0, title: val('gtitin_new_title'), description: val('gtitin_new_desc'), meals_tag: val('gtitin_new_meals'), included_tag: val('gtitin_new_included'), image_url: val('gtitin_new_img') };
+  try { await sbInsert('group_trip_itinerary', data); toast('Day added!', 'success'); editGroupTrip(tripId); } catch(e) { toast('Error adding day', 'error'); }
+}
+async function saveGtItineraryDay(id) {
+  var data = { day_number: Number(val('gtitinnum_'+id))||0, title: val('gtitintitle_'+id), description: val('gtitindesc_'+id), meals_tag: val('gtitinmeals_'+id), included_tag: val('gtitinincluded_'+id), image_url: val('gtitinimg_'+id) };
+  try { await sbUpdate('group_trip_itinerary', id, data); toast('Day saved!', 'success'); } catch(e) { toast('Error saving day', 'error'); }
+}
+/* =====================================================================
+   TRIP CARDS  (Home Page — simplified view of the same trips table,
+   showing only the fields that appear on the homepage card itself.
+   Full details — overview, inclusions, itinerary, reviews, trip type,
+   page slug — are managed under Trip Detail Pages → Trips & Itineraries.)
+===================================================================== */
+async function loadTripCards() {
+  setLoading();
+  var rows = await sbFetch('trips', 'order=sort_order.asc');
+  if (!Array.isArray(rows)) rows = [];
+  var html = pageHint('This is a quick view for editing just what shows on the homepage trip card — image, name, route, duration, dates, price, tags, and the Hot badge. For overview, inclusions, itinerary days, and trip-specific reviews, use Trip Detail Pages → Trips & Itineraries.') +
+    '<div class="card"><div class="table-wrap"><table><thead><tr><th>Photo</th><th>Trip Name</th><th>Price</th><th>Tags</th><th>Status</th><th>Actions</th></tr></thead><tbody>';
+  if (rows.length === 0) {
+    html += '</tbody></table></div><div class="empty"><div class="empty-icon">🏷️</div><div class="empty-text">No trip cards yet. Click "+ Add New" to get started.</div></div></div>';
+  } else {
+    rows.forEach(function(r) {
+      html += '<tr>' +
+        '<td>' + (r.image_url?'<img src="'+esc(r.image_url)+'" style="width:60px;height:44px;object-fit:cover;border-radius:5px">':'—') + '</td>' +
+        '<td><strong>' + esc(r.name) + '</strong></td>' +
+        '<td>₹' + (r.price||0).toLocaleString() + '</td>' +
+        '<td>' + (r.tags||[]).map(function(t){return '<span class="badge badge-sage">'+esc(t)+'</span>'}).join(' ') + (r.hot?' <span class="badge badge-gold">Hot</span>':'') + '</td>' +
+        '<td><span class="badge ' + (r.active?'badge-green':'badge-red') + '">' + (r.active?'Active':'Hidden') + '</span></td>' +
+        '<td><div style="display:flex;gap:6px">' +
+          '<button class="btn-sm btn-edit" onclick="editTripCard(\'' + r.id + '\')">Edit</button>' +
+          '<button class="btn-sm btn-del" onclick="deleteItem(\'trips\',\'' + r.id + '\',loadTripCards)">Delete</button>' +
+        '</div></td></tr>';
+    });
+    html += '</tbody></table></div></div>';
+  }
+  document.getElementById('mainContent').innerHTML = html;
+}
+async function editTripCard(id) {
+  var rows = await sbFetch('trips', 'id=eq.' + id);
+  editingId = id;
+  openTripCardModal(rows[0]);
+}
+function openTripCardModal(r) {
+  var html = '<div class="form-grid">' +
+    fg('Trip ID (unique slug, no spaces)', 'text', 'tc_id', r ? r.id : '', '', 'e.g. thailand-fullmoon-party') +
+    fg('Trip Name', 'text', 'tc_name', r ? r.name : '', '', 'e.g. Thailand & Fullmoon Party') +
+    fg('Duration', 'text', 'tc_duration', r ? r.duration : '', '', 'e.g. 7 NIGHTS / 8 DAYS') +
+    fg('Price (₹)', 'number', 'tc_price', r ? r.price : '', '', '54000') +
+    fg('Route', 'text', 'tc_route', r ? r.route : '', '', 'e.g. Phuket • Koh Samui • Koh Phangan • Krabi') +
+    fg('Dates (comma separated)', 'text', 'tc_dates', r ? (r.dates||[]).join(', ') : '', '', 'e.g. 25 Aug, 23 Sep, 21 Nov') +
+    fg('Tags (comma separated)', 'text', 'tc_tags', r ? (r.tags||[]).join(', ') : '', '', 'e.g. Adventure, Beach') +
+    imageField('Card Image', 'tc_img', 'tc_imgprev', r?r.image_url||'':'') +
+  '</div>' +
+  '<div style="display:flex;gap:1.5rem;margin-top:1rem;flex-wrap:wrap">' +
+    toggle('tc_hot', r?r.hot:false, 'Show 🔥 Hot Badge') +
+    toggle('tc_active', r?r.active:true, 'Show on Website') +
+  '</div>' +
+  (r ? '<div class="hint" style="margin-top:0.75rem">Need to set inclusions, itinerary, or trip-specific reviews? Edit this same trip from Trip Detail Pages → Trips & Itineraries.</div>' : '') +
+  '<div class="form-actions">' +
+    '<button class="btn-save" onclick="saveTripCard(\'' + (r?r.id:'') + '\')">Save Trip Card</button>' +
+    '<button class="btn-cancel" onclick="closeModal()">Cancel</button>' +
+    (r ? '<button class="btn-cancel" style="border-color:var(--teal);color:var(--teal-d);margin-left:auto" onclick="closeModal(); editTrip(\''+esc(r.id)+'\');">🗺️ Add Group Trip Content →</button>' : '') +
+  '</div>';
+  openModal(r ? 'Edit Trip Card' : 'Add Trip Card', html);
+}
+async function saveTripCard(oldId) {
+  var id = val('tc_id');
+  if (!id) { toast('Trip ID is required', 'error'); return; }
+  var data = {
+    id: id, name: val('tc_name'), duration: val('tc_duration'), price: Number(val('tc_price'))||0,
+    route: val('tc_route'), dates: csv(val('tc_dates')), tags: csv(val('tc_tags')), image_url: val('tc_img'),
+    hot: document.getElementById('tc_hot').classList.contains('on'),
+    active: document.getElementById('tc_active').classList.contains('on')
+  };
+  try {
+    if (oldId) {
+      if (oldId !== id) { toast('Trip ID cannot be changed after creation', 'error'); return; }
+      await sbUpdate('trips', id, data);
+      toast('Trip card saved!', 'success'); closeModal(); loadTripCards();
+    } else {
+      await sbInsert('trips', data);
+      toast('Trip card created! Now add its Group Trip content below.', 'success');
+      loadTripCards();
+      editTripCard(id);
+    }
+  } catch(e) { toast('Error saving trip card', 'error'); console.error(e); }
+}
+
+/* =====================================================================
+   FEATURED TRIBE TRIPS  (Build Adventure page — quick toggle, no new table)
+===================================================================== */
+async function loadTribeCards() {
+  setLoading();
+  var results = await Promise.all([ sbFetch('tribe_cards', 'order=sort_order.asc'), sbFetch('settings', 'key=eq.ba_tribe_heading') ]);
+  var rows = Array.isArray(results[0]) ? results[0] : [];
+  var headingVal = (Array.isArray(results[1]) && results[1][0]) ? results[1][0].value : '';
+  var html = '<div class="card"><div class="card-body"><div class="form-grid">' +
+      fg('Section Heading', 'text', 'tc_heading', headingVal, '', 'e.g. Choose Your Travel Tribe') +
+    '</div><div class="form-actions"><button class="btn-save" onclick="saveTribeHeading()">Save Heading</button></div></div></div>' +
+    pageHint('These are the "Choose Your Travel Tribe" cards — a separate, standalone set of curated trips, distinct from your main Trips table. The "Country" field also drives the filter pill bar at the top of the page.') +
+    '<div class="card"><div class="table-wrap"><table><thead><tr><th style="width:70px">Order</th><th>Photo</th><th>Title</th><th>Country</th><th>Price</th><th>Status</th><th>Actions</th></tr></thead><tbody>';
+  if (rows.length === 0) {
+    html += '</tbody></table></div><div class="empty"><div class="empty-icon">🌍</div><div class="empty-text">No cards yet.</div></div></div>';
+  } else {
+    rows.forEach(function(r, i) {
+      html += '<tr>' +
+        '<td><div style="display:flex;gap:4px">' +
+          '<button class="btn-sm btn-edit" style="padding:4px 8px" ' + (i===0?'disabled':'') + ' onclick="moveTribeCard(\''+r.id+'\',-1)">↑</button>' +
+          '<button class="btn-sm btn-edit" style="padding:4px 8px" ' + (i===rows.length-1?'disabled':'') + ' onclick="moveTribeCard(\''+r.id+'\',1)">↓</button>' +
+        '</div></td>' +
+        '<td>' + (r.image_url?'<img src="'+esc(r.image_url)+'" style="width:60px;height:44px;object-fit:cover;border-radius:5px">':'—') + '</td>' +
+        '<td><strong>' + esc(r.title) + '</strong></td>' +
+        '<td>' + esc(r.icon||'🌍') + ' ' + esc(r.country) + '</td>' +
+        '<td>₹' + (r.price||0).toLocaleString() + '</td>' +
+        '<td><span class="badge ' + (r.active?'badge-green':'badge-red') + '">' + (r.active?'Active':'Hidden') + '</span></td>' +
+        '<td><div style="display:flex;gap:6px">' +
+          '<button class="btn-sm btn-edit" onclick="editTribeCard(\'' + r.id + '\')">Edit</button>' +
+          '<button class="btn-sm btn-del" onclick="deleteItem(\'tribe_cards\',\'' + r.id + '\',loadTribeCards)">Delete</button>' +
+        '</div></td></tr>';
+    });
+    html += '</tbody></table></div></div>';
+  }
+  document.getElementById('mainContent').innerHTML = html;
+}
+async function saveTribeHeading() {
+  try { await sbUpsert('settings', { key: 'ba_tribe_heading', value: val('tc_heading') }, 'key'); toast('Heading saved!', 'success'); } catch(e) { toast('Error saving heading', 'error'); }
+}
+async function moveTribeCard(id, dir) {
+  var rows = await sbFetch('tribe_cards', 'order=sort_order.asc');
+  if (!Array.isArray(rows)) return;
+  var idx = rows.findIndex(function(r){ return r.id === id; });
+  var swapIdx = idx + dir;
+  if (swapIdx < 0 || swapIdx >= rows.length) return;
+  var a = rows[idx], b = rows[swapIdx];
+  try {
+    await Promise.all([
+      sbUpdate('tribe_cards', a.id, { sort_order: b.sort_order }),
+      sbUpdate('tribe_cards', b.id, { sort_order: a.sort_order })
+    ]);
+    loadTribeCards();
+  } catch(e) { toast('Error reordering', 'error'); }
+}
+async function editTribeCard(id) {
+  var rows = await sbFetch('tribe_cards', 'id=eq.' + id);
+  editingId = id;
+  openTribeCardModal(rows[0]);
+}
+function openTribeCardModal(r) {
+  var html = '<div class="form-grid">' +
+    fg('Title', 'text', 'tc_title', r?r.title:'', '', 'e.g. Amalfi Coast & Puglia') +
+    fg('Country (also used as filter pill)', 'text', 'tc_country', r?r.country:'', '', 'e.g. Europe, Japan, Maldives') +
+    fg('Pill Icon (emoji)', 'text', 'tc_icon', r?r.icon:'🌍', '', 'e.g. 🏛️ for Europe, 🏯 for Japan') +
+    fg('Duration Label', 'text', 'tc_dur', r?r.duration_label:'', '', 'e.g. 8 NIGHTS / 9 DAYS') +
+    fg('Price (₹)', 'number', 'tc_price', r?r.price:'', '', '108000') +
+    fg('Tags (comma separated)', 'text', 'tc_tags', r?(r.tags||[]).join(', '):'', '', 'e.g. Culture, City') +
+    fg('Sort Order', 'number', 'tc_sort', r?r.sort_order:0, '', '') +
+    imageField('Photo', 'tc_img', 'tc_imgprev', r?r.image_url||'':'') +
+    '</div>' +
+    ta('Description', 'tc_desc', r?r.description:'', 3) +
+    '<div style="margin-top:1rem">' + toggle('tc_active', r?r.active:true, 'Show on Website') + '</div>' +
+    '<div class="form-actions">' +
+      '<button class="btn-save" onclick="saveTribeCard(\'' + (r?r.id:'') + '\')">Save Card</button>' +
+      '<button class="btn-cancel" onclick="closeModal()">Cancel</button>' +
+    '</div>';
+  openModal(r?'Edit Tribe Card':'Add Tribe Card', html);
+}
+async function saveTribeCard(id) {
+  var data = { title: val('tc_title'), country: val('tc_country'), icon: val('tc_icon'), duration_label: val('tc_dur'), price: Number(val('tc_price'))||0, tags: csv(val('tc_tags')), sort_order: Number(val('tc_sort'))||0, image_url: val('tc_img'), description: val('tc_desc'), active: document.getElementById('tc_active').classList.contains('on') };
+  try {
+    if (id) await sbUpdate('tribe_cards', id, data); else await sbInsert('tribe_cards', data);
+    toast('Card saved!', 'success'); closeModal(); loadTribeCards();
+  } catch(e) { toast('Error saving card', 'error'); }
+}
+
+/* =====================================================================
+   FEATURED BLOG POSTS (Home Page — quick toggle, no new table)
+===================================================================== */
+async function loadFeaturedBlogPosts() {
+  setLoading();
+  var rows = await sbFetch('blog_posts', 'order=sort_order.asc');
+  if (!Array.isArray(rows)) rows = [];
+  var html = pageHint('Toggle which blog posts appear in the "From the Eureka Travel Journal" preview on the homepage. To edit a post itself — title, image, badges, article — go to Blog → Blog Posts.') +
+    '<div class="card"><div class="table-wrap">';
+  if (rows.length === 0) {
+    html += '<div class="empty"><div class="empty-icon">📰</div><div class="empty-text">No blog posts yet — add posts first under Blog → Blog Posts.</div></div>';
+  } else {
+    rows.forEach(function(r) {
+      html += '<div class="qt-row">' +
+        (r.image_url ? '<img class="qt-img" src="'+esc(r.image_url)+'">' : '<div class="qt-img"></div>') +
+        '<div class="qt-name"><strong>'+esc(r.title)+'</strong></div>' +
+        toggle('featblog_'+r.slug, r.featured_home, 'Featured') +
+        '</div>';
+    });
+  }
+  html += '</div></div>';
+  document.getElementById('mainContent').innerHTML = html;
+  rows.forEach(function(r) {
+    var btn = document.getElementById('featblog_'+r.slug);
+    if (btn) btn.addEventListener('click', async function() {
+      var newState = btn.classList.contains('on');
+      try { await sbUpdate('blog_posts', r.slug, { featured_home: newState }, 'slug'); toast(newState ? 'Added to homepage preview' : 'Removed from homepage preview', 'success'); }
+      catch(e) { toast('Error updating post', 'error'); }
+    });
+  });
+}
+
+/* =====================================================================
+   BLOG POSTS
+===================================================================== */
+async function loadBlog() {
+  setLoading();
+  var rows = await sbFetch('blog_posts', 'order=sort_order.asc');
+  if (!Array.isArray(rows)) rows = [];
+  var html = '';
+  if (rows.length === 0) {
+    html = '<div class="card"><div class="card-body"><div class="empty"><div class="empty-icon">📝</div><div class="empty-text">No blog posts yet. Click "+ Add New" to get started.</div></div></div></div>';
+  } else {
+    html = '<div class="card"><div class="table-wrap"><table><thead><tr><th>Title</th><th>Tags</th><th>Status</th><th>Actions</th></tr></thead><tbody>';
+    rows.forEach(function(r) {
+      html += '<tr><td><strong>' + esc(r.title) + '</strong></td>' +
+        '<td>' + (r.tags||[]).map(function(t){return '<span class="badge badge-sage">'+esc(t)+'</span>'}).join(' ') + '</td>' +
+        '<td><span class="badge ' + (r.active?'badge-green':'badge-red') + '">' + (r.active?'Published':'Hidden') + '</span></td>' +
+        '<td><div style="display:flex;gap:6px">' +
+          '<button class="btn-sm btn-edit" onclick="editBlog(\'' + r.slug + '\')">Edit</button>' +
+          '<button class="btn-sm btn-del" onclick="deleteItem(\'blog_posts\',\'' + r.slug + '\',loadBlog,\'slug\')">Delete</button>' +
+        '</div></td></tr>';
+    });
+    html += '</tbody></table></div></div>';
+  }
+  document.getElementById('mainContent').innerHTML = html;
+}
+async function editBlog(slug) {
+  var rows = await sbFetch('blog_posts', 'slug=eq.' + slug);
+  editingId = slug;
+  openBlogModal(rows[0]);
+}
+function openBlogModal(r) {
+  var badges = (r && r.badges) ? r.badges : [];
+  var b1 = badges[0] || {}, b2 = badges[1] || {};
+  var html = '<div class="form-grid">' +
+    fg('Slug (unique, no spaces)', 'text', 'bp_slug', r?r.slug:'', '', 'e.g. solo-traveller-tips') +
+    fg('Title', 'text', 'bp_title', r?r.title:'', '', '') +
+    fg('Tags (comma separated)', 'text', 'bp_tags', r?(r.tags||[]).join(', '):'', '', 'e.g. All Blogs, Solo') +
+    imageField('Cover Image', 'bp_img', 'bp_imgprev', r?r.image_url||'':'') +
+    fg('Image Alt Text', 'text', 'bp_alt', r?r.image_alt:'', '', '') +
+    ta('Excerpt', 'bp_excerpt', r?r.excerpt:'', 3) +
+    '</div>' +
+    '<div class="nrow" style="margin-top:1rem"><div class="nrow-label" style="margin-bottom:0.6rem">Corner Badge 1</div>' +
+      fg('Style', 'select', 'bp_b1_type', b1.type||'solid', 'solid|script') +
+      fg('Color (solid style only)', 'select', 'bp_b1_color', b1.color||'coral', 'coral|teal') +
+      '<input type="text" id="bp_b1_text" value="'+esc(b1.text||'')+'" placeholder="Badge 1 text, e.g. Inspiring Destinations For">' +
+    '</div>' +
+    '<div class="nrow"><div class="nrow-label" style="margin-bottom:0.6rem">Corner Badge 2 (optional)</div>' +
+      fg('Style', 'select', 'bp_b2_type', b2.type||'solid', 'solid|script') +
+      fg('Color (solid style only)', 'select', 'bp_b2_color', b2.color||'coral', 'coral|teal') +
+      '<input type="text" id="bp_b2_text" value="'+esc(b2.text||'')+'" placeholder="Badge 2 text, e.g. female travellers">' +
+    '</div>' +
+    '<div class="fg full" style="margin-top:1rem"><label>Article Body</label><div id="bp_quill" style="background:white">' + (r&&r.article_html ? r.article_html : '') + '</div></div>' +
+    '<div style="display:flex;gap:1.5rem;margin-top:1rem;flex-wrap:wrap">' +
+      toggle('bp_active', r?r.active:true, 'Published (show on website)') +
+      toggle('bp_featured', r?r.featured_home:false, 'Show in Homepage Preview') +
+    '</div>' +
+    '<div class="form-actions">' +
+      '<button class="btn-save" onclick="saveBlog(\'' + (r?r.slug:'') + '\')">Save Blog Post</button>' +
+      '<button class="btn-cancel" onclick="closeModal()">Cancel</button>' +
+    '</div>';
+  openModal(r?'Edit Blog Post':'Add Blog Post', html);
+  setTimeout(function() { quillEditor = new Quill('#bp_quill', { theme: 'snow' }); }, 50);
+}
+async function saveBlog(oldSlug) {
+  var slug = val('bp_slug');
+  if (!slug) { toast('Slug is required', 'error'); return; }
+  var badges = [];
+  if (val('bp_b1_text')) { var b1 = { type: val('bp_b1_type'), text: val('bp_b1_text') }; if (b1.type === 'solid') b1.color = val('bp_b1_color'); badges.push(b1); }
+  if (val('bp_b2_text')) { var b2 = { type: val('bp_b2_type'), text: val('bp_b2_text') }; if (b2.type === 'solid') b2.color = val('bp_b2_color'); badges.push(b2); }
+  var data = {
+    slug: slug, title: val('bp_title'), tags: csv(val('bp_tags')), image_url: val('bp_img'),
+    image_alt: val('bp_alt'), excerpt: val('bp_excerpt'), badges: badges,
+    article_html: quillEditor ? quillEditor.root.innerHTML : '',
+    active: document.getElementById('bp_active').classList.contains('on'),
+    featured_home: document.getElementById('bp_featured').classList.contains('on')
+  };
+  try {
+    if (oldSlug) {
+      if (oldSlug !== slug) { toast('Slug cannot be changed after creation', 'error'); return; }
+      await sbUpdate('blog_posts', slug, data, 'slug');
+    } else { await sbInsert('blog_posts', data); }
+    toast('Blog post saved!', 'success'); closeModal(); loadBlog();
+  } catch(e) { toast('Error saving blog post', 'error'); console.error(e); }
+}
+
+/* =====================================================================
+   REVIEWS (page-scoped: home, group-trip, ...)
+===================================================================== */
+async function loadReviews(scope) {
+  setLoading();
+  var rows = await sbFetch('reviews', 'page_scope=eq.' + scope + '&order=sort_order.asc');
+  if (!Array.isArray(rows)) rows = [];
+  var html = '';
+  if (rows.length === 0) {
+    html = '<div class="card"><div class="card-body"><div class="empty"><div class="empty-icon">⭐</div><div class="empty-text">No reviews yet for this page.</div></div></div></div>';
+  } else {
+    html = '<div class="card"><div class="table-wrap"><table><thead><tr><th>Name</th><th>Stars</th><th>Quote</th><th>Status</th><th>Actions</th></tr></thead><tbody>';
+    rows.forEach(function(r) {
+      html += '<tr><td><strong>' + esc(r.name) + '</strong></td><td>' + '★'.repeat(r.stars||0) + '</td>' +
+        '<td style="max-width:280px">' + esc((r.quote||'').slice(0,80)) + (r.quote&&r.quote.length>80?'…':'') + '</td>' +
+        '<td><span class="badge ' + (r.active?'badge-green':'badge-red') + '">' + (r.active?'Active':'Hidden') + '</span></td>' +
+        '<td><div style="display:flex;gap:6px">' +
+          '<button class="btn-sm btn-edit" onclick="editReview(\'' + r.id + '\',\''+scope+'\')">Edit</button>' +
+          '<button class="btn-sm btn-del" onclick="deleteItem(\'reviews\',\'' + r.id + '\',function(){loadReviews(\''+scope+'\')})">Delete</button>' +
+        '</div></td></tr>';
+    });
+    html += '</tbody></table></div></div>';
+  }
+  document.getElementById('mainContent').innerHTML = html;
+}
+async function editReview(id, scope) {
+  var rows = await sbFetch('reviews', 'id=eq.' + id);
+  editingId = id;
+  openReviewModal(rows[0], scope);
+}
+function openReviewModal(r, scope) {
+  var html = '<div class="form-grid">' +
+    fg('Name', 'text', 'rv_name', r?r.name:'', '', '') +
+    fg('Initials', 'text', 'rv_init', r?r.initials:'', '', 'e.g. AB') +
+    fg('Avatar Color (hex)', 'text', 'rv_color', r?r.color:'', '', '#FFA43B') +
+    fg('Stars', 'number', 'rv_stars', r?r.stars:5, '', '') +
+    fg('Ago Label', 'text', 'rv_ago', r?r.ago_label:'', '', 'e.g. 7 months ago') +
+    ta('Quote', 'rv_quote', r?r.quote:'', 3) +
+    '</div>' +
+    '<div style="display:flex;gap:1.5rem;margin-top:1rem;flex-wrap:wrap">' +
+      toggle('rv_verified', r?r.verified:true, 'Verified') +
+      toggle('rv_active', r?r.active:true, 'Show on Website') +
+    '</div>' +
+    '<div class="form-actions">' +
+      '<button class="btn-save" onclick="saveReview(\'' + (r?r.id:'') + '\',\''+scope+'\')">Save Review</button>' +
+      '<button class="btn-cancel" onclick="closeModal()">Cancel</button>' +
+    '</div>';
+  openModal(r?'Edit Review':'Add Review', html);
+}
+async function saveReview(id, scope) {
+  var data = { name: val('rv_name'), initials: val('rv_init'), color: val('rv_color'), stars: Number(val('rv_stars'))||5, ago_label: val('rv_ago'), quote: val('rv_quote'), verified: document.getElementById('rv_verified').classList.contains('on'), active: document.getElementById('rv_active').classList.contains('on'), page_scope: scope };
+  try {
+    if (id) await sbUpdate('reviews', id, data); else await sbInsert('reviews', data);
+    toast('Review saved!', 'success'); closeModal(); loadReviews(scope);
+  } catch(e) { toast('Error saving review', 'error'); }
+}
+
+/* =====================================================================
+   STATS BANNER (page-scoped) — plain number+label bar, no images.
+   Distinct from Stats Bento below, which is the image-tile grid.
+===================================================================== */
+async function loadStatsBanner(scope) {
+  setLoading();
+  var rows = await sbFetch('stats_banner', 'page_scope=eq.' + scope + '&order=sort_order.asc');
+  if (!Array.isArray(rows)) rows = [];
+  var html = '';
+  if (rows.length === 0) {
+    html = '<div class="card"><div class="card-body"><div class="empty"><div class="empty-icon">📊</div><div class="empty-text">No stats yet for this page.</div></div></div></div>';
+  } else {
+    html = '<div class="card"><div class="table-wrap"><table><thead><tr><th>Number</th><th>Description</th><th>Star?</th><th>Actions</th></tr></thead><tbody>';
+    rows.forEach(function(r) {
+      html += '<tr><td><strong>' + esc(r.number_label||'—') + '</strong>' + (r.show_star?' ★':'') + '</td>' +
+        '<td style="max-width:360px">' + esc(r.description||'') + '</td>' +
+        '<td><span class="badge ' + (r.show_star?'badge-gold':'badge-sage') + '">' + (r.show_star?'Yes':'No') + '</span></td>' +
+        '<td><div style="display:flex;gap:6px">' +
+          '<button class="btn-sm btn-edit" onclick="editStatsBanner(\'' + r.id + '\',\''+scope+'\')">Edit</button>' +
+          '<button class="btn-sm btn-del" onclick="deleteItem(\'stats_banner\',\'' + r.id + '\',function(){loadStatsBanner(\''+scope+'\')})">Delete</button>' +
+        '</div></td></tr>';
+    });
+    html += '</tbody></table></div></div>';
+  }
+  document.getElementById('mainContent').innerHTML = html;
+}
+async function editStatsBanner(id, scope) {
+  var rows = await sbFetch('stats_banner', 'id=eq.' + id);
+  editingId = id;
+  openStatsBannerModal(rows[0], scope);
+}
+function openStatsBannerModal(r, scope) {
+  var html = '<div class="form-grid">' +
+    fg('Number', 'text', 'sbn_num', r?r.number_label:'', '', 'e.g. 4.8+') +
+    fg('Sort Order', 'number', 'sbn_sort', r?r.sort_order:0, '', '') +
+    ta('Description', 'sbn_desc', r?r.description:'', 2) +
+    '</div>' +
+    '<div style="margin-top:1rem">' + toggle('sbn_star', r?r.show_star:false, 'Show ★ Star Next To Number') + '</div>' +
+    '<div class="form-actions">' +
+      '<button class="btn-save" onclick="saveStatsBanner(\'' + (r?r.id:'') + '\',\''+scope+'\')">Save Stat</button>' +
+      '<button class="btn-cancel" onclick="closeModal()">Cancel</button>' +
+    '</div>';
+  openModal(r?'Edit Stat':'Add Stat', html);
+}
+async function saveStatsBanner(id, scope) {
+  var data = { number_label: val('sbn_num'), sort_order: Number(val('sbn_sort'))||0, description: val('sbn_desc'), show_star: document.getElementById('sbn_star').classList.contains('on'), page_scope: scope };
+  try {
+    if (id) await sbUpdate('stats_banner', id, data); else await sbInsert('stats_banner', data);
+    toast('Stat saved!', 'success'); closeModal(); loadStatsBanner(scope);
+  } catch(e) { toast('Error saving stat', 'error'); }
+}
+
+/* =====================================================================
+   STATS BENTO (page-scoped)
+===================================================================== */
+async function loadStats(scope) {
+  setLoading();
+  var rows = await sbFetch('stats_bento', 'page_scope=eq.' + scope + '&order=sort_order.asc');
+  if (!Array.isArray(rows)) rows = [];
+  var html = '';
+  if (rows.length === 0) {
+    html = '<div class="card"><div class="card-body"><div class="empty"><div class="empty-icon">📊</div><div class="empty-text">No stat tiles yet for this page.</div></div></div></div>';
+  } else {
+    html = '<div class="card"><div class="table-wrap"><table><thead><tr><th>Number</th><th>Description</th><th>Style</th><th>Actions</th></tr></thead><tbody>';
+    rows.forEach(function(r) {
+      html += '<tr><td><strong>' + esc(r.number_label||'—') + '</strong></td>' +
+        '<td style="max-width:320px">' + esc((r.description||'').slice(0,90)) + '</td>' +
+        '<td><span class="badge badge-sage">' + esc(r.tile_style||'overlay') + '</span></td>' +
+        '<td><div style="display:flex;gap:6px">' +
+          '<button class="btn-sm btn-edit" onclick="editStat(\'' + r.id + '\',\''+scope+'\')">Edit</button>' +
+          '<button class="btn-sm btn-del" onclick="deleteItem(\'stats_bento\',\'' + r.id + '\',function(){loadStats(\''+scope+'\')})">Delete</button>' +
+        '</div></td></tr>';
+    });
+    html += '</tbody></table></div></div>';
+  }
+  document.getElementById('mainContent').innerHTML = html;
+}
+async function editStat(id, scope) {
+  var rows = await sbFetch('stats_bento', 'id=eq.' + id);
+  editingId = id;
+  openStatModal(rows[0], scope);
+}
+function openStatModal(r, scope) {
+  var html = '<div class="form-grid">' +
+    fg('Number / Stat Label', 'text', 'sb_num', r?r.number_label:'', '', 'e.g. 25K+ (leave blank for a plain photo tile)') +
+    fg('Tile Style', 'select', 'sb_style', r?r.tile_style:'overlay', 'overlay|plain') +
+    fg('Sort Order', 'number', 'sb_sort', r?r.sort_order:0, '', '') +
+    ta('Description', 'sb_desc', r?r.description:'', 2) +
+    imageField('Image', 'sb_img', 'sb_imgprev', r?r.image_url||'':'') +
+    '</div>' +
+    '<div class="form-actions">' +
+      '<button class="btn-save" onclick="saveStat(\'' + (r?r.id:'') + '\',\''+scope+'\')">Save Tile</button>' +
+      '<button class="btn-cancel" onclick="closeModal()">Cancel</button>' +
+    '</div>';
+  openModal(r?'Edit Stat Tile':'Add Stat Tile', html);
+}
+async function saveStat(id, scope) {
+  var data = { number_label: val('sb_num'), tile_style: val('sb_style'), sort_order: Number(val('sb_sort'))||0, description: val('sb_desc'), image_url: val('sb_img'), page_scope: scope };
+  try {
+    if (id) await sbUpdate('stats_bento', id, data); else await sbInsert('stats_bento', data);
+    toast('Tile saved!', 'success'); closeModal(); loadStats(scope);
+  } catch(e) { toast('Error saving tile', 'error'); }
+}
+
+/* =====================================================================
+   WHY CARDS (page-scoped)
+===================================================================== */
+async function loadWhy(scope) {
+  setLoading();
+  var rows = await sbFetch('why_cards', 'page_scope=eq.' + scope + '&order=sort_order.asc');
+  if (!Array.isArray(rows)) rows = [];
+  var html = '';
+  if (rows.length === 0) {
+    html = '<div class="card"><div class="card-body"><div class="empty"><div class="empty-icon">💚</div><div class="empty-text">No "Why Travel With Eureka" cards yet.</div></div></div></div>';
+  } else {
+    html = '<div class="card"><div class="table-wrap"><table><thead><tr><th>Title</th><th>Description</th><th>Actions</th></tr></thead><tbody>';
+    rows.forEach(function(r) {
+      html += '<tr><td><strong>' + esc(r.title) + '</strong></td>' +
+        '<td style="max-width:340px">' + esc((r.description||'').slice(0,90)) + '</td>' +
+        '<td><div style="display:flex;gap:6px">' +
+          '<button class="btn-sm btn-edit" onclick="editWhy(\'' + r.id + '\',\''+scope+'\')">Edit</button>' +
+          '<button class="btn-sm btn-del" onclick="deleteItem(\'why_cards\',\'' + r.id + '\',function(){loadWhy(\''+scope+'\')})">Delete</button>' +
+        '</div></td></tr>';
+    });
+    html += '</tbody></table></div></div>';
+  }
+  document.getElementById('mainContent').innerHTML = html;
+}
+async function editWhy(id, scope) {
+  var rows = await sbFetch('why_cards', 'id=eq.' + id);
+  editingId = id;
+  openWhyModal(rows[0], scope);
+}
+function openWhyModal(r, scope) {
+  var html = '<div class="form-grid">' +
+    fg('Title', 'text', 'wc_title', r?r.title:'', '', 'e.g. Inclusions, actually included') +
+    fg('Button Text (optional)', 'text', 'wc_btntext', r?r.button_text:'', '', 'e.g. Find out more') +
+    fg('Button Link (optional)', 'text', 'wc_btnlink', r?r.button_link:'', '', 'e.g. contact-us.html') +
+    fg('Sort Order', 'number', 'wc_sort', r?r.sort_order:0, '', '') +
+    ta('Description', 'wc_desc', r?r.description:'', 3) +
+    imageField('Image', 'wc_img', 'wc_imgprev', r?r.image_url||'':'') +
+    '</div>' +
+    '<div class="form-actions">' +
+      '<button class="btn-save" onclick="saveWhy(\'' + (r?r.id:'') + '\',\''+scope+'\')">Save Card</button>' +
+      '<button class="btn-cancel" onclick="closeModal()">Cancel</button>' +
+    '</div>';
+  openModal(r?'Edit Why Card':'Add Why Card', html);
+}
+async function saveWhy(id, scope) {
+  var data = { title: val('wc_title'), button_text: val('wc_btntext'), button_link: val('wc_btnlink'), sort_order: Number(val('wc_sort'))||0, description: val('wc_desc'), image_url: val('wc_img'), page_scope: scope };
+  try {
+    if (id) await sbUpdate('why_cards', id, data); else await sbInsert('why_cards', data);
+    toast('Card saved!', 'success'); closeModal(); loadWhy(scope);
+  } catch(e) { toast('Error saving card', 'error'); }
+}
+
+/* =====================================================================
+   TESTIMONIALS (page-scoped: custom-trips, group-trip, ...)
+===================================================================== */
+async function loadTestimonials(scope) {
+  setLoading();
+  var rows = await sbFetch('testimonials', 'page_scope=eq.' + scope + '&order=sort_order.asc');
+  if (!Array.isArray(rows)) rows = [];
+  var html = '';
+  if (scope === 'custom-trips') {
+    var hRows = await sbFetch('settings', 'key=eq.ba_testimonials_heading');
+    var headingVal = (Array.isArray(hRows) && hRows[0]) ? hRows[0].value : '';
+    html += '<div class="card"><div class="card-body"><div class="form-grid">' +
+        fg('Section Heading', 'text', 'ts_heading', headingVal, '', 'e.g. Hear From Our Happy Travellers') +
+      '</div><div class="form-actions"><button class="btn-save" onclick="saveTestimonialsHeading()">Save Heading</button></div></div></div>';
+  }
+  if (rows.length === 0) {
+    html += '<div class="card"><div class="card-body"><div class="empty"><div class="empty-icon">💬</div><div class="empty-text">No testimonials yet for this page.</div></div></div></div>';
+  } else {
+    html += '<div class="card"><div class="table-wrap"><table><thead><tr><th>Name</th><th>Quote</th><th>Status</th><th>Actions</th></tr></thead><tbody>';
+    rows.forEach(function(r) {
+      html += '<tr><td><strong>' + esc(r.name) + '</strong></td>' +
+        '<td style="max-width:320px">' + esc((r.quote||'').slice(0,90)) + '</td>' +
+        '<td><span class="badge ' + (r.active?'badge-green':'badge-red') + '">' + (r.active?'Active':'Hidden') + '</span></td>' +
+        '<td><div style="display:flex;gap:6px">' +
+          '<button class="btn-sm btn-edit" onclick="editTestimonial(\'' + r.id + '\',\''+scope+'\')">Edit</button>' +
+          '<button class="btn-sm btn-del" onclick="deleteItem(\'testimonials\',\'' + r.id + '\',function(){loadTestimonials(\''+scope+'\')})">Delete</button>' +
+        '</div></td></tr>';
+    });
+    html += '</tbody></table></div></div>';
+  }
+  document.getElementById('mainContent').innerHTML = html;
+}
+async function saveTestimonialsHeading() {
+  try { await sbUpsert('settings', { key: 'ba_testimonials_heading', value: val('ts_heading') }, 'key'); toast('Heading saved!', 'success'); } catch(e) { toast('Error saving heading', 'error'); }
+}
+async function editTestimonial(id, scope) {
+  var rows = await sbFetch('testimonials', 'id=eq.' + id);
+  editingId = id;
+  openTestimonialModal(rows[0], scope);
+}
+function openTestimonialModal(r, scope) {
+  var html = '<div class="form-grid">' +
+    fg('Name', 'text', 'ts_name', r?r.name:'', '', "e.g. Nikita & Rohan") +
+    fg('Sort Order', 'number', 'ts_sort', r?r.sort_order:0, '', '') +
+    ta('Quote', 'ts_quote', r?r.quote:'', 3) +
+    imageField('Photo', 'ts_img', 'ts_imgprev', r?r.image_url||'':'') +
+    '</div>' +
+    '<div style="margin-top:1rem">' + toggle('ts_active', r?r.active:true, 'Show on Website') + '</div>' +
+    '<div class="form-actions">' +
+      '<button class="btn-save" onclick="saveTestimonial(\'' + (r?r.id:'') + '\',\''+scope+'\')">Save Testimonial</button>' +
+      '<button class="btn-cancel" onclick="closeModal()">Cancel</button>' +
+    '</div>';
+  openModal(r?'Edit Testimonial':'Add Testimonial', html);
+}
+async function saveTestimonial(id, scope) {
+  var data = { name: val('ts_name'), sort_order: Number(val('ts_sort'))||0, quote: val('ts_quote'), image_url: val('ts_img'), active: document.getElementById('ts_active').classList.contains('on'), page_scope: scope };
+  try {
+    if (id) await sbUpdate('testimonials', id, data); else await sbInsert('testimonials', data);
+    toast('Testimonial saved!', 'success'); closeModal(); loadTestimonials(scope);
+  } catch(e) { toast('Error saving testimonial', 'error'); }
+}
+
+/* =====================================================================
+   FAQS (page-scoped: destinations, about, ...)
+===================================================================== */
+async function loadFaqs(scope) {
+  setLoading();
+  var rows = await sbFetch('faqs', 'page_scope=eq.' + scope + '&order=sort_order.asc');
+  if (!Array.isArray(rows)) rows = [];
+  var html = '';
+  var headingKey = scope + '_faq_heading';
+  var introKey = scope + '_faq_intro';
+  var hRows = await sbFetch('settings', 'key=in.(' + headingKey + ',' + introKey + ')');
+  var hVals = {};
+  if (Array.isArray(hRows)) hRows.forEach(function(r){ hVals[r.key] = r.value; });
+  html += '<div class="card"><div class="card-body"><div class="form-grid">' +
+      fg('Section Heading', 'text', 'df_heading', hVals[headingKey]||'', '', 'e.g. Frequently asked questions') +
+    '</div>' +
+    ta('Section Intro Text', 'df_intro', hVals[introKey]||'', 2, "e.g. Got questions? We've gathered the essential details right here to help you plan your adventure.") +
+    '<div class="form-actions"><button class="btn-save" onclick="saveFaqHeading(\''+scope+'\')">Save Heading</button></div></div></div>';
+  if (rows.length === 0) {
+    html += '<div class="card"><div class="card-body"><div class="empty"><div class="empty-icon">❓</div><div class="empty-text">No FAQs yet for this page.</div></div></div></div>';
+  } else {
+    html += '<div class="card"><div class="table-wrap"><table><thead><tr><th>Question</th><th>Actions</th></tr></thead><tbody>';
+    rows.forEach(function(r) {
+      html += '<tr><td><strong>' + esc(r.question) + '</strong></td>' +
+        '<td><div style="display:flex;gap:6px">' +
+          '<button class="btn-sm btn-edit" onclick="editFaq(\'' + r.id + '\',\''+scope+'\')">Edit</button>' +
+          '<button class="btn-sm btn-del" onclick="deleteItem(\'faqs\',\'' + r.id + '\',function(){loadFaqs(\''+scope+'\')})">Delete</button>' +
+        '</div></td></tr>';
+    });
+    html += '</tbody></table></div></div>';
+  }
+  document.getElementById('mainContent').innerHTML = html;
+}
+async function saveFaqHeading(scope) {
+  try {
+    await Promise.all([
+      sbUpsert('settings', { key: scope + '_faq_heading', value: val('df_heading') }, 'key'),
+      sbUpsert('settings', { key: scope + '_faq_intro', value: val('df_intro') }, 'key')
+    ]);
+    toast('Heading saved!', 'success');
+  } catch(e) { toast('Error saving heading', 'error'); }
+}
+
+/* =====================================================================
+   DESTINATION GUIDES (Destinations Page — destination-guide.html,
+   a carousel across every destination that has a guide)
+===================================================================== */
+async function loadDestinationGuides() {
+  setLoading();
+  var rows = await sbFetch('destinations', 'order=sort_order.asc');
+  if (!Array.isArray(rows)) rows = [];
+  var html = pageHint('These power destination-guide.html — a carousel across every destination with "Has Guide" turned on. Click Edit to manage a destination\'s full guide hero and content.') +
+    '<div class="card"><div class="table-wrap"><table><thead><tr><th>Photo</th><th>Name</th><th>Country</th><th>Guide?</th><th>Status</th><th>Actions</th></tr></thead><tbody>';
+  if (rows.length === 0) {
+    html += '</tbody></table></div><div class="empty"><div class="empty-icon">📖</div><div class="empty-text">No destinations yet.</div></div></div>';
+  } else {
+    rows.forEach(function(r) {
+      html += '<tr>' +
+        '<td>' + (r.image_url?'<img src="'+esc(r.image_url)+'" style="width:60px;height:44px;object-fit:cover;border-radius:5px">':'—') + '</td>' +
+        '<td><strong>' + esc(r.name) + '</strong></td>' +
+        '<td>' + esc(r.country||'—') + '</td>' +
+        '<td><span class="badge ' + (r.has_guide?'badge-green':'badge-sage') + '">' + (r.has_guide?'Yes':'No') + '</span></td>' +
+        '<td><span class="badge ' + (r.active?'badge-green':'badge-red') + '">' + (r.active?'Active':'Hidden') + '</span></td>' +
+        '<td><div style="display:flex;gap:6px">' +
+          '<button class="btn-sm btn-edit" onclick="editDestGuide(\'' + r.id + '\')">Edit</button>' +
+          '<button class="btn-sm btn-del" onclick="deleteItem(\'destinations\',\'' + r.id + '\',loadDestinationGuides)">Delete</button>' +
+        '</div></td></tr>';
+    });
+    html += '</tbody></table></div></div>';
+  }
+  document.getElementById('mainContent').innerHTML = html;
+}
+async function editDestGuide(id) {
+  var rows = await sbFetch('destinations', 'id=eq.' + id);
+  renderDestGuideEditorPage(rows[0]);
+}
+function renderDestGuideEditorPage(r) {
+  document.querySelectorAll('.nav-item').forEach(function(el){ el.classList.remove('active'); });
+  document.getElementById('topbarCrumb').textContent = 'Destinations Page';
+  document.getElementById('topbarTitle').textContent = r ? ('Editing: ' + r.name) : 'Add Destination';
+  document.getElementById('topbarAddBtn').style.display = 'none';
+
+  var heroHtml = pageHint('The hero banner shown when this destination is active in the destination-guide.html carousel — background image, category card, and the destination name in the nav bar.') + '<div class="form-grid">' +
+    fg('Destination ID (unique slug)', 'text', 'dg_id', r?r.id:'', '', 'e.g. bali') +
+    fg('Name', 'text', 'dg_name', r?r.name:'', '', 'e.g. Bali') +
+    fg('Country', 'text', 'dg_country', r?r.country:'', '', 'e.g. Indonesia') +
+    imageField('Hero Background Image', 'dg_img', 'dg_imgprev', r?r.image_url||'':'') +
+    fg('Image Alt Text', 'text', 'dg_imgalt', r?r.image_alt:'', '', 'e.g. Group of friends celebrating together on a boat') +
+    fg('Category Label', 'text', 'dg_catname', r?r.dg_category:'', '', 'e.g. Food') +
+    fg('Category Subtitle', 'text', 'dg_catsub', r?r.dg_subtitle:'', '', 'e.g. Exotic Culinary Escape') +
+    fg('Category Meta Line', 'text', 'dg_catmeta', r?r.dg_meta:'', '', 'e.g. Just 2-4 Hrs Away | Visa-Free for Indians | ₹64,000 Onwards') +
+    ta('Short Description (used elsewhere, e.g. destinations.html card)', 'dg_short', r?r.short_desc:'', 2) +
+  '</div>' +
+  '<div style="display:flex;gap:1.5rem;margin-top:1rem;flex-wrap:wrap">' +
+    toggle('dg_hasguide', r?r.has_guide:false, 'Has Destination Guide (shows in the destination-guide.html carousel)') +
+    toggle('dg_active', r?r.active:true, 'Show on Website') +
+  '</div>' +
+  '<div class="form-actions">' +
+    '<button class="btn-save" onclick="saveDestGuide(\'' + (r?r.id:'') + '\')">Save Guide Hero</button>' +
+    '<button class="btn-cancel" onclick="loadDestinationGuides()">← Back to All Destinations</button>' +
+  '</div>';
+
+  var contentHtml = pageHint('The "Quick Destination Guide" card content — use bold text and bullet lists for things like the accommodation cost tiers.') +
+    rta('Guide Content', 'dg_guide', r?r.guide_content:'') +
+  '<div class="form-actions">' +
+    '<button class="btn-save" onclick="saveDestGuide(\'' + (r?r.id:'') + '\')">Save Guide Content</button>' +
+  '</div>';
+
+  var html = '<button class="btn-cancel" style="margin-bottom:1.25rem" onclick="loadDestinationGuides()">← Back to All Destinations</button>' +
+    '<div class="card"><div class="card-body">' +
+    '<div class="sub-tabs">' +
+      '<div class="sub-tab active" onclick="switchSubTab(this,\'dgtab-hero\')">🎬 Guide Hero</div>' +
+      '<div class="sub-tab" onclick="switchSubTab(this,\'dgtab-content\')">📖 Guide Content</div>' +
+    '</div>' +
+    '<div id="dgtab-hero" class="sub-pane active">' + heroHtml + '</div>' +
+    '<div id="dgtab-content" class="sub-pane">' + contentHtml + '</div>' +
+    '</div></div>';
+
+  document.getElementById('mainContent').innerHTML = html;
+  richEditors = {};
+  restoreLastActiveSubTab();
+  setTimeout(initRichEditors, 60);
+}
+async function saveDestGuide(oldId) {
+  var id = val('dg_id');
+  if (!id) { toast('Destination ID is required', 'error'); return; }
+  var data = {
+    id: id, name: val('dg_name'), country: val('dg_country'), image_url: val('dg_img'), image_alt: val('dg_imgalt'),
+    dg_category: val('dg_catname'), dg_subtitle: val('dg_catsub'), dg_meta: val('dg_catmeta'), short_desc: val('dg_short'),
+    guide_content: rval('dg_guide'),
+    has_guide: document.getElementById('dg_hasguide').classList.contains('on'),
+    active: document.getElementById('dg_active').classList.contains('on')
+  };
+  try {
+    if (oldId) {
+      if (oldId !== id) { toast('Destination ID cannot be changed after creation', 'error'); return; }
+      await sbUpdate('destinations', id, data);
+    } else { await sbInsert('destinations', data); }
+    toast('Destination guide saved!', 'success');
+    editDestGuide(id);
+  } catch(e) { toast('Error saving destination guide', 'error'); console.error(e); }
+}
+async function editFaq(id, scope) {
+  var rows = await sbFetch('faqs', 'id=eq.' + id);
+  editingId = id;
+  openFaqModal(rows[0], scope);
+}
+function openFaqModal(r, scope) {
+  var html = '<div class="form-grid">' +
+    fg('Sort Order', 'number', 'fq_sort', r?r.sort_order:0, '', '') +
+    '<div class="fg full"><label>Question</label><input type="text" id="fq_q" value="'+esc(r?r.question:'')+'"></div>' +
+    ta('Answer', 'fq_a', r?r.answer:'', 3) +
+    '</div>' +
+    '<div class="form-actions">' +
+      '<button class="btn-save" onclick="saveFaq(\'' + (r?r.id:'') + '\',\''+scope+'\')">Save FAQ</button>' +
+      '<button class="btn-cancel" onclick="closeModal()">Cancel</button>' +
+    '</div>';
+  openModal(r?'Edit FAQ':'Add FAQ', html);
+}
+async function saveFaq(id, scope) {
+  var data = { sort_order: Number(val('fq_sort'))||0, question: val('fq_q'), answer: val('fq_a'), page_scope: scope };
+  try {
+    if (id) await sbUpdate('faqs', id, data); else await sbInsert('faqs', data);
+    toast('FAQ saved!', 'success'); closeModal(); loadFaqs(scope);
+  } catch(e) { toast('Error saving FAQ', 'error'); }
+}
+
+/* =====================================================================
+   GALLERY (page_galleries — About Us photo gallery, etc.)
+===================================================================== */
+async function loadGallery(pageKey) {
+  setLoading();
+  var results = await Promise.all([
+    sbFetch('page_galleries', 'page_key=eq.' + pageKey + '&order=sort_order.asc'),
+    sbFetch('settings', 'key=in.(' + pageKey + '_gallery_heading,' + pageKey + '_gallery_subtitle)')
+  ]);
+  var rows = Array.isArray(results[0]) ? results[0] : [];
+  var hVals = {};
+  if (Array.isArray(results[1])) results[1].forEach(function(r){ hVals[r.key] = r.value; });
+  var html = '<div class="card"><div class="card-body"><div class="form-grid">' +
+      fg('Section Heading', 'text', 'gal_heading', hVals[pageKey+'_gallery_heading']||'', '', 'e.g. More About Eureka Trips') +
+    '</div>' +
+    ta('Section Subtitle', 'gal_sub', hVals[pageKey+'_gallery_subtitle']||'', 2, "e.g. From sunset sails and pasta-making classes to spontaneous dance parties...") +
+    '<div class="form-actions"><button class="btn-save" onclick="saveGalleryHeading(\''+pageKey+'\')">Save Heading</button></div></div></div>';
+  if (rows.length === 0) {
+    html += '<div class="card"><div class="card-body"><div class="empty"><div class="empty-icon">🖼️</div><div class="empty-text">No photos yet.</div></div></div></div>';
+  } else {
+    html += '<div class="card"><div class="table-wrap"><table><thead><tr><th>Photo</th><th>Caption</th><th>Actions</th></tr></thead><tbody>';
+    rows.forEach(function(r) {
+      html += '<tr><td>' + (r.image_url?'<img src="'+esc(r.image_url)+'" style="width:60px;height:44px;object-fit:cover;border-radius:5px">':'—') + '</td>' +
+        '<td>' + esc(r.caption||'—') + '</td>' +
+        '<td><div style="display:flex;gap:6px">' +
+          '<button class="btn-sm btn-edit" onclick="editGallery(\'' + r.id + '\',\''+pageKey+'\')">Edit</button>' +
+          '<button class="btn-sm btn-del" onclick="deleteItem(\'page_galleries\',\'' + r.id + '\',function(){loadGallery(\''+pageKey+'\')})">Delete</button>' +
+        '</div></td></tr>';
+    });
+    html += '</tbody></table></div></div>';
+  }
+  document.getElementById('mainContent').innerHTML = html;
+}
+async function saveGalleryHeading(pageKey) {
+  try {
+    await Promise.all([
+      sbUpsert('settings', { key: pageKey + '_gallery_heading', value: val('gal_heading') }, 'key'),
+      sbUpsert('settings', { key: pageKey + '_gallery_subtitle', value: val('gal_sub') }, 'key')
+    ]);
+    toast('Heading saved!', 'success');
+  } catch(e) { toast('Error saving heading', 'error'); }
+}
+async function editGallery(id, pageKey) {
+  var rows = await sbFetch('page_galleries', 'id=eq.' + id);
+  editingId = id;
+  openGalleryModal(rows[0], pageKey);
+}
+function openGalleryModal(r, pageKey) {
+  var html = '<div class="form-grid">' +
+    imageField('Photo', 'pg_img', 'pg_imgprev', r?r.image_url||'':'') +
+    fg('Caption (optional)', 'text', 'pg_cap', r?r.caption:'', '', '') +
+    fg('Sort Order', 'number', 'pg_sort', r?r.sort_order:0, '', '') +
+    '</div>' +
+    '<div class="form-actions">' +
+      '<button class="btn-save" onclick="saveGallery(\'' + (r?r.id:'') + '\',\''+pageKey+'\')">Save Photo</button>' +
+      '<button class="btn-cancel" onclick="closeModal()">Cancel</button>' +
+    '</div>';
+  openModal(r?'Edit Photo':'Add Photo', html);
+}
+async function saveGallery(id, pageKey) {
+  var data = { image_url: val('pg_img'), caption: val('pg_cap'), sort_order: Number(val('pg_sort'))||0, page_key: pageKey };
+  try {
+    if (id) await sbUpdate('page_galleries', id, data); else await sbInsert('page_galleries', data);
+    toast('Photo saved!', 'success'); closeModal(); loadGallery(pageKey);
+  } catch(e) { toast('Error saving photo', 'error'); }
+}
+
+/* =====================================================================
+   SETTINGS — data-driven, grouped per page
+===================================================================== */
+var SETTINGS_GROUPS = {
+  home: [
+    { key:'topbar_ticker', label:'Topbar Ticker Text', type:'textarea', hint:'Scrolling banner at top of website — separate items with ·' },
+    { key:'hero_heading', label:'Hero Heading', type:'textarea', hint:'e.g. MEET NEW PEOPLE. SEE THE WORLD DIFFERENTLY.' },
+    { key:'hero_subtext', label:'Hero Subtext', type:'textarea', hint:"e.g. Rooftop nights, beach clubs, boat parties and much more for 21-39 years who don't do boring trips." },
+    { key:'hero_btn1_text', label:'Hero Button 1 Text', type:'text', hint:'e.g. Explore Trips' },
+    { key:'hero_btn1_link', label:'Hero Button 1 Link', type:'text', hint:'e.g. #trips' },
+    { key:'hero_btn2_text', label:'Hero Button 2 Text', type:'text', hint:'e.g. Talk to Our Team' },
+    { key:'hero_btn2_link', label:'Hero Button 2 Link', type:'text', hint:'e.g. contact-us.html' },
+    { key:'cta_title', label:'Bottom CTA Title', type:'text', hint:'e.g. Plan Your Perfect Trip with Eureka Trips' }
+  ],
+  video: [
+    { key:'video_title', label:'Section Heading', type:'text', hint:'e.g. We do fun stuff. You are invited to join!' },
+    { key:'video_uploaded_url', label:'Upload Your Own Video (used instead of YouTube if set)', type:'video' },
+    { key:'video_youtube_url', label:'Or Use a YouTube Video', type:'text', hint:'Paste the full YouTube URL or just the video ID. Only used if no uploaded video is set above.' }
+  ],
+  reviewsection: [
+    { key:'reviews_heading', label:'Section Heading', type:'text', hint:'e.g. See What Past Travelers Say About Eureka Trips!' },
+    { key:'reviews_subtitle', label:'Section Subtitle', type:'text', hint:"e.g. Newton's 3rd law holds true with our tribe too, They love us just like we love them." },
+    { key:'confidence_heading', label:'Trust Section Heading', type:'text', hint:'e.g. Book with confidence' },
+    { key:'google_rating', label:'Google Rating', type:'text', hint:'e.g. 4.9 (the Google and Tripadvisor logos themselves are fixed brand marks and are not editable here)' }
+  ],
+  reasonsection: [
+    { key:'reason_heading', label:'Section Heading', type:'text', hint:'e.g. Why Travel With Eureka Trips' }
+  ],
+  blogpreview: [
+    { key:'blog_eyebrow', label:'Eyebrow Tag', type:'text', hint:'e.g. STORIES & TIPS' },
+    { key:'blog_heading', label:'Section Heading', type:'text', hint:'e.g. From the Eureka Travel Journal' },
+    { key:'blog_subtitle', label:'Section Subtitle', type:'textarea', hint:'e.g. Destination guides, packing advice, and real traveler stories...' }
+  ],
+  bookingform: [
+    { key:'bkform_image', label:'Side Photo', type:'image' },
+    { key:'bkform_heading', label:'Card Heading', type:'text', hint:'e.g. Join the EUREKA VIP fam!' },
+    { key:'bkform_desc', label:'Card Description', type:'textarea', hint:'e.g. Want more EUREKA adventures directly to your inbox? Get instant travel assistance, the best prices & expert planning.' },
+    { key:'bkform_name_placeholder', label:'Name Field Placeholder', type:'text', hint:'e.g. Your Name' },
+    { key:'bkform_email_placeholder', label:'Email Field Placeholder', type:'text', hint:'e.g. Enter Your Email' },
+    { key:'bkform_phone_placeholder', label:'Phone Field Placeholder', type:'text', hint:'e.g. +91-0000-000-000' },
+    { key:'bkform_privacy_text', label:'Privacy Checkbox Text', type:'text', hint:'e.g. By checking this box you are agreeing to the Eureka Trips Privacy Policy.' },
+    { key:'bkform_btn_text', label:'Button Text', type:'text', hint:'e.g. subscribe now' }
+  ],
+  subhero: [
+    { key:'subhero_heading', label:'Heading', type:'textarea', hint:'e.g. Discover cultures. Meet your people. Travel differently.' },
+    { key:'subhero_para1', label:'Paragraph 1', type:'richtext' },
+    { key:'subhero_para2', label:'Paragraph 2', type:'richtext' },
+    { key:'subhero_para3', label:'Paragraph 3', type:'richtext' },
+    { key:'subhero_img1', label:'Photo 1 (top-left, tall)', type:'image' },
+    { key:'subhero_img2', label:'Photo 2 (top-right, short)', type:'image' },
+    { key:'subhero_img3', label:'Photo 3 (bottom-left, tall)', type:'image' },
+    { key:'subhero_img4', label:'Photo 4 (bottom-right, short)', type:'image' }
+  ],
+  minisubhero: [
+    { key:'msh_card1_icon', label:'Card 1 Icon', type:'image' },
+    { key:'msh_card1_title', label:'Card 1 Title', type:'text', hint:'e.g. Solo Travellers of Your Age' },
+    { key:'msh_card1_desc', label:'Card 1 Description', type:'textarea' },
+    { key:'msh_card2_icon', label:'Card 2 Icon', type:'image' },
+    { key:'msh_card2_title', label:'Card 2 Title', type:'text', hint:'e.g. No Planning Required' },
+    { key:'msh_card2_desc', label:'Card 2 Description', type:'textarea' },
+    { key:'msh_card3_icon', label:'Card 3 Icon', type:'image' },
+    { key:'msh_card3_title', label:'Card 3 Title', type:'text', hint:'e.g. Balanced Adventure' },
+    { key:'msh_card3_desc', label:'Card 3 Description', type:'textarea' },
+    { key:'msh_card4_icon', label:'Card 4 Icon', type:'image' },
+    { key:'msh_card4_title', label:'Card 4 Title', type:'text', hint:'e.g. Live Local "Make a Difference"' },
+    { key:'msh_card4_desc', label:'Card 4 Description', type:'textarea' }
+  ],
+  upcomingtrips: [
+    { key:'ut_heading', label:'Section Heading', type:'text', hint:'e.g. Upcoming trips' },
+    { key:'ut_btn_text', label:'Button Text', type:'text', hint:'e.g. Explore trips' },
+    { key:'ut_btn_link', label:'Button Link', type:'text', hint:'e.g. #trips or destinations.html' }
+  ],
+  bahero: [
+    { key:'ba_hero_image', label:'Hero Background Image', type:'image' },
+    { key:'ba_hero_heading', label:'Hero Heading', type:'textarea', hint:'e.g. Plan Your Own Adventure. Your Itinerary. Your Way.' },
+    { key:'ba_hero_subtext', label:'Hero Subtext', type:'textarea', hint:"e.g. Welcome to our Adventure Planner! Let us know your desired experiences and travel preferences..." },
+    { key:'ba_hero_btn1_text', label:'Button 1 Text', type:'text', hint:'e.g. Start Planning With Eureka' },
+    { key:'ba_hero_btn1_link', label:'Button 1 Link', type:'text', hint:'e.g. #plan' },
+    { key:'ba_hero_btn2_text', label:'Button 2 Text', type:'text', hint:'e.g. Chat With Us' },
+    { key:'ba_hero_btn2_link', label:'Button 2 Link', type:'text', hint:'e.g. contact-us.html' }
+  ],
+  bagroupbanner: [
+    { key:'ba_gb_image', label:'Background Image', type:'image' },
+    { key:'ba_gb_heading', label:'Heading', type:'text', hint:'e.g. Bigger Group? Get special offers up to 50% Off!' },
+    { key:'ba_gb_subtext', label:'Subtext', type:'text', hint:'e.g. We create unforgettable adventures, customised for your group.' },
+    { key:'ba_gb_btn_text', label:'Button Text', type:'text', hint:'e.g. Get A Call-back' },
+    { key:'ba_gb_btn_link', label:'Button Link', type:'text', hint:'e.g. contact-us.html' }
+  ],
+  buildadventure: [
+    { key:'ba_htb_heading', label:'"How to Build" Section Heading', type:'text', hint:'e.g. How to build your adventure?' },
+    { key:'ba_step1_icon', label:'Step 1 Icon', type:'image' },
+    { key:'ba_step1_title', label:'Step 1 Title', type:'text' },
+    { key:'ba_step1_desc', label:'Step 1 Description', type:'richtext' },
+    { key:'ba_step2_icon', label:'Step 2 Icon', type:'image' },
+    { key:'ba_step2_title', label:'Step 2 Title', type:'text' },
+    { key:'ba_step2_desc', label:'Step 2 Description', type:'richtext' },
+    { key:'ba_step3_icon', label:'Step 3 Icon', type:'image' },
+    { key:'ba_step3_title', label:'Step 3 Title', type:'text' },
+    { key:'ba_step3_desc', label:'Step 3 Description', type:'richtext' },
+    { key:'ba_step4_icon', label:'Step 4 Icon', type:'image' },
+    { key:'ba_step4_title', label:'Step 4 Title', type:'text' },
+    { key:'ba_step4_desc', label:'Step 4 Description', type:'richtext' },
+    { key:'ba_passport_heading', label:'Passport Section Heading', type:'text', hint:'e.g. Your Passport To Good Stuff' }
+  ],
+  destinations: [
+    { key:'dest_hero_heading', label:'Hero Heading', type:'text', hint:'Use {rotator} where the rotating word appears — e.g. Make every {rotator} unforgettable!' },
+    { key:'dest_rotator_words', label:'Rotating Words', type:'text', hint:'Comma separated, e.g. Trip, Adventure, Escape' },
+    { key:'dest_hero_subtext', label:'Hero Subtext', type:'textarea', hint:'e.g. Get your dream trip planned with expert guided destinations, booking, transport, party and more — all in one.' },
+    { key:'dest_hero_btn1_text', label:'Button 1 Text', type:'text', hint:'e.g. Request A Trip' },
+    { key:'dest_hero_btn1_link', label:'Button 1 Link', type:'text', hint:'e.g. custom-trips.html' },
+    { key:'dest_hero_btn2_text', label:'Button 2 Text', type:'text', hint:'e.g. Explore Trips' },
+    { key:'dest_hero_btn2_link', label:'Button 2 Link', type:'text', hint:'e.g. index.html#trips' }
+  ],
+  abouthero: [
+    { key:'about_hero_image', label:'Hero Background Image', type:'image' },
+    { key:'about_hero_h1', label:'Hero Heading', type:'text', hint:"e.g. We're Eureka Trips" },
+    { key:'about_hero_subtext', label:'Hero Subtext', type:'text', hint:"e.g. There are no strangers here, only Friends you haven't met yet." }
+  ],
+  abouteureka: [
+    { key:'about_intro_heading', label:'Section Heading', type:'textarea', hint:'e.g. We Believe Travel Changes You & It Changes The World Around You!' },
+    { key:'about_intro_para', label:'Section Paragraph', type:'richtext' },
+    { key:'about_intro_img1', label:'Photo Grid — Photo 1', type:'image' },
+    { key:'about_intro_img2', label:'Photo Grid — Photo 2', type:'image' },
+    { key:'about_intro_img3', label:'Photo Grid — Photo 3', type:'image' },
+    { key:'about_intro_img4', label:'Photo Grid — Photo 4', type:'image' },
+    { key:'about_intro_img5', label:'Photo Grid — Photo 5', type:'image' },
+    { key:'about_icon1_title', label:'Card 1 Title', type:'text', hint:'e.g. Why Us?' },
+    { key:'about_icon1_desc', label:'Card 1 Description', type:'textarea' },
+    { key:'about_icon2_title', label:'Card 2 Title', type:'text', hint:'e.g. The Journey' },
+    { key:'about_icon2_desc', label:'Card 2 Description', type:'textarea' },
+    { key:'about_icon3_title', label:'Card 3 Title', type:'text', hint:'e.g. Why Group?' },
+    { key:'about_icon3_desc', label:'Card 3 Description', type:'textarea' },
+    { key:'about_icon4_title', label:'Card 4 Title', type:'text', hint:'e.g. How It Works?' },
+    { key:'about_icon4_desc', label:'Card 4 Description', type:'textarea' }
+  ],
+  aboutmore: [
+    { key:'about_more_heading', label:'Section Heading', type:'text', hint:'e.g. More About Eureka Trips' },
+    { key:'about_more1_title', label:'Card 1 Title', type:'text', hint:'e.g. Our Trips' },
+    { key:'about_more1_body', label:'Card 1 Body', type:'richtext' },
+    { key:'about_more2_title', label:'Card 2 Title', type:'text', hint:'e.g. Our Travelers' },
+    { key:'about_more2_body', label:'Card 2 Body', type:'richtext' },
+    { key:'about_more3_title', label:'Card 3 Title', type:'text', hint:'e.g. Our Local Partners' },
+    { key:'about_more3_body', label:'Card 3 Body', type:'richtext' },
+    { key:'about_more4_title', label:'Card 4 Title', type:'text', hint:'e.g. Our Trip Leaders' },
+    { key:'about_more4_body', label:'Card 4 Body', type:'richtext' }
+  ],
+  aboutwhy: [
+    { key:'about_why_heading', label:'Section Heading', type:'text', hint:'e.g. Why Eureka' },
+    { key:'about_why_intro', label:'Section Intro', type:'textarea' },
+    { key:'about_why1_title', label:'Card 1 Title', type:'text', hint:'e.g. Come Together' },
+    { key:'about_why1_desc', label:'Card 1 Description', type:'textarea' },
+    { key:'about_why2_title', label:'Card 2 Title', type:'text', hint:'e.g. Travel Mindfully' },
+    { key:'about_why2_desc', label:'Card 2 Description', type:'textarea' },
+    { key:'about_why3_title', label:'Card 3 Title', type:'text', hint:'e.g. Support Local' },
+    { key:'about_why3_desc', label:'Card 3 Description', type:'textarea' },
+    { key:'about_why4_title', label:'Card 4 Title', type:'text', hint:'e.g. Share the Love' },
+    { key:'about_why4_desc', label:'Card 4 Description', type:'textarea' }
+  ],
+  aboutstory: [
+    { key:'about_story_image', label:'Photo', type:'image' },
+    { key:'about_story_heading', label:'Heading', type:'text', hint:'e.g. Our Story' },
+    { key:'about_story_body', label:'Body', type:'richtext' }
+  ],
+  contacthero: [
+    { key:'contact_hero_image', label:'Hero Background Image', type:'image' },
+    { key:'contact_hero_heading', label:'Hero Heading', type:'text', hint:'e.g. Ready for your next adventure?' },
+    { key:'contact_hero_subtext', label:'Hero Subtext', type:'textarea', hint:"e.g. Get started by exploring all of our trips or by filling out a travel profile if you're looking for personalized recommendations." },
+    { key:'contact_hero_btn1_text', label:'Button 1 Text', type:'text', hint:'e.g. Explore Trips' },
+    { key:'contact_hero_btn1_link', label:'Button 1 Link', type:'text', hint:'e.g. index.html#trips' },
+    { key:'contact_hero_btn2_text', label:'Button 2 Text', type:'text', hint:'e.g. Get Started' },
+    { key:'contact_hero_btn2_link', label:'Button 2 Link', type:'text', hint:'e.g. custom-trips.html' }
+  ],
+  contacttouch: [
+    { key:'contact_touch_heading', label:'Section Heading', type:'text', hint:'e.g. Get in touch & get ready to go!' },
+    { key:'contact_card1_icon', label:'Card 1 Icon (emoji)', type:'text', hint:'e.g. 💬' },
+    { key:'contact_card1_title', label:'Card 1 Title', type:'text', hint:'e.g. Chat with us' },
+    { key:'contact_card1_desc', label:'Card 1 Description', type:'textarea' },
+    { key:'contact_card1_btn_text', label:'Card 1 Button Text', type:'text', hint:'e.g. Chat Now' },
+    { key:'contact_card2_icon', label:'Card 2 Icon (emoji)', type:'text', hint:'e.g. ❓' },
+    { key:'contact_card2_title', label:'Card 2 Title', type:'text', hint:"e.g. FAQ's" },
+    { key:'contact_card2_desc', label:'Card 2 Description', type:'textarea' },
+    { key:'contact_card2_btn_text', label:'Card 2 Button Text', type:'text', hint:'e.g. Read Now' },
+    { key:'contact_card2_btn_link', label:'Card 2 Button Link', type:'text', hint:'e.g. about-us.html#faqs' },
+    { key:'contact_card3_icon', label:'Card 3 Icon (emoji)', type:'text', hint:'e.g. 📅' },
+    { key:'contact_card3_title', label:'Card 3 Title', type:'text', hint:'e.g. Manage My Booking' },
+    { key:'contact_card3_desc', label:'Card 3 Description', type:'textarea' },
+    { key:'contact_card3_btn_text', label:'Card 3 Button Text', type:'text', hint:'e.g. Get Ready To Go' },
+    { key:'contact_card3_btn_link', label:'Card 3 Button Link', type:'text', hint:'e.g. booking-page.html' }
+  ],
+  contactform: [
+    { key:'contact_form_bg_image', label:'Background Image', type:'image' },
+    { key:'contact_form_card_heading', label:'Form Card Heading', type:'text', hint:'e.g. Send Us a Message' },
+    { key:'contact_form_right_heading', label:'Right-Side Heading', type:'text', hint:'e.g. Get in Touch with Eureka Trips' },
+    { key:'contact_form_right_para', label:'Right-Side Paragraph', type:'textarea' },
+    { key:'contact_check1', label:'Checklist Item 1', type:'text', hint:'e.g. Personalized Travel Planning' },
+    { key:'contact_check2', label:'Checklist Item 2', type:'text', hint:'e.g. Fast & Secure Booking' },
+    { key:'contact_check3', label:'Checklist Item 3', type:'text', hint:'e.g. 24/7 Customer Support' },
+    { key:'contact_check4', label:'Checklist Item 4', type:'text', hint:'e.g. Local Travel Experts' },
+    { key:'contact_check5', label:'Checklist Item 5', type:'text', hint:'e.g. Exclusive Travel Deals' },
+    { key:'contact_urgent_text', label:'Urgent Call-to-Action Text', type:'text', hint:'e.g. Need urgent assistance? Call us directly for faster response! +91 9792496457' }
+  ],
+  contacttrust: [
+    { key:'contact_trust_heading', label:'Section Heading', type:'text', hint:'e.g. Book with confidence' },
+    { key:'contact_google_rating', label:'Google Rating', type:'text', hint:'e.g. 4.9 (the Google and Tripadvisor logos themselves are fixed brand marks and are not editable here)' }
+  ],
+  blogpage: [
+    { key:'bl_hero_image', label:'Hero Background Image', type:'image' },
+    { key:'bl_hero_heading', label:'Hero Heading', type:'text', hint:'e.g. Eureka Travel Journal' },
+    { key:'bl_hero_subtext', label:'Hero Subtext', type:'textarea', hint:'e.g. Destination guides, travel tips, packing advice, itinerary ideas, and real traveler stories.' }
+  ],
+  global: [
+    { key:'logo_url', label:'Logo', type:'image' },
+    { key:'contact_phone', label:'Contact Phone', type:'text' },
+    { key:'whatsapp', label:'WhatsApp Number', type:'text' },
+    { key:'instagram', label:'Instagram Handle', type:'text', hint:'e.g. eurekatrips' },
+    { key:'address', label:'Office Address', type:'textarea' }
+  ]
+};
+async function renderSettingsGroup(group) {
+  setLoading();
+  var rows = await sbFetch('settings', '');
+  var s = {};
+  if (Array.isArray(rows)) rows.forEach(function(r){ s[r.key] = r.value; });
+  var fields = SETTINGS_GROUPS[group];
+  var html = '<div class="card"><div class="card-body"><div class="form-grid">';
+  fields.forEach(function(f) {
+    var v = s[f.key] || '';
+    if (f.type === 'textarea') html += ta(f.label, 'set_'+f.key, v, 2, f.hint);
+    else if (f.type === 'richtext') html += rta(f.label, 'set_'+f.key, v, f.hint);
+    else if (f.type === 'image') html += imageField(f.label, 'set_'+f.key, 'set_'+f.key+'prev', v);
+    else if (f.type === 'video') html += videoField(f.label, 'set_'+f.key, 'set_'+f.key+'prev', v);
+    else html += fg(f.label, 'text', 'set_'+f.key, v, '', '', '', f.hint);
+  });
+  html += '</div><div class="form-actions"><button class="btn-save" onclick="saveSettingsGroup(\''+group+'\')">Save Settings</button></div></div></div>';
+  document.getElementById('mainContent').innerHTML = html;
+  richEditors = {};
+  setTimeout(initRichEditors, 60);
+}
+async function saveSettingsGroup(group) {
+  var fields = SETTINGS_GROUPS[group];
+  var pairs = fields.map(function(f) { return [f.key, f.type === 'richtext' ? rval('set_'+f.key) : val('set_'+f.key)]; });
+  try {
+    await Promise.all(pairs.map(function(p){ return sbUpsert('settings', { key: p[0], value: p[1] }, 'key'); }));
+    toast('Settings saved!', 'success');
+  } catch(e) { toast('Error saving settings', 'error'); }
+}
+
+// ── INIT ──────────────────────────────────────────────────────
+buildSidebar();
+showTab('home-settings');
+</script>
+</body>
+</html>

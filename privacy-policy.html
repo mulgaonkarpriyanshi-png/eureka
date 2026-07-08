@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#02A9A2">
+<meta name="color-scheme" content="light">
+<title>Privacy Policy | Eureka Trips</title>
+<meta name="description" content="Eureka Trips Privacy Policy — how we collect, use, and safeguard your information when you book a trip with us.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://images.unsplash.com">
+<link rel="preload" as="image" href="https://images.unsplash.com/photo-1543087903-1ac2ec7aa8c5?w=1920&q=85&auto=format&fm=webp&fit=crop" fetchpriority="high">
+<style>
+  @import url('https://fonts.cdnfonts.com/css/apfel-grotesk');
+  @import url('https://fonts.cdnfonts.com/css/proxima-nova-2');
+  @font-face{font-family:'Apfel Grotesk';font-weight:400;font-style:normal;font-display:swap}
+  @font-face{font-family:'Apfel Grotesk';font-weight:500;font-style:normal;font-display:swap}
+</style>
+<link rel="preload" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Outfit:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,700;1,400;1,600&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Outfit:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,700;1,400;1,600&display=swap"></noscript>
+<style>
+/* ─────────────────────────────────────────
+   RESET
+───────────────────────────────────────── */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;overflow-x:clip;width:100%}
+body{font-family:'Apfel Grotesk','Poppins',system-ui,sans-serif;background:#fff;color:#3A3B3B;overflow-x:clip;line-height:1.6;font-weight:400}
+a{text-decoration:none;color:inherit}
+button{cursor:pointer;font-family:inherit;border:none;outline:none;background:none}
+img{display:block;max-width:100%}
+::selection{background:#02A9A2;color:#fff}
+::-webkit-scrollbar{width:3px}
+::-webkit-scrollbar-thumb{background:#02A9A2;border-radius:2px}
+
+/* ─────────────────────────────────────────
+   TOKENS — matches eurekaselect.in palette
+───────────────────────────────────────── */
+:root{
+  --white:#ffffff;
+  --off:#f7f7f5;
+  --off2:#eef5f3;
+  --teal:#02A9A2;
+  --teal-d:#027A74;
+  --teal-l:#e8f8f4;
+  --dark:#3A3B3B;
+  --body:#6B7575;
+  --body2:#6B7575;
+  --border:#e5e7eb;
+  --border2:#d1fae5;
+  --sh:0 1px 3px rgba(0,0,0,.06),0 1px 2px rgba(0,0,0,.04);
+  --sh2:0 4px 24px rgba(0,0,0,.08);
+  --sh3:0 12px 48px rgba(0,0,0,.12);
+  --r:8px;--r2:16px;--r3:24px;
+  --serif:'Playfair Display',Georgia,serif;
+  --sans:'Apfel Grotesk','Poppins',system-ui,sans-serif;
+}
+
+/* ─────────────────────────────────────────
+   NAVBAR
+───────────────────────────────────────── */
+.navbar{
+  position:fixed;top:0;left:0;right:0;z-index:1000;
+  height:84px;
+  background:transparent;
+  display:flex;align-items:center;
+  padding:0 clamp(1.25rem,4vw,3rem);
+  gap:1.5rem;
+  transition:transform .35s cubic-bezier(.4,0,.2,1),background .3s,box-shadow .3s,height .3s;
+}
+.navbar.hide{transform:translateY(-100%)}
+.navbar.solid{
+  background:#fff;height:70px;border-bottom:1px solid #e5e7eb;box-shadow:0 1px 12px rgba(0,0,0,.06);
+}
+.nav-logo{flex-shrink:0;text-decoration:none}
+.nav-logo-img{height:76px;width:auto;object-fit:contain;flex-shrink:0;display:block;transition:height .3s}
+.navbar.solid .nav-logo-img{height:60px}
+.nav-pill{
+  display:flex;align-items:center;justify-content:center;
+  gap:clamp(1rem,2vw,2rem);
+  flex:1;
+  background:rgba(40,50,55,.45);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  border:1.5px solid rgba(255,255,255,.55);
+  border-radius:50px;
+  padding:.75rem clamp(1.5rem,3vw,2.5rem);
+  max-width:760px;margin:0 auto;
+  transition:background .3s,border-color .3s,backdrop-filter .3s;
+}
+.navbar.solid .nav-pill{background:transparent;border-color:transparent;backdrop-filter:none;padding:.5rem 0}
+.nav-pill a{font-size:14px;font-weight:600;color:#fff;white-space:nowrap;text-decoration:none;transition:color .2s;letter-spacing:.1px;display:flex;align-items:center;gap:4px}
+.nav-pill a:hover{color:#02A9A2}
+.nav-pill a.active{color:#02A9A2}
+.navbar.solid .nav-pill a{color:#6B7575}
+.navbar.solid .nav-pill a:hover{color:#02A9A2}
+.navbar.solid .nav-pill a.active{color:#02A9A2}
+.nav-plus{font-size:16px;font-weight:400;opacity:.7}
+.nav-right{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.nav-soc{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.5);color:#fff;transition:all .25s;flex-shrink:0}
+.nav-soc:hover{background:rgba(0,0,0,.55)}
+.nav-soc svg{width:16px;height:16px;fill:currentColor}
+.navbar.solid .nav-soc{background:#fff;border-color:#e5e7eb;color:#6B7575}
+.navbar.solid .nav-soc:hover{background:#f3f4f6}
+.hbg{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px;flex-shrink:0}
+.hbg span{display:block;width:22px;height:2px;background:#fff;border-radius:1px;transition:all .28s}
+.navbar.solid .hbg span{background:#111}
+.hbg.open span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
+.hbg.open span:nth-child(2){opacity:0}
+.hbg.open span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
+
+/* Mobile drawer */
+.mob-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:1001;opacity:0;pointer-events:none;transition:opacity .3s}
+.mob-overlay.show{opacity:1;pointer-events:auto}
+.mob-drawer{position:fixed;top:0;right:-320px;width:300px;height:100%;background:#fff;z-index:1002;transition:right .35s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;box-shadow:-8px 0 40px rgba(0,0,0,.2)}
+.mob-drawer.open{right:0}
+.mob-drawer-head{display:flex;align-items:center;justify-content:space-between;padding:1.5rem}
+.mob-close{font-size:20px;color:#111;width:32px;height:32px;display:flex;align-items:center;justify-content:center}
+.mob-links{display:flex;flex-direction:column;padding:0 1.5rem;gap:1.25rem}
+.mob-links a{font-size:16px;font-weight:600;color:#111}
+.mob-foot{margin-top:auto;padding:1.5rem}
+.mob-cta-btn{width:100%;background:var(--teal);color:#fff;padding:14px;border-radius:50px;font-weight:600;font-size:14px}
+
+/* ─────────────────────────────────────────
+   SECTION COMMONS
+───────────────────────────────────────── */
+section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
+.container{max-width:1280px;margin:0 auto}
+.eyebrow{display:flex;align-items:center;gap:10px;margin-bottom:.75rem}
+.ey-line{width:28px;height:2px;background:var(--teal);border-radius:1px}
+.ey-txt{font-size:11px;font-weight:600;letter-spacing:3.5px;text-transform:uppercase;color:var(--teal)}
+.sec-h{font-family:'Apfel Grotesk','Poppins',sans-serif;font-size:clamp(30px,4.2vw,52px);color:#111;font-weight:700;line-height:1.14;letter-spacing:0.2px;margin-bottom:.75rem}
+.sec-h em{color:var(--teal);font-style:italic;font-family:var(--serif);font-weight:400}
+.sec-p{font-family:'Poppins',sans-serif;font-size:16px;color:#3A3B3B;line-height:1.5;letter-spacing:-0.2px;font-weight:400;max-width:560px}
+.center{text-align:center;margin-left:auto;margin-right:auto}
+.fu{opacity:0;transform:translateY(24px);transition:opacity .8s ease,transform .8s ease}
+.fu.in{opacity:1;transform:none}
+.d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.32s}.d4{transition-delay:.44s}.d5{transition-delay:.56s}
+
+/* ─────────────────────────────────────────
+   ABOUT HERO — coded (own photo), matches reference layout
+───────────────────────────────────────── */
+.ab-hero{height:80vh;min-height:560px;max-height:860px;position:relative;display:flex;align-items:center;overflow:hidden;background:var(--dark)}
+.ab-hero-img{position:absolute;inset:0}
+.ab-hero-img img{width:100%;height:100%;object-fit:cover;display:block;animation:kz 16s ease-in-out infinite alternate}
+@keyframes kz{0%{transform:scale(1)}100%{transform:scale(1.06)}}
+.ab-hero-ov{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.18) 0%,rgba(0,0,0,.1) 45%,rgba(0,0,0,.5) 100%)}
+.ab-hero-content{position:relative;z-index:2;width:100%;max-width:1100px;margin:0 auto;padding:0 1.5rem;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.ab-hero-h1{font-family:'Apfel Grotesk','Poppins',sans-serif;font-size:clamp(32px,5.2vw,52px);color:#fff;line-height:1.15;font-weight:700;letter-spacing:0.2px;margin-bottom:.85rem}
+.ab-hero-sub{font-family:'Poppins',sans-serif;font-size:clamp(14px,1.3vw,17px);color:#fff;max-width:520px;line-height:1.5;letter-spacing:-0.2px;font-weight:400;margin:0 auto;text-shadow:0 2px 8px rgba(0,0,0,.5)}
+
+/* ─────────────────────────────────────────
+   CONTACT HERO
+───────────────────────────────────────── */
+.cu-hero{height:80vh;min-height:560px;max-height:860px;position:relative;display:flex;align-items:center;overflow:hidden;background:var(--dark)}
+.cu-hero-img{position:absolute;inset:0}
+.cu-hero-img img{width:100%;height:100%;object-fit:cover;display:block;animation:kz 16s ease-in-out infinite alternate}
+.cu-hero-ov{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.35) 0%,rgba(0,0,0,.25) 45%,rgba(0,0,0,.6) 100%)}
+.cu-hero-content{position:relative;z-index:2;width:100%;max-width:900px;margin:0 auto;padding:0 1.5rem;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.cu-hero-h1{font-family:'Apfel Grotesk','Poppins',sans-serif;font-size:clamp(32px,5.2vw,52px);color:#fff;line-height:1.15;font-weight:700;letter-spacing:0.2px;margin-bottom:1.1rem}
+.cu-hero-sub{font-family:'Poppins',sans-serif;font-size:clamp(14px,1.3vw,17px);color:#fff;max-width:600px;line-height:1.6;letter-spacing:-0.1px;font-weight:400;margin:0 auto 1.75rem;text-shadow:0 2px 8px rgba(0,0,0,.5)}
+.cu-hero-btns{display:flex;gap:1rem;flex-wrap:wrap;justify-content:center}
+.cu-btn{display:inline-flex;align-items:center;justify-content:center;padding:14px 30px;border-radius:50px;font-family:'Apfel Grotesk','Poppins',sans-serif;font-weight:700;font-size:14.5px;transition:all .25s;border:1.5px solid transparent}
+.cu-btn-solid{background:#FFA43B;color:#fff}
+.cu-btn-solid:hover{background:#F28C13}
+.cu-btn-outline{background:transparent;color:#fff;border-color:#fff}
+.cu-btn-outline:hover{background:#fff;color:#111}
+
+/* ─────────────────────────────────────────
+   TERMS & CONDITIONS
+───────────────────────────────────────── */
+.tc-hero{height:38vh;min-height:280px;max-height:400px;position:relative;display:flex;align-items:center;overflow:hidden;background:var(--dark)}
+.tc-hero-img{position:absolute;inset:0}
+.tc-hero-img img{width:100%;height:100%;object-fit:cover;display:block}
+.tc-hero-ov{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.45) 0%,rgba(0,0,0,.35) 55%,rgba(0,0,0,.5) 100%)}
+.tc-hero-content{position:relative;z-index:2;width:100%;text-align:center}
+.tc-hero-h1{font-family:'Apfel Grotesk','Poppins',sans-serif;font-size:clamp(30px,4.5vw,46px);color:#fff;font-weight:400;letter-spacing:0.2px}
+
+.tc-content{background:#fff;padding:clamp(2.5rem,5vw,4rem) clamp(1.25rem,4vw,3rem)}
+.tc-card{background:var(--off2);border-radius:20px;padding:clamp(1.75rem,3vw,2.5rem) clamp(2rem,3.5vw,3rem);margin-bottom:2rem}
+.tc-card:last-child{margin-bottom:0}
+.tc-intro{text-align:center}
+.tc-intro p{font-family:'Poppins',sans-serif;font-size:15px;color:#3A3B3B;line-height:1.9;max-width:760px;margin:0 auto}
+.tc-card-h{font-family:'Apfel Grotesk','Poppins',sans-serif;font-size:clamp(22px,2.6vw,28px);font-weight:700;color:#111;margin-bottom:1.5rem}
+.tc-card p{font-family:'Poppins',sans-serif;font-size:14.5px;color:#3A3B3B;line-height:1.85;margin-bottom:1.5rem}
+.tc-card p:last-child{margin-bottom:0}
+.tc-card p strong{color:#111}
+.tc-tight p{margin-bottom:.6rem}
+.tc-tight p:last-child{margin-bottom:0}
+.tc-subh{margin-bottom:.4rem !important;color:#111}
+
+/* ─────────────────────────────────────────
+   GET IN TOUCH CARDS
+───────────────────────────────────────── */
+.cu-touch{background:#fff;padding:clamp(3rem,5vw,4.5rem) clamp(1.25rem,4vw,3rem)}
+.cu-touch-h{font-family:'Apfel Grotesk','Poppins',sans-serif;font-size:clamp(26px,3vw,34px);font-weight:700;color:#111;text-align:center;margin-bottom:clamp(2rem,4vw,3rem)}
+
+/* ─────────────────────────────────────────
+   SEND US A MESSAGE — form + get-in-touch text
+───────────────────────────────────────── */
+.cu-form-sec{position:relative;overflow:hidden;background:var(--dark)}
+.cu-form-bg{position:absolute;inset:0}
+.cu-form-bg img{width:100%;height:100%;object-fit:cover;display:block}
+.cu-form-ov{position:absolute;inset:0;background:linear-gradient(110deg,rgba(0,0,0,.78) 0%,rgba(0,0,0,.6) 45%,rgba(0,0,0,.5) 100%)}
+.cu-form-in{position:relative;z-index:2;max-width:1280px;margin:0 auto;padding:clamp(3rem,6vw,5rem) clamp(1.25rem,4vw,3rem);display:grid;grid-template-columns:1fr 1fr;gap:clamp(2rem,4vw,4rem);align-items:center}
+.cu-form-card{background:#1a1a1a;border-radius:20px;padding:clamp(1.75rem,3vw,2.25rem);box-shadow:var(--sh3)}
+.cu-form-card h3{color:#fff;font-size:22px;font-weight:700;margin-bottom:1.25rem;font-family:'Apfel Grotesk','Poppins',sans-serif}
+.cu-form-panel{background:#fff;border-radius:14px;padding:clamp(1.25rem,2vw,1.5rem)}
+.cu-form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem}
+.cu-form-group label{display:block;font-size:12.5px;font-weight:700;color:#111;margin-bottom:.4rem}
+.cu-form-group input,.cu-form-group select{width:100%;padding:.7rem .85rem;border-radius:8px;border:1.5px solid var(--border);background:var(--off);font-family:'Poppins',sans-serif;font-size:13px;color:#111;appearance:none}
+.cu-form-group select{background-image:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%236B7575" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>');background-repeat:no-repeat;background-position:right .75rem center;background-size:16px}
+.cu-form-group input:focus,.cu-form-group select:focus{outline:none;border-color:var(--teal);box-shadow:0 0 0 3px rgba(2,169,162,.15)}
+.cu-form-group input::placeholder{color:#9ca3af}
+.cu-form-full{margin-bottom:1.1rem}
+.cu-form-btn{width:100%;background:#FF8A66;color:#fff;padding:.85rem;border-radius:10px;font-weight:700;font-size:14px;font-family:'Apfel Grotesk','Poppins',sans-serif;transition:background .2s}
+.cu-form-btn:hover{background:#F5713F}
+.cu-form-txt h2{font-family:'Apfel Grotesk','Poppins',sans-serif;font-size:clamp(26px,3.4vw,38px);font-weight:700;color:#fff;text-align:center;line-height:1.28;margin-bottom:1.5rem}
+.cu-form-txt p{font-family:'Poppins',sans-serif;font-size:14.5px;line-height:1.85;color:rgba(255,255,255,.9);margin-bottom:1.75rem}
+.cu-form-checks{display:grid;grid-template-columns:1fr 1fr;gap:1rem 2rem;margin-bottom:2rem}
+.cu-check-item{display:flex;align-items:center;gap:.65rem}
+.cu-check-icon{width:26px;height:26px;border-radius:50%;background:#fff;color:#111;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:12px}
+.cu-check-item span{font-weight:700;font-size:14.5px;color:#fff}
+.cu-form-urgent{font-size:14.5px;color:#fff;line-height:1.6}
+.cu-form-urgent strong{color:#FF8A66}
+
+/* ─────────────────────────────────────────
+   BOOK WITH CONFIDENCE — trust badges
+───────────────────────────────────────── */
+.cu-trust-sec{background:#fff;padding:clamp(2.5rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem);text-align:center}
+.cu-trust-h{font-family:'Apfel Grotesk','Poppins',sans-serif;font-size:clamp(24px,3vw,32px);font-weight:700;color:#111;margin-bottom:clamp(1.75rem,3vw,2.5rem)}
+.cu-trust-logos{display:flex;align-items:center;justify-content:center;gap:clamp(2.5rem,6vw,5rem);flex-wrap:wrap}
+.cu-trust-item{display:flex;flex-direction:column;align-items:center;gap:.35rem}
+.cu-google-word{font-family:Arial,'Poppins',sans-serif;font-size:34px;font-weight:700;letter-spacing:.5px}
+.cu-google-word .g1{color:#4285F4}
+.cu-google-word .r1{color:#EA4335}
+.cu-google-word .y1{color:#FBBC05}
+.cu-google-word .g2{color:#4285F4}
+.cu-google-word .l1{color:#34A853}
+.cu-google-word .r2{color:#EA4335}
+.cu-google-rating{display:flex;align-items:center;gap:6px;font-size:14px;color:#3A3B3B;font-weight:600}
+.cu-stars{color:#FBBC05;font-size:14px;letter-spacing:1px}
+.cu-trust-item img{height:38px;width:auto;display:block}
+.cu-cards{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:clamp(1.5rem,3vw,2rem)}
+.cu-card{background:var(--off2);border-radius:20px;padding:clamp(2rem,3vw,2.5rem) clamp(1.5rem,2.5vw,2rem);text-align:center;display:flex;flex-direction:column;align-items:center}
+.cu-card-icon{width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,#FFC07A,#FF8A4C);display:flex;align-items:center;justify-content:center;font-size:28px;margin-bottom:1.25rem}
+.cu-card-title{font-family:'Apfel Grotesk','Poppins',sans-serif;font-size:22px;font-weight:700;color:#111;margin-bottom:.9rem}
+.cu-card-desc{font-family:'Poppins',sans-serif;font-size:14px;color:var(--body);line-height:1.75;margin-bottom:1.5rem;max-width:280px}
+.cu-card-btn{display:inline-flex;align-items:center;justify-content:center;padding:.75rem 1.75rem;border:1.5px solid #111;border-radius:50px;font-family:'Apfel Grotesk','Poppins',sans-serif;font-weight:700;font-size:14px;color:#111;background:transparent;transition:all .2s;margin-top:auto}
+.cu-card-btn:hover{background:#111;color:#fff}
+
+/* Teal pill tab bar — same look/colors as the reference, own layout */
+.ab-tabs{background:#027A74}
+.ab-tabs-in{max-width:1280px;margin:0 auto;padding:1.1rem clamp(1.25rem,4vw,3rem);display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap}
+.ab-tab{padding:.85rem 1.75rem;border-radius:50px;font-family:'Proxima Nova','Poppins',sans-serif;font-size:13px;font-weight:600;letter-spacing:.3px;text-transform:uppercase;white-space:nowrap;background:#fff;color:#111;transition:all .22s}
+.ab-tab:hover{background:#eafaf8}
+.ab-tab.active{background:#eafaf8}
+.ab-tab-cta{background:#FFA43B;color:#fff}
+.ab-tab-cta:hover{background:#F28C13}
+
+/* ─────────────────────────────────────────
+   INTRO STATEMENT + 4 ICON CARDS
+───────────────────────────────────────── */
+.ab-intro{background:var(--white);padding-top:1.25rem}
+.ab-intro-txt{max-width:760px;margin:0 auto 3rem;text-align:center}
+.ab-icon-grid{display:flex;gap:1.5rem;align-items:flex-start}
+.ic-card{
+  flex:1;min-width:0;
+  background:linear-gradient(155deg,#0B8A83,#027A74 60%);
+  border-radius:22px;padding:2.75rem 1.75rem;
+  transition:all .35s cubic-bezier(.22,1,.36,1);
+  display:flex;flex-direction:column;align-items:center;text-align:center;gap:.9rem;
+  box-shadow:0 14px 34px rgba(2,122,116,.28);
+  position:relative;overflow:hidden;
+}
+.ic-card:hover{transform:translateY(-8px);box-shadow:0 22px 44px rgba(2,122,116,.4)}
+.ic-badge{width:56px;height:56px;display:flex;align-items:center;justify-content:center;margin-bottom:.25rem}
+.ic-badge svg{width:100%;height:100%;stroke:#fff;fill:none;stroke-width:1.4}
+.ic-ttl{font-family:'Outfit','Poppins',sans-serif;font-size:19px;font-weight:600;color:#fff;line-height:1.3;letter-spacing:normal}
+.ic-desc{font-family:'Poppins',sans-serif;font-size:14px;color:rgba(255,255,255,.82);line-height:1.5;letter-spacing:-0.2px;font-weight:400}
+
+/* Belief statement row — text + staggered photo grid */
+.ab-belief-row{display:grid;grid-template-columns:1fr 1fr;gap:clamp(2rem,5vw,4rem);align-items:center;margin-bottom:clamp(3rem,6vw,5rem)}
+.ab-belief-txt .sec-h{text-align:left;margin-bottom:1.25rem}
+.ab-belief-txt .sec-p{text-align:left;max-width:520px}
+.ab-photo-grid{position:relative;height:clamp(360px,40vw,500px);width:100%;max-width:520px;margin-left:auto}
+.gc{position:absolute;border-radius:14px;overflow:hidden;box-shadow:0 10px 28px rgba(0,0,0,.16);transition:transform .3s ease,box-shadow .3s}
+.gc:hover{transform:translateY(-5px);box-shadow:0 18px 38px rgba(0,0,0,.22);z-index:50!important}
+.gc img{width:100%;height:100%;object-fit:cover;display:block}
+.gc1{left:22.9%;top:7.1%;width:30.2%;height:32.7%;z-index:1}
+.gc2{left:55.2%;top:15.3%;width:31.25%;height:45.9%;z-index:2}
+.gc3{left:41.7%;top:42.9%;width:43.75%;height:36.7%;z-index:5}
+.gc4{left:12.5%;top:59.2%;width:37.5%;height:40.8%;z-index:1}
+.gc5{left:57.3%;top:72.4%;width:42.7%;height:27.6%;z-index:3}
+
+/* ─────────────────────────────────────────
+   ALTERNATING FEATURE BLOCKS
+───────────────────────────────────────── */
+/* ─────────────────────────────────────────
+   MORE ABOUT EUREKA TRIPS — icon grid, 2x2
+───────────────────────────────────────── */
+.ab-more{background:#F1F9F9}
+.ma-title{text-align:center;font-family:'Apfel Grotesk','Poppins',sans-serif;font-size:clamp(30px,4vw,42px);font-weight:700;color:#111;letter-spacing:0.2px;margin-bottom:clamp(2.5rem,5vw,4rem)}
+.ma-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(3rem,6vw,5rem) clamp(2rem,5vw,4rem)}
+.ma-item{text-align:center;display:flex;flex-direction:column;align-items:center}
+.ma-badge{width:88px;height:88px;border-radius:20px;background:var(--teal-l);display:flex;align-items:center;justify-content:center;margin-bottom:1.5rem}
+.ma-badge svg{width:36px;height:36px;stroke:var(--dark);fill:none;stroke-width:1.5}
+.ma-item h3{font-family:'Outfit','Poppins',sans-serif;font-size:clamp(23px,3vw,29px);font-weight:600;color:var(--dark);margin-bottom:1rem;letter-spacing:normal}
+.ma-item p{font-family:'Poppins',sans-serif;font-size:15px;color:var(--body);line-height:1.5;letter-spacing:-0.2px;font-weight:400;max-width:520px;margin:0 auto .9rem}
+
+/* ─────────────────────────────────────────
+   GALLERY STRIP
+───────────────────────────────────────── */
+.ab-gallery{background:var(--white)}
+.gal-title{text-align:center;font-family:'Apfel Grotesk','Poppins',sans-serif;font-size:clamp(30px,4vw,42px);font-weight:700;color:#111;letter-spacing:0.2px;margin-bottom:.85rem}
+.gal-sub{text-align:center;font-family:'Poppins',sans-serif;font-size:15px;color:var(--body);line-height:1.5;letter-spacing:-0.2px;font-weight:400;max-width:640px;margin:0 auto clamp(2rem,4vw,3rem)}
+.ab-gallery{background:var(--white)}
+.gal-scrolldrive{position:relative;height:240vh}
+.gal-drag-wrap{position:sticky;top:100px;height:clamp(420px,55vw,620px);overflow:hidden;border-radius:var(--r3);background:#F1F9F9}
+.gal-canvas{position:absolute;top:0;left:0;width:1600px;height:900px;will-change:transform}
+.gal-photo{position:absolute;border-radius:16px;overflow:hidden;box-shadow:0 12px 30px rgba(0,0,0,.16);pointer-events:none}
+.gal-photo img{width:100%;height:100%;object-fit:cover;display:block}
+.gal-hint{position:absolute;bottom:1.25rem;left:50%;transform:translateX(-50%);z-index:5;display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.9);backdrop-filter:blur(6px);padding:.6rem 1.1rem;border-radius:50px;font-family:'Poppins',sans-serif;font-size:12.5px;font-weight:600;color:var(--dark);box-shadow:var(--sh2);pointer-events:none;opacity:1;transition:opacity .5s}
+.gal-hint.hide{opacity:0}
+.gal-hint svg{width:16px;height:16px;stroke:var(--teal-d);fill:none;stroke-width:2}
+
+.fr{opacity:0;transform:translateX(70px);transition:opacity .8s ease,transform .8s ease}
+.fr.in{opacity:1;transform:none}
+
+/* ─────────────────────────────────────────
+   WHY EUREKA — 4 value cards
+───────────────────────────────────────── */
+.ab-why{background:#fff}
+.why-row{display:grid;grid-template-columns:.85fr 1.15fr;gap:clamp(2.5rem,5vw,4rem);align-items:center}
+.why-txt h2{font-family:'Apfel Grotesk','Poppins',sans-serif;font-size:clamp(28px,3.4vw,38px);font-weight:700;color:var(--dark);margin-bottom:1.1rem;letter-spacing:0.2px}
+.why-txt p{font-family:'Poppins',sans-serif;font-size:15px;color:var(--body);line-height:1.5;letter-spacing:-0.2px;font-weight:400;max-width:400px}
+.why-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem}
+.wv-card{background:#027A74;border-radius:var(--r2);padding:2.25rem 1.75rem;transition:all .3s;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:280px}
+.wv-card:hover{transform:translateY(-5px);box-shadow:0 16px 34px rgba(2,122,116,.35)}
+.wv-head{display:flex;align-items:center;justify-content:center;gap:.6rem;margin-bottom:1rem}
+.wv-head svg{width:24px;height:24px;stroke:#fff;fill:none;stroke-width:1.6;flex-shrink:0}
+.wv-ttl{font-family:'Outfit','Poppins',sans-serif;font-size:19px;font-weight:600;color:#fff;letter-spacing:normal}
+.wv-desc{font-family:'Poppins',sans-serif;font-size:14px;line-height:1.5;letter-spacing:-0.2px;color:rgba(255,255,255,.85);font-weight:400;max-width:260px}
+
+/* ─────────────────────────────────────────
+   OUR STORY
+───────────────────────────────────────── */
+.ab-story{background:#E8F8F8}
+.story-grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:clamp(2.5rem,5vw,5rem);align-items:center}
+.story-img{border-radius:var(--r3);overflow:hidden;aspect-ratio:5/4.5;box-shadow:var(--sh2)}
+.story-img img{width:100%;height:100%;object-fit:cover}
+.story-txt h2{font-family:'Apfel Grotesk','Poppins',sans-serif;font-size:clamp(28px,3.4vw,38px);font-weight:700;color:var(--dark);margin-bottom:1.25rem;letter-spacing:0.2px}
+.story-txt p{font-family:'Poppins',sans-serif;font-size:15px;color:var(--body);line-height:1.5;letter-spacing:-0.2px;font-weight:400;margin-bottom:1.1rem}
+
+/* ─────────────────────────────────────────
+   FAQ ACCORDION
+───────────────────────────────────────── */
+.ab-faq{background:#fff}
+.faq-row{display:grid;grid-template-columns:.85fr 1.15fr;gap:clamp(2.5rem,5vw,4rem);align-items:start}
+.faq-txt h2{font-family:'Apfel Grotesk','Poppins',sans-serif;font-size:clamp(28px,3.4vw,38px);font-weight:700;color:var(--dark);margin-bottom:1rem;letter-spacing:0.2px}
+.faq-txt p{font-family:'Poppins',sans-serif;font-size:15px;color:var(--body);line-height:1.5;letter-spacing:-0.2px;font-weight:400;max-width:420px;margin-bottom:1.75rem}
+.faq-btns{display:flex;gap:.9rem;flex-wrap:wrap}
+.faq-btn-outline{padding:.85rem 1.75rem;border-radius:50px;border:1.5px solid var(--teal);color:var(--teal);font-family:'Proxima Nova','Poppins',sans-serif;font-size:14px;font-weight:600;background:#fff;transition:all .22s}
+.faq-btn-outline:hover{background:var(--teal-l)}
+.faq-btn-solid{padding:.85rem 1.75rem;border-radius:50px;border:none;background:var(--teal);color:#fff;font-family:'Proxima Nova','Poppins',sans-serif;font-size:14px;font-weight:600;transition:all .22s}
+.faq-btn-solid:hover{background:var(--teal-d)}
+.faq-list{display:flex;flex-direction:column;gap:.9rem}
+.faq-item{background:transparent}
+.faq-q{background:#F1F9F9;border-radius:50px;display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:1.1rem 1.75rem;cursor:pointer;font-family:'Outfit','Poppins',sans-serif;font-size:15px;font-weight:600;color:var(--dark)}
+.faq-icon{width:22px;height:22px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:18px;font-weight:400;color:var(--dark)}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .35s ease}
+.faq-a-in{padding:.85rem 1.75rem 0;font-family:'Poppins',sans-serif;font-size:14px;color:var(--body);line-height:1.5;letter-spacing:-0.2px;font-weight:400}
+.faq-more{text-align:center;margin-top:2rem}
+.faq-more a{display:inline-flex;align-items:center;gap:8px;color:var(--teal-d);font-weight:600;font-size:14px;border-bottom:1.5px solid var(--teal);padding-bottom:2px}
+
+/* ─────────────────────────────────────────
+   FOOTER (shared)
+───────────────────────────────────────── */
+.footer-wrap{position:relative;background:#013A38;overflow:hidden}
+.footer-wrap-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;z-index:0}
+.footer{
+  position:relative;z-index:1;
+  background:rgba(1,58,56,.72);
+  backdrop-filter:blur(18px) saturate(1.4);
+  -webkit-backdrop-filter:blur(18px) saturate(1.4);
+  border-radius:28px 28px 0 0;
+  border:1px solid rgba(255,255,255,.08);
+  margin-top:clamp(220px,32vw,380px);
+  padding:clamp(2rem,3vw,3rem) clamp(1.25rem,4vw,3rem) 1.5rem;
+}
+.footer-grid{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:1.4fr 1fr 1fr 1.2fr;gap:2.5rem;padding-bottom:2.5rem;border-bottom:1px solid rgba(255,255,255,.1)}
+.ft-logo-img{height:64px;margin-bottom:1rem;display:block}
+.ft-mission{font-size:14px;color:rgba(255,255,255,.92);line-height:1.75;font-weight:400;margin-bottom:1.25rem;max-width:280px}
+.ft-social{display:flex;gap:10px}
+.fsb{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;color:#fff;transition:all .25s}
+.fsb:hover{background:var(--teal)}
+.fsb svg{width:15px;height:15px}
+.ft-col-h{font-size:13px;font-weight:700;color:#fff;margin-bottom:1.1rem;letter-spacing:.3px;text-transform:uppercase}
+.ft-col-links{display:flex;flex-direction:column;gap:.7rem}
+.ft-col-links a{font-size:13.5px;color:rgba(255,255,255,.65);transition:color .2s}
+.ft-col-links a:hover{color:var(--teal)}
+.ft-contact-item{display:flex;gap:.75rem;align-items:flex-start;margin-bottom:1.1rem}
+.ft-contact-icon{width:32px;height:32px;border-radius:8px;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ft-contact-icon svg{width:15px;height:15px;stroke:#fff;fill:none;stroke-width:1.8}
+.ft-contact-lbl{font-size:11px;color:rgba(255,255,255,.5);margin-bottom:2px}
+.ft-contact-val{font-size:13.5px;color:#fff;font-weight:500}
+.ft-badges{max-width:1280px;margin:1.5rem auto 0;display:flex;flex-wrap:wrap;align-items:center;gap:1.5rem}
+.ft-badge{height:38px}
+.ft-pay-row{max-width:1280px;margin:1.25rem auto 0;display:flex;flex-wrap:wrap;align-items:center;gap:1.25rem}
+.footer-btm{max-width:1280px;margin:1.75rem auto 0;display:flex;flex-wrap:wrap;justify-content:space-between;gap:1rem}
+.ft-copy{font-size:12.5px;color:rgba(255,255,255,.55)}
+.ft-legal{display:flex;gap:1.25rem}
+.ft-legal a{font-size:12.5px;color:rgba(255,255,255,.55)}
+.ft-legal a:hover{color:#fff}
+
+
+/* ─────────────────────────────────────────
+   RESPONSIVE
+───────────────────────────────────────── */
+@media(max-width:1024px){
+  .ab-icon-grid,.why-grid{grid-template-columns:repeat(2,1fr)}
+  .why-row{grid-template-columns:1fr}
+  .faq-row{grid-template-columns:1fr}
+  .gal-drag-wrap{height:clamp(320px,60vw,420px)}
+  .footer-grid{grid-template-columns:1fr 1fr}
+  .nav-pill{display:none}
+  .hbg{display:flex}
+  .ab-icon-grid{flex-wrap:wrap;display:grid}
+  .ic-card:nth-child(3),.ic-card:nth-child(4){margin-top:0}
+}
+@media(max-width:768px){
+  .ma-grid{grid-template-columns:1fr}
+  .story-grid{grid-template-columns:1fr}
+  .ab-hero-h1{font-size:clamp(30px,8vw,44px)}
+  .cu-hero-h1{font-size:clamp(28px,8vw,40px)}
+  .cu-form-in{grid-template-columns:1fr}
+  .cu-form-row{grid-template-columns:1fr}
+  .cu-form-checks{grid-template-columns:1fr}
+  .ab-belief-row{grid-template-columns:1fr;gap:2.5rem}
+  .ab-photo-grid{margin:0 auto;max-width:420px;height:clamp(320px,90vw,420px)}
+}
+@media(max-width:560px){
+  .gal-drag-wrap{height:300px;border-radius:16px}
+  .footer-grid{grid-template-columns:1fr}
+}
+@media(max-width:480px){
+  .ab-icon-grid,.why-grid{grid-template-columns:1fr}
+  .ic-card,.wv-card{min-height:0}
+  .why-txt p,.ab-belief-txt .sec-p{max-width:100%}
+  .ab-hero-sub{padding:0 .5rem}
+  .faq-btns{width:100%}
+  .faq-btn-outline,.faq-btn-solid{flex:1;text-align:center}
+  .sec-h{font-size:clamp(28px,8vw,36px);font-weight:700;color:#111}
+}
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+  <a href="index.html" class="nav-logo">
+    <img class="nav-logo-img" src="https://etrips.digitalgrowthtechnology.com/wp-content/uploads/2026/01/Eureka-Logo-1-02-scaled-e1769966688826.png" alt="Eureka Trips" onerror="this.style.display='none'">
+  </a>
+    <div class="nav-pill">
+    <a href="about-us.html">About Us</a>
+    <a href="index.html#trips">Our Trips <span class="nav-plus">+</span></a>
+    <a href="destinations.html">Destinations</a>
+    <a href="group-trip.html">Group Trip</a>
+    <a href="custom-trips.html">Build Your Adventure</a>
+    <a href="blog.html">Blog</a>
+    <a href="contact-us.html">Contact Us</a>
+  </div>
+<div class="nav-right">
+    <a href="https://www.facebook.com/profile.php?id=61550700038721" target="_blank" class="nav-soc" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
+    <a href="https://www.instagram.com/eureka.trips" target="_blank" class="nav-soc" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
+    <div class="hbg" id="hbg" onclick="openDrawer()"><span></span><span></span><span></span></div>
+  </div>
+</nav>
+
+<!-- MOBILE DRAWER -->
+<div class="mob-overlay" id="mobOverlay" onclick="closeDrawer()"></div>
+<div class="mob-drawer" id="mobDrawer">
+  <div class="mob-drawer-head">
+    <span style="font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:#111">eureka! <em style="color:#02A9A2;font-style:italic">trips</em></span>
+    <button class="mob-close" onclick="closeDrawer()">✕</button>
+  </div>
+    <nav class="mob-links">
+    <a href="about-us.html" onclick="closeDrawer()">About Us</a>
+    <a href="index.html#trips" onclick="closeDrawer()">Our Trips</a>
+    <a href="destinations.html" onclick="closeDrawer()">Destinations</a>
+    <a href="group-trip.html" onclick="closeDrawer()">Group Trip</a>
+    <a href="custom-trips.html" onclick="closeDrawer()">Build Your Adventure</a>
+    <a href="blog.html" onclick="closeDrawer()">Blog</a>
+    <a href="contact-us.html" onclick="closeDrawer()">Contact Us</a>
+    <a href="tel:+919792496457" onclick="closeDrawer()">📞 +91 97924 96457</a>
+  </nav>
+  <div class="mob-foot">
+    <button class="mob-cta-btn" onclick="openWA('Hi EUREKA Trips! I want to know more about you.');closeDrawer()">💬 Chat on WhatsApp</button>
+  </div>
+</div>
+
+<!-- PRIVACY HERO -->
+<section class="tc-hero" id="home" style="padding:0">
+  <div class="tc-hero-img"><img fetchpriority="high" src="https://images.unsplash.com/photo-1543087903-1ac2ec7aa8c5?w=1920&q=85&auto=format&fm=webp&fit=crop" alt="Group of friends sitting together on rocks by a waterfall"></div>
+  <div class="tc-hero-ov"></div>
+  <div class="tc-hero-content">
+    <h1 class="tc-hero-h1">Privacy Policy</h1>
+  </div>
+</section>
+
+<!-- PRIVACY CONTENT -->
+<section class="tc-content">
+  <div class="container" style="max-width:1150px">
+    <div class="tc-card tc-intro">
+      <p>At Eureka Trips, your privacy is important to us, and we take care to protect your data. This policy outlines how we collect, use, and safeguard your information when you participate in our group trips or book custom travel experiences. We've made it simple and transparent for you. But if you're unsure about anything just contact us.</p>
+    </div>
+
+    <div class="tc-card">
+      <h2 class="tc-card-h">Consent</h2>
+      <p>By using our website, you hereby consent to our Privacy Policy and agree to its terms.</p>
+    </div>
+
+    <div class="tc-card">
+      <h2 class="tc-card-h">Information We Collect</h2>
+      <p>Information We Collect</p>
+      <p class="tc-subh"><strong>Personal Information</strong></p>
+      <p>When you join our group trips or plan a customized travel experience, we may collect personal details, including name, email address, phone number, and payment information.</p>
+      <p class="tc-subh"><strong>Travel Preferences</strong></p>
+      <p>We'd like to gather information about your travel interests to tailor our trips to your needs. This may include preferred destinations, activities, special interests, group information (if booking for multiple travellers)</p>
+      <p class="tc-subh"><strong>Non-Personal Information</strong></p>
+      <p>We collect non-personal data through cookies and other tracking technologies, such as browser type, IP address, and general location.</p>
+    </div>
+
+    <div class="tc-card">
+      <h2 class="tc-card-h">How We Use Your Information</h2>
+      <p>How We Use Your Information</p>
+      <p class="tc-subh"><strong>To Foster a Sense of Community</strong></p>
+      <p>For group trips, we use your data to connect you with other travellers in your age group, fostering shared experiences and camaraderie.</p>
+      <p class="tc-subh"><strong>To Coordinate Group and Private Trips</strong></p>
+      <p>Your information helps us organize trips that cater to your preferences, ensuring activities, accommodations, and itineraries are suited to your travel goals.</p>
+      <p class="tc-subh"><strong>To Create Tailored Experiences</strong></p>
+      <p>For customized trips, your data allows us to design personalized itineraries, accommodations, and activities that meet your specific interests, whether it's a family vacation, a honeymoon, or a solo adventure.</p>
+      <p class="tc-subh"><strong>Marketing Communications</strong></p>
+      <p>With your consent, we may send you updates about upcoming trips, special promotions, and travel tips that match your interests.</p>
+      <p class="tc-subh"><strong>Legal Compliance</strong></p>
+      <p>We may use your information to comply with legal requirements, resolve disputes, and enforce our agreements.</p>
+    </div>
+
+    <div class="tc-card">
+      <h2 class="tc-card-h">Legal Compliance</h2>
+      <p class="tc-subh"><strong>Fellow Travelers</strong></p>
+      <p>For group trips, we may share relevant trip details with other group members to ensure a smooth and seamless experience.</p>
+      <p class="tc-subh"><strong>Third-Party Service Providers</strong></p>
+      <p>We collaborate with trusted partners to provide accommodations, activities, and other services for both group and customized trips.</p>
+      <p class="tc-subh"><strong>Legal Requirements</strong></p>
+      <p>If required by law, or to protect the rights of Eureka Trips, we may disclose your information to legal authorities.</p>
+      <p class="tc-subh"><strong>Cookies and Tracking Technologies</strong></p>
+      <p>We use cookies to enhance your browsing experience, analyze site traffic, and personalize content. You can manage your cookie preferences through your browser settings.</p>
+      <p class="tc-subh"><strong>Data Security</strong></p>
+      <p>Eureka Trips employs advanced security measures, including encryption and secure servers, to protect your data from unauthorized access, alteration, or disclosure.</p>
+    </div>
+
+    <div class="tc-card">
+      <h2 class="tc-card-h">Data Protection Rights</h2>
+      <p class="tc-subh"><strong>Access and Correction</strong></p>
+      <p>You can request access to the personal information we hold about you and ask for corrections if necessary.</p>
+      <p class="tc-subh"><strong>Opt-Out</strong></p>
+      <p>You may opt out of receiving marketing communications from us at any time.</p>
+      <p class="tc-subh"><strong>Data Deletion</strong></p>
+      <p>You can request the deletion of your data, subject to legal and contractual obligations.</p>
+    </div>
+
+    <div class="tc-card">
+      <h2 class="tc-card-h">Content Credit and Disclaimer</h2>
+      <p class="tc-subh"><strong>Content Credit</strong></p>
+      <p>At Eureka Trips, we value and respect the creativity and efforts of those in the travel industry and beyond. Our social media and marketing content may include material inspired by various sources across social media channels and other platforms. We aim to showcase our products engaging and entertainingly and have used content intending to highlight the beauty and experiences of travel.</p>
+      <p class="tc-subh"><strong>Acknowledgment of Inspiration</strong></p>
+      <p>We acknowledge that our content may draw inspiration from the works of others within the travel industry. Our goal is to enhance the way travel is presented and experienced, not to claim ownership of others' content. If any material used inadvertently appears to infringe on the rights or privacy policies of individuals or organizations, please notify us directly. We are committed to addressing any concerns and making necessary adjustments promptly.</p>
+      <p class="tc-subh"><strong>No Intent to Infringe</strong></p>
+      <p>Our intention is not to use anyone's content for personal gain or to misrepresent ownership. We seek to celebrate and share the wonderful aspects of travel while ensuring that we respect and credit the original creators. If you believe that any content we have used infringes upon your rights, please contact us directly so we can rectify the situation</p>
+    </div>
+
+    <div class="tc-card">
+      <h2 class="tc-card-h">Changes to This Privacy Policy</h2>
+      <p>Eureka Trips may update this Privacy Policy periodically. We will notify you of significant changes by posting the updated policy on our website.</p>
+    </div>
+
+    <div class="tc-card">
+      <h2 class="tc-card-h">Contact Us</h2>
+      <p>If you have any questions or concerns about our Privacy Policy, whether for group or customized trips, please contact us at:</p>
+      <p style="margin-top:1.25rem">Email: <strong>hello@eurekatrips.com</strong></p>
+      <p>Address: Plot No.-94, 100 Feet Rd, behind CNG gas station, Taj Nagri Phase 2, Tajganj, Agra, Basai, Uttar Pradesh 282001</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<div class="footer-wrap">
+  <img class="footer-wrap-bg" src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1920&q=80&auto=format&fm=webp&fit=crop" alt="Misty green mountain range over a bay" loading="lazy">
+
+  <footer class="footer">
+    <div class="footer-grid">
+      <div>
+        <img class="ft-logo-img" src="https://etrips.digitalgrowthtechnology.com/wp-content/uploads/2026/01/Eureka-Logo-1-02-scaled-e1769966688826.png" alt="Eureka Trips" onerror="this.style.display='none'">
+        <p class="ft-mission" style="margin-top:1rem">Our mission is to inspire travel experiences that open your mind, ignite your curiosity, and broaden your horizons so you can discover your own &ldquo;Eureka moment&rdquo;</p>
+        <div class="ft-social">
+          <a href="https://www.instagram.com/eureka.trips" target="_blank" class="fsb" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
+          <a href="https://www.google.com/search?q=Eureka+Trips" target="_blank" class="fsb" aria-label="Google"><svg viewBox="0 0 48 48"><path fill="currentColor" d="M43.6 20.1H42V20H24v8h11.3C33.6 32.8 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.1 8 2.9l5.7-5.7C34.1 6.8 29.3 5 24 5 13.5 5 5 13.5 5 24s8.5 19 19 19 19-8.5 19-19c0-1.3-.1-2.5-.4-3.9z"/></svg></a>
+        </div>
+      </div>
+
+      <div>
+                <div class="ft-col-h">Company</div>
+        <div class="ft-col-links">
+          <a href="about-us.html">About Us</a>
+          <a href="index.html#trips">Our Trips</a>
+          <a href="destinations.html">Destinations</a>
+          <a href="whats-included.html">What's Included</a>
+          <a href="index.html#reviews">Reviews</a>
+          <a href="blog.html">Blogs</a>
+        </div>
+      </div>
+
+      <div>
+                <div class="ft-col-h">Explore</div>
+        <div class="ft-col-links">
+          <a href="contact-us.html">Contact Us</a>
+          <a href="custom-trips.html">Adventure Planner</a>
+          <a href="group-trip.html">Group Trip</a>
+          <a href="about-us.html#faqs">FAQ</a>
+          <a href="booking-page.html">Book Your Trip</a>
+        </div>
+      </div>
+
+      <div>
+        <div class="ft-col-h">Contact Information</div>
+        <div class="ft-contact-item">
+          <div class="ft-contact-icon"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg></div>
+          <div><div class="ft-contact-lbl">Phone Number</div><div class="ft-contact-val">+91 9792496457</div></div>
+        </div>
+        <div class="ft-contact-item">
+          <div class="ft-contact-icon"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4V4z"/><path d="M4 6l8 7 8-7"/></svg></div>
+          <div><div class="ft-contact-lbl">Email Address</div><div class="ft-contact-val">hello@eurekatrips.com</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ft-badges">
+      <img class="ft-badge" src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Tripadvisor_Logo_circle-green_vertical-lockup_registered_RGB.svg/200px-Tripadvisor_Logo_circle-green_vertical-lockup_registered_RGB.svg.png" alt="Tripadvisor 5.0 stars" loading="lazy">
+      <span style="color:#fff;font-size:13px;font-weight:700;opacity:.9">100% Carbon Neutral Tours</span>
+      <span style="color:#fff;font-size:13px;font-weight:700;opacity:.9">#SmallChange Sustainable Travel</span>
+      <span style="color:#fff;font-size:13px;font-weight:700;opacity:.9">Google 4.9 ★★★★★</span>
+    </div>
+
+    <div class="ft-pay-row">
+      <span style="color:#fff;font-size:12px;font-weight:700;opacity:.85">We accept:</span>
+      <span style="color:rgba(255,255,255,.85);font-size:13px;font-weight:600">MasterCard</span>
+      <span style="color:rgba(255,255,255,.85);font-size:13px;font-weight:600">VISA</span>
+      <span style="color:rgba(255,255,255,.85);font-size:13px;font-weight:600">American Express</span>
+      <span style="color:rgba(255,255,255,.85);font-size:13px;font-weight:600">G Pay</span>
+      <span style="color:rgba(255,255,255,.85);font-size:13px;font-weight:600">Apple Pay</span>
+    </div>
+
+    <div class="footer-btm">
+      <span class="ft-copy">&copy; 2026 Eureka Trips. All rights reserved.</span>
+            <div class="ft-legal"><a href="privacy-policy.html">Privacy Policy</a><a href="terms-conditions.html">Terms &amp; Conditions</a></div>
+    </div>
+  </footer>
+</div>
+
+<script>
+function openWA(msg){window.open('https://wa.me/919792496457?text='+encodeURIComponent(msg),'_blank');}
+
+function submitContactForm(){
+  var n=document.getElementById('cu_name').value||'';
+  var e=document.getElementById('cu_email').value||'';
+  var p=document.getElementById('cu_phone').value||'';
+  var t=document.getElementById('cu_trip').value||'';
+  var s=document.getElementById('cu_spots').value||'';
+  if(!n.trim()){alert('Please enter your full name');return;}
+  if(!p.trim()){alert('Please enter your contact number');return;}
+  var msg='Hi EUREKA Trips! \uD83D\uDC4B\n\nName: '+n+'\nPhone: '+p+
+    (e?'\nEmail: '+e:'')+
+    (t?'\nTrip: '+t:'')+
+    (s?'\nSpots to reserve: '+s:'')+
+    '\n\nCould you share more details and available dates?';
+  window.open('https://wa.me/919792496457?text='+encodeURIComponent(msg),'_blank');
+}
+
+function openDrawer(){document.getElementById('hbg').classList.add('open');document.getElementById('mobDrawer').classList.add('open');document.getElementById('mobOverlay').classList.add('show');document.body.style.overflow='hidden';}
+function closeDrawer(){document.getElementById('hbg').classList.remove('open');document.getElementById('mobDrawer').classList.remove('open');document.getElementById('mobOverlay').classList.remove('show');document.body.style.overflow='';}
+
+var lastScroll=0;
+window.addEventListener('scroll',function(){
+  var nb=document.getElementById('navbar');
+  var hero=document.getElementById('home');
+  var s=window.scrollY;
+  var solidThreshold=hero?hero.offsetHeight-100:window.innerHeight-100;
+  if(s>lastScroll && s>80){nb.classList.add('hide');}else{nb.classList.remove('hide');}
+  nb.classList.toggle('solid', s>solidThreshold);
+  lastScroll=s;
+},{passive:true});
+
+function initObs(){
+  var o=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){
+        var el=e.target;
+        o.unobserve(el);
+        requestAnimationFrame(function(){
+          requestAnimationFrame(function(){ el.classList.add('in'); });
+        });
+      }
+    });
+  },{threshold:.08});
+  var els=document.querySelectorAll('.fu:not(.in), .fr:not(.in)');
+  for(var i=0;i<els.length;i++)o.observe(els[i]);
+}
+initObs();
+
+/* Scroll-driven photo-wall gallery — horizontal pan tied to vertical page scroll */
+(function(){
+  var section=document.getElementById('galScrollDrive');
+  var wrap=document.getElementById('galDragWrap');
+  var canvas=document.getElementById('galCanvas');
+  var hint=document.getElementById('galHint');
+  if(!section||!wrap||!canvas) return;
+
+  function update(){
+    var rect=section.getBoundingClientRect();
+    var wrapH=wrap.offsetHeight;
+    var scrollable=rect.height-wrapH;
+    if(scrollable<=0) return;
+    var progress=(-rect.top)/scrollable;
+    progress=Math.max(0, Math.min(1, progress));
+
+    var maxX=Math.min(0, wrap.clientWidth-canvas.offsetWidth);
+    canvas.style.transform='translateX('+(maxX*progress)+'px)';
+
+    if(hint){
+      if(progress>0.05) hint.classList.add('hide');
+      else hint.classList.remove('hide');
+    }
+  }
+
+  window.addEventListener('scroll', update, {passive:true});
+  window.addEventListener('resize', update);
+  update();
+})();
+
+function toggleFaq(q){
+  var item=q.parentElement;
+  var ans=item.querySelector('.faq-a');
+  var icon=q.querySelector('.faq-icon');
+  var wasOpen=item.classList.contains('open');
+  document.querySelectorAll('.faq-item.open').forEach(function(it){
+    it.classList.remove('open');
+    it.querySelector('.faq-a').style.maxHeight=null;
+    it.querySelector('.faq-icon').textContent='+';
+  });
+  if(!wasOpen){
+    item.classList.add('open');
+    ans.style.maxHeight=ans.scrollHeight+'px';
+    icon.textContent='−';
+  }
+}
+
+/* active tab highlight on scroll */
+var tabSections=['about-eureka','why-us','our-story','faqs'].map(function(id){return document.getElementById(id);});
+var tabs=document.querySelectorAll('.ab-tab');
+window.addEventListener('scroll',function(){
+  var pos=window.scrollY+180;
+  var current='';
+  tabSections.forEach(function(sec){ if(sec && pos>=sec.offsetTop) current=sec.id; });
+  tabs.forEach(function(t){ t.classList.toggle('active', t.getAttribute('href')==='#'+current); });
+},{passive:true});
+</script>
+</body>
+</html>
