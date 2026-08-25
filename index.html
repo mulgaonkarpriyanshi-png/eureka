@@ -12,28 +12,35 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://images.unsplash.com">
 <link rel="dns-prefetch" href="https://www.youtube.com">
-<!-- Preload hero image -->
-<link rel="preload" as="image" href="https://images.unsplash.com/photo-1539635278303-d4002c07eae3?w=1920&q=92&auto=format&fm=webp&fit=crop" fetchpriority="high">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <style>
-  /* Apfel Grotesk — client's brand font (Medium + Regular) */
+  /* Apfel Grotezk — this page's own hardcoded headings use this exact spelling/source
+     (a free, open-source typeface by Luigi Gorlero / Collletttivo, SIL OFL licensed,
+     loaded from fontsource). It only ships in two weights — Regular (400) and Bold
+     (700) — so every rule below using it is normalized to one of those two; there is
+     no Medium/500 or Semibold/600 cut of this font.
+     NOTE: every other page on this site (About Us, Group Trip, Trip Page, etc.) loads
+     a DIFFERENT font under the name 'Apfel Grotesk' (no z) via cdnfonts.com instead —
+     this page is the one exception. The Typography admin panel's font picker offers
+     "Apfel Grotesk" to match that majority, so the line below also loads that same
+     cdnfonts.com font here, letting an admin-selected "Apfel Grotesk" style render
+     correctly on this page too — without changing any of this page's own existing
+     'Apfel Grotezk' headings, which are untouched. */
+  @font-face{
+    font-family:'Apfel Grotezk';font-style:normal;font-display:swap;font-weight:400;
+    src:url(https://cdn.jsdelivr.net/fontsource/fonts/apfel-grotezk@latest/latin-400-normal.woff2) format('woff2'),
+        url(https://cdn.jsdelivr.net/fontsource/fonts/apfel-grotezk@latest/latin-400-normal.woff) format('woff');
+  }
+  @font-face{
+    font-family:'Apfel Grotezk';font-style:normal;font-display:swap;font-weight:700;
+    src:url(https://cdn.jsdelivr.net/fontsource/fonts/apfel-grotezk@latest/latin-700-normal.woff2) format('woff2'),
+        url(https://cdn.jsdelivr.net/fontsource/fonts/apfel-grotezk@latest/latin-700-normal.woff) format('woff');
+  }
   @import url('https://fonts.cdnfonts.com/css/apfel-grotesk');
   @import url('https://fonts.cdnfonts.com/css/proxima-nova-2');
-  @font-face {
-    font-family: 'Apfel Grotesk';
-    font-weight: 400;
-    font-style: normal;
-    font-display: swap;
-  }
-  @font-face {
-    font-family: 'Apfel Grotesk';
-    font-weight: 500;
-    font-style: normal;
-    font-display: swap;
-  }
 </style>
-<link rel="preload" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Outfit:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,700;1,400;1,600&family=Caveat:wght@600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Outfit:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,700;1,400;1,600&family=Caveat:wght@600;700&display=swap"></noscript>
+<link rel="preload" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800;900&family=Outfit:wght@400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,700;1,400;1,600&family=Caveat:wght@600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800;900&family=Outfit:wght@400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,700;1,400;1,600&family=Caveat:wght@600;700&display=swap"></noscript>
 <!-- Fallback font stack while web fonts load -->
 <style>
 /* ─────────────────────────────────────────
@@ -41,7 +48,8 @@
 ───────────────────────────────────────── */
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth;overflow-x:clip;width:100%}
-body{font-family:'Apfel Grotesk','Poppins',system-ui,sans-serif;background:#fff;color:#3A3B3B;overflow-x:clip;line-height:1.6;font-weight:400}
+html{zoom:90%}
+body{font-family:'Apfel Grotezk','Poppins',system-ui,sans-serif;background:var(--white);color:var(--heading);overflow-x:clip;line-height:1.6;font-weight:400;zoom:1.1}
 a{text-decoration:none;color:inherit}
 button{cursor:pointer;font-family:inherit;border:none;outline:none}
 img{display:block;max-width:100%}
@@ -53,16 +61,26 @@ img{display:block;max-width:100%}
    TOKENS — matches eurekaselect.in palette
 ───────────────────────────────────────── */
 :root{
+  /* ── BRAND SPEC — single source of truth ── */
+  --primary:#02A9A2;        /* Primary Text Colour */
+  --primary-hover:#027A74;  /* Primary Hover */
+  --secondary:#FFA43B;      /* Secondary Text Colour */
+  --secondary-hover:#F28C13;/* Secondary Hover */
+  --accent:#F79877;         /* Accent */
+  --heading:#3A3B3B;        /* Title / Heading Text Colour */
+  --byline:#5C6363;         /* Byline Text Colour */
+  --page-bg:#F1F9F9;        /* Page colour */
+  --blue-bg:#E8F8F8;        /* Blue Background colour */
+
   --white:#ffffff;
   --off:#f7f7f5;        /* their light section bg */
   --off2:#eef5f3;       /* their teal-tinted bg */
-  --teal:#02A9A2;       /* their primary green */
-  --teal-d:#027A74;
-  --teal-l:#e8f8f4;
-  --dark:#3A3B3B;       /* headings */
-  --dark2:#3A3B3B;
-  --body:#6B7575;       /* body text */
-  --body:#6B7575;
+  --teal:var(--primary);       /* alias — kept so existing rules referencing var(--teal) stay in sync */
+  --teal-d:var(--primary-hover);
+  --teal-l:var(--blue-bg);
+  --dark:var(--heading);       /* headings */
+  --dark2:var(--heading);
+  --body:var(--byline);        /* body/byline text */
   --border:#e5e7eb;
   --border2:#d1fae5;
   --sh:0 1px 3px rgba(0,0,0,.06),0 1px 2px rgba(0,0,0,.04);
@@ -72,7 +90,10 @@ img{display:block;max-width:100%}
   --r2:16px;
   --r3:24px;
   --serif:'Playfair Display',Georgia,serif;
-  --sans:'Apfel Grotesk','Poppins',system-ui,sans-serif;
+  --sans:'Apfel Grotezk','Poppins',system-ui,sans-serif;
+  --fw-regular:400;
+  --fw-medium:500;
+  --fw-bold:700;
 }
 
 /* ─────────────────────────────────────────
@@ -89,7 +110,7 @@ img{display:block;max-width:100%}
 ───────────────────────────────────────── */
 .navbar{
   position:fixed;top:0;left:0;right:0;z-index:1000;
-  height:84px;
+  height:72px;
   background:transparent;
   display:flex;align-items:center;
   padding:0 clamp(1.25rem,4vw,3rem);
@@ -100,16 +121,47 @@ img{display:block;max-width:100%}
 /* Solid white state once scrolled past hero */
 .navbar.solid{
   background:#fff;
-  height:70px;
+  height:60px;
   border-bottom:1px solid #e5e7eb;
   box-shadow:0 1px 12px rgba(0,0,0,.06);
 }
 /* Logo */
 .nav-logo{flex-shrink:0;text-decoration:none}
-.nav-logo-img{height:76px;width:auto;object-fit:contain;flex-shrink:0;display:block;transition:height .3s}
-.navbar.solid .nav-logo-img{height:60px}
+.nav-logo-img{height:64px;width:auto;object-fit:contain;flex-shrink:0;display:block;transition:height .3s}
+.navbar.solid .nav-logo-img{height:50px}
 
-/* Center glass pill containing the nav links */
+/* Center search bar */
+.nav-search{
+  display:none; /* Search bar removed site-wide — both mobile and desktop */
+  align-items:center;gap:.5rem;
+  flex:1;
+  background:rgba(40,50,55,.45);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  border:1.5px solid rgba(255,255,255,.55);
+  border-radius:50px;
+  padding:.45rem .45rem .45rem 1.2rem;
+  max-width:480px;margin:0 auto;
+  transition:background .3s,border-color .3s,backdrop-filter .3s;
+}
+.navbar.solid .nav-search{
+  background:#f3f4f6;border-color:#e5e7eb;backdrop-filter:none;
+}
+.nav-search input{
+  flex:1;min-width:0;border:none;background:transparent;outline:none;
+  font-family:'Poppins',sans-serif;font-size:14px;color:#fff;
+}
+.nav-search input::placeholder{color:rgba(255,255,255,.75)}
+.navbar.solid .nav-search input{color:#111}
+.navbar.solid .nav-search input::placeholder{color:#9aa0a6}
+.nav-search button{
+  width:30px;height:30px;border-radius:50%;flex-shrink:0;
+  background:var(--teal);border:none;color:#fff;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;transition:background .2s;
+}
+.nav-search button:hover{background:var(--teal-d)}
+.nav-search button svg{width:14px;height:14px}
+
+/* Center nav-links pill — same style used on about-us.html and other inner pages */
 .nav-pill{
   display:flex;align-items:center;justify-content:center;
   gap:clamp(1rem,2vw,2rem);
@@ -118,94 +170,51 @@ img{display:block;max-width:100%}
   backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
   border:1.5px solid rgba(255,255,255,.55);
   border-radius:50px;
-  padding:.75rem clamp(1.5rem,3vw,2.5rem);
-  max-width:760px;margin:0 auto;
+  padding:.65rem clamp(1.5rem,3vw,2.5rem);
+  max-width:980px;margin:0 auto;
   transition:background .3s,border-color .3s,backdrop-filter .3s;
 }
-.navbar.solid .nav-pill{
-  background:transparent;border-color:transparent;backdrop-filter:none;
-  padding:.5rem 0;
-}
-.nav-pill a{
-  font-size:14px;font-weight:600;color:#fff;white-space:nowrap;
-  text-decoration:none;transition:color .2s;letter-spacing:.1px;
-  display:flex;align-items:center;gap:4px;
-}
+.navbar.solid .nav-pill{background:transparent;border-color:transparent;backdrop-filter:none;padding:.5rem 0}
+.nav-pill a{font-size:14px;font-weight:600;color:#fff;white-space:nowrap;text-decoration:none;transition:color .2s;letter-spacing:.1px;display:flex;align-items:center;gap:4px}
 .nav-pill a:hover{color:#02A9A2}
+.nav-pill a.active{color:#02A9A2}
 .navbar.solid .nav-pill a{color:#6B7575}
 .navbar.solid .nav-pill a:hover{color:#02A9A2}
+.navbar.solid .nav-pill a.active{color:#02A9A2}
 .nav-plus{font-size:16px;font-weight:400;opacity:.7}
 
-/* ─────────────────────────────────────────
-   OUR TRIPS — mega dropdown
-───────────────────────────────────────── */
-.nav-has-drop{position:relative}
-.nav-mega{
-  position:absolute;top:100%;left:50%;transform:translateX(-50%);
-  padding-top:16px; /* invisible bridge — keeps this element (and hover) spanning the gap down to the visible panel */
-  width:min(760px,90vw);z-index:1002;
-  opacity:0;visibility:hidden;pointer-events:none;
-  transition:opacity .2s ease,visibility .2s;
-}
-.nav-has-drop.open .nav-mega,
-.nav-has-drop:hover .nav-mega{
-  opacity:1;visibility:visible;pointer-events:auto;
-}
-.nav-mega-inner{
-  background:#fff;border-radius:20px;box-shadow:0 20px 60px rgba(0,0,0,.18);
-  padding:1.75rem;display:grid;grid-template-columns:1fr 1fr 1.5fr;gap:2.25rem;
-}
-.nav-mega-h{font-family:'Apfel Grotesk','Poppins',sans-serif;font-size:14px;font-weight:700;color:#111;margin-bottom:.9rem}
-.nav-mega-links{display:flex;flex-direction:column;gap:.65rem}
-.nav-mega-links a{
-  display:flex;align-items:center;gap:8px;
-  font-family:'Poppins',sans-serif;font-size:13.5px;font-weight:500;color:#3A3B3B;
-  transition:color .2s;
-}
-.nav-mega-links a:hover{color:#02A9A2}
-.nav-mega-dot{width:6px;height:6px;border-radius:50%;background:#F5A623;flex-shrink:0}
-.nav-mega-promo{
-  border-radius:14px;overflow:hidden;background:#F7F7F5;
-  display:flex;align-items:stretch;gap:0;
-}
-.nav-mega-promo-img{width:110px;flex-shrink:0;overflow:hidden}
-.nav-mega-promo-img img{width:100%;height:100%;object-fit:cover;display:block}
-.nav-mega-promo-body{padding:.9rem 1rem;display:flex;flex-direction:column;gap:.25rem}
-.nav-mega-promo-tag{font-family:'Poppins',sans-serif;font-size:11px;font-weight:700;color:#02A9A2;text-transform:uppercase;letter-spacing:.4px}
-.nav-mega-promo-title{font-family:'Apfel Grotesk','Poppins',sans-serif;font-size:16px;font-weight:700;color:#111;line-height:1.2}
-.nav-mega-promo-desc{font-family:'Poppins',sans-serif;font-size:11.5px;color:#6B7575;line-height:1.5;margin:.15rem 0 .5rem}
-.nav-mega-promo-btn{
-  display:inline-flex;align-items:center;gap:5px;
-  background:#F5A623;color:#fff;padding:7px 16px;border-radius:50px;
-  font-family:'Poppins',sans-serif;font-size:12px;font-weight:700;align-self:flex-start;
-  transition:background .2s;
-}
-.nav-mega-promo-btn:hover{background:#e5981a}
-
-@media(max-width:1080px){
-  .nav-mega{display:none!important}
-}
-
 /* Right — social icons */
-.nav-right{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.nav-right{display:flex;align-items:center;gap:10px;flex-shrink:0;margin-left:auto}
 .nav-soc{
-  width:38px;height:38px;border-radius:50%;
+  width:34px;height:34px;border-radius:50%;
   display:flex;align-items:center;justify-content:center;
   background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.5);
   color:#fff;transition:all .25s;flex-shrink:0;
 }
 .nav-soc:hover{background:rgba(0,0,0,.55)}
-.nav-soc svg{width:16px;height:16px;fill:currentColor}
-.navbar.solid .nav-soc{background:#fff;border-color:#e5e7eb;color:#6B7575}
+.nav-soc svg{width:15px;height:15px;fill:currentColor}
+.navbar.solid .nav-soc{background:#fff;border-color:#e5e7eb;color:var(--byline)}
 .navbar.solid .nav-soc:hover{background:#f3f4f6}
+.nav-soc-brand{background:#fff;border-color:#e5e7eb}
+.nav-soc-brand:hover{background:#f3f4f6}
+.nav-soc-brand svg{fill:none}
 
-/* Hamburger */
-.hbg{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px;flex-shrink:0}
-.hbg span{display:block;width:22px;height:2px;background:#fff;border-radius:1px;transition:all .28s}
-.navbar.solid .hbg span{background:#111}
-.hbg.open span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
-.hbg.open span:nth-child(2){opacity:0}
-.hbg.open span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
+/* Menu button — always visible, opens the slide-in drawer */
+.hbg{
+  display:flex;align-items:center;gap:10px;flex-shrink:0;cursor:pointer;
+  background:#027a74;border:1px solid #027a74;color:#ffffff;
+  padding:9px 18px 9px 20px;border-radius:50px;
+  font-family:'Poppins',sans-serif;font-size:14px;font-weight:600;
+  transition:background .25s,border-color .25s,color .25s;
+}
+.hbg:hover{background:#025f5a;border-color:#025f5a}
+.navbar.solid .hbg{background:#027a74;border-color:#027a74;color:#ffffff}
+.navbar.solid .hbg:hover{background:#025f5a}
+.hbg-icon{display:flex;flex-direction:column;gap:4px}
+.hbg-icon span{display:block;width:18px;height:2px;background:currentColor;border-radius:1px;transition:all .28s}
+.hbg.open .hbg-icon span:nth-child(1){transform:rotate(45deg) translate(4px,4px)}
+.hbg.open .hbg-icon span:nth-child(2){opacity:0}
+.hbg.open .hbg-icon span:nth-child(3){transform:rotate(-45deg) translate(4px,-4px)}
 /* Responsive */
 
 /* ─────────────────────────────────────────
@@ -214,13 +223,14 @@ img{display:block;max-width:100%}
 /* ─────────────────────────────────────────
    HERO — full-screen video-style slideshow
 ───────────────────────────────────────── */
-.dest-hero-wrap{padding:1.5rem clamp(1rem,3vw,2rem) 0}
+.dest-hero-wrap{padding:0}
 
 /* ─────────────────────────────────────────
    DESTINATION CATEGORY BAR
 ───────────────────────────────────────── */
 .cat-bar-wrap{
-  margin-top:84px;
+  display:none; /* Category bar removed site-wide — both mobile and desktop */
+  margin-top:72px;
   position:sticky;top:0;z-index:998;
   background:#fff;border-bottom:1px solid var(--border);
 }
@@ -229,21 +239,21 @@ img{display:block;max-width:100%}
   display:flex;align-items:center;justify-content:center;gap:8px;
 }
 .cat-bar-track{
-  display:flex;align-items:center;justify-content:center;gap:clamp(1.25rem,2.5vw,2.25rem);
+  display:flex;align-items:center;justify-content:center;gap:clamp(1rem,2.2vw,1.85rem);
   overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;
-  padding:10px 20px;
+  padding:7px 20px;
 }
 .cat-bar-track::-webkit-scrollbar{display:none}
 .cat-item{
-  display:flex;flex-direction:column;align-items:center;gap:6px;
+  display:flex;flex-direction:column;align-items:center;gap:5px;
   flex-shrink:0;cursor:pointer;position:relative;
-  transition:color .2s;white-space:nowrap;padding:4px 2px 10px;
+  transition:color .2s;white-space:nowrap;padding:3px 2px 8px;
 }
-.cat-ic-wrap{position:relative;width:34px;height:34px;display:flex;align-items:center;justify-content:center}
-.cat-ic{width:26px;height:26px;color:#9aa0a6;display:flex;align-items:center;justify-content:center;transition:color .2s}
+.cat-ic-wrap{position:relative;width:28px;height:28px;display:flex;align-items:center;justify-content:center}
+.cat-ic{width:22px;height:22px;color:#9aa0a6;display:flex;align-items:center;justify-content:center;transition:color .2s}
 .cat-ic svg{width:100%;height:100%}
-.cat-ic-emoji{font-size:22px;line-height:1}
-.cat-lbl{font-family:'Poppins',sans-serif;font-size:13.5px;font-weight:600;color:var(--body);transition:color .2s}
+.cat-ic-emoji{font-size:19px;line-height:1}
+.cat-lbl{font-family:'Poppins',sans-serif;font-size:11px;font-weight:600;color:var(--body);transition:color .2s}
 .cat-item:hover .cat-ic{color:var(--dark)}
 .cat-item:hover .cat-lbl{color:var(--dark)}
 .cat-item.active .cat-ic{color:#F5A623}
@@ -252,38 +262,41 @@ img{display:block;max-width:100%}
   content:'';position:absolute;bottom:0;left:15%;right:15%;height:2px;background:#F5A623;
 }
 .cat-bar-arrow{
-  flex-shrink:0;width:34px;height:34px;border-radius:50%;background:#f0f0f0;border:none;
+  flex-shrink:0;width:28px;height:28px;border-radius:50%;background:#f0f0f0;border:none;
   display:flex;align-items:center;justify-content:center;color:var(--dark);transition:background .2s;
 }
 .cat-bar-arrow:hover{background:#e2e2e2}
-.cat-bar-arrow svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2.4}
-@media(max-width:640px){
-  .cat-bar-wrap{margin-top:70px;top:0}
-}
+.cat-bar-arrow svg{width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2.4}
 .dest-hero{
   position:relative;overflow:hidden;
-  border-radius:32px;
-  background:linear-gradient(160deg,#DCEAF8 0%,#E8F1FA 50%,#EAF3FB 100%);
-  padding:clamp(2.5rem,5vw,4rem) clamp(1rem,3vw,2rem) 0;
-  display:flex;flex-direction:column;align-items:center;
+  border-radius:0 0 32px 32px;
+  min-height:clamp(650px,95vh,950px);
+  padding:clamp(2.5rem,5vw,4rem) clamp(1rem,3vw,2rem);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
 }
+.hero-video-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
+.hero-video-overlay{display:none}
+.hero-mute-btn{position:absolute;bottom:clamp(1rem,3vw,2rem);right:clamp(1rem,3vw,2rem);z-index:3;width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.16);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.35);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background .2s}
+.hero-mute-btn:hover{background:rgba(255,255,255,.28)}
+.hero-mute-btn svg{width:18px;height:18px}
 .dest-hero-content{position:relative;z-index:2;width:100%;max-width:820px;margin:0 auto;padding:0 1.5rem;text-align:center;display:flex;flex-direction:column;align-items:center}
-.dest-hero-h1{font-family:'Apfel Grotesk','Poppins',sans-serif;font-size:clamp(30px,5vw,54px);color:#3A3B3B;line-height:1.2;font-weight:700;letter-spacing:0.2px;margin-bottom:1rem;min-height:2.4em}
-.dest-hero-h1 .rotator{color:#E76F51;display:inline-block;position:relative;min-width:9ch;text-align:left}
-.dest-hero-sub{font-family:'Poppins',sans-serif;font-size:clamp(14px,1.3vw,17px);color:#4A4F4F;max-width:560px;line-height:1.5;letter-spacing:-0.2px;font-weight:400;margin:0 auto 2rem}
-.dest-hero-ctas{display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;margin-bottom:clamp(2rem,4vw,3rem)}
+.dest-hero-h1{font-family:'Outfit','Poppins',sans-serif;font-size:60px;color:#fff;line-height:76px;font-weight:600;text-align:center;letter-spacing:1px;margin-bottom:1rem;min-height:2.4em;text-shadow:0 2px 18px rgba(0,0,0,.25)}
+.dest-hero-h1 .rotator{color:#FFD400;display:inline-block;position:relative;min-width:9ch;text-align:left}
+.dest-hero-sub{font-family:'Poppins',sans-serif;font-size:18px;font-style:normal;color:#fff;max-width:560px;line-height:1.2em;letter-spacing:0px;font-weight:400;text-align:center;margin:0 auto 2rem}
+.dest-hero-ctas{display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;margin-bottom:clamp(1.5rem,3vw,2rem)}
 .btn-hero-primary,.btn-hero-outline{display:inline-block;padding:13px 30px;border-radius:50px;font-family:'Proxima Nova','Poppins',sans-serif;font-size:14px;font-weight:600;letter-spacing:.2px;transition:all .25s;cursor:pointer;text-decoration:none;border:none}
 .btn-hero-primary{background:var(--teal);color:#fff}
 .btn-hero-primary:hover{background:var(--teal-d)}
-.btn-hero-outline{background:#FFA43B;color:#fff}
-.btn-hero-outline:hover{background:#F28C13}
-
-/* MARQUEE — infinite scrolling photo strip */
-.marquee-sec{background:#fff;padding:2rem 0;overflow:hidden}
-.marquee-track{display:flex;gap:1rem;width:max-content;animation:marqueeScroll 42s linear infinite}
-@keyframes marqueeScroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
-.marquee-item{flex-shrink:0;width:220px;height:150px;border-radius:14px;overflow:hidden;box-shadow:var(--sh)}
-.marquee-item img{width:100%;height:100%;object-fit:cover}
+.btn-hero-outline{background:var(--secondary);color:#fff}
+.btn-hero-outline:hover{background:var(--secondary-hover)}
+.hero-stats-row{display:flex;align-items:center;flex-wrap:wrap;justify-content:center;gap:clamp(.6rem,2vw,1.1rem)}
+.hero-stat{display:flex;align-items:center;gap:7px;font-family:'Poppins',sans-serif;font-size:13.5px;font-weight:600;color:#fff}
+.hero-stat svg{width:16px;height:16px;color:var(--secondary);flex-shrink:0}
+.hero-stat img{width:16px;height:16px;object-fit:contain;flex-shrink:0}
+.hero-stat-sep{width:1px;height:16px;background:rgba(255,255,255,.35)}
+@media(max-width:640px){
+  .hero-stat-sep:nth-of-type(2){display:none}
+}
 /* Slide dots */
 .hero-dots{position:absolute;bottom:2rem;right:clamp(1.5rem,5vw,4rem);z-index:3;display:flex;gap:7px;align-items:center}
 .hdot{width:20px;height:3px;background:rgba(255,255,255,.3);border-radius:2px;cursor:pointer;transition:all .35s}
@@ -310,11 +323,11 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
 .eyebrow{display:flex;align-items:center;gap:10px;margin-bottom:.75rem}
 .ey-line{width:28px;height:2px;background:var(--teal);border-radius:1px}
 .ey-txt{font-size:11px;font-weight:600;letter-spacing:3.5px;text-transform:uppercase;color:var(--teal)}
-.sec-h{font-family:'Apfel Grotesk','Poppins',sans-serif;font-size:clamp(34px,4.8vw,42px);color:#111;font-weight:700;line-height:1.15;letter-spacing:0.2px;margin-bottom:.75rem}
+.sec-h{font-family:'ITApfelGrotezk-Regular','Apfel Grotesk','Poppins',sans-serif;font-size:42px;color:#3A3B3B;font-weight:600;line-height:1.15;letter-spacing:-1px;margin-bottom:.75rem}
 .sec-h em{color:var(--teal);font-style:italic;font-family:var(--serif);font-weight:400}
 .sec-p{font-family:'Poppins',sans-serif;font-size:16px;color:#3A3B3B;line-height:1.5;letter-spacing:-0.2px;font-weight:400;max-width:520px}
 /* Scroll anim */
-.fu{opacity:0;transform:translateY(24px);transition:opacity .8s ease,transform .8s ease}
+.fu{opacity:0;transform:translateY(14px);transition:opacity .5s ease-out,transform .5s ease-out;will-change:opacity,transform}
 .fu.in{opacity:1;transform:none}
 .d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.32s}.d4{transition-delay:.44s}
 
@@ -345,7 +358,7 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
 .trips-sec{background:#F1F9F9}
 .trips-hdr{display:flex;align-items:flex-end;justify-content:space-between;gap:1.5rem;margin-bottom:2.5rem;flex-wrap:wrap}
 .trips-filters{display:flex;gap:8px;flex-wrap:wrap}
-.tf{padding:8px 18px;border-radius:50px;font-size:12px;font-weight:500;letter-spacing:.2px;cursor:pointer;border:1.5px solid var(--border);background:#fff;color:var(--body);transition:all .22s;font-family:'Apfel Grotesk','Poppins',sans-serif}
+.tf{padding:8px 18px;border-radius:50px;font-size:12px;font-weight:400;letter-spacing:.2px;cursor:pointer;border:1.5px solid var(--border);background:#fff;color:var(--body);transition:all .22s;font-family:'Apfel Grotezk','Poppins',sans-serif}
 .tf:hover{border-color:var(--teal);color:var(--teal)}
 .tf.active{background:var(--teal);color:#fff;border-color:var(--teal)}
 .trips-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:1.5rem}
@@ -362,21 +375,21 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
 .b-bch{background:rgba(246,173,85,.18);border-color:rgba(246,173,85,.4);color:#d97706}
 .b-clt{background:rgba(139,92,246,.18);border-color:rgba(139,92,246,.4);color:#7c3aed}
 .b-nat{background:rgba(34,197,94,.18);border-color:rgba(34,197,94,.4);color:#16a34a}
-.tc-hot{position:absolute;top:12px;right:12px;background:rgba(231,111,81,.18);border:1px solid rgba(231,111,81,.4);color:#E76F51;padding:4px 10px;border-radius:20px;font-size:10px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;backdrop-filter:blur(8px)}
-.tc-dur{position:absolute;bottom:12px;left:12px;font-size:10px;color:rgba(255,255,255,.8);letter-spacing:1.5px;text-transform:uppercase;font-weight:400}
+.tc-hot{position:absolute;top:12px;right:12px;background:rgba(231,111,81,.18);border:1px solid rgba(231,111,81,.4);color:#E76F51;padding:4px 10px;border-radius:20px;font-family:'Proxima Nova','Poppins',sans-serif;font-size:12px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;backdrop-filter:blur(8px)}
+.tc-dur{position:absolute;bottom:12px;left:12px;font-family:'Outfit','Poppins',sans-serif;font-size:0.8rem;color:rgba(255,255,255,.8);letter-spacing:0px;text-transform:uppercase;font-weight:600;line-height:1em}
 .tc-body{padding:1.375rem 1.5rem;flex:1;display:flex;flex-direction:column;gap:.75rem}
 .tc-name{font-family:'Outfit','Poppins',sans-serif;font-size:26px;font-weight:700;color:var(--dark);line-height:1.2;letter-spacing:normal}
 .tc-route{font-family:'Proxima Nova','Poppins',sans-serif;font-size:15px;color:var(--body2);letter-spacing:0.2px;font-weight:600;line-height:1}
-.tc-dates{font-family:'Poppins',sans-serif;font-size:15px;font-weight:600;line-height:1.6;display:flex;flex-wrap:wrap;gap:5px}
+.tc-dates{font-family:'Poppins',sans-serif;font-size:15px;font-weight:600;line-height:1.6;color:#3A3B3B;display:flex;flex-wrap:wrap;gap:5px}
 .tc-date{padding:3px 9px;background:var(--teal-l);border:1px solid var(--border2);border-radius:4px;font-size:11px;color:#059669;font-weight:500}
 .tc-foot{display:flex;align-items:flex-end;justify-content:space-between;margin-top:auto;padding-top:1rem;border-top:1px solid var(--border)}
-.tc-price-lbl{font-size:10px;color:var(--body2);font-weight:400;letter-spacing:.3px;text-transform:uppercase}
-.tc-price{font-family:'Outfit','Poppins',sans-serif;font-size:22px;font-weight:600;color:var(--dark);line-height:1;letter-spacing:0.2px;margin-top:1px}
-.btn-view{background:#F1F9F9;border:1.5px solid var(--border);color:var(--body);padding:9px 18px;border-radius:50px;font-size:12px;font-weight:500;transition:all .25s;cursor:pointer;font-family:'Apfel Grotesk','Poppins',sans-serif}
+.tc-price-lbl{text-align:start;font-family:'Poppins',sans-serif;font-size:15px;font-weight:600;line-height:1.6em;letter-spacing:.3px;text-transform:uppercase;color:#454A4A}
+.tc-price{text-align:start;font-family:'Outfit','Poppins',sans-serif;font-size:22px;font-weight:600;color:#027A74;line-height:1;letter-spacing:0.2px;margin-top:1px}
+.btn-view{background:#F1F9F9;border:1.5px solid var(--border);color:var(--body);padding:9px 18px;border-radius:50px;font-size:12px;font-weight:400;transition:all .25s;cursor:pointer;font-family:'Apfel Grotezk','Poppins',sans-serif}
 .tc:hover .btn-view{background:var(--teal);border-color:var(--teal);color:#fff}
 .trips-more-row{text-align:center;margin-top:3rem}
-.btn-view-more{display:inline-flex;align-items:center;gap:9px;border:2px solid #FFA43B;background:#FFA43B;color:#fff;padding:13px 34px;border-radius:50px;font-size:14px;font-weight:600;transition:all .28s;font-family:'Apfel Grotesk','Poppins',sans-serif;cursor:pointer}
-.btn-view-more:hover{background:#F28C13;border-color:#F28C13;transform:translateY(-1px)}
+.btn-view-more{display:inline-flex;align-items:center;gap:9px;border:2px solid var(--secondary);background:var(--secondary);color:#fff;padding:13px 34px;border-radius:50px;font-size:14px;font-weight:700;transition:all .28s;font-family:'Apfel Grotezk','Poppins',sans-serif;cursor:pointer}
+.btn-view-more:hover{background:var(--secondary-hover);border-color:var(--secondary-hover);transform:translateY(-1px)}
 
 /* ─────────────────────────────────────────
    WHY TRAVELLERS CHOOSE US — 4 cards
@@ -438,9 +451,10 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
 ───────────────────────────────────────── */
 .cta-sec{background:#fff;padding:clamp(2rem,4vw,3rem) clamp(1.25rem,4vw,3rem)}
 .cta-title{
-  font-family:'Apfel Grotesk','Poppins',sans-serif;
-  text-align:center;font-size:clamp(31px,4.32vw,42px);font-weight:500;
-  color:#3A3B3B;letter-spacing:0.2px;margin-bottom:clamp(2.5rem,5vw,3.5rem);
+  font-family:'ITApfelGrotezk-Regular','Apfel Grotesk','Poppins',sans-serif;
+  text-align:center;font-size:42px;font-weight:600;
+  line-height:1.15em;
+  color:#3A3B3B;letter-spacing:-1px;margin-bottom:clamp(2.5rem,5vw,3.5rem);
 }
 .cta-inner{
   display:grid;grid-template-columns:1fr 460px;gap:clamp(1.5rem,3vw,3rem);
@@ -455,26 +469,26 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
   padding:clamp(1.75rem,3vw,2.5rem);
   display:flex;flex-direction:column;justify-content:center;
 }
-.cta-card h3{font-family:'Outfit','Poppins',sans-serif;font-size:clamp(20px,2.4vw,26px);font-weight:600;color:#0a0a0a;margin-bottom:.75rem;letter-spacing:normal}
-.cta-card p{font-size:13.5px;color:#111;line-height:1.7;margin-bottom:1.5rem}
+.cta-card h3{font-family:'Poppins',sans-serif;font-size:24px;font-weight:600;color:#3A3B3B;margin-bottom:.75rem;line-height:29px;letter-spacing:0.2px}
+.cta-card p{font-family:'Poppins',sans-serif;font-size:14px;color:#3A3B3B;line-height:1.7;margin-bottom:1.5rem}
 .fg{margin-bottom:.875rem}
 .fg input{
   width:100%;padding:13px 18px;background:#fff;border:1px solid #e5e7eb;
-  border-radius:50px;font-size:13.5px;color:#3A3B3B;font-family:'Apfel Grotesk','Poppins',sans-serif;
+  border-radius:50px;font-size:13.5px;color:#3A3B3B;font-family:'Apfel Grotezk','Poppins',sans-serif;
   font-weight:400;transition:box-shadow .2s,border-color .2s;outline:none;
 }
 .fg input:focus{box-shadow:0 0 0 3px rgba(2,169,162,.18);border-color:#02A9A2}
 .fg input::placeholder{color:#9ca3af}
-.fg-check{display:flex;align-items:flex-start;gap:8px;margin:.5rem 0 1.25rem;font-size:12px;color:#6B7575;line-height:1.55}
+.fg-check{display:flex;align-items:flex-start;gap:8px;margin:.5rem 0 1.25rem;font-size:12px;color:var(--byline);line-height:1.55}
 .fg-check input[type=checkbox]{width:16px;height:16px;border-radius:4px;accent-color:#02A9A2;flex-shrink:0;margin-top:2px;cursor:pointer}
 .fg-check a{color:#02A9A2;text-decoration:underline}
 .btn-form{
-  width:100%;background:#FFA43B;color:#fff;padding:15px;border-radius:50px;
-  font-size:14.5px;font-weight:600;transition:all .25s;cursor:pointer;
-  font-family:'Apfel Grotesk','Poppins',sans-serif;display:flex;align-items:center;justify-content:center;
+  width:100%;background:var(--secondary);color:#fff;padding:15px;border-radius:50px;
+  font-size:14.5px;font-weight:700;transition:all .25s;cursor:pointer;
+  font-family:'Apfel Grotezk','Poppins',sans-serif;display:flex;align-items:center;justify-content:center;
   gap:8px;border:none;
 }
-.btn-form:hover{background:#F28C13;transform:translateY(-1px)}
+.btn-form:hover{background:var(--secondary-hover);transform:translateY(-1px)}
 
 /* ─────────────────────────────────────────
    FOOTER WRAP — full-bleed photo background with mission quote + footer content
@@ -522,9 +536,9 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
 .fsb{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;background:rgba(255,255,255,.12);transition:all .22s}
 .fsb:hover{background:rgba(255,255,255,.24)}
 .fsb svg{width:15px;height:15px;fill:currentColor}
-.ft-col-h{font-family:'Proxima Nova','Poppins',sans-serif;font-size:16px;font-weight:600;letter-spacing:0.3px;text-transform:uppercase;color:#fff;margin-bottom:1.25rem}
+.ft-col-h{font-family:'Proxima Nova','Poppins',sans-serif;font-size:18px;font-weight:600;letter-spacing:0.3px;text-transform:none;color:#fff;margin-bottom:1.25rem}
 .ft-col-links{display:flex;flex-direction:column;gap:.7rem}
-.ft-col-links a{font-size:15.5px;color:rgba(255,255,255,.95);font-weight:400;transition:color .2s}
+.ft-col-links a{font-family:'Proxima Nova','Poppins',sans-serif;font-size:15px;color:rgba(255,255,255,.95);font-weight:400;transition:color .2s}
 .ft-col-links a:hover{color:#fff}
 /* Contact info block — icon + label + value */
 .ft-contact-item{display:flex;align-items:flex-start;gap:.625rem;margin-bottom:1.125rem}
@@ -534,15 +548,17 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
 .ft-contact-val{font-size:15.5px;color:rgba(255,255,255,.82)}
 
 /* Certification / payment badge row */
-.ft-badges{
-  display:flex;align-items:center;flex-wrap:wrap;gap:2.25rem;
+.ft-bottom-row{
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1.5rem 2.5rem;
   max-width:1280px;margin:0 auto 1.75rem;
   padding-top:1.5rem;border-top:1px solid rgba(255,255,255,.12);
+}
+.ft-badges{
+  display:flex;align-items:center;flex-wrap:wrap;gap:2.25rem;
 }
 .ft-badge{height:34px;width:auto;object-fit:contain;opacity:.92;flex-shrink:0}
 .ft-pay-row{
   display:flex;align-items:center;flex-wrap:wrap;gap:1.5rem;
-  max-width:1280px;margin:0 auto;
 }
 .ft-pay{height:24px;width:auto;object-fit:contain;opacity:.92;flex-shrink:0}
 
@@ -560,33 +576,34 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
 /* ══════════════════════════════════════
    REVIEWS — exact reference match
 ══════════════════════════════════════ */
-.reviews-sec{background:#fff;padding:clamp(2rem,4vw,3rem) clamp(1.25rem,4vw,3rem)}
+.reviews-sec{background:#fff;padding:clamp(1.25rem,2.5vw,1.75rem) clamp(1.25rem,4vw,3rem)}
 .reviews-card-outer{
   background:#EDF8F8;
   border-radius:32px;
   max-width:1320px;
   margin:0 auto;
-  padding:clamp(1.5rem,3vw,2.5rem) clamp(1.5rem,4vw,4rem) clamp(2rem,4vw,3rem);
+  padding:clamp(1.1rem,2vw,1.5rem) clamp(1.5rem,4vw,4rem) clamp(1.25rem,2.5vw,1.75rem);
 }
-.reviews-hdr{text-align:center;margin-bottom:clamp(2rem,4vw,2.75rem)}
+.reviews-hdr{text-align:center;margin-bottom:clamp(1rem,2vw,1.5rem)}
 .reviews-hdr h2{
-  font-family:'Apfel Grotesk','Poppins',sans-serif;
-  font-size:42px;font-weight:700;color:#111;text-transform:capitalize;
-  line-height:1.15;letter-spacing:0.2px;margin-bottom:.75rem;font-style:normal;
+  font-family:'ITApfelGrotezk-Regular','Apfel Grotesk','Poppins',sans-serif;
+  font-size:42px;font-weight:600;color:#3A3B3B;
+  line-height:1.15;letter-spacing:-1px;margin-bottom:.4rem;font-style:normal;
 }
-.reviews-hdr h2 em{font-style:normal;color:#027A74}
-.reviews-hdr p{font-family:'Poppins',sans-serif;font-size:16px;color:#3A3B3B;font-weight:400;line-height:1.5;letter-spacing:-0.2px}
+.reviews-hdr h2 em{font-style:normal;color:#02A9A2;font-weight:600}
+.reviews-hdr h2 .rh-accent{color:#02A9A2;font-weight:600}
+.reviews-hdr p{font-family:'Poppins',sans-serif;font-size:16px;color:#454A4A;font-weight:400;line-height:1.5em;letter-spacing:-0.2px}
 
 /* Carousel outer — same pattern as trips */
 .reviews-carousel-outer{position:relative;overflow:hidden;width:100%;padding:0 48px}
 .reviews-track{
-  display:flex;gap:18px;
+  display:flex;gap:14px;
   overflow-x:scroll;
   scroll-snap-type:x mandatory;
   -webkit-overflow-scrolling:touch;
   scrollbar-width:none;
   scroll-behavior:smooth;
-  padding:6px 0 8px;
+  padding:4px 0 6px;
 }
 .reviews-track::-webkit-scrollbar{display:none}
 
@@ -594,49 +611,50 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
 .rc{
   background:#fff;
   border-radius:12px;
-  padding:1rem 1.1rem 1rem;
+  padding:.75rem .9rem .75rem;
   scroll-snap-align:start;
-  display:flex;flex-direction:column;gap:.5rem;
+  display:flex;flex-direction:column;gap:.4rem;
   box-shadow:none;
   border:1px solid #e5e7eb;
   flex-shrink:0;
-  width:260px;
-  height:260px;          /* square card */
+  width:300px;
+  height:200px;
   overflow:hidden;
   transition:transform .3s ease,box-shadow .3s;
   cursor:default;
 }
 .rc:hover{transform:translateY(-3px);box-shadow:0 6px 20px rgba(0,0,0,.08)}
 .rc-top{display:flex;align-items:center;gap:.5rem}
-.rc-av{width:36px;height:36px;border-radius:50%;flex-shrink:0;object-fit:cover;background:#e5e7eb}
+.rc-av{width:30px;height:30px;border-radius:50%;flex-shrink:0;object-fit:cover;background:#e5e7eb}
 .rc-who{flex:1;min-width:0}
-.rc-name{font-size:14.5px;color:#000;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.rc-ago{font-size:11px;color:#333;font-weight:400}
-.rc-gicon{width:22px;height:22px;flex-shrink:0}
+.rc-name{font-size:13.5px;color:#000;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rc-ago{font-size:10.5px;color:#333;font-weight:400}
+.rc-gicon{width:19px;height:19px;flex-shrink:0}
 .rc-stars-row{display:flex;align-items:center;gap:5px}
-.rc-stars{color:#f5b400;font-size:18px;letter-spacing:1px;line-height:1}
-.rc-verified{width:18px;height:18px;flex-shrink:0;display:flex;align-items:center}
-.rc-q{font-size:12.5px;color:#111;line-height:1.6;font-weight:500;flex:1;overflow:hidden;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical}
-.rc-more{font-size:11.5px;color:#222;font-weight:500;cursor:pointer;text-decoration:none;margin-top:auto}
-.rc-more:hover{color:#02A9A2}
+.rc-stars{color:#f5b400;font-size:15px;letter-spacing:1px;line-height:1}
+.rc-verified{width:16px;height:16px;flex-shrink:0;display:flex;align-items:center}
+.rc-q{font-size:12px;color:#111;line-height:1.45;font-weight:500;flex:1;overflow:hidden;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical}
+.rc-more{font-size:11px;color:#027A74;font-weight:600;cursor:pointer;text-decoration:none;margin-top:auto}
+.rc-more:hover{color:#02A9A2;text-decoration:underline}
 
 /* Dots for reviews */
-.rev-dots{display:flex;justify-content:center;gap:6px;margin-top:1rem}
+.rev-dots{display:flex;justify-content:center;gap:6px;margin-top:.6rem}
 
 /* Book with confidence sub-section — compact */
-.reviews-confidence{text-align:center;margin-top:1.25rem}
+.reviews-confidence{text-align:center;margin-top:.75rem}
 .reviews-confidence h3{
-  font-size:clamp(24px,3.2vw,34px);font-weight:700;color:#111;
-  margin-bottom:.875rem;letter-spacing:-.4px;
+  font-family:'Apfel Grotezk','Poppins',sans-serif;
+  font-size:42px;font-weight:700;color:#3A3B3B;
+  margin-bottom:.6rem;letter-spacing:.2px;
 }
-.confidence-badges{display:flex;align-items:center;justify-content:center;gap:1.75rem;flex-wrap:wrap}
+.confidence-badges{display:flex;align-items:center;justify-content:center;gap:1.5rem;flex-wrap:wrap}
 .cb-google{display:flex;flex-direction:column;align-items:center;gap:3px}
-.cb-google img{height:28px;display:block}
-.cb-google-rating{display:flex;align-items:center;gap:5px;font-size:13px;font-weight:700;color:#111}
-.cb-google-rating .rc-stars{font-size:13px}
+.cb-google img{height:22px;display:block}
+.cb-google-rating{display:flex;align-items:center;gap:5px;font-size:12px;font-weight:700;color:#111}
+.cb-google-rating .rc-stars{font-size:12px}
 .cb-tripadvisor{display:flex;align-items:center;gap:8px}
-.cb-ta-icon{width:38px;height:38px;border-radius:50%;background:#34e0a1;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.cb-ta-text{font-size:20px;font-weight:700;color:#111;letter-spacing:-.3px}
+.cb-ta-icon{width:30px;height:30px;border-radius:50%;background:#34e0a1;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.cb-ta-text{font-size:16px;font-weight:700;color:#111;letter-spacing:-.3px}
 
 /* ══════════════════════════════════════
    WHY TRAVEL — wide rectangle cards
@@ -697,7 +715,7 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
 .why-card:nth-child(6) .why-card-img::before{background:linear-gradient(to right,#fde8d8 0%,rgba(253,232,216,.6) 12%,transparent 32%)}
 
 .why-card-ttl{font-size:clamp(18px,2.2vw,24px);font-weight:600;color:#0a0a0a;line-height:1.25;letter-spacing:-.2px}
-.why-card-desc{font-size:clamp(13px,1.3vw,14.5px);color:#6B7575;line-height:1.8;font-weight:300}
+.why-card-desc{font-size:clamp(13px,1.3vw,14.5px);color:var(--byline);line-height:1.8;font-weight:300}
 
 /* Image side — bleeds with gradient */
 .why-card-img{
@@ -734,8 +752,8 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
 ══════════════════════════════════════ */
 .why-sec{background:#fff;padding:clamp(2rem,4vw,3rem) clamp(1.25rem,4vw,3rem)}
 .why-inner{max-width:1100px;margin:0 auto}
-.why-title{font-family:'Apfel Grotesk','Poppins',sans-serif;font-size:clamp(24px,3.5vw,38px);font-weight:700;color:#0a0a0a;text-align:center;margin-bottom:1rem;
-  margin-bottom:clamp(2.5rem,5vw,4rem);letter-spacing:0.2px}
+.why-title{font-family:'ITApfelGrotezk-Regular','Apfel Grotesk','Poppins',sans-serif;font-size:42px;font-weight:600;color:#3A3B3B;text-align:center;margin-bottom:.75rem;letter-spacing:-1px}
+.why-byline{font-family:'Poppins',sans-serif;font-size:16px;color:#6b7280;font-weight:400;text-align:center;max-width:560px;margin:0 auto clamp(2.5rem,5vw,4rem)}
 
 /* Stack container — tall enough for all cards */
 .why-stack{display:flex;flex-direction:column;gap:0}
@@ -771,19 +789,19 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
   position:relative;z-index:2;
   background:transparent;
 }
-.why-card-ttl{font-family:'Outfit','Poppins',sans-serif;font-size:clamp(20px,2.4vw,28px);font-weight:600;color:#0a0a0a;
+.why-card-ttl{font-family:'Outfit','Poppins',sans-serif;font-size:36px;font-weight:600;color:#3A3B3B;
   line-height:1.2;letter-spacing:normal;max-width:none}
-.why-card-desc{font-family:'Poppins',sans-serif;font-size:clamp(13px,1.2vw,15px);color:#111;line-height:1.5;letter-spacing:-0.2px;font-weight:400;max-width:none}
+.why-card-desc{font-family:'Poppins',sans-serif;font-size:15px;color:#454A4A;line-height:1.5em;letter-spacing:-0.2px;font-weight:400;max-width:none}
 .why-card-btn{
   display:inline-flex;align-items:center;justify-content:center;
-  background:#FFA43B;color:#fff;
+  background:var(--secondary);color:#fff;
   font-size:13.5px;font-weight:600;
   padding:.7rem 1.5rem;border-radius:50px;
   text-decoration:none;width:fit-content;
   margin-top:.5rem;
   transition:background .25s,transform .25s;
 }
-.why-card-btn:hover{background:#F28C13;transform:translateY(-1px)}
+.why-card-btn:hover{background:var(--secondary-hover);transform:translateY(-1px)}
 
 /* Image side — bleeds into the mint text panel via gradient fade */
 .why-card-img{position:relative;overflow:hidden;background:#DFF2F1}
@@ -820,7 +838,7 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
 .mob-overlay.show{display:block}
 .mob-drawer{
   display:none;position:fixed;top:0;right:-100%;z-index:2000;
-  width:min(320px,90vw);height:100svh;background:#fff;
+  width:min(320px,90vw);height:100svh;background:#02A9A2;
   box-shadow:-4px 0 32px rgba(0,0,0,.12);
   flex-direction:column;
   transition:right .32s cubic-bezier(.4,0,.2,1);
@@ -828,22 +846,24 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
 }
 .mob-drawer.open{right:0;display:flex}
 .mob-drawer-head{
-  padding:1.25rem 1.5rem;border-bottom:1px solid #e5e7eb;
-  display:flex;align-items:center;justify-content:space-between;
+  padding:1.25rem 1.5rem;border-bottom:1px solid rgba(255,255,255,.2);
+  display:flex;align-items:center;justify-content:flex-end;
   flex-shrink:0;
 }
-.mob-close{font-size:22px;color:#6b7280;cursor:pointer;background:none;border:none;line-height:1;padding:4px}
+.mob-close{font-size:22px;color:#fff;cursor:pointer;background:none;border:none;line-height:1;padding:4px}
 .mob-links{padding:1rem 0;flex:1;overflow-y:auto}
 .mob-links a{
   display:block;padding:14px 1.5rem;
-  font-size:15px;color:#111;font-weight:400;
-  border-bottom:1px solid #f3f4f6;transition:color .2s;text-decoration:none;
+  font-size:15px;color:#fff;font-weight:400;
+  border-bottom:1px solid rgba(255,255,255,.15);transition:color .2s;text-decoration:none;
 }
-.mob-links a:hover{color:#02A9A2}
+.mob-links a:hover{color:#3A3B3B}
+.mob-links-more{padding:16px 1.5rem 6px;font-size:11px;font-weight:700;letter-spacing:1.2px;color:rgba(255,255,255,.75);text-transform:uppercase;border-top:1px solid rgba(255,255,255,.15);margin-top:6px}
+.mob-links-more.mob-links-first{border-top:none;margin-top:0;padding-top:14px}
 .mob-foot{padding:1.5rem;display:flex;flex-direction:column;gap:10px}
-.mob-cta-btn{background:#02A9A2;color:#fff;text-align:center;display:block;padding:14px;border-radius:10px;width:100%;font-size:14px;font-weight:600;border:none;cursor:pointer;font-family:'Apfel Grotesk','Poppins',sans-serif;transition:background .25s}
-.mob-cta-btn:hover{background:#027A74}
-.mob-foot .btn-cta{text-align:center;display:block;padding:14px;border-radius:10px;font-family:'Apfel Grotesk','Poppins',sans-serif}
+.mob-cta-btn{background:#FFA43B;color:#fff;text-align:center;display:block;padding:14px;border-radius:10px;width:100%;font-size:14px;font-weight:700;border:none;cursor:pointer;font-family:'Apfel Grotezk','Poppins',sans-serif;transition:background .25s}
+.mob-cta-btn:hover{background:#F28C13}
+.mob-foot .btn-cta{text-align:center;display:block;padding:14px;border-radius:10px;font-family:'Apfel Grotezk','Poppins',sans-serif}
 /* Also hide any leftover mob-menu */
 .mob-menu{display:none!important}
 
@@ -853,74 +873,42 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
 /* ══════════════════════════════════════
    FEATURES — clean, no cards, orange icons
 ══════════════════════════════════════ */
-.choose-sec{background:#fff;padding:clamp(3rem,5vw,4.5rem) clamp(1.25rem,4vw,3rem)}
+.choose-sec{background:#fff;padding:clamp(1.5rem,2.5vw,2.25rem) clamp(1.25rem,4vw,3rem) clamp(3rem,5vw,4.5rem)}
 .choose-inner{max-width:1200px;margin:0 auto}
 .choose-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2.5rem 2rem;max-width:1100px;margin:0 auto}
 .ch{display:flex;flex-direction:column;align-items:center;text-align:center;gap:1.125rem}
 .ch-icon{width:80px;height:80px;display:flex;align-items:center;justify-content:center;margin-bottom:.25rem}
 .ch-icon svg{width:70px;height:70px}
 .ch-ttl{font-family:'Outfit','Poppins',sans-serif;font-size:20px;font-weight:500;color:#027A74;line-height:1.2;letter-spacing:normal}
-.ch-desc{font-family:'Poppins',sans-serif;font-size:15px;color:#6B7575;line-height:1.5;letter-spacing:-0.2px;font-weight:400}
+.ch-desc{font-family:'Poppins',sans-serif;font-size:15px;color:var(--byline);line-height:1.5;letter-spacing:-0.2px;font-weight:400}
 .ch-desc b{font-weight:700;color:#0a0a0a}
 
-/* ── INTRO SECTION ── */
-.intro-sec{background:#EDF8F8;padding:clamp(1.5rem,3vw,2.5rem) clamp(1.25rem,4vw,3rem)}
-.intro-inner{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:55fr 45fr;gap:clamp(2rem,4vw,4rem);align-items:center}
-.intro-left{}
+/* ── FEATURED TRIPS SLIDER ── */
+.ft-sec{background:var(--white);padding:clamp(2.5rem,5vw,4.5rem) clamp(1.25rem,4vw,3rem)}
+.ft-inner{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:46fr 54fr;gap:clamp(2rem,4vw,3.5rem);align-items:center}
 
+.ft-collage{display:flex;align-items:flex-start;gap:clamp(10px,1.4vw,14px)}
+.ft-col{display:flex;flex-direction:column;gap:clamp(10px,1.4vw,14px);flex:1;min-width:0}
+.ft-col-3{margin-top:clamp(60px,12%,110px)}
+.ft-img{border-radius:16px;overflow:hidden;box-shadow:0 10px 28px rgba(0,0,0,.12);background:#eef1f1}
+.ft-img img{width:100%;height:100%;object-fit:cover;display:block}
+.ft-img-1{aspect-ratio:4/3}
+.ft-img-2{aspect-ratio:4/5}
+.ft-img-3{aspect-ratio:3/4}
+.ft-img-4{aspect-ratio:1/1.9}
+.ft-img-5{aspect-ratio:4/3}
+.ft-img-6{aspect-ratio:4/3}
+.ft-img-7{aspect-ratio:4/3}
 
-
-.intro-h{font-family:'Proxima Nova','Apfel Grotesk','Poppins',sans-serif;font-size:52px;font-weight:600;color:#3A3B3B;line-height:1.14;letter-spacing:0.1px;margin-bottom:1rem}
-.intro-p{font-family:'Apfel Grotesk','Poppins',sans-serif;font-size:16px;color:#6B7575;line-height:1.5;letter-spacing:-0.2px;font-weight:400;margin-bottom:1rem;max-width:none}
-
-/* Collage — 4 overlapping photos, NO frames — matches eurekaselect.in exactly */
-.intro-collage{
-  position:relative;
-  height:clamp(300px,34vw,420px);
-  width:100%;
-  max-width:480px;
-  margin-left:auto;
-}
-.photo-card{
-  position:absolute;
-  border-radius:16px;
-  overflow:hidden;
-  box-shadow:0 10px 28px rgba(0,0,0,.16);
-  transition:transform .35s ease,box-shadow .35s;
-}
-.photo-card:hover{
-  box-shadow:0 16px 40px rgba(0,0,0,.24);
-  z-index:20!important;
-  transform:scale(1.02);
-}
-.photo-card img{width:100%;height:100%;object-fit:cover;display:block}
-
-/* Layout matching reference exactly:
-   pc1 = mountain sunrise group — top center, large
-   pc2 = jeep group — top right, overlaps pc1's right edge, starts a bit lower
-   pc3 = beach activity group — bottom left, largest card
-   pc4 = surfer — bottom center-right, smallest, sits lowest, overlaps pc3's right edge
-*/
-.pc1{
-  width:50%;height:50%;
-  top:0;left:20%;
-  z-index:2;
-}
-.pc2{
-  width:42%;height:44%;
-  top:20%;right:0;
-  z-index:3;
-}
-.pc3{
-  width:44%;height:46%;
-  bottom:0;left:0;
-  z-index:1;
-}
-.pc4{
-  width:36%;height:38%;
-  bottom:0;left:38%;
-  z-index:4;
-}
+.ft-eyebrow{font-family:'Poppins',sans-serif;font-size:14px;font-weight:700;color:var(--secondary);letter-spacing:.3px;margin-bottom:.6rem}
+.ft-heading{font-family:'Apfel Grotezk','Poppins',sans-serif;font-size:42px;font-weight:700;color:#3A3B3B;letter-spacing:-1px;line-height:1.15;margin-bottom:1rem}
+.ft-desc{font-family:'Poppins',sans-serif;font-size:16px;color:#454A4A;line-height:1.5em;letter-spacing:-.2px;font-weight:400;margin-bottom:1.75rem;max-width:520px}
+.ft-btn{display:inline-block;background:var(--teal);color:#fff;padding:14px 30px;border-radius:50px;font-family:'Poppins',sans-serif;font-size:14px;font-weight:600;text-decoration:none;transition:background .2s;margin-bottom:1.75rem}
+.ft-btn:hover{background:var(--teal-d)}
+.ft-arrows{display:flex;gap:10px}
+.ft-arrow{width:46px;height:46px;border-radius:50%;border:1.5px solid var(--teal);background:#fff;color:var(--teal);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s}
+.ft-arrow:hover{background:var(--teal);color:#fff}
+.ft-arrow svg{width:18px;height:18px}
 
 /* ══════════════════════════════════════
    STATS BENTO GRID — photos + text overlay
@@ -973,9 +961,9 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
   display:flex;flex-direction:column;justify-content:center;
 }
 .sc-split-txt .sc-num{
-  font-size:clamp(34px,4vw,48px);font-weight:800;
+  font-size:clamp(34px,4vw,48px);font-weight:700;
   line-height:1;letter-spacing:-1.5px;margin-bottom:.625rem;
-  color:#0a0a0a;font-family:'Apfel Grotesk','Poppins',sans-serif;
+  color:#0a0a0a;font-family:'Apfel Grotezk','Poppins',sans-serif;
 }
 .sc-split-txt .sc-lbl{
   font-size:13.5px;color:#111;line-height:1.55;font-weight:500;
@@ -1014,7 +1002,8 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
 
 /* ── 1024px tablet ── */
 @media(max-width:1024px){
-  .nav-pill a:nth-child(n+5){display:none}
+  .nav-search{max-width:340px}
+  .nav-pill{display:none}
   .cta-inner{grid-template-columns:1fr}
   .cta-inner .form-card{max-width:520px}
   .footer-grid{grid-template-columns:1fr 1fr}
@@ -1022,16 +1011,20 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
 
 /* ── 900px ── */
 @media(max-width:900px){
-  /* Nav */
-  .nav-pill,.nav-soc{display:none}
-  .hbg{display:flex}
+  /* Nav — only the Instagram icon shown on the right (search + Google removed site-wide, see base rules) */
+  .nav-soc{display:none}
+  .nav-soc[aria-label="Instagram"]{display:flex}
+  .hbg-txt{display:none}
+  .hbg{padding:10px}
   /* Hide features section on mobile — desktop only */
   .choose-sec{display:none}
-  /* Intro collage */
-  .intro-inner{grid-template-columns:1fr}
-  .intro-collage{height:300px;order:-1}
-  .intro-left{text-align:center}
-  .intro-p{max-width:100%;margin-left:auto;margin-right:auto}
+  /* Featured trips slider */
+  .ft-inner{grid-template-columns:1fr}
+  .ft-collage{order:-1}
+  .ft-col-3{margin-top:0}
+  .ft-content{text-align:center}
+  .ft-desc{max-width:100%;margin-left:auto;margin-right:auto}
+  .ft-arrows{justify-content:center}
   /* Features */
   .choose-grid{grid-template-columns:repeat(2,1fr);gap:2.5rem 1.5rem}
 
@@ -1054,19 +1047,20 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
   .container{padding:0}
 
   /* Navbar */
-  .navbar{height:60px;padding:0 1rem}
-  .nav-logo-img{height:46px}
+  .navbar{height:52px;padding:0 1rem}
+  .nav-logo-img{height:40px}
   .btn-cta{padding:8px 16px;font-size:12px}
+  .cat-bar-wrap{margin-top:52px}
 
   /* Hero */
+  .dest-hero{min-height:clamp(520px,76vh,760px)}
   .dest-hero-h1{font-size:clamp(28px,8vw,38px)}
   .dest-hero-ctas{flex-direction:column;width:100%}
   .dest-hero-ctas a{text-align:center}
 
-  /* Intro */
-  .intro-sec{padding:2.5rem 1.25rem}
-  .intro-collage{height:260px}
-  .intro-h{font-size:clamp(28px,8vw,36px);font-weight:700;color:#0a0a0a}
+  /* Featured trips */
+  .ft-sec{padding:2.5rem 1.25rem}
+  .ft-heading{font-family:'Apfel Grotezk','Poppins',sans-serif;font-size:clamp(32px,9vw,42px);font-weight:700;color:#3A3B3B;letter-spacing:-1px}
 
   /* Features */
   .choose-grid{grid-template-columns:1fr;gap:2rem}
@@ -1094,12 +1088,14 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
   .video-title{font-size:clamp(18px,5vw,26px)}
 
   /* Reviews */
-  .reviews-sec{padding:2.5rem 1.25rem}
-  .reviews-card-outer{border-radius:20px;padding:2rem 1.25rem 2.25rem}
-  .reviews-hdr{margin-bottom:1.5rem}
+  .reviews-sec{padding:1.5rem 1.25rem}
+  .reviews-card-outer{border-radius:20px;padding:1.25rem 1.25rem 1.5rem}
+  .reviews-hdr{margin-bottom:1.75rem}
   .reviews-hdr h2{font-size:clamp(22px,5.5vw,28px)}
-  .reviews-carousel-outer{overflow:hidden;padding:0 36px}
-  .rev-dots{margin-top:1rem}
+  .reviews-carousel-outer{overflow:hidden;padding:0 36px;margin-bottom:.5rem}
+  .rc{width:calc(100vw - 152px);height:auto;min-height:200px}
+  .rev-dots{margin-top:1.25rem}
+  .reviews-confidence{margin-top:2rem}
   /* Review card arrows */
   #revPrev{left:6px}
   #revNext{right:6px}
@@ -1129,6 +1125,7 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
   .footer{padding:2.5rem 1.25rem 1.5rem}
   .footer-grid{grid-template-columns:1fr;gap:2rem}
   .ft-badges,.ft-pay-row{gap:1.25rem}
+  .ft-bottom-row{flex-direction:column;align-items:flex-start}
   .footer-btm{flex-direction:column;align-items:flex-start;gap:.75rem}
 
   /* Lightbox */
@@ -1142,16 +1139,32 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
 
 /* ── 480px small phones ── */
 @media(max-width:480px){
-  /* Stats full width */
-  .stats-grid{grid-template-columns:1fr;grid-template-rows:repeat(4,220px);gap:.625rem}
-  .sc-1,.sc-2,.sc-3,.sc-4{grid-column:1;grid-row:auto}
+  /* Navbar — tighten so logo + search + menu all fit without crowding */
+  .navbar{gap:.6rem;padding:0 .875rem}
+  .nav-logo-img{height:34px}
+  .nav-search{padding:.45rem .45rem .45rem 1rem}
+  .nav-search input{font-size:13px}
+  .nav-search button{width:30px;height:30px}
+  .hbg{padding:9px;gap:0}
+
+  /* Stats — horizontal swipeable carousel instead of a tall vertical stack */
+  .stats-grid{
+    display:flex;grid-template-columns:unset;grid-template-rows:unset;
+    overflow-x:auto;scroll-snap-type:x mandatory;gap:.75rem;
+    padding-bottom:.25rem;-webkit-overflow-scrolling:touch;scrollbar-width:none;
+  }
+  .stats-grid::-webkit-scrollbar{display:none}
+  .sc-1,.sc-2,.sc-3,.sc-4{
+    grid-column:unset;grid-row:unset;
+    flex:0 0 82vw;width:82vw;height:280px;scroll-snap-align:center;
+  }
   .sc-split{flex-direction:column}
   .sc-split-txt{flex:0 0 auto;padding:.875rem 1rem .5rem}
   .sc-split-img{flex:1}
 
-  /* Intro collage smaller */
-  .intro-collage{height:230px}
-  .photo-card{border-radius:12px}
+  /* Featured trips collage smaller */
+  .ft-col-3{margin-top:0}
+  .ft-img{border-radius:12px}
 
   /* Trip card fills more on tiny screen */
 
@@ -1207,7 +1220,7 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
   .why-card{
     position:sticky;
     grid-template-columns:1fr !important;
-    grid-template-rows:200px auto;
+    grid-template-rows:auto 200px;
     height:auto !important;
     min-height:unset !important;
     border-radius:16px !important;
@@ -1221,10 +1234,10 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
   .why-card:nth-child(4){top:112px}
   .why-card:nth-child(5){top:124px}
   .why-card:nth-child(6){top:136px}
-  /* On mobile: image on top, text below */
-  .why-card-img{height:200px;order:0;flex-shrink:0}
+  /* On mobile: text first, image below (matches reference) */
+  .why-card-txt{order:0}
+  .why-card-img{height:200px;order:1;flex-shrink:0}
   .why-card-txt{
-    order:1;
     padding:1.25rem 1.25rem 1.5rem;
     height:auto !important;
     overflow:visible !important;
@@ -1249,8 +1262,9 @@ body{font-display:swap}
 /* ══════════════════════════════════════
    TRIPS — native scroll-snap carousel
 ══════════════════════════════════════ */
-.trips-sec{background:#fff;padding:clamp(.5rem,1vw,1rem) 0}
-.trips-sec .sec-h{font-family:'Apfel Grotesk','Poppins',sans-serif;font-size:42px;font-weight:700;letter-spacing:0.2px;line-height:1.15;font-style:normal}
+.trips-sec{background:#fff;padding:clamp(2.5rem,5vw,4rem) 0}
+.trips-byline{font-family:'Poppins',sans-serif;font-size:16px;color:#6b7280;font-weight:400;max-width:520px;margin:0 auto}
+.trips-sec .sec-h{font-family:'ITApfelGrotezk-Regular','Apfel Grotesk','Poppins',sans-serif;font-size:42px;font-weight:600;letter-spacing:-1px;line-height:1.15;font-style:normal;color:#3A3B3B}
 .trips-inner{max-width:1320px;margin:0 auto;overflow:hidden}
 .trips-hdr2{
   display:flex;align-items:center;justify-content:center;
@@ -1259,9 +1273,9 @@ body{font-display:swap}
 }
 .trip-filters2{display:flex;gap:7px;flex-wrap:wrap}
 .tf2{
-  padding:8px 18px;border-radius:50px;font-size:12.5px;font-weight:500;
+  padding:8px 18px;border-radius:50px;font-size:12.5px;font-weight:400;
   cursor:pointer;border:1.5px solid #d1d5db;background:#fff;
-  color:#6b7280;transition:all .22s;font-family:'Apfel Grotesk','Poppins',sans-serif;
+  color:#6b7280;transition:all .22s;font-family:'Apfel Grotezk','Poppins',sans-serif;
 }
 .tf2:hover{border-color:#02A9A2;color:#02A9A2}
 .tf2.active{background:#02A9A2;color:#fff;border-color:#02A9A2}
@@ -1309,54 +1323,83 @@ body{font-display:swap}
 /* ── Card ── */
 .tc2{
   position:relative;
-  background:transparent;
-  border-radius:16px;
+  background:#fff;
+  border-radius:22px;
   scroll-snap-align:start;
   overflow:hidden;
-  box-shadow:0 0 0 1.5px rgba(15,75,65,.22),0 8px 24px rgba(15,75,65,.14);
+  border:1.5px solid rgba(2,169,162,.45);
+  box-shadow:0 8px 20px rgba(15,75,65,.08);
   cursor:pointer;
   flex-shrink:0;
-  height:440px;
+  height:470px;
   /* Width is set via JS (cSetWidths) to fit exactly N cards in the container */
   width:300px;
+  display:flex;
+  flex-direction:column;
   /* Snap each card */
   scroll-snap-align:start;
   transition:transform .3s ease,box-shadow .3s;
 }
-.tc2:hover{transform:translateY(-5px);box-shadow:0 0 0 1px rgba(15,75,65,.22),0 16px 36px rgba(15,75,65,.18)}
-.tc2-img{position:absolute;inset:0;overflow:hidden}
+.tc2:hover{transform:translateY(-5px);box-shadow:0 16px 36px rgba(15,75,65,.16)}
+.tc2-img{position:relative;flex:1 1 0;min-height:180px;overflow:hidden;border-radius:0 0 20px 20px}
+.tc2-gal-arrow{
+  position:absolute;top:50%;transform:translateY(-50%);
+  width:28px;height:28px;border-radius:50%;
+  background:rgba(255,255,255,.9);border:none;
+  display:flex;align-items:center;justify-content:center;
+  color:#111;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.25);
+  opacity:0;transition:opacity .2s;z-index:2;
+}
+.tc2-img:hover .tc2-gal-arrow{opacity:1}
+.tc2-gal-arrow svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2.6}
+.tc2-gal-prev{left:8px}
+.tc2-gal-next{right:8px}
+.tc2-gal-dots{position:absolute;bottom:10px;left:0;right:0;display:flex;justify-content:center;gap:5px;z-index:2}
+.tc2-gal-dot{width:7px;height:7px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:all .2s}
+.tc2-gal-dot.active{background:var(--primary-hover);width:10px;height:10px}
 .tc2-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s ease}
 .tc2:hover .tc2-img img{transform:scale(1.05)}
 .tc2-body{
-  position:absolute;
-  left:4px;right:4px;bottom:4px;
-  padding:.6rem .875rem .75rem;
-  display:flex;flex-direction:column;gap:.25rem;
+  flex:0 0 auto;
+  display:flex;flex-direction:column;gap:.4rem;
+  padding:.9rem 1.1rem 1rem;
   background:#fff;
-  border-radius:14px;
-  box-shadow:0 4px 20px rgba(0,0,0,.15);
 }
-.tc2-tags{display:flex;gap:5px;flex-wrap:wrap;align-items:center}
+.tc2-tags{display:flex;gap:5px;flex-wrap:nowrap;align-items:center;overflow:visible;position:relative}
+.tc2-trending-badge{
+  position:absolute;top:10px;left:10px;z-index:2;
+  display:flex;align-items:center;gap:4px;
+  background:linear-gradient(135deg,#FF6B35,#F7931E);
+  color:#fff;font-family:'Poppins',sans-serif;font-size:11px;font-weight:700;
+  padding:5px 12px;border-radius:50px;letter-spacing:.2px;
+  box-shadow:0 2px 8px rgba(0,0,0,.25);
+}
+.tc2-trending-badge svg{width:12px;height:12px;fill:currentColor}
 .tc2-tag{
-  display:inline-flex;align-items:center;gap:4px;
-  padding:5px 14px;border-radius:50px;font-size:12px;font-weight:500;
-  background:rgba(255,255,255,.92);color:#6B7575;border:1px solid rgba(2,169,162,.25);
+  display:inline-flex;align-items:center;gap:3px;
+  padding:5px 11px;border-radius:50px;font-size:var(--tc-tag-size,13px);font-weight:var(--tc-tag-weight,900);
+  font-family:'Proxima Nova','Poppins',sans-serif;
+  background:#e3f3f2;color:var(--byline);border:1px solid rgba(2,169,162,.25);
+  height:26px;box-sizing:border-box;white-space:nowrap;flex-shrink:0;line-height:1;
 }
-.tc2-dur{font-size:11px;font-weight:700;color:#027A74;letter-spacing:1.2px;text-transform:uppercase}
-.tc2-name{font-size:20px;font-weight:600;color:#0a0a0a;line-height:1.15;letter-spacing:-.3px}
-.tc2-route{font-size:12px;color:#E8760A;font-weight:400}
-.tc2-dates{font-size:12.5px;color:#111;font-weight:600}
-.tc2-div{border:none;border-top:1px solid #ccc;margin:.15rem 0}
-.tc2-foot{display:flex;align-items:flex-end;justify-content:space-between;margin-top:auto}
-.tc2-price-lbl{font-size:10.5px;color:#6B7575;font-weight:600;margin-bottom:0px}
-.tc2-price{font-size:20px;font-weight:800;color:#027A74;line-height:1;letter-spacing:-.3px}
-.tc2-btn{
-  width:32px;height:32px;border-radius:50%;
-  background:#6B7575;display:flex;align-items:center;justify-content:center;
-  flex-shrink:0;transition:background .25s;border:none;cursor:pointer;
+.tc2-tag-hot{background:#fef2f2;color:#dc2626;border-color:rgba(220,38,38,.3)}
+.tc2-tag-more{background:#f0f0f0;color:#6b7280;border-color:#e5e7eb;position:relative}
+.tc2-tag-popover{
+  position:absolute;top:calc(100% + 6px);right:0;z-index:5;
+  background:#fff;border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,.18);
+  padding:8px;display:none;flex-wrap:wrap;gap:5px;min-width:160px;max-width:260px;
 }
-.tc2:hover .tc2-btn{background:#02A9A2}
-.tc2-btn svg{width:11px;height:11px;stroke:#fff;stroke-width:2.5;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.tc2-tag-popover.open{display:flex}
+.tc2-name{font-family:'Apfel Grotezk','Poppins',sans-serif;font-size:var(--tc-name-size,18px);font-weight:var(--tc-name-weight,700);color:#0a0a0a;line-height:1.22;flex-shrink:0;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;text-overflow:ellipsis}
+.tc2-route{font-family:'Poppins',sans-serif;font-size:var(--tc-route-size,13px);color:#FFA43B;font-weight:var(--tc-route-weight,900);flex-shrink:0;margin-top:-4.8px}
+.tc2-dates{font-family:'Poppins',sans-serif;font-size:var(--tc-dates-size,15px);color:#00897B;font-weight:var(--tc-dates-weight,900);line-height:1.4;flex-shrink:0}
+.tc2-foot{display:flex;align-items:flex-end;justify-content:space-between;margin-top:3px;gap:.5rem;flex-shrink:0}
+.tc2-foot-left{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+.tc2-loc{font-family:'Outfit','Poppins',sans-serif;font-size:12px;color:#4B4B4B;font-weight:500;letter-spacing:0px;text-transform:uppercase;line-height:1em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tc2-foot-right{flex-shrink:0;display:flex;flex-direction:column;gap:2px}
+.tc2-price-lbl{text-align:end;font-family:'Poppins',sans-serif;font-size:var(--tc-pricelbl-size,12px);color:#4B4B4B;font-weight:500;text-transform:lowercase;letter-spacing:.3px;line-height:1.2}
+.tc2-price{text-align:end;font-family:'Outfit','Poppins',sans-serif;font-size:var(--tc-price-size,19px);font-weight:var(--tc-price-weight,900);color:#4B4B4B;line-height:1em;letter-spacing:.2px;white-space:nowrap}
+.tc2-dur{font-family:'Outfit','Poppins',sans-serif;font-size:var(--tc-dur-size,12px);font-weight:var(--tc-dur-weight,900);color:#4B4B4B;letter-spacing:0px;text-transform:uppercase;line-height:1em}
 
 /* Dots */
 .carousel-dots{display:flex;justify-content:center;gap:6px;margin-top:1.25rem;padding:0 1rem}
@@ -1364,13 +1407,106 @@ body{font-display:swap}
 .cdot.active{background:#02A9A2;width:24px;border-radius:4px}
 
 .trips-more2{text-align:center;margin-top:2rem;padding:0 1rem}
+.promo-banner-sec{padding:clamp(1.5rem,3vw,2.5rem) clamp(1.25rem,4vw,3rem)}
+.promo-banner-outer{max-width:1320px;margin:0 auto}
+.promo-banner-track{
+  position:relative;display:flex;
+  border-radius:18px;
+  aspect-ratio:32/9;
+  box-shadow:0 8px 24px rgba(0,0,0,.14);
+  overflow-x:scroll;overflow-y:hidden;
+  scroll-snap-type:x mandatory;
+  -webkit-overflow-scrolling:touch;
+  scroll-behavior:smooth;
+  scrollbar-width:none;-ms-overflow-style:none;
+  cursor:grab;
+}
+.promo-banner-track::-webkit-scrollbar{display:none}
+.promo-banner-track:active{cursor:grabbing}
+.promo-banner-slide{position:relative;flex:0 0 100%;width:100%;height:100%;display:block;scroll-snap-align:start}
+.promo-banner-slide img{width:100%;height:100%;object-fit:cover;display:block}
+.promo-banner-txt{position:absolute;left:clamp(1.5rem,4vw,3rem);top:50%;transform:translateY(-50%);max-width:520px;z-index:2}
+.promo-banner-ov{position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,rgba(0,0,0,.6) 0%,rgba(0,0,0,.1) 100%)}
+.promo-banner-ttl{font-family:'Apfel Grotezk','Poppins',sans-serif;font-size:clamp(20px,2.6vw,28px);font-weight:400;color:#fff;margin-bottom:.4rem;line-height:1.2}
+.promo-banner-sub{font-family:'Poppins',sans-serif;font-size:clamp(12px,1.3vw,14px);color:rgba(255,255,255,.9)}
+.promo-banner-dots{display:flex;justify-content:center;gap:8px;margin-top:1rem}
+.promo-banner-dot{width:8px;height:8px;border-radius:50%;background:#d1d5db;cursor:pointer;transition:all .25s;border:none;padding:0}
+.promo-banner-dot.active{background:var(--teal);width:22px;border-radius:5px}
+.ct-cards-sec{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
+.ct-cards-eyebrow{font-family:'Poppins',sans-serif;font-size:13px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--teal)}
+.ct-cards-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;max-width:1320px;margin:2.5rem auto 0}
+
+/* Custom Tours card — redesigned to match client reference: bordered rounded card,
+   inset multi-photo gallery with dots, tag+rating row, two-column dur/location vs price footer */
+.ctc-card{
+  position:relative;background:#fff;border-radius:22px;
+  scroll-snap-align:start;overflow:hidden;
+  border:1.5px solid rgba(2,169,162,.45);
+  box-shadow:0 8px 20px rgba(15,75,65,.08);
+  cursor:pointer;flex-shrink:0;height:440px;width:300px;
+  display:flex;flex-direction:column;
+  transition:transform .3s ease,box-shadow .3s;
+}
+.ctc-card:hover{transform:translateY(-5px);box-shadow:0 16px 36px rgba(15,75,65,.16)}
+.ctc-img{position:relative;height:236px;flex-shrink:0;overflow:hidden;border-radius:0 0 20px 20px}
+.ctc-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s ease}
+.ctc-card:hover .ctc-img img{transform:scale(1.05)}
+.ctc-gal-arrow{
+  position:absolute;top:50%;transform:translateY(-50%);
+  width:28px;height:28px;border-radius:50%;
+  background:rgba(255,255,255,.9);border:none;
+  display:flex;align-items:center;justify-content:center;
+  color:#111;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.25);
+  opacity:0;transition:opacity .2s;z-index:2;
+}
+.ctc-img:hover .ctc-gal-arrow{opacity:1}
+.ctc-gal-arrow svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2.6}
+.ctc-gal-prev{left:8px}
+.ctc-gal-next{right:8px}
+.ctc-gal-dots{position:absolute;bottom:10px;left:0;right:0;display:flex;align-items:center;justify-content:center;gap:6px;z-index:2}
+.ctc-gal-dot{width:7px;height:7px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:all .2s}
+.ctc-gal-dot.active{background:var(--primary-hover);width:10px;height:10px}
+.ctc-gal-dot:last-child:not(.active){width:5px;height:5px;opacity:.8}
+.ctc-toprow{display:flex;align-items:center;justify-content:flex-start;gap:8px;flex-shrink:0}
+.ctc-tag{display:inline-flex;align-items:center;gap:5px;padding:3px 10px 3px 3px;min-height:24px;box-sizing:border-box;border-radius:50px;font-size:var(--ctc-tag-size,11px);font-weight:var(--ctc-tag-weight,600);font-family:'Proxima Nova','Poppins',sans-serif;background:#e3f3f2;color:var(--primary-hover);white-space:nowrap}
+.ctc-tag-icon{display:flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:50%;background:var(--teal);color:#fff;font-size:10px;flex-shrink:0}
+.ctc-rating-inline{display:flex;align-items:center;gap:4px;color:var(--heading);font-family:'Poppins',sans-serif;font-size:12px;font-weight:700;flex-shrink:0}
+.ctc-rating-inline svg{width:13px;height:13px;fill:#FFA43B;flex-shrink:0}
+.ctc-panel{
+  flex:1;display:flex;flex-direction:column;gap:.3rem;
+  padding:.7rem 1.1rem .75rem;
+  background:#fff;
+  min-height:0;
+}
+.ctc-title{font-family:'Apfel Grotezk','Poppins',sans-serif;font-size:var(--ctc-title-size,18px);font-weight:var(--ctc-title-weight,700);color:#0a0a0a;line-height:1.22;height:calc(1.22em * 2);flex-shrink:0;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;text-overflow:ellipsis}
+.ctc-foot{display:flex;align-items:flex-start;justify-content:space-between;gap:.5rem;margin-top:auto;flex-shrink:0}
+.ctc-foot-left{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.ctc-dur{font-family:'Outfit','Poppins',sans-serif;font-size:var(--ctc-dur-size,13px);font-weight:var(--ctc-dur-weight,700);color:#027A74;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ctc-route{font-family:'Poppins',sans-serif;font-size:var(--ctc-route-size,11px);font-weight:var(--ctc-route-weight,700);color:#8a8f8f;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ctc-foot-right{flex-shrink:0;text-align:end}
+.ctc-price-lbl{text-align:end;font-family:'Poppins',sans-serif;font-size:var(--ctc-pricelbl-size,10px);color:#454A4A;font-weight:600;text-transform:lowercase;letter-spacing:.3px}
+.ctc-price{text-align:end;font-family:'Outfit','Poppins',sans-serif;font-size:var(--ctc-price-size,17px);font-weight:var(--ctc-price-weight,700);color:#FFA43B;white-space:nowrap}
+.ctc-actions{display:flex;gap:8px;margin-top:.5rem;flex-shrink:0}
+.ctc-call-icon{width:38px;height:38px;flex-shrink:0;border-radius:10px;border:1.5px solid rgba(255,164,59,.55);display:flex;align-items:center;justify-content:center;color:#FFA43B;transition:background .2s;text-decoration:none}
+.ctc-call-icon:hover{background:#FFF7ED}
+.ctc-call-icon svg{width:16px;height:16px}
+.ctc-callback-btn{flex:1;background:#027A74;color:#fff;border:none;border-radius:10px;font-family:'Poppins',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:background .2s;padding:9px}
+.ctc-callback-btn:hover{background:#02A9A2}
+@media(max-width:900px){
+  .ct-cards-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:640px){
+  .ct-cards-grid{grid-template-columns:1fr;max-width:340px}
+  .promo-banner-track{aspect-ratio:4/6}
+  .promo-banner-txt{left:1.25rem;right:1.25rem}
+}
 
 /* Mobile — width set by JS, only height adjusts per breakpoint */
 @media(max-width:900px){
-  .tc2{height:460px}
+  .tc2{height:490px}
 }
 @media(max-width:580px){
-  .tc2{height:440px}
+  .tc2{height:470px}
   .carousel-arrow{width:36px;height:36px}
   .carousel-arrow svg{width:16px;height:16px}
   .arr-prev{left:-2px}
@@ -1388,14 +1524,14 @@ body{font-display:swap}
 ══════════════════════════════════════ */
 .video-sec{
   background:#fff;
-  padding:clamp(2rem,4vw,3rem) clamp(1.25rem,4vw,3rem);
+  padding:clamp(1.2rem,2.4vw,1.8rem) clamp(1.25rem,4vw,3rem) clamp(2rem,4vw,3rem);
   text-align:center;
 }
 .video-inner{max-width:960px;margin:0 auto}
 .video-title{
-  font-family:'Apfel Grotesk','Poppins',sans-serif;
-  font-size:42px;font-weight:600;letter-spacing:0.2px;
-  color:#0a0a0a;margin-bottom:1.75rem;line-height:1.15;font-style:normal;
+  font-family:'ITApfelGrotezk-Regular','Apfel Grotesk','Poppins',sans-serif;
+  font-size:42px;font-weight:600;letter-spacing:-1px;
+  color:#3A3B3B;margin-bottom:1.75rem;line-height:1.15;font-style:normal;
 }
 /* 16:9 wrapper */
 .video-wrap{
@@ -1431,7 +1567,7 @@ body{font-display:swap}
 }
 
 
-.why-subtitle{font-size:14px;color:#6B7575;line-height:1.85;font-weight:400;text-align:center;max-width:560px;margin:0 auto clamp(2rem,4vw,3.5rem)}
+.why-subtitle{font-size:14px;color:var(--byline);line-height:1.85;font-weight:400;text-align:center;max-width:560px;margin:0 auto clamp(2rem,4vw,3.5rem)}
 
 /* ─────────────────────────────────────────
    BLOG PREVIEW — "From the journal"
@@ -1439,7 +1575,7 @@ body{font-display:swap}
 .blog-prev-sec{background:var(--off);padding:clamp(3rem,5vw,4.5rem) clamp(1.25rem,4vw,3rem)}
 .blog-prev-hdr{text-align:center;max-width:640px;margin:0 auto clamp(2rem,4vw,3rem)}
 .blog-prev-hdr .eyebrow{justify-content:center}
-.blog-prev-grid{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:clamp(1.25rem,2.5vw,1.75rem)}
+.blog-prev-grid{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,340px));justify-content:center;gap:clamp(1.25rem,2.5vw,1.75rem)}
 .blog-prev-card{display:block;position:relative;border-radius:20px;overflow:hidden;aspect-ratio:4/3;box-shadow:var(--sh2);transition:transform .3s ease,box-shadow .3s ease}
 .blog-prev-card:hover{transform:translateY(-6px);box-shadow:var(--sh3)}
 .blog-prev-card img{width:100%;height:100%;object-fit:cover;display:block}
@@ -1448,54 +1584,101 @@ body{font-display:swap}
 .bp-badge{padding:.42rem .75rem;font-family:'Outfit','Poppins',sans-serif;font-weight:800;font-size:12.5px;letter-spacing:.3px;text-transform:uppercase;color:#fff;line-height:1.2}
 .bp-badge.coral{background:#FF8A66}
 .bp-badge.teal{background:#02A9A2}
-.bp-script{font-family:'Caveat',cursive;font-size:15px;color:#02A9A2;display:flex;align-items:center;gap:5px}
+.bp-script{font-family:'Poppins',sans-serif;font-size:15px;line-height:1.5em;letter-spacing:-0.2px;color:#454A4A;display:flex;align-items:center;gap:5px}
 .bp-bottom{position:absolute;left:0;right:0;bottom:0;padding:1.1rem 1.25rem 1.25rem;z-index:2}
 .bp-tags{display:flex;gap:.9rem;margin-bottom:.5rem}
 .bp-tags span{font-size:12px;font-weight:700;color:#fff;opacity:.9}
-.bp-title{font-family:'Apfel Grotesk','Poppins',sans-serif;font-size:17px;font-weight:700;color:#fff;line-height:1.32;letter-spacing:0.1px}
+.bp-title{font-family:'Apfel Grotezk','Poppins',sans-serif;font-size:17px;font-weight:700;color:#fff;line-height:1.32;letter-spacing:0.1px}
 .blog-prev-more{text-align:center;margin-top:clamp(2rem,4vw,2.75rem)}
 
+/* ─────────────────────────────────────────
+   MOBILE TYPOGRAPHY — from Home Page Typography Client Review (CR)
+   Desktop styles above are untouched; these only apply at ≤768px.
+───────────────────────────────────────── */
+@media(max-width:768px){
+  /* 4. Hero — these are the site's default mobile sizes; if the admin picks a
+     Mobile Typography style for these fields, JS applies it as an inline
+     style that overrides these defaults automatically. */
+  .dest-hero-h1{font-size:30px;line-height:40px}
+  .dest-hero-sub{font-size:18px;line-height:22px}
+
+  /* 5. Featured Trips Slider */
+  .ft-heading{font-size:32px;line-height:35px}
+  .ft-desc{font-size:15px;line-height:22px}
+
+  /* 6. Upcoming Trips — scoped to this heading only; Custom Tours (#ctHeading)
+     and Blog Preview (#blogHeadingEl) share the .sec-h class but keep desktop size */
+  #upcomingH{font-size:32px;line-height:35px}
+
+  /* 6/7. Trip Cards (also used by Custom Tours cards, per CR note) */
+  .tc-name{font-size:26px;line-height:28px}
+  .tc-route{font-size:14px;line-height:14px}
+  .tc-dates{font-size:14px;line-height:22px}
+  .tc-price-lbl{font-size:14px;line-height:22px}
+  .tc-price{font-size:24px;line-height:24px}
+
+  /* 8. Video Section */
+  .video-title{font-size:32px;line-height:35px}
+
+  /* 9. Reviews */
+  .reviews-hdr h2{font-size:32px;line-height:35px}
+  .reviews-hdr p{font-size:16px;line-height:24px}
+  .rc-name{font-size:15px;line-height:21px}
+  .rc-ago{font-size:13px;line-height:18px}
+  .rc-more{font-size:14px;line-height:20px}
+  #confidenceH{font-size:32px;line-height:35px}
+
+  /* 10. Stats Bento Grid */
+  .sc-txt-overlay .sc-num{font-size:50px;line-height:55px}
+  .sc-txt-overlay .sc-lbl{font-size:15px;line-height:20px}
+
+  /* 11. Why Travel With Eureka Trips */
+  .why-title{font-size:32px;line-height:35px}
+  .why-card-ttl{font-size:26px;line-height:29px}
+  .why-card-desc{font-size:15px;line-height:23px}
+
+  /* 13. Booking CTA (VIP Signup) — default mobile size; JS overrides via
+     inline style automatically if a Mobile Typography style is picked. */
+  .cta-title{font-size:32px;line-height:35px}
+  .cta-card h3{font-size:20px;line-height:22px}
+  .fg input{font-size:16px;line-height:29px}
+  .fg-check{font-size:16px;line-height:29px}
+  .btn-form{font-size:16px;line-height:16px}
+
+  /* 14. Footer */
+  .ft-col-h{font-size:18px;line-height:22px}
+  .ft-col-links a{font-size:16px;line-height:16px}
+  .ft-contact-lbl{font-size:18px;line-height:18px}
+  .ft-contact-val{font-size:15px;line-height:23px}
+  .ft-copy{font-size:16px;line-height:22px}
+  .ft-legal a{font-size:16px;line-height:16px}
+}
+
+
+/* ── MOBILE FOOTER ACCORDION — Company & Explore collapse to tap-to-expand ──
+   Desktop default: chevron hidden, no collapse behavior — the link lists
+   just render normally as before, exactly as on every other page. ── */
+.ft-col-chev{display:none}
+@media(max-width:768px){
+  .ft-col-h-toggle{display:flex;align-items:center;justify-content:space-between;cursor:pointer;user-select:none}
+  .ft-col-chev{display:block;width:16px;height:16px;flex-shrink:0;transition:transform .25s ease}
+  .ft-col-h-toggle.open .ft-col-chev{transform:rotate(180deg)}
+  .ft-col-h-toggle ~ .ft-col-links{max-height:0;overflow:hidden;transition:max-height .3s ease;margin-bottom:0}
+  .ft-col-h-toggle.open ~ .ft-col-links{max-height:400px;margin-top:.75rem}
+}
 </style>
+<script src="typography-engine.js"></script>
 </head>
 <body>
 
 <!-- NAVBAR -->
 <nav class="navbar" id="navbar">
   <a href="#" class="nav-logo" style="display:flex;align-items:center;text-decoration:none">
-    <img class="nav-logo-img" src="https://etrips.digitalgrowthtechnology.com/wp-content/uploads/2026/01/Eureka-Logo-1-02-scaled-e1769966688826.png" alt="Eureka Trips" onerror="this.style.display='none'">
+    <img class="nav-logo-img" id="navLogoImg" src="https://etrips.digitalgrowthtechnology.com/wp-content/uploads/2026/01/Eureka-Logo-1-02-scaled-e1769966688826.png" alt="Eureka Trips" onerror="this.style.display='none'">
   </a>
   <div class="nav-pill">
     <a href="about-us.html">About Us</a>
-    <div class="nav-has-drop" id="tripsDrop">
-      <a href="#trips" onclick="return toggleTripsDrop(event)">Our Trips <span class="nav-plus">+</span></a>
-      <div class="nav-mega">
-       <div class="nav-mega-inner">
-        <div>
-          <div class="nav-mega-h">Our Trips</div>
-          <div class="nav-mega-links">
-            <a href="trip-page.html"><span class="nav-mega-dot"></span>Philippines Hop &amp; Chill</a>
-          </div>
-        </div>
-        <div>
-          <div class="nav-mega-h">Explore Destinations</div>
-          <div class="nav-mega-links">
-            <a href="trip-page.html"><span class="nav-mega-dot"></span>Philippines Hop &amp; Chill Group</a>
-          </div>
-        </div>
-        <div class="nav-mega-promo">
-          <div class="nav-mega-promo-img">
-            <img src="https://images.unsplash.com/photo-1517154421773-0529f29ea451?w=300&q=80&auto=format&fm=webp&fit=crop" alt="South Korea">
-          </div>
-          <div class="nav-mega-promo-body">
-            <div class="nav-mega-promo-tag">New Launch</div>
-            <div class="nav-mega-promo-title">South Korea</div>
-            <p class="nav-mega-promo-desc">South Korea From the electric energy of Seoul to tranquil temples and coastlines.</p>
-            <a href="trip-page.html" class="nav-mega-promo-btn">Book Now →</a>
-          </div>
-        </div>
-       </div>
-      </div>
-    </div>
+    <a href="index.html#trips">Our Trips <span class="nav-plus">+</span></a>
     <a href="destinations.html">Destinations</a>
     <a href="group-trip.html">Group Trip</a>
     <a href="custom-trips.html">Build Your Adventure</a>
@@ -1503,9 +1686,12 @@ body{font-display:swap}
     <a href="contact-us.html">Contact Us</a>
   </div>
   <div class="nav-right">
-    <a href="https://www.facebook.com/profile.php?id=61550700038721" target="_blank" class="nav-soc" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
-    <a href="https://www.instagram.com/eureka.trips" target="_blank" class="nav-soc" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
-    <div class="hbg" id="hbg" onclick="openDrawer()"><span></span><span></span><span></span></div>
+    <a href="https://www.google.com/search?q=Eureka+Trips" target="_blank" class="nav-soc nav-soc-brand" aria-label="Google"><svg viewBox="0 0 48 48"><path fill="#4285F4" d="M45.12 24.5c0-1.56-.14-3.06-.4-4.5H24v8.51h11.84c-.51 2.75-2.06 5.08-4.39 6.64v5.52h7.11c4.16-3.83 6.56-9.47 6.56-16.17z"/><path fill="#34A853" d="M24 46c5.94 0 10.92-1.97 14.56-5.33l-7.11-5.52c-1.97 1.32-4.49 2.1-7.45 2.1-5.73 0-10.58-3.87-12.31-9.07H4.34v5.7C7.96 41.07 15.4 46 24 46z"/><path fill="#FBBC05" d="M11.69 28.18C11.25 26.86 11 25.45 11 24s.25-2.86.69-4.18v-5.7H4.34C2.85 17.09 2 20.45 2 24s.85 6.91 2.34 9.88l7.35-5.7z"/><path fill="#EA4335" d="M24 10.75c3.23 0 6.13 1.11 8.41 3.29l6.31-6.31C34.91 4.18 29.93 2 24 2 15.4 2 7.96 6.93 4.34 14.12l7.35 5.7c1.73-5.2 6.58-9.07 12.31-9.07z"/></svg></a>
+    <a href="https://www.instagram.com/eureka.trips" target="_blank" class="nav-soc nav-soc-brand" aria-label="Instagram"><svg viewBox="0 0 24 24"><defs><radialGradient id="igGradNav" cx="30%" cy="107%" r="150%"><stop offset="0%" stop-color="#fdf497"/><stop offset="5%" stop-color="#fdf497"/><stop offset="45%" stop-color="#fd5949"/><stop offset="60%" stop-color="#d6249f"/><stop offset="90%" stop-color="#285AEB"/></radialGradient></defs><path fill="url(#igGradNav)" d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
+    <button type="button" class="hbg" id="hbg" onclick="openDrawer()" aria-label="Open menu">
+      <span class="hbg-txt">Menu</span>
+      <span class="hbg-icon"><span></span><span></span><span></span></span>
+    </button>
   </div>
 </nav>
 
@@ -1513,19 +1699,30 @@ body{font-display:swap}
 <div class="mob-overlay" id="mobOverlay" onclick="closeDrawer()"></div>
 <div class="mob-drawer" id="mobDrawer">
   <div class="mob-drawer-head">
-    <span style="font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:#111">eureka! <em style="color:#02A9A2;font-style:italic">trips</em></span>
     <button class="mob-close" onclick="closeDrawer()">✕</button>
   </div>
   <nav class="mob-links">
+    <div class="mob-links-more mob-links-first">Explore</div>
+    <a href="index.html" onclick="closeDrawer()">Home</a>
+    <a href="#" onclick="closeDrawer()">Reels</a>
     <a href="about-us.html" onclick="closeDrawer()">About Us</a>
-    <a href="#trips" onclick="closeDrawer()">Our Trips</a>
-    <a href="trip-page.html" onclick="closeDrawer()" style="padding-left:1.5rem;font-size:14px;font-weight:500;opacity:.85">↳ Philippines Hop &amp; Chill</a>
-    <a href="destinations.html" onclick="closeDrawer()">Destinations</a>
-    <a href="group-trip.html" onclick="closeDrawer()">Group Trip</a>
-    <a href="custom-trips.html" onclick="closeDrawer()">Build Your Adventure</a>
-    <a href="blog.html" onclick="closeDrawer()">Blog</a>
+    <a href="index.html#reviews" onclick="closeDrawer()">Testimonials</a>
+    <a href="#" onclick="closeDrawer()">Capture on EUREKA</a>
+    <div class="mob-links-more">For You</div>
+    <a href="index.html#trips" onclick="closeDrawer()">Upcoming Group Trips</a>
+    <a href="destinations.html?region=Domestic" onclick="closeDrawer()">Domestic Trips</a>
+    <a href="destinations.html" onclick="closeDrawer()">International Trips</a>
+    <a href="#" onclick="closeDrawer()">Special Edition Trips</a>
+    <a href="custom-trips.html" onclick="closeDrawer()">Customise Tours</a>
+    <a href="#" onclick="closeDrawer()">Honeymoon Tours</a>
+    <a href="#" onclick="closeDrawer()">Corporate &amp; Events</a>
+    <div class="mob-links-more">More</div>
+    <a href="#" target="_blank" onclick="closeDrawer()">Linktree</a>
     <a href="contact-us.html" onclick="closeDrawer()">Contact Us</a>
-    <a href="tel:+919792496457" onclick="closeDrawer()">📞 +91 97924 96457</a>
+    <a href="#" onclick="closeDrawer()">Payments</a>
+    <a href="terms-conditions.html" onclick="closeDrawer()">Terms &amp; Conditions</a>
+    <a href="privacy-policy.html" onclick="closeDrawer()">Privacy Policy</a>
+    <a href="#" onclick="closeDrawer()">Work with us</a>
   </nav>
   <div class="mob-foot">
     <button class="mob-cta-btn" onclick="openWA('Hi EUREKA Trips! I want to book a trip.');closeDrawer()">💬 Book on WhatsApp</button>
@@ -1571,72 +1768,43 @@ body{font-display:swap}
 </div>
 
 <!-- HERO -->
-<!-- HERO — same style as Destinations page -->
+<!-- HERO — video background, full redesign -->
 <div class="dest-hero-wrap" id="home">
-<section class="dest-hero">
+<section class="dest-hero video-hero">
+  <video class="hero-video-bg" id="heroVideoBg" autoplay muted loop playsinline>
+    <source id="heroVideoSrc" src="https://assets.mixkit.co/videos/preview/mixkit-tropical-water-lily-in-a-pond-1497-large.mp4" type="video/mp4">
+  </video>
+  <div class="hero-video-overlay"></div>
+  <button class="hero-mute-btn" id="heroMuteBtn" onclick="toggleHeroMute()" aria-label="Toggle sound">
+    <svg id="heroMuteIconOn" viewBox="0 0 24 24" style="display:none"><path d="M3 9v6h4l5 5V4L7 9H3z" fill="currentColor" stroke="none"/><path d="M16 8a5 5 0 010 8M19 5a9 9 0 010 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+    <svg id="heroMuteIconOff" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3z" fill="currentColor" stroke="none"/><path d="M16 9l5 6M21 9l-5 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+  </button>
   <div class="dest-hero-content">
-    <h1 class="dest-hero-h1" id="heroH1">MEET NEW PEOPLE.<br>SEE THE WORLD DIFFERENTLY.</h1>
-    <p class="dest-hero-sub" id="heroSub">Rooftop nights, beach clubs, boat parties and much more for 21-39 years who don't do boring trips.</p>
-    <div class="dest-hero-ctas">
-      <a href="#trips" class="btn-hero-primary" id="heroBtn1">Explore Trips</a>
-      <a href="contact-us.html" class="btn-hero-outline" id="heroBtn2">Talk to Our Team</a>
+    <h1 class="dest-hero-h1" id="heroH1" data-ts="hero_heading"></h1>
+    <p class="dest-hero-sub" id="heroSub" data-ts="hero_subtext"></p>
+    <div class="hero-stats-row" id="heroStatsRow">
+      <div class="hero-stat"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M12 7v5l3.5 2" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>24×7 Support</div>
+      <span class="hero-stat-sep"></span>
+      <div class="hero-stat"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.4" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M5 20c0-3.9 3.1-7 7-7s7 3.1 7 7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>100% Personalised</div>
+      <span class="hero-stat-sep"></span>
+      <div class="hero-stat"><svg viewBox="0 0 24 24"><path d="M12 2.5l2.9 6.3 6.9.7-5.2 4.7 1.5 6.8L12 17.8l-6.1 3.2 1.5-6.8-5.2-4.7 6.9-.7z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>4.9+ Rated</div>
     </div>
   </div>
-  <div class="marquee-track" id="marqueeTrack" style="padding-bottom:2.5rem"></div>
 </section>
 </div>
 
-<!-- INTRO -->
-<section class="intro-sec" id="about">
-  <div class="intro-inner">
-    <div class="intro-left fu">
-      <h2 class="intro-h" id="subheroH">Discover cultures.<br>Meet your people.<br>Travel differently.</h2>
-      <p class="intro-p" id="subheroP1">For curious travellers who seek culture, connection, and experiences worth remembering.</p>
-      <p class="intro-p" id="subheroP2">Dive into different cultures. Eat your heart out. Meet incredible people. Create unforgettable memories. Live a life less ordinary.</p>
-      <p class="intro-p" id="subheroP3">We're travel pros who handle every detail behind the scenes, allowing you to explore deeper, connect with like-minded travellers, and experience the world in a way few people do.</p>
-    </div>
-    <div class="intro-collage fu d2">
-      <div class="photo-card pc1"><img width="700" height="500" loading="lazy" id="subheroImg1" src="https://images.unsplash.com/photo-1539635278303-d4002c07eae3?w=700&q=80&auto=format&fm=webp&fit=crop&crop=faces,center" alt="Group travel"></div>
-      <div class="photo-card pc2"><img width="600" height="450" loading="lazy" id="subheroImg2" src="https://images.unsplash.com/photo-1530521954074-e64f6810b32d?w=600&q=80&auto=format&fm=webp&fit=crop" alt="Friends road trip"></div>
-      <div class="photo-card pc3"><img width="700" height="500" loading="lazy" id="subheroImg3" src="https://images.unsplash.com/photo-1527631746610-bca00a040d60?w=700&q=80&auto=format&fm=webp&fit=crop" alt="Group activity"></div>
-      <div class="photo-card pc4"><img width="600" height="450" loading="lazy" id="subheroImg4" src="https://images.unsplash.com/photo-1502680390469-be75c86b636f?w=600&q=80&auto=format&fm=webp&fit=crop" alt="Surf adventure"></div>
-    </div>
-  </div>
-</section>
-
-<!-- CHOOSE SEC -->
-<section class="choose-sec" id="features">
-  <div class="choose-inner">
-    <div class="choose-grid">
-      <div class="ch fu">
-        <div class="ch-icon" id="ch1Icon"><svg viewBox="0 0 80 80" fill="none" stroke="#FFA43B" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="40" cy="20" r="10"/><path d="M20 60c0-11.046 8.954-20 20-20s20 8.954 20 20"/><circle cx="20" cy="24" r="8"/><path d="M4 60c0-8.837 7.163-16 16-16"/><circle cx="60" cy="24" r="8"/><path d="M76 60c0-8.837-7.163-16-16-16"/></svg></div>
-        <div class="ch-ttl" id="ch1Ttl">Solo Travellers of Your Age</div>
-        <div class="ch-desc" id="ch1Desc">Everyone on our trips <b>is aged 21–39 and 70% sign up alone</b>, meaning you'll be exploring with a crew around your age.</div>
-      </div>
-      <div class="ch fu d1">
-        <div class="ch-icon" id="ch2Icon"><svg viewBox="0 0 80 80" fill="none" stroke="#FFA43B" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M18 30l22-12 22 10 6 34-24-6-26 8z"/>
-          <path d="M40 18l4 44"/>
-          <path d="M22 34l16-6M23 42l16-5M24 50l16-5M48 30l16 6M49 38l16 6M50 46l16 6"/>
-          <g>
-            <path d="M26 4c7.2 0 13 5.7 13 12.8 0 9.6-13 20.7-13 20.7S13 26.4 13 16.8C13 9.7 18.8 4 26 4z" fill="#fff"/>
-            <path d="M26 4c7.2 0 13 5.7 13 12.8 0 9.6-13 20.7-13 20.7S13 26.4 13 16.8C13 9.7 18.8 4 26 4z"/>
-            <circle cx="26" cy="16" r="3.6"/>
-          </g>
-          <path d="M58 12l3 3M65 16l3 3M62 6l2 4" stroke-width="2"/>
-        </svg></div>
-        <div class="ch-ttl" id="ch2Ttl">No Planning Required</div>
-        <div class="ch-desc" id="ch2Desc">We've done all the logistics planning and legwork. <b>Get yourself there and we take care of the rest.</b></div>
-      </div>
-      <div class="ch fu d2">
-        <div class="ch-icon" id="ch3Icon"><svg viewBox="0 0 80 80" fill="none" stroke="#FFA43B" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="36" y1="6" x2="36" y2="56"/><path d="M36 10L20 50h16z"/><path d="M36 16l18 34H36z"/><path d="M14 56h54"/><path d="M14 62h54"/></svg></div>
-        <div class="ch-ttl" id="ch3Ttl">Balanced Adventure</div>
-        <div class="ch-desc" id="ch3Desc"><b>Jumping off the boats by day,</b> delicious dinners and clean, comfortable, centrally-located hotels by night.</div>
-      </div>
-      <div class="ch fu d3">
-        <div class="ch-icon" id="ch4Icon"><svg viewBox="0 0 80 80" fill="none" stroke="#FFA43B" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="42" cy="46" r="24"/><path d="M18 46h48"/><path d="M42 22c-7.5 5.5-12 14.5-12 24s4.5 18.5 12 24"/><path d="M42 22c7.5 5.5 12 14.5 12 24s-4.5 18.5-12 24"/><path d="M28 28c4 5 11 6 18 3M28 64c4-5 11-6 18-3"/><path d="M10 22c0-7 6-13 14-13 0 9-6 15-14 13z" fill="#FFA43B" stroke="none"/><path d="M10 22c0-7 6-13 14-13 0 9-6 15-14 13z"/></svg></div>
-        <div class="ch-ttl" id="ch4Ttl">Live Local "Make a Difference"</div>
-        <div class="ch-desc" id="ch4Desc">We do our part to travel sustainably and <b>support the local economy.</b></div>
+<!-- FEATURED TRIPS SLIDER -->
+<section class="ft-sec" id="about">
+  <div class="ft-inner">
+    <div class="ft-collage fu" id="ftCollage"></div>
+    <div class="ft-content fu d2">
+      <div class="ft-eyebrow" id="ftEyebrow">Our featured trips</div>
+      <h2 class="ft-heading" id="ftHeading"></h2>
+      <p class="ft-desc" id="ftDesc"></p>
+      <a href="#" class="ft-btn" id="ftBtn"></a>
+      <div class="ft-arrows">
+        <button class="ft-arrow" id="ftPrev" aria-label="Previous slide"><svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <button class="ft-arrow" id="ftNext" aria-label="Next slide"><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
       </div>
     </div>
   </div>
@@ -1645,8 +1813,9 @@ body{font-display:swap}
 <!-- TRIP CARDS -->
 <section class="trips-sec" id="trips">
   <div class="trips-inner">
-    <div class="trips-hdr2 fu" style="justify-content:center;text-align:center">
-      <h2 class="sec-h" style="font-style:normal" id="upcomingH">Upcoming trips</h2>
+    <div class="trips-hdr2" style="justify-content:center;text-align:center;flex-direction:column;gap:.5rem">
+      <h2 class="sec-h" style="font-style:normal" id="upcomingH" data-ts="ut_heading">Upcoming trips</h2>
+      <p class="trips-byline" id="upcomingByline" data-ts="ut_byline">Handpicked group adventures, ready for you to join.</p>
     </div>
     <div class="carousel-outer" id="carouselOuter">
       <button class="carousel-arrow arr-prev disabled" id="arrPrev" onclick="carouselPrev()" aria-label="Previous"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
@@ -1654,14 +1823,40 @@ body{font-display:swap}
       <button class="carousel-arrow arr-next" id="arrNext" onclick="carouselNext()" aria-label="Next"><svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></button>
     </div>
     <div class="carousel-dots" id="carouselDots"></div>
-    <div class="trips-more2 fu"><a href="#trips" class="btn-view-more" id="upcomingBtn">Explore trips</a></div>
+  </div>
+</section>
+
+<!-- PROMO BANNER CAROUSEL — populated entirely by applyAdBanners() from Supabase; no hardcoded fallback -->
+<section class="promo-banner-sec">
+  <div class="container">
+    <div class="promo-banner-outer">
+      <div class="promo-banner-track" id="promoBannerTrack"></div>
+      <div class="promo-banner-dots" id="promoBannerDots"></div>
+    </div>
+  </div>
+</section>
+
+<!-- CUSTOM TOURS -->
+<section class="ct-cards-sec" id="customTours">
+  <div class="trips-inner">
+    <div class="trips-hdr2 fu" style="justify-content:center;text-align:center;flex-direction:column;gap:.5rem">
+      <div class="ct-cards-eyebrow" id="ctEyebrow" data-ts="ct_eyebrow">Custom Tours</div>
+      <h2 class="sec-h" id="ctHeading" style="font-style:normal" data-ts="ct_heading">Build your own adventure. Your itinerary your way!</h2>
+    </div>
+    <div class="carousel-outer" id="ctcCarouselOuter">
+      <button class="carousel-arrow arr-prev disabled" id="ctcArrPrev" onclick="ctcCarouselPrev()" aria-label="Previous"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
+      <div class="carousel-track" id="customToursGrid"><!-- cards injected by applyCustomTourCards() --></div>
+      <button class="carousel-arrow arr-next" id="ctcArrNext" onclick="ctcCarouselNext()" aria-label="Next"><svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></button>
+    </div>
+    <div class="carousel-dots" id="ctcCarouselDots"></div>
+    <div class="trips-more2 fu"><a href="custom-trips.html" class="btn-view-more">Build Your Adventure</a></div>
   </div>
 </section>
 
 <!-- VIDEO SECTION -->
 <section class="video-sec" id="video">
   <div class="video-inner fu">
-    <h2 class="video-title" id="videoTitleEl">We do fun stuff. You are invited to join!</h2>
+    <h2 class="video-title" id="videoTitleEl" data-ts="video_title">We do fun stuff. You are invited to join!</h2>
     <div class="video-wrap" id="videoWrap">
       <iframe
         id="ytPlayer"
@@ -1679,8 +1874,8 @@ body{font-display:swap}
 <section class="reviews-sec" id="reviews">
   <div class="reviews-card-outer">
     <div class="reviews-hdr fu">
-      <h2 id="reviewsH">See What Past Travelers Say About <em>Eureka Trips!</em></h2>
-      <p id="reviewsSub">Newton's 3rd law holds true with our tribe too, They love us just like we love them.</p>
+      <h2 id="reviewsH" data-ts="reviews_heading">See What Past Travelers Say About <em>Eureka Trips!</em></h2>
+      <p id="reviewsSub" data-ts="reviews_subtitle">Newton's 3rd law holds true with our tribe too, They love us just like we love them.</p>
     </div>
     <div class="reviews-carousel-outer" id="revOuter">
       <button class="carousel-arrow arr-prev disabled" id="revPrev" onclick="revPrev()" aria-label="Previous"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
@@ -1690,11 +1885,11 @@ body{font-display:swap}
     <div class="rev-dots" id="revDots"></div>
 
     <div class="reviews-confidence fu">
-      <h3 id="confidenceH">Book with confidence</h3>
+      <h3 id="confidenceH" data-ts="confidence_heading">Book with confidence</h3>
       <div class="confidence-badges">
         <div class="cb-google">
           <svg width="100" height="34" viewBox="0 0 272 92" xmlns="http://www.w3.org/2000/svg"><path fill="#EA4335" d="M115.75 47.18c0 12.77-9.99 22.18-22.25 22.18s-22.25-9.41-22.25-22.18C71.25 34.32 81.24 25 93.5 25s22.25 9.32 22.25 22.18zm-9.74 0c0-7.98-5.79-13.44-12.51-13.44S80.99 39.2 80.99 47.18c0 7.9 5.79 13.44 12.51 13.44s12.51-5.55 12.51-13.44z"/><path fill="#FBBC05" d="M163.75 47.18c0 12.77-9.99 22.18-22.25 22.18s-22.25-9.41-22.25-22.18c0-12.85 9.99-22.18 22.25-22.18s22.25 9.32 22.25 22.18zm-9.74 0c0-7.98-5.79-13.44-12.51-13.44s-12.51 5.46-12.51 13.44c0 7.9 5.79 13.44 12.51 13.44s12.51-5.55 12.51-13.44z"/><path fill="#4285F4" d="M209.75 26.34v39.82c0 16.38-9.66 23.07-21.08 23.07-10.75 0-17.22-7.19-19.66-13.07l8.48-3.53c1.51 3.61 5.21 7.87 11.17 7.87 7.31 0 11.84-4.51 11.84-13v-3.19h-.34c-2.18 2.69-6.38 5.04-11.68 5.04-11.09 0-21.25-9.66-21.25-22.09 0-12.52 10.16-22.26 21.25-22.26 5.29 0 9.49 2.35 11.68 4.96h.34v-3.61h9.25zm-8.56 20.92c0-7.81-5.21-13.52-11.84-13.52-6.72 0-12.35 5.71-12.35 13.52 0 7.73 5.63 13.36 12.35 13.36 6.63 0 11.84-5.63 11.84-13.36z"/><path fill="#34A853" d="M225 3v65h-9.5V3h9.5z"/><path fill="#EA4335" d="M262.02 54.48l7.56 5.04c-2.44 3.61-8.32 9.83-18.48 9.83-12.6 0-22.01-9.74-22.01-22.18 0-13.19 9.49-22.18 20.92-22.18 11.51 0 17.14 9.16 18.98 14.11l1.01 2.52-29.65 12.28c2.27 4.45 5.8 6.72 10.75 6.72 4.96 0 8.4-2.44 10.92-6.14zm-23.27-7.98l19.82-8.23c-1.09-2.77-4.37-4.7-8.23-4.7-4.95 0-11.84 4.37-11.59 12.93z"/><path fill="#4285F4" d="M35.29 41.41V32H67c.31 1.64.47 3.58.47 5.68 0 7.06-1.93 15.79-8.15 22.01-6.05 6.3-13.78 9.66-24.02 9.66C16.32 69.35.36 53.89.36 34.91.36 15.93 16.32.47 35.3.47c10.5 0 17.98 4.12 23.6 9.49l-6.64 6.64c-4.03-3.78-9.49-6.72-16.97-6.72-13.86 0-24.7 11.17-24.7 25.03 0 13.86 10.84 25.03 24.7 25.03 8.99 0 14.11-3.61 17.39-6.89 2.66-2.66 4.41-6.46 5.1-11.65l-22.49.01z"/></svg>
-          <div class="cb-google-rating" id="googleRatingEl">4.9 <span class="rc-stars">★★★★★</span></div>
+          <div class="cb-google-rating" id="googleRatingEl" data-ts="google_rating">4.9 <span class="rc-stars">★★★★★</span></div>
         </div>
         <div class="cb-tripadvisor">
           <div class="cb-ta-icon">
@@ -1749,7 +1944,8 @@ body{font-display:swap}
 <!-- WHY SEC -->
 <section class="why-sec" id="why">
   <div class="why-inner">
-    <h2 class="why-title fu" id="whyTitleEl">Why Travel With Eureka Trips</h2>
+    <h2 class="why-title fu" id="whyTitleEl" data-ts="reason_heading">Why Travel With Eureka Trips</h2>
+    <p class="why-byline fu" id="whyByline" data-ts="reason_byline">The little things that make every Eureka trip different.</p>
     <div class="why-stack" id="whyStack">
       <div class="why-card"><div class="why-card-txt"><div class="why-card-ttl">Inclusions, actually included</div><div class="why-card-desc">Unlike most other tour companies, we don't do hidden surprises. What we promise is what you get. Most of the big experiences are already included in your trip cost, with a few optional ones, so you can just enjoy the journey and feel good knowing exactly where your money is going.</div></div><div class="why-card-img"><img width="800" height="600" loading="lazy" src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=900&q=80&auto=format&fm=webp&fit=crop" alt="Friends planning"></div></div>
       <div class="why-card"><div class="why-card-txt"><div class="why-card-ttl">Awesome crew &amp; support</div><div class="why-card-desc">From the moment you plan till the trip ends, you are never on your own. Our team, trip leaders, and local insiders are there to guide, support, and make things smooth, so your only job is to travel and have the best time of your life.</div></div><div class="why-card-img"><img width="800" height="600" loading="lazy" src="https://images.unsplash.com/photo-1527631746610-bca00a040d60?w=900&q=80&auto=format&fm=webp&fit=crop" alt="Trip leader with group on road"></div></div>
@@ -1765,9 +1961,9 @@ body{font-display:swap}
 <!-- BLOG PREVIEW — "From the journal" -->
 <section class="blog-prev-sec" id="journal">
   <div class="blog-prev-hdr fu">
-    <div class="eyebrow"><span class="ey-line"></span><span class="ey-txt" id="blogEyebrow">Stories &amp; Tips</span><span class="ey-line"></span></div>
-    <h2 class="sec-h" style="font-style:normal" id="blogHeadingEl">From the Eureka <em>Travel Journal</em></h2>
-    <p class="why-subtitle" style="margin-bottom:0" id="blogSubtitleEl">Destination guides, packing advice, and real traveler stories — for solo travelers and young professionals exploring the world through curated small-group trips.</p>
+    <div class="eyebrow"><span class="ey-line"></span><span class="ey-txt" id="blogEyebrow" data-ts="blog_eyebrow">Stories &amp; Tips</span><span class="ey-line"></span></div>
+    <h2 class="sec-h" style="font-style:normal" id="blogHeadingEl" data-ts="blog_heading">From the Eureka <em>Travel Journal</em></h2>
+    <p class="why-subtitle" style="margin-bottom:0" id="blogSubtitleEl" data-ts="blog_subtitle">Destination guides, packing advice, and real traveler stories — for solo travelers and young professionals exploring the world through curated small-group trips.</p>
   </div>
   <div class="blog-prev-grid" id="blogPrevGrid"></div>
   <div class="blog-prev-more fu"><a href="blog.html" class="btn-view-more">Read the blog</a></div>
@@ -1775,26 +1971,25 @@ body{font-display:swap}
 
 <!-- BOOKING CTA — VIP signup, matches reference -->
 <section class="cta-sec" id="book">
-  <h2 class="cta-title fu" id="ctaTitleEl">Plan Your Perfect Trip with Eureka Trips</h2>
+  <h2 class="cta-title fu" id="ctaTitleEl" data-ts="cta_title">Plan Your Perfect Trip with Eureka Trips</h2>
   <div class="cta-inner">
     <div class="cta-photo fu">
-      <img width="800" height="600" loading="lazy" id="bkformImg" src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=900&q=80&auto=format&fm=webp&fit=crop" alt="Eureka travellers group photo">
+      <img width="800" height="600" loading="lazy" id="bkformImg" src="" alt="Eureka travellers group photo">
     </div>
     <div class="cta-card fu d2">
-      <h3 id="bkformHeadingEl">Join the EUREKA VIP fam!</h3>
-      <p id="bkformDescEl">Want more EUREKA adventures directly to your inbox? Get instant travel assistance, the best prices &amp; expert planning.</p>
+      <h3 id="bkformHeadingEl" data-ts="bkform_heading">Join the EUREKA VIP fam!</h3>
+      <p id="bkformDescEl" data-ts="bkform_desc">Want more EUREKA adventures directly to your inbox? Get instant travel assistance, the best prices &amp; expert planning.</p>
       <div class="fg"><input type="text" id="bk_name" placeholder="Your Name"></div>
       <div class="fg"><input type="email" id="bk_email" placeholder="Enter Your Email"></div>
       <div class="fg"><input type="tel" id="bk_phone" placeholder="+91-0000-000-000"></div>
-      <div class="fg-check"><input type="checkbox" id="bk_policy" checked><label for="bk_policy" id="bkformCheckLabel">By checking this box you are agreeing to the Eureka Trips <a href="#">Privacy Policy</a>.</label></div>
-      <button class="btn-form" onclick="submitBooking()"><span id="bkformBtnText">subscribe now</span> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+      <div class="fg-check"><input type="checkbox" id="bk_policy" checked><label for="bk_policy" id="bkformCheckLabel" data-ts="bkform_privacy_text">By checking this box you are agreeing to the Eureka Trips <a href="#">Privacy Policy</a>.</label></div>
+      <button class="btn-form" onclick="submitBooking()"><span id="bkformBtnText" data-ts="bkform_btn_text">subscribe now</span> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
     </div>
   </div>
 </section>
 
 <!-- FOOTER WRAP — full-bleed photo + mission quote + footer -->
 <div class="footer-wrap">
-  <img class="footer-wrap-bg" src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1920&q=80&auto=format&fm=webp&fit=crop" alt="Misty green mountain range" loading="lazy">
 
 
   <!-- FOOTER -->
@@ -1802,7 +1997,7 @@ body{font-display:swap}
     <div class="footer-grid">
       <div>
         <img class="ft-logo-img" src="https://etrips.digitalgrowthtechnology.com/wp-content/uploads/2026/01/Eureka-Logo-1-02-scaled-e1769966688826.png" alt="Eureka Trips" onerror="this.style.display='none'">
-        <p class="ft-mission">Our mission is to inspire travel experiences that open your mind, ignite your curiosity, and broaden your horizons so you can discover your own &ldquo;Eureka moment&rdquo;</p>
+        <p class="ft-mission" id="ftMission" data-ts="ft_mission">Our mission is to inspire travel experiences that open your mind, ignite your curiosity, and broaden your horizons so you can discover your own &ldquo;Eureka moment&rdquo;</p>
         <div class="ft-social">
           <a href="https://www.instagram.com/eureka.trips" target="_blank" class="fsb" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
           <a href="https://www.google.com/search?q=Eureka+Trips" target="_blank" class="fsb" aria-label="Google"><svg viewBox="0 0 48 48"><path fill="currentColor" d="M43.6 20.1H42V20H24v8h11.3C33.6 32.8 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.1 8 2.9l5.7-5.7C34.1 6.8 29.3 5 24 5 13.5 5 5 13.5 5 24s8.5 19 19 19 19-8.5 19-19c0-1.3-.1-2.5-.4-3.9z"/></svg></a>
@@ -1810,62 +2005,55 @@ body{font-display:swap}
       </div>
 
       <div>
-                <div class="ft-col-h">Company</div>
+                <div class="ft-col-h ft-col-h-toggle" onclick="toggleFooterCol(this)"><span id="ftCol1H" data-ts="ft_col1_heading">Company</span><svg class="ft-col-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>
         <div class="ft-col-links">
-          <a href="about-us.html">About Us</a>
-          <a href="index.html#trips">Our Trips</a>
-          <a href="destinations.html">Destinations</a>
-          <a href="whats-included.html">What's Included</a>
-          <a href="index.html#reviews">Reviews</a>
-          <a href="blog.html">Blogs</a>
+          <a href="about-us.html" data-ts="ft_links">About Us</a>
+          <a href="index.html#trips" data-ts="ft_links">Our Trips</a>
+          <a href="destinations.html" data-ts="ft_links">Destinations</a>
+          <a href="whats-included.html" data-ts="ft_links">What's Included</a>
+          <a href="index.html#reviews" data-ts="ft_links">Reviews</a>
+          <a href="blog.html" data-ts="ft_links">Blogs</a>
         </div>
       </div>
 
       <div>
-                <div class="ft-col-h">Explore</div>
+                <div class="ft-col-h ft-col-h-toggle" onclick="toggleFooterCol(this)"><span id="ftCol2H" data-ts="ft_col2_heading">Explore</span><svg class="ft-col-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>
         <div class="ft-col-links">
-          <a href="contact-us.html">Contact Us</a>
-          <a href="custom-trips.html">Adventure Planner</a>
-          <a href="group-trip.html">Group Trip</a>
-          <a href="about-us.html#faqs">FAQ</a>
-          <a href="booking-page.html">Book Your Trip</a>
+          <a href="contact-us.html" data-ts="ft_links">Contact Us</a>
+          <a href="custom-trips.html" data-ts="ft_links">Adventure Planner</a>
+          <a href="group-trip.html" data-ts="ft_links">Group Trip</a>
+          <a href="about-us.html#faqs" data-ts="ft_links">FAQ</a>
+          <a href="booking-page.html" data-ts="ft_links">Book Your Trip</a>
         </div>
       </div>
 
       <div>
-        <div class="ft-col-h">Contact Information</div>
+        <div class="ft-col-h"><span id="ftCol3H" data-ts="ft_col3_heading">Contact Information</span></div>
         <div class="ft-contact-item">
           <div class="ft-contact-icon"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg></div>
-          <div><div class="ft-contact-lbl">Phone Number</div><div class="ft-contact-val">+91 9792496457</div></div>
+          <div><div class="ft-contact-lbl" data-ts="ft_contact_info">Phone Number</div><div class="ft-contact-val" data-ts="ft_contact_info">+91 9792496457</div></div>
         </div>
         <div class="ft-contact-item">
           <div class="ft-contact-icon"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4V4z"/><path d="M4 6l8 7 8-7"/></svg></div>
-          <div><div class="ft-contact-lbl">Email Address</div><div class="ft-contact-val">hello@eurekatrips.com</div></div>
+          <div><div class="ft-contact-lbl" data-ts="ft_contact_info">Email Address</div><div class="ft-contact-val" data-ts="ft_contact_info">hello@eurekatrips.com</div></div>
         </div>
       </div>
     </div>
 
-    <!-- Certification badges -->
-    <div class="ft-badges">
-      <img class="ft-badge" src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Tripadvisor_Logo_circle-green_vertical-lockup_registered_RGB.svg/200px-Tripadvisor_Logo_circle-green_vertical-lockup_registered_RGB.svg.png" alt="Tripadvisor 5.0 stars" loading="lazy">
-      <span style="color:#fff;font-size:13px;font-weight:700;opacity:.9">100% Carbon Neutral Tours</span>
-      <span style="color:#fff;font-size:13px;font-weight:700;opacity:.9">#SmallChange Sustainable Travel</span>
-      <span style="color:#fff;font-size:13px;font-weight:700;opacity:.9">Google 4.9 ★★★★★</span>
-    </div>
-
-    <!-- Payment methods -->
-    <div class="ft-pay-row">
-      <span style="color:#fff;font-size:12px;font-weight:700;opacity:.85">We accept:</span>
-      <span style="color:rgba(255,255,255,.85);font-size:13px;font-weight:600">MasterCard</span>
-      <span style="color:rgba(255,255,255,.85);font-size:13px;font-weight:600">VISA</span>
-      <span style="color:rgba(255,255,255,.85);font-size:13px;font-weight:600">American Express</span>
-      <span style="color:rgba(255,255,255,.85);font-size:13px;font-weight:600">G Pay</span>
-      <span style="color:rgba(255,255,255,.85);font-size:13px;font-weight:600">Apple Pay</span>
+    <!-- Bottom row: payment methods (left) + certification badges (right) -->
+    <div class="ft-bottom-row">
+      <!-- Payment methods — populated entirely by applyPaymentLogos() from Supabase -->
+      <div class="ft-pay-row">
+        <span style="color:#fff;font-size:12px;font-weight:700;opacity:.85">We accept:</span>
+        <div id="ftPayLogos" style="display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap"></div>
+      </div>
+      <!-- Certification badges — populated entirely by applyTrustBadges() from Supabase -->
+      <div class="ft-badges" id="ftBadges"></div>
     </div>
 
     <div class="footer-btm">
-      <span class="ft-copy">&copy; 2026 Eureka Trips. All rights reserved.</span>
-            <div class="ft-legal"><a href="privacy-policy.html">Privacy Policy</a><a href="terms-conditions.html">Terms &amp; Conditions</a></div>
+      <span class="ft-copy" id="ftCopy" data-ts="ft_copyright">&copy; 2026 Eureka Trips. All rights reserved.</span>
+            <div class="ft-legal"><a href="privacy-policy.html" data-ts="ft_legal_links">Privacy Policy</a><a href="terms-conditions.html" data-ts="ft_legal_links">Terms &amp; Conditions</a></div>
     </div>
   </footer>
 </div>
@@ -1878,16 +2066,24 @@ body{font-display:swap}
 var SB_URL = 'https://caigrloiymgfxubzprbg.supabase.co/rest/v1';
 var SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNhaWdybG9peW1nZnh1YnpwcmJnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODMzOTM1MjksImV4cCI6MjA5ODk2OTUyOX0.zA5Q1kAAk66fgX_Ertnrbb4TJmM5yPE71zy-alK-yqE';
 
-async function sbGet(table, query) {
+async function sbGet(table, query, attempt) {
+  attempt = attempt || 1;
   try {
     var r = await fetch(SB_URL + '/' + table + '?' + (query || ''), {
       headers: { apikey: SB_KEY, Authorization: 'Bearer ' + SB_KEY }
     });
-    if (!r.ok) return [];
+    if (!r.ok) {
+      if (attempt < 3) { await sbWait(attempt * 400); return sbGet(table, query, attempt + 1); }
+      return [];
+    }
     var data = await r.json();
     return Array.isArray(data) ? data : [];
-  } catch (e) { console.error('Supabase fetch error [' + table + ']', e); return []; }
+  } catch (e) {
+    if (attempt < 3) { await sbWait(attempt * 400); return sbGet(table, query, attempt + 1); }
+    console.error('Supabase fetch error [' + table + ']', e); return [];
+  }
 }
+function sbWait(ms) { return new Promise(function(res){ setTimeout(res, ms); }); }
 async function sbSettings() {
   var rows = await sbGet('settings', '');
   var s = {};
@@ -1895,10 +2091,35 @@ async function sbSettings() {
   return s;
 }
 /* Only overwrite text if Supabase has a non-empty value — otherwise leave the page's existing content untouched */
+function stripTrailingEmptyLines(html){
+  if (!html) return html;
+  var cleaned = html;
+  var prev;
+  do {
+    prev = cleaned;
+    cleaned = cleaned
+      .replace(/(<p>(\s|&nbsp;)*(<br\s*\/?>)?(\s|&nbsp;)*<\/p>)+$/i, '')
+      .replace(/(<div>(\s|&nbsp;)*(<br\s*\/?>)?(\s|&nbsp;)*<\/div>)+$/i, '')
+      .replace(/(<br\s*\/?>)+$/i, '')
+      .trim();
+  } while (cleaned !== prev);
+  return cleaned;
+}
+
+// Rich-text fields save Quill's HTML, which wraps single-line content in <p>...</p>.
+// Most target elements here are themselves <p>/<span>/<div> for a single heading or
+// line — nesting a block <p> inside them is invalid HTML and browsers will silently
+// break the DOM (auto-closing the outer tag early), losing the styling on it. This
+// strips exactly one wrapping <p> if that's the entire value, which is a no-op for
+// old plain-text values (the regex simply won't match) so it's fully backward compatible.
+function stripOuterParagraph(html) {
+  var m = html.match(/^<p>([\s\S]*)<\/p>\s*$/i);
+  return m ? m[1] : html;
+}
 function setText(id, val) {
   if (!val) return;
   var el = document.getElementById(id);
-  if (el) el.innerHTML = val;
+  if (el) { el.innerHTML = stripOuterParagraph(val); applyElementTypography(el); }
 }
 function setAttr(id, attr, val) {
   if (!val) return;
@@ -1923,11 +2144,40 @@ var TRIPS=[
   {id:8,name:"Meghalaya Explorers",route:"Cherrapunji \u2022 Shnongpdeng \u2022 Shillong",dur:"6 NIGHTS / 7 DAYS",price:26000,dates:["21 Dec"],tags:["nature","adventure"],hot:false,type:"domestic",img:"https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=800&q=80&auto=format&fm=webp&fit=crop"}
 ];
 
-var BL={adventure:"Adventure",beach:"Beach",culture:"Culture",nature:"Nature"};
+var BL={adventure:"Adventure",beach:"Beach",culture:"Culture",nature:"Nature",solo:"Solo",nightlife:"Nightlife"};
+var TAG_EMOJI={adventure:'🚀',beach:'🏖️',culture:'🎭',nature:'🌿',solo:'🎒',nightlife:'🎉'};
 
 /* ── RENDER TRIPS ── */
-function renderTrips(list) {
-  var g = document.getElementById('tripsGrid');
+function tc2GalNav(btn, dir){
+  var wrap = btn.closest('.tc2-img');
+  if (!wrap) return;
+  var gallery;
+  try { gallery = JSON.parse(wrap.getAttribute('data-gallery') || '[]'); } catch(e) { gallery = []; }
+  if (!gallery.length || gallery.length <= 1) return;
+  var idx = parseInt(wrap.getAttribute('data-idx') || '0', 10);
+  idx = (idx + dir + gallery.length) % gallery.length;
+  wrap.setAttribute('data-idx', idx);
+  var img = wrap.querySelector('img');
+  if (img) img.src = gallery[idx];
+  var dots = wrap.querySelectorAll('.tc2-gal-dot');
+  dots.forEach(function(d, j){ d.classList.toggle('active', j === idx); });
+}
+
+function tc2ToggleTags(el) {
+  var pop = el.querySelector('.tc2-tag-popover');
+  if (!pop) return;
+  var wasOpen = pop.classList.contains('open');
+  document.querySelectorAll('.tc2-tag-popover.open').forEach(function(p){ p.classList.remove('open'); });
+  if (!wasOpen) pop.classList.add('open');
+}
+document.addEventListener('click', function(e){
+  if (!e.target.closest('.tc2-tag-more')) {
+    document.querySelectorAll('.tc2-tag-popover.open').forEach(function(p){ p.classList.remove('open'); });
+  }
+});
+
+function renderTrips(list, targetId) {
+  var g = document.getElementById(targetId || 'tripsGrid');
   if (!g) return;
   if (!list.length) {
     g.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:4rem 2rem"><p style="color:#6b7280;margin-bottom:1.5rem">No trips found.</p><button onclick="filterTrips(document.querySelector(\'.tf2\'),\'all\')" style="background:#02A9A2;color:#fff;padding:10px 24px;border-radius:50px;font-size:13px;font-weight:600;border:none;cursor:pointer">Show All</button></div>';
@@ -1936,29 +2186,59 @@ function renderTrips(list) {
   var out = '';
   for (var i = 0; i < list.length; i++) {
     var t = list[i];
-    var tags = '';
+    var allTags = [];
+    if (t.hot) allTags.push({ hot: true, label: '\uD83D\uDD25 Hot' });
     for (var j = 0; j < t.tags.length; j++) {
-      tags += '<span class="tc2-tag"><img src="https://img.icons8.com/emoji/20/palm-tree.png" width="16" height="16" style="vertical-align:middle;margin-right:2px" alt="">' + (BL[t.tags[j]] || t.tags[j]) + '</span>';
+      var rawTag = t.tags[j] || '';
+      var tagKey = rawTag.toLowerCase().trim();
+      var label = TAG_EMOJI[tagKey] ? (TAG_EMOJI[tagKey] + ' ' + (BL[tagKey] || rawTag)) : esc(rawTag);
+      allTags.push({ hot: false, label: label });
     }
-    var hot = t.hot ? '<span style="background:#fef2f2;color:#dc2626;font-size:10px;font-weight:600;padding:3px 9px;border-radius:20px;letter-spacing:.5px;display:inline-block">\uD83D\uDD25 Hot</span>' : '';
+    var shownTags = allTags.slice(0, 3);
+    var extraTags = allTags.slice(3);
+    var tags = shownTags.map(function(tg) {
+      return '<span class="tc2-tag' + (tg.hot ? ' tc2-tag-hot' : '') + '">' + tg.label + '</span>';
+    }).join('');
+    if (extraTags.length > 0) {
+      var popoverHtml = extraTags.map(function(tg) {
+        return '<span class="tc2-tag' + (tg.hot ? ' tc2-tag-hot' : '') + '">' + tg.label + '</span>';
+      }).join('');
+      tags += '<span class="tc2-tag tc2-tag-more" onclick="event.stopPropagation();tc2ToggleTags(this)">+' + extraTags.length + '<div class="tc2-tag-popover">' + popoverHtml + '</div></span>';
+    }
     var dStr = t.dates.join(' | ');
     var prNum = t.price.toLocaleString('en-IN');
-    var pr = '\u20B9' + prNum;
+    var pr = prNum;
     var msg = 'Hi EUREKA Trips! I am interested in "' + t.name + '". Can you share details and available dates?';
     var clickAction = t.page ? ("window.location.href='" + t.page + "'") : ("openWA('" + msg.replace(/'/g,"&#39;") + "')");
     out += '<div class="tc2 fu" onclick="' + clickAction + '">';
-    out += '<div class="tc2-img"><img width="800" height="600" src="' + t.img + '" alt="' + t.name + '" loading="lazy"></div>';
+    var gallery = (t.gallery && t.gallery.length) ? t.gallery : [t.img];
+    var galJson = esc(JSON.stringify(gallery));
+    out += '<div class="tc2-img" data-gallery=\'' + galJson + '\' data-idx="0">';
+    if (t.trending) {
+      out += '<div class="tc2-trending-badge"><svg viewBox="0 0 24 24"><path d="M13 2L3 14h7l-1 8 11-14h-7z"/></svg>Trending</div>';
+    }
+    out += '<img width="800" height="600" src="' + gallery[0] + '" alt="' + t.name + '" loading="lazy">';
+    if (gallery.length > 1) {
+      out += '<button type="button" class="tc2-gal-arrow tc2-gal-prev" aria-label="Previous photo" onclick="event.stopPropagation();tc2GalNav(this,-1)"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>';
+      out += '<button type="button" class="tc2-gal-arrow tc2-gal-next" aria-label="Next photo" onclick="event.stopPropagation();tc2GalNav(this,1)"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></button>';
+      out += '<div class="tc2-gal-dots">';
+      for (var k = 0; k < gallery.length; k++) {
+        out += '<span class="tc2-gal-dot' + (k===0?' active':'') + '"></span>';
+      }
+      out += '</div>';
+    }
+    out += '</div>';
     out += '<div class="tc2-body">';
-    out += '<div class="tc2-tags">' + tags + (hot ? hot : '') + '</div>';
-    out += '<div class="tc2-dur">' + t.dur + '</div>';
+    out += '<div class="tc2-tags">' + tags + '</div>';
     out += '<div class="tc2-name">' + t.name + '</div>';
     out += '<div class="tc2-route">' + t.route + '</div>';
-    out += '<div class="tc2-dates">' + dStr + '</div>';
-    out += '<hr class="tc2-div">';
     out += '<div class="tc2-foot">';
-    out += '<div><div class="tc2-price-lbl">Starting From</div><div class="tc2-price">' + pr + '*</div></div>';
-    out += '<button class="tc2-btn" aria-label="View trip"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></button>';
-    out += '</div></div></div>';
+    out += '<div class="tc2-foot-left"><div class="tc2-dates">' + dStr + '</div><div class="tc2-dur">' + t.dur + '</div>';
+    if (t.location) out += '<div class="tc2-loc">' + esc(t.location) + '</div>';
+    out += '</div>';
+    out += '<div class="tc2-foot-right"><div class="tc2-price-lbl">per person</div><div class="tc2-price">' + pr + '</div></div>';
+    out += '</div>';
+    out += '</div></div>';
   }
   g.innerHTML = out;
   initObs();
@@ -2022,33 +2302,16 @@ function closeDrawer() {
   document.body.style.overflow = '';
 }
 
-/* ── OUR TRIPS MEGA DROPDOWN ── */
-function toggleTripsDrop(e) {
+/* ── NAV SEARCH ── (form removed from the navbar — replaced by the nav-pill links —
+   this stays as dead-but-safe code in case a search field is reintroduced elsewhere) */
+function handleNavSearch(e) {
   e.preventDefault();
-  var el = document.getElementById('tripsDrop');
-  if (!el) return false;
-  el.classList.toggle('open');
+  var el = document.getElementById('navSearchInput');
+  var q = el ? el.value.trim() : '';
+  if (!q) return false;
+  window.location.href = 'destinations.html?q=' + encodeURIComponent(q);
   return false;
 }
-document.addEventListener('click', function(e) {
-  var el = document.getElementById('tripsDrop');
-  if (!el) return;
-  if (!el.contains(e.target)) el.classList.remove('open');
-});
-/* Hover-intent safety net: small delay before closing so a quick mouse
-   movement toward the dropdown never gets cut off mid-way */
-(function(){
-  var el = document.getElementById('tripsDrop');
-  if (!el) return;
-  var closeTimer = null;
-  el.addEventListener('mouseenter', function(){
-    clearTimeout(closeTimer);
-    el.classList.add('open');
-  });
-  el.addEventListener('mouseleave', function(){
-    closeTimer = setTimeout(function(){ el.classList.remove('open'); }, 250);
-  });
-})();
 
 /* ── SCROLL ── */
 var lastScroll = 0;
@@ -2058,7 +2321,13 @@ window.addEventListener('scroll', function() {
   var s = window.scrollY;
   var heroEl = document.getElementById('home');
   var solidThreshold = heroEl ? heroEl.offsetHeight - 100 : window.innerHeight - 100;
-  if (s > lastScroll && s > 80) {
+  /* Once scrolled well past the hero/category bar, the full navbar (search + menu)
+     stays hidden even when scrolling up — only the sticky category strip below it
+     should reappear, so it doesn't float on top of page content further down. */
+  var navRevealLimit = solidThreshold + 400;
+  if (s > navRevealLimit) {
+    nb.classList.add('hide');
+  } else if (s > lastScroll && s > 80) {
     nb.classList.add('hide');
   } else {
     nb.classList.remove('hide');
@@ -2075,7 +2344,7 @@ function initObs() {
     entries.forEach(function(e) {
       if (e.isIntersecting) { e.target.classList.add('in'); o.unobserve(e.target); }
     });
-  }, { threshold: 0.06 });
+  }, { threshold: 0, rootMargin: '0px 0px 150px 0px' });
   var els = document.querySelectorAll('.fu:not(.in)');
   for (var i = 0; i < els.length; i++) o.observe(els[i]);
 }
@@ -2083,140 +2352,229 @@ function initObs() {
 /* ── CAROUSEL — native scroll + snap ── */
 var CT = 0, CI = 0;
 
-function cGetVisible() {
-  var w = window.innerWidth;
-  if (w < 600) return 1;
-  if (w < 900) return 2;
-  return 3;
-}
+/* ── SHARED CAROUSEL ENGINE — used by both the Trips carousel and the
+   Custom Tours carousel, so there is exactly one implementation instead
+   of two lookalike copies that can silently drift apart. ── */
+function makeCarousel(cfg) {
+  var state = { total: 0, idx: 0, timer: null };
 
-function cCardStep() {
-  var track = document.getElementById('tripsGrid');
-  if (!track) return 300;
-  var card = track.querySelector('.tc2');
-  return card ? card.offsetWidth + (window.innerWidth < 600 ? 14 : 20) : 300;
-}
-
-function cScrollTo(idx) {
-  var track = document.getElementById('tripsGrid');
-  if (!track) return;
-  var v = cGetVisible();
-  CI = Math.max(0, Math.min(idx, CT - v));
-  track.scrollTo({left: CI * cCardStep(), behavior:'smooth'});
-  cUpdateArrows();
-  cUpdateDots();
-}
-
-function carouselNext() {
-  var v = cGetVisible();
-  if (CI < CT - v) cScrollTo(CI + 1);
-  cStartAuto();
-}
-
-function carouselPrev() {
-  if (CI > 0) cScrollTo(CI - 1);
-  cStartAuto();
-}
-
-function cUpdateArrows() {
-  var v = cGetVisible();
-  var prev = document.getElementById('arrPrev');
-  var next = document.getElementById('arrNext');
-  if (prev) prev.classList.toggle('disabled', CI <= 0);
-  if (next) next.classList.toggle('disabled', CI >= CT - v);
-}
-
-function cUpdateDots() {
-  var dots = document.querySelectorAll('#carouselDots .cdot');
-  for (var i = 0; i < dots.length; i++) {
-    dots[i].classList.toggle('active', i === CI);
+  function getVisible() {
+    var w = window.innerWidth;
+    if (w < 600) return 1;
+    if (w < 900) return 2;
+    return 3;
   }
-}
-
-function cBuildDots(total) {
-  CT = total;
-  var v = cGetVisible();
-  var pages = Math.max(1, total - v + 1);
-  var el = document.getElementById('carouselDots');
-  if (!el) return;
-  var out = '';
-  for (var i = 0; i < pages; i++) {
-    out += '<button class="cdot'+(i===0?' active':'')+'" onclick="cScrollTo('+i+')" aria-label="Page '+(i+1)+'"></button>';
+  function cardStep() {
+    var track = document.getElementById(cfg.trackId);
+    if (!track) return 300;
+    var card = track.querySelector(cfg.cardSelector);
+    return card ? card.offsetWidth + (window.innerWidth < 600 ? 14 : 20) : 300;
   }
-  el.innerHTML = out;
-}
-
-/* Sync CI when user swipes natively */
-function cOnScroll() {
-  var track = document.getElementById('tripsGrid');
-  if (!track) return;
-  var step = cCardStep();
-  var newIdx = Math.round(track.scrollLeft / step);
-  if (newIdx !== CI) {
-    CI = newIdx;
-    cUpdateArrows();
-    cUpdateDots();
+  function scrollTo(idx) {
+    var track = document.getElementById(cfg.trackId);
+    if (!track) return;
+    var v = getVisible();
+    state.idx = Math.max(0, Math.min(idx, state.total - v));
+    track.scrollTo({ left: state.idx * cardStep(), behavior: 'smooth' });
+    updateArrows();
+    updateDots();
   }
-}
-
-function cInit(total) {
-  CT = total;
-  CI = 0;
-  var track = document.getElementById('tripsGrid');
-  if (track) {
-    track.scrollLeft = 0;
-    track.removeEventListener('scroll', cOnScroll);
-    track.addEventListener('scroll', cOnScroll, {passive:true});
+  function next() {
+    var v = getVisible();
+    if (state.idx < state.total - v) scrollTo(state.idx + 1);
+    startAuto();
   }
-  cBuildDots(total);
-  cUpdateArrows();
-  cStartAuto();
-}
-
-var cAutoTimer = null;
-function cStartAuto() {
-  clearInterval(cAutoTimer);
-  cAutoTimer = setInterval(function() {
-    var v = cGetVisible();
-    if (CI >= CT - v) {
-      cScrollTo(0);
-    } else {
-      cScrollTo(CI + 1);
+  function prev() {
+    if (state.idx > 0) scrollTo(state.idx - 1);
+    startAuto();
+  }
+  function updateArrows() {
+    var v = getVisible();
+    var prevBtn = document.getElementById(cfg.prevBtnId);
+    var nextBtn = document.getElementById(cfg.nextBtnId);
+    if (prevBtn) prevBtn.classList.toggle('disabled', state.idx <= 0);
+    if (nextBtn) nextBtn.classList.toggle('disabled', state.idx >= state.total - v);
+  }
+  function updateDots() {
+    var dots = document.querySelectorAll('#' + cfg.dotsId + ' .cdot');
+    for (var i = 0; i < dots.length; i++) dots[i].classList.toggle('active', i === state.idx);
+  }
+  function buildDots(total) {
+    state.total = total;
+    var v = getVisible();
+    var pages = Math.max(1, total - v + 1);
+    var el = document.getElementById(cfg.dotsId);
+    if (!el) return;
+    var out = '';
+    for (var i = 0; i < pages; i++) {
+      out += '<button class="cdot' + (i === 0 ? ' active' : '') + '" onclick="' + cfg.globalName + '.scrollTo(' + i + ')" aria-label="Page ' + (i + 1) + '"></button>';
     }
-  }, 4000);
-}
-function cStopAuto() { clearInterval(cAutoTimer); }
-
-(function() {
-  var outer = document.getElementById('carouselOuter');
-  if (!outer) return;
-  outer.addEventListener('mouseenter', cStopAuto);
-  outer.addEventListener('mouseleave', cStartAuto);
-  outer.addEventListener('touchstart', cStopAuto, {passive:true});
-})();
-
-function cSetWidths(total) {
-  var v = cGetVisible();
-  var track = document.getElementById('tripsGrid');
-  if (!track) return;
-  var gap   = window.innerWidth < 600 ? 14 : 20;
-  var cardW = Math.floor((track.clientWidth - gap*(v-1)) / v * 0.86);
-  var cards = document.querySelectorAll('.tc2');
-  for (var i = 0; i < cards.length; i++) {
-    cards[i].style.width    = cardW + 'px';
-    cards[i].style.minWidth = cardW + 'px';
+    el.innerHTML = out;
   }
+  function onScroll() {
+    var track = document.getElementById(cfg.trackId);
+    if (!track) return;
+    var step = cardStep();
+    var newIdx = Math.round(track.scrollLeft / step);
+    if (newIdx !== state.idx) {
+      state.idx = newIdx;
+      updateArrows();
+      updateDots();
+    }
+  }
+  function init(total) {
+    state.total = total;
+    state.idx = 0;
+    var track = document.getElementById(cfg.trackId);
+    if (track) {
+      track.scrollLeft = 0;
+      track.removeEventListener('scroll', onScroll);
+      track.addEventListener('scroll', onScroll, { passive: true });
+    }
+    buildDots(total);
+    updateArrows();
+    startAuto();
+  }
+  function startAuto() {
+    clearInterval(state.timer);
+    state.timer = setInterval(function() {
+      var v = getVisible();
+      if (state.idx >= state.total - v) scrollTo(0);
+      else scrollTo(state.idx + 1);
+    }, 4000);
+  }
+  function stopAuto() { clearInterval(state.timer); }
+  function setWidths(total) {
+    var v = getVisible();
+    var track = document.getElementById(cfg.trackId);
+    if (!track) return;
+    var gap = window.innerWidth < 600 ? 14 : 20;
+    var cardW = Math.floor((track.clientWidth - gap * (v - 1)) / v * 0.86);
+    if (cardW <= 0) {
+      /* Container isn't laid out yet — try again shortly rather than
+         collapsing every card to an invisible 0px width. */
+      setTimeout(function() { setWidths(total); }, 150);
+      return;
+    }
+    var cards = document.querySelectorAll(cfg.cardSelector);
+    for (var i = 0; i < cards.length; i++) {
+      cards[i].style.width = cardW + 'px';
+      cards[i].style.minWidth = cardW + 'px';
+    }
+  }
+
+  var outer = document.getElementById(cfg.outerId);
+  if (outer) {
+    outer.addEventListener('mouseenter', stopAuto);
+    outer.addEventListener('mouseleave', startAuto);
+    outer.addEventListener('touchstart', stopAuto, { passive: true });
+  }
+  window.addEventListener('resize', function() {
+    setWidths(state.total);
+    buildDots(state.total);
+    updateArrows();
+  }, { passive: true });
+
+  return {
+    next: next, prev: prev, scrollTo: scrollTo, init: init,
+    setWidths: setWidths, getVisible: getVisible, stopAuto: stopAuto, startAuto: startAuto
+  };
 }
 
-window.addEventListener('resize', function() {
-  cSetWidths(CT);
-  cBuildDots(CT);
-  cUpdateArrows();
-}, {passive:true});
+var tripsCarousel = makeCarousel({
+  trackId: 'tripsGrid', dotsId: 'carouselDots', prevBtnId: 'arrPrev', nextBtnId: 'arrNext',
+  cardSelector: '.tc2', outerId: 'carouselOuter', globalName: 'tripsCarousel'
+});
+var ctcCarousel = makeCarousel({
+  trackId: 'customToursGrid', dotsId: 'ctcCarouselDots', prevBtnId: 'ctcArrPrev', nextBtnId: 'ctcArrNext',
+  cardSelector: '.ctc-card', outerId: 'ctcCarouselOuter', globalName: 'ctcCarousel'
+});
+
+/* Backward-compatible global wrappers — existing HTML onclick attributes
+   and render functions call these exact names. */
+function cGetVisible() { return tripsCarousel.getVisible(); }
+function carouselNext() { tripsCarousel.next(); }
+function carouselPrev() { tripsCarousel.prev(); }
+function cSetWidths(total) { tripsCarousel.setWidths(total); }
+function cInit(total) { tripsCarousel.init(total); }
+
+function ctcCarouselNext() { ctcCarousel.next(); }
+function ctcCarouselPrev() { ctcCarousel.prev(); }
+function ctcSetWidths(total) { ctcCarousel.setWidths(total); }
+function ctcInit(total) { ctcCarousel.init(total); }
+
+
+function ctcGalNav(btn, dir){
+  var wrap = btn.closest('.ctc-img');
+  if (!wrap) return;
+  var gallery;
+  try { gallery = JSON.parse(wrap.getAttribute('data-gallery') || '[]'); } catch(e) { gallery = []; }
+  if (!gallery.length || gallery.length <= 1) return;
+  var idx = parseInt(wrap.getAttribute('data-idx') || '0', 10);
+  idx = (idx + dir + gallery.length) % gallery.length;
+  wrap.setAttribute('data-idx', idx);
+  var img = wrap.querySelector('img');
+  if (img) img.src = gallery[idx];
+  var dots = wrap.querySelectorAll('.ctc-gal-dot');
+  dots.forEach(function(d, j){ d.classList.toggle('active', j === idx); });
+}
+async function applyCustomTourCards() {
+  var rows = await sbGet('custom_tour_cards', 'active=eq.true&order=sort_order.asc');
+  var track = document.getElementById('customToursGrid');
+  if (!track || !rows.length) return;
+  var out = '';
+  for (var i = 0; i < rows.length; i++) {
+    var r = rows[i];
+    var page = 'trip-page.html?trip=' + esc(r.page_slug || r.id);
+    var tag = (r.tag_emoji ? esc(r.tag_emoji) : '') ;
+    var tagLabel = esc(r.tag_label || '');
+    var waMsg = 'Hi EUREKA Trips! I want to build a custom trip — "' + (r.title || '') + '". Can someone call me back?';
+    var gallery = (r.gallery_images && r.gallery_images.length) ? r.gallery_images : (r.image_url ? [r.image_url] : []);
+    var galJson = esc(JSON.stringify(gallery));
+    out += '<div class="ctc-card fu" onclick="window.location.href=\'' + page + '\'">';
+    out += '<div class="ctc-img" data-gallery=\'' + galJson + '\' data-idx="0">';
+    out += '<img width="800" height="600" src="' + esc(gallery[0] || '') + '" alt="' + esc(r.title || '') + '" loading="lazy">';
+    if (gallery.length > 1) {
+      out += '<button type="button" class="ctc-gal-arrow ctc-gal-prev" aria-label="Previous photo" onclick="event.stopPropagation();ctcGalNav(this,-1)"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>';
+      out += '<button type="button" class="ctc-gal-arrow ctc-gal-next" aria-label="Next photo" onclick="event.stopPropagation();ctcGalNav(this,1)"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></button>';
+      out += '<div class="ctc-gal-dots">';
+      for (var k = 0; k < gallery.length; k++) out += '<span class="ctc-gal-dot' + (k===0?' active':'') + '"></span>';
+      out += '</div>';
+    }
+    out += '</div>';
+    out += '<div class="ctc-panel">';
+    out += '<div class="ctc-toprow">';
+    if (tagLabel.trim()) out += '<div class="ctc-tag">' + (tag ? '<span class="ctc-tag-icon">' + tag + '</span>' : '') + '<span>' + tagLabel + '</span></div>';
+    if (r.rating) out += '<div class="ctc-rating-inline"><svg viewBox="0 0 24 24"><path d="M12 2.5l2.9 6.3 6.9.7-5.2 4.7 1.5 6.8L12 17.8l-6.1 3.2 1.5-6.8-5.2-4.7 6.9-.7z"/></svg>' + esc(r.rating) + '</div>';
+    out += '</div>';
+    out += '<div class="ctc-title">' + esc(r.title || '') + '</div>';
+    out += '<div class="ctc-foot">';
+    out += '<div class="ctc-foot-left"><div class="ctc-dur" title="' + esc(r.duration_label || 'Flexible duration') + '">' + esc(r.duration_label || 'Flexible duration') + '</div>';
+    if (r.location_text) out += '<div class="ctc-route" title="' + esc(r.location_text) + '">' + esc(r.location_text) + '</div>';
+    out += '</div>';
+    out += '<div class="ctc-foot-right"><div class="ctc-price-lbl">for Adult/-</div><div class="ctc-price">' + esc(r.price_text || '') + '</div></div>';
+    out += '</div>';
+    out += '<div class="ctc-actions" onclick="event.stopPropagation()">';
+    out += '<a href="tel:+919792496457" class="ctc-call-icon" aria-label="Call us"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></a>';
+    out += '<button class="ctc-callback-btn" onclick="openWA(\'' + waMsg.replace(/'/g,"&#39;") + '\')">Request Callback</button>';
+    out += '</div></div></div>';
+  }
+  track.innerHTML = out;
+  initObs(); /* re-scan for the new .fu cards so they actually get revealed — this line was missing, which is what caused the intermittent invisible cards */
+  /* Wait for the browser to finish laying out these new cards before measuring
+     the container's width — measuring too early can read 0 and collapse the
+     cards to invisible. Double rAF ensures a full layout+paint has happened. */
+  requestAnimationFrame(function(){
+    requestAnimationFrame(function(){
+      ctcSetWidths(rows.length);
+      ctcInit(rows.length);
+    });
+  });
+}
 
 /* ── REVIEWS CAROUSEL — native scroll + snap ── */
 var REVIEWS = [
-  {name:"Aniruddha Bhattacharya",ago:"7 months ago",stars:5,verified:true,init:"AB",color:"#FFA43B",
+  {name:"Aniruddha Bhattacharya",ago:"7 months ago",stars:5,verified:true,init:"AB",color:"var(--secondary)",
    q:"Loved the itinerary, great tour leader and wonderful vibe. Highly recommend."},
   {name:"Rohit Dahiya",ago:"8 months ago",stars:5,verified:true,init:"RD",color:"#6366f1",
    q:"Did srilanka trip in November 2025. The trip was planned as stated in the itinerary and matched the expectations. In comparison to..."},
@@ -2237,8 +2595,8 @@ function rGetVisible() {
   var w = window.innerWidth;
   if (w < 600) return 1;
   if (w < 900) return 2;
-  if (w < 1200) return 3;
-  return 4;
+  if (w < 1300) return 3;
+  return 3;
 }
 function rCardStep() {
   var track = document.getElementById('revTrack');
@@ -2316,13 +2674,16 @@ function renderReviews() {
     var stars='';
     for(var s=1;s<=5;s++) stars += (s<=r.stars ? '★' : '☆');
     out+='<div class="rc">';
+    var avatarHtml = r.photo
+      ? '<img class="rc-av" src="'+esc(r.photo)+'" alt="'+esc(r.name)+'" loading="lazy">'
+      : '<div class="rc-av" style="background:'+r.color+';display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:14px">'+r.init+'</div>';
     out+='<div class="rc-top">';
-    out+='<div class="rc-av" style="background:'+r.color+';display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:14px">'+r.init+'</div>';
-    out+='<div class="rc-who"><div class="rc-name">'+r.name+'</div><div class="rc-ago">'+r.ago+'</div></div>';
+    out+=avatarHtml;
+    out+='<div class="rc-who"><div class="rc-name">'+stripOuterParagraph(r.name||'')+'</div><div class="rc-ago">'+stripOuterParagraph(r.ago||'')+'</div></div>';
     out+='<div class="rc-gicon">'+gIcon+'</div>';
     out+='</div>';
     out+='<div class="rc-stars-row"><div class="rc-stars">'+stars+'</div>'+(r.verified?'<div class="rc-verified">'+verifyIcon+'</div>':'')+'</div>';
-    out+='<div class="rc-q">'+r.q+'</div>';
+    out+='<div class="rc-q">'+stripOuterParagraph(r.q||'')+'</div>';
     out+='<a href="https://www.google.com/maps" target="_blank" class="rc-more">Read more</a>';
     out+='</div>';
   }
@@ -2508,7 +2869,7 @@ function renderBlogPreview(){
       '<div class="bp-badges">'+badgesHtml+'</div>'+
       '<div class="bp-bottom">'+
         '<div class="bp-tags">'+tagsHtml+'</div>'+
-        '<div class="bp-title">'+p.title+'</div>'+
+        '<div class="bp-title">'+stripOuterParagraph(p.title||'')+'</div>'+
       '</div>'+
     '</a>';
   }).join('');
@@ -2520,29 +2881,14 @@ function catBarScroll(dir){
   track.scrollBy({left:dir*220, behavior:'smooth'});
 }
 
-/* Marquee — build a doubled strip for seamless infinite scroll */
-(function(){
-  var photos=[
-    'https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=400&q=75&auto=format&fm=webp&fit=crop',
-    'https://images.unsplash.com/photo-1528181304800-259b08848526?w=400&q=75&auto=format&fm=webp&fit=crop',
-    'https://images.unsplash.com/photo-1524492412937-b28074a5d7da?w=400&q=75&auto=format&fm=webp&fit=crop',
-    'https://images.unsplash.com/photo-1499678329028-101435549a4e?w=400&q=75&auto=format&fm=webp&fit=crop',
-    'https://images.unsplash.com/photo-1519046904884-53103b34b206?w=400&q=75&auto=format&fm=webp&fit=crop',
-    'https://images.unsplash.com/photo-1533105079780-92b9be482077?w=400&q=75&auto=format&fm=webp&fit=crop',
-    'https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=400&q=75&auto=format&fm=webp&fit=crop',
-    'https://images.unsplash.com/photo-1530521954074-e64f6810b32d?w=400&q=75&auto=format&fm=webp&fit=crop',
-    'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=400&q=75&auto=format&fm=webp&fit=crop',
-    'https://images.unsplash.com/photo-1543087903-1ac2ec7aa8c5?w=400&q=75&auto=format&fm=webp&fit=crop'
-  ];
-  var track=document.getElementById('marqueeTrack');
-  if(!track) return;
-  var doubled=photos.concat(photos);
-  var html='';
-  for(var i=0;i<doubled.length;i++){
-    html+='<div class="marquee-item"><img src="'+doubled[i]+'" alt="Destination photo" loading="lazy"></div>';
-  }
-  track.innerHTML=html;
-})();
+/* HERO VIDEO — mute/unmute toggle */
+function toggleHeroMute(){
+  var v=document.getElementById('heroVideoBg');
+  if(!v) return;
+  v.muted=!v.muted;
+  document.getElementById('heroMuteIconOn').style.display=v.muted?'none':'block';
+  document.getElementById('heroMuteIconOff').style.display=v.muted?'block':'none';
+}
 
 /* ═════════════════════════════════════════════════════════════
    APPLY SUPABASE DATA — overrides hardcoded content where present
@@ -2576,40 +2922,197 @@ function applyVideo(s) {
   }
 }
 
+/* Hero word rotator: Adventure / Trip / Holiday — typewriter effect (same as Destinations page) */
+function initHeroRotator(words){
+  words = (words && words.length) ? words : ['Trip','Holiday','Adventure'];
+  var wIdx=0, cIdx=0, deleting=false;
+  var el=document.getElementById('heroRotator');
+  if(!el) return;
+  el.textContent='';
+
+  function tick(){
+    var word=words[wIdx];
+    if(!deleting){
+      cIdx++;
+      el.textContent=word.slice(0,cIdx);
+      if(cIdx===word.length){
+        deleting=true;
+        setTimeout(tick,1400);
+        return;
+      }
+      setTimeout(tick,90);
+    }else{
+      cIdx--;
+      el.textContent=word.slice(0,cIdx);
+      if(cIdx===0){
+        deleting=false;
+        wIdx=(wIdx+1)%words.length;
+        setTimeout(tick,300);
+        return;
+      }
+      setTimeout(tick,45);
+    }
+  }
+  setTimeout(tick,600);
+}
+
+function applyCardTypography(s) {
+  var root = document.documentElement.style;
+  var map = {
+    tc_name_size: '--tc-name-size', tc_name_weight: '--tc-name-weight',
+    tc_route_size: '--tc-route-size', tc_route_weight: '--tc-route-weight',
+    tc_dates_size: '--tc-dates-size', tc_dates_weight: '--tc-dates-weight',
+    tc_price_size: '--tc-price-size', tc_price_weight: '--tc-price-weight',
+    tc_pricelbl_size: '--tc-pricelbl-size',
+    tc_dur_size: '--tc-dur-size', tc_dur_weight: '--tc-dur-weight',
+    tc_tag_size: '--tc-tag-size', tc_tag_weight: '--tc-tag-weight'
+  };
+  Object.keys(map).forEach(function(key) {
+    if (!s[key]) return;
+    var isWeight = key.indexOf('_weight') !== -1;
+    root.setProperty(map[key], isWeight ? s[key] : (s[key] + 'px'));
+  });
+}
+
+function applyCustomTourCardTypography(s) {
+  var root = document.documentElement.style;
+  var map = {
+    ctc_title_size: '--ctc-title-size', ctc_title_weight: '--ctc-title-weight',
+    ctc_dur_size: '--ctc-dur-size', ctc_dur_weight: '--ctc-dur-weight',
+    ctc_price_size: '--ctc-price-size', ctc_price_weight: '--ctc-price-weight',
+    ctc_pricelbl_size: '--ctc-pricelbl-size',
+    ctc_route_size: '--ctc-route-size', ctc_route_weight: '--ctc-route-weight',
+    ctc_tag_size: '--ctc-tag-size', ctc_tag_weight: '--ctc-tag-weight'
+  };
+  Object.keys(map).forEach(function(key) {
+    if (!s[key]) return;
+    var isWeight = key.indexOf('_weight') !== -1;
+    root.setProperty(map[key], isWeight ? s[key] : (s[key] + 'px'));
+  });
+}
+
+/* ── GENERIC TYPOGRAPHY ENGINE ──────────────────────────────────────────
+   Now powered by the shared TypographyEngine (typography-engine.js) —
+   the exact same code the admin panel uses to preview these styles live,
+   so the two can never silently drift apart again (that mismatch was the
+   root cause of pen edits appearing to "not save"). These are thin
+   aliases so every existing call site below (applyElementTypography,
+   applyAllTaggedTypography, CURRENT_SETTINGS, isMobileViewport, etc.)
+   keeps working unchanged. */
+var CURRENT_SETTINGS = {};
+async function loadTypographyStylesFrontend() { return TypographyEngine.loadStyles(); }
+function isMobileViewport() { return TypographyEngine.isMobileViewport(); }
+function applyElementTypography(el) { return TypographyEngine.applyTagged(el); }
+function applyAllTaggedTypography() {
+  TypographyEngine.applyAllTagged();
+  if (window.location.search.indexOf('ts_debug=1') !== -1) TypographyEngine.debug();
+}
+// Placeholder text (the light hint text in an empty input) is rendered by the
+// browser through the ::placeholder pseudo-element, which inline styles on the
+// input itself cannot reach at all — applyElementTypography has no effect on it.
+// This injects a real CSS rule instead, generating both the desktop declaration
+// and a max-width:768px-wrapped mobile declaration together, so the placeholder
+// switches styles purely via CSS with no resize-listener needed.
+function applyPlaceholderTypography(elId, key) {
+  function declFor(style) {
+    var css = '';
+    if (style.font_family) css += 'font-family:' + style.font_family + ';';
+    if (style.font_size)   css += 'font-size:' + style.font_size + 'px;';
+    if (style.font_weight) css += 'font-weight:' + style.font_weight + ';';
+    if (style.color)       css += 'color:' + style.color + ';';
+    return css;
+  }
+  var dId = CURRENT_SETTINGS[key + '_style_desktop'];
+  var mId = CURRENT_SETTINGS[key + '_style_mobile'];
+  var dStyle = TypographyEngine.getStyle('desktop', dId);
+  var mStyle = TypographyEngine.getStyle('mobile', mId);
+  var css = '';
+  if (dStyle) { var d = declFor(dStyle); if (d) css += '#' + elId + '::placeholder{' + d + '}'; }
+  if (mStyle) { var m = declFor(mStyle); if (m) css += '@media(max-width:768px){#' + elId + '::placeholder{' + m + '}}'; }
+  var tagId = 'ph-style-' + elId;
+  var tag = document.getElementById(tagId);
+  if (!tag) { tag = document.createElement('style'); tag.id = tagId; document.head.appendChild(tag); }
+  tag.textContent = css;
+}
+(function() {
+  var lastIsMobile = isMobileViewport();
+  var resizeTimer = null;
+  window.addEventListener('resize', function() {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(function() {
+      var nowMobile = isMobileViewport();
+      if (nowMobile !== lastIsMobile) { lastIsMobile = nowMobile; applyAllTaggedTypography(); }
+    }, 150);
+  });
+})();
+
+function colorizeReviewsHeading(text) {
+  var el = document.getElementById('reviewsH');
+  if (!el || !text) return;
+  var highlighted = stripOuterParagraph(text).replace(/(Eureka\s*Trips!?)/i, '<span class="rh-accent">$1</span>');
+  el.innerHTML = highlighted;
+  applyElementTypography(el);
+}
+
 async function applySettings() {
   var s = await sbSettings();
+  CURRENT_SETTINGS = s;
+  TypographyEngine.setCurrentSettings(s);
+  await loadTypographyStylesFrontend();
 
-  setText('heroH1', s.hero_heading);
+  applyCardTypography(s);
+  applyCustomTourCardTypography(s);
+  if (s.logo_url) { var logoEl = document.getElementById('navLogoImg'); if (logoEl) logoEl.src = s.logo_url; }
+
+  if (s.hero_heading && s.hero_heading.indexOf('{rotator}') !== -1) {
+    var heroParts = s.hero_heading.split('{rotator}');
+    var heroH1El = document.getElementById('heroH1');
+    heroH1El.innerHTML = esc(heroParts[0]) + '<span class="rotator" id="heroRotator"></span>' + esc(heroParts[1]||'');
+    applyElementTypography(heroH1El);
+  } else {
+    setText('heroH1', s.hero_heading);
+  }
+  var heroRotatorWords = s.hero_rotator_words ? s.hero_rotator_words.split(',').map(function(w){ return w.trim(); }).filter(Boolean) : null;
+  initHeroRotator(heroRotatorWords);
+  if (s.nav_search_placeholder) {
+    var navSearchEl = document.getElementById('navSearchInput');
+    if (navSearchEl) { navSearchEl.placeholder = s.nav_search_placeholder; applyPlaceholderTypography('navSearchInput', 'nav_search_placeholder'); }
+  }
   setText('heroSub', s.hero_subtext);
-  setText('heroBtn1', s.hero_btn1_text); setAttr('heroBtn1', 'href', s.hero_btn1_link);
-  setText('heroBtn2', s.hero_btn2_text); setAttr('heroBtn2', 'href', s.hero_btn2_link);
-
-  setText('subheroH', s.subhero_heading);
-  setText('subheroP1', s.subhero_para1);
-  setText('subheroP2', s.subhero_para2);
-  setText('subheroP3', s.subhero_para3);
-  setAttr('subheroImg1', 'src', s.subhero_img1);
-  setAttr('subheroImg2', 'src', s.subhero_img2);
-  setAttr('subheroImg3', 'src', s.subhero_img3);
-  setAttr('subheroImg4', 'src', s.subhero_img4);
+  {
+    // On phone-width screens, use the dedicated mobile video if the admin uploaded
+    // one; otherwise fall back to the same desktop video. Checked once at load —
+    // not re-swapped on resize, so the clip doesn't restart mid-view if someone
+    // rotates their device or resizes the window while it's playing.
+    var heroVideoSrcUrl = (isMobileViewport() && s.hero_video_url_mobile) ? s.hero_video_url_mobile : s.hero_video_url;
+    if (heroVideoSrcUrl) {
+      var heroVidEl = document.getElementById('heroVideoBg');
+      var heroSrcEl = document.getElementById('heroVideoSrc');
+      if (heroVidEl && heroSrcEl) { heroSrcEl.src = heroVideoSrcUrl; heroVidEl.load(); }
+    }
+  }
 
   applyMiniCard(1, s); applyMiniCard(2, s); applyMiniCard(3, s); applyMiniCard(4, s);
 
+  setText('ctEyebrow', s.ct_eyebrow);
+  setText('ctHeading', s.ct_heading);
+
   setText('upcomingH', s.ut_heading);
-  setText('upcomingBtn', s.ut_btn_text); setAttr('upcomingBtn', 'href', s.ut_btn_link);
+  setText('upcomingByline', s.ut_byline);
 
   setText('videoTitleEl', s.video_title);
   applyVideo(s);
 
-  setText('reviewsH', s.reviews_heading);
+  colorizeReviewsHeading(s.reviews_heading);
   setText('reviewsSub', s.reviews_subtitle);
   setText('confidenceH', s.confidence_heading);
   if (s.google_rating) {
     var gEl = document.getElementById('googleRatingEl');
-    if (gEl) gEl.innerHTML = esc(s.google_rating) + ' <span class="rc-stars">★★★★★</span>';
+    if (gEl) { gEl.innerHTML = esc(s.google_rating) + ' <span class="rc-stars">★★★★★</span>'; applyElementTypography(gEl); }
   }
 
   setText('whyTitleEl', s.reason_heading);
+  setText('whyByline', s.reason_byline);
 
   setText('blogEyebrow', s.blog_eyebrow);
   setText('blogHeadingEl', s.blog_heading);
@@ -2620,13 +3123,24 @@ async function applySettings() {
   setText('bkformHeadingEl', s.bkform_heading);
   setText('bkformDescEl', s.bkform_desc);
   if (s.bkform_name_placeholder) document.getElementById('bk_name').placeholder = s.bkform_name_placeholder;
+  applyPlaceholderTypography('bk_name', 'bkform_name_placeholder');
   if (s.bkform_email_placeholder) document.getElementById('bk_email').placeholder = s.bkform_email_placeholder;
+  applyPlaceholderTypography('bk_email', 'bkform_email_placeholder');
   if (s.bkform_phone_placeholder) document.getElementById('bk_phone').placeholder = s.bkform_phone_placeholder;
+  applyPlaceholderTypography('bk_phone', 'bkform_phone_placeholder');
   if (s.bkform_privacy_text) {
     var lbl = document.getElementById('bkformCheckLabel');
-    if (lbl) lbl.innerHTML = esc(s.bkform_privacy_text) + ' <a href="#">Privacy Policy</a>.';
+    if (lbl) { lbl.innerHTML = esc(s.bkform_privacy_text) + ' <a href="#">Privacy Policy</a>.'; applyElementTypography(lbl); }
   }
   setText('bkformBtnText', s.bkform_btn_text);
+
+  setText('ftMission', s.ft_mission);
+  setText('ftCol1H', s.ft_col1_heading);
+  setText('ftCol2H', s.ft_col2_heading);
+  setText('ftCol3H', s.ft_col3_heading);
+  setText('ftCopy', s.ft_copyright);
+
+  applyAllTaggedTypography(); // safety net — re-applies to every tagged element in case any were missed above
 }
 
 async function applyCategoryBar() {
@@ -2639,25 +3153,16 @@ async function applyCategoryBar() {
   }).join('');
 }
 
-async function applyHeroPhotos() {
-  var rows = await sbGet('hero_photos', 'active=eq.true&order=sort_order.asc');
-  if (!rows.length) return;
-  var track = document.getElementById('marqueeTrack');
-  if (!track) return;
-  var urls = rows.map(function(r) { return r.image_url; });
-  var doubled = urls.concat(urls);
-  track.innerHTML = doubled.map(function(u) { return '<div class="marquee-item"><img src="' + esc(u) + '" alt="Destination photo" loading="lazy"></div>'; }).join('');
-}
-
 async function applyTrips() {
-  var rows = await sbGet('trips', 'active=eq.true&order=sort_order.asc');
+  var rows = await sbGet('group_trips', 'active=eq.true&order=sort_order.asc');
   if (!rows.length) return;
   TRIPS = rows.map(function(r) {
+    var gallery = (r.card_gallery_images && r.card_gallery_images.length) ? r.card_gallery_images : (r.card_image_url ? [r.card_image_url] : []);
     return {
-      id: r.id, name: r.name, route: r.route, dur: r.duration, price: r.price || 0,
-      dates: r.dates || [], tags: r.tags || [], hot: r.hot, type: r.trip_type,
-      page: 'trip-page.html?trip=' + (r.page_slug || r.id),
-      img: r.image_url
+      id: r.id, name: r.title, route: r.route, dur: r.duration_label, price: r.price || 0,
+      dates: r.card_dates ? [r.card_dates] : [], tags: r.tags || [], hot: r.hot, trending: r.trending,
+      page: 'group-trip.html?trip=' + r.id,
+      img: r.card_image_url, gallery: gallery, location: r.card_location
     };
   });
   renderTrips(TRIPS);
@@ -2667,7 +3172,7 @@ async function applyReviews() {
   var rows = await sbGet('reviews', 'page_scope=eq.home&active=eq.true&order=sort_order.asc');
   if (!rows.length) return;
   REVIEWS = rows.map(function(r) {
-    return { name: r.name, ago: r.ago_label, stars: r.stars, verified: r.verified, init: r.initials, color: r.color, q: r.quote };
+    return { name: r.name, ago: r.ago_label, stars: r.stars, verified: r.verified, init: r.initials, color: r.color, q: r.quote, photo: r.photo_url };
   });
   renderReviews();
 }
@@ -2682,7 +3187,7 @@ async function applyStatsBento() {
     if (r.tile_style === 'plain' || !r.number_label) {
       return '<div class="' + scClass + '"><img class="sc-plain-img" loading="lazy" src="' + esc(r.image_url || '') + '" alt=""></div>';
     }
-    return '<div class="' + scClass + '"><img class="sc-photo-full" loading="lazy" src="' + esc(r.image_url || '') + '" alt=""><div class="sc-ov"></div><div class="sc-txt-overlay"><div class="sc-num">' + esc(r.number_label) + '</div><div class="sc-lbl">' + esc(r.description || '') + '</div></div></div>';
+    return '<div class="' + scClass + '"><img class="sc-photo-full" loading="lazy" src="' + esc(r.image_url || '') + '" alt=""><div class="sc-ov"></div><div class="sc-txt-overlay"><div class="sc-num">' + stripOuterParagraph(r.number_label || '') + '</div><div class="sc-lbl">' + stripOuterParagraph(r.description || '') + '</div></div></div>';
   }).join('');
 }
 
@@ -2693,9 +3198,134 @@ async function applyWhyCards() {
   if (!stack) return;
   stack.innerHTML = rows.map(function(r) {
     var btn = r.button_text ? '<a href="' + esc(r.button_link || '#') + '" class="why-card-btn">' + esc(r.button_text) + '</a>' : '';
-    return '<div class="why-card"><div class="why-card-txt"><div class="why-card-ttl">' + esc(r.title) + '</div><div class="why-card-desc">' + (r.description || '') + '</div>' + btn + '</div><div class="why-card-img"><img loading="lazy" src="' + esc(r.image_url || '') + '" alt="' + esc(r.title) + '"></div></div>';
+    return '<div class="why-card"><div class="why-card-txt"><div class="why-card-ttl">' + stripOuterParagraph(r.title || '') + '</div><div class="why-card-desc">' + stripOuterParagraph(r.description || '') + '</div>' + btn + '</div><div class="why-card-img"><img loading="lazy" src="' + esc(r.image_url || '') + '" alt="' + esc(r.title) + '"></div></div>';
   }).join('');
 }
+
+async function applyPaymentLogos() {
+  var rows = await sbGet('payment_logos', 'active=eq.true&order=sort_order.asc');
+  rows = rows.filter(function(r) { return r.image_url; });
+  var wrap = document.getElementById('ftPayLogos');
+  if (!wrap || !rows.length) return;
+  wrap.innerHTML = rows.map(function(r) {
+    return '<img class="ft-pay" src="' + esc(r.image_url) + '" alt="' + esc(r.name || 'Payment method') + '" loading="lazy">';
+  }).join('');
+}
+
+async function applyHeroStats() {
+  var rows = await sbGet('hero_stats', 'active=eq.true&order=sort_order.asc');
+  rows = rows.filter(function(r) { return r.label; });
+  var wrap = document.getElementById('heroStatsRow');
+  if (!wrap || !rows.length) return;
+  wrap.innerHTML = rows.map(function(r, i) {
+    var icon = r.icon_url ? '<img src="' + esc(r.icon_url) + '" alt="">' : '';
+    var sep = i < rows.length - 1 ? '<span class="hero-stat-sep"></span>' : '';
+    return '<div class="hero-stat">' + icon + stripOuterParagraph(r.label || '') + '</div>' + sep;
+  }).join('');
+}
+
+async function applyTrustBadges() {
+  var rows = await sbGet('trust_badges', 'active=eq.true&order=sort_order.asc');
+  rows = rows.filter(function(r) { return r.image_url; });
+  var wrap = document.getElementById('ftBadges');
+  if (!wrap || !rows.length) return;
+  wrap.innerHTML = rows.map(function(r) {
+    var img = '<img class="ft-badge" src="' + esc(r.image_url) + '" alt="' + esc(r.name || 'Trust badge') + '" loading="lazy">';
+    return r.link ? '<a href="' + esc(r.link) + '" target="_blank" rel="noopener">' + img + '</a>' : img;
+  }).join('');
+}
+
+var AD_BANNER_ROWS = [];
+async function applyAdBanners() {
+  var rows = await sbGet('ad_banners', 'active=eq.true&order=sort_order.asc');
+  rows = rows.filter(function(r) { return r.image_url; });
+  AD_BANNER_ROWS = rows;
+  renderAdBanners();
+}
+function renderAdBanners() {
+  var rows = AD_BANNER_ROWS;
+  if (!rows.length) return;
+  var track = document.getElementById('promoBannerTrack');
+  if (!track) return;
+  var mobile = isMobileViewport();
+  track.innerHTML = rows.map(function(r) {
+    var pos = (r.image_position === 'top' || r.image_position === 'bottom') ? r.image_position : 'center';
+    var hasText = r.title || r.subtitle;
+    // Use the dedicated mobile image if one was set in the admin panel;
+    // otherwise fall back to the same image used on desktop.
+    var imgSrc = (mobile && r.image_url_mobile) ? r.image_url_mobile : r.image_url;
+    // Only darken the image when there's actual title/subtitle text that needs the
+    // contrast to stay readable — an admin-uploaded graphic that already has its own
+    // text/design baked in (title & subtitle left blank) should show at full clarity.
+    return '<a href="' + esc(r.link || '#') + '" class="promo-banner-slide">' +
+      '<img src="' + esc(imgSrc || '') + '" alt="' + esc(r.title || 'Featured trip banner') + '" loading="lazy" style="object-position:center ' + pos + '">' +
+      (hasText ? '<div class="promo-banner-ov"></div>' : '') +
+      '<div class="promo-banner-txt">' +
+        '<div class="promo-banner-ttl">' + stripOuterParagraph(r.title || '') + '</div>' +
+        '<div class="promo-banner-sub">' + stripOuterParagraph(r.subtitle || '') + '</div>' +
+      '</div>' +
+    '</a>';
+  }).join('');
+  initPromoBannerCarousel();
+}
+// Re-render if the window crosses the mobile/desktop breakpoint (e.g. rotating
+// a tablet, or resizing a browser window) so the right image is always shown.
+var adBannerResizeWasMobile = null;
+var adBannerResizeTimer = null;
+window.addEventListener('resize', function () {
+  clearTimeout(adBannerResizeTimer);
+  adBannerResizeTimer = setTimeout(function () {
+    var mobile = isMobileViewport();
+    if (mobile !== adBannerResizeWasMobile) {
+      adBannerResizeWasMobile = mobile;
+      renderAdBanners();
+    }
+  }, 200);
+});
+
+var FT_SLIDES = [];
+var ftIndex = 0;
+async function applyFeaturedTrips() {
+  var rows = await sbGet('featured_trip_slides', 'active=eq.true&order=sort_order.asc');
+  rows = rows.filter(function(r) { return r.heading; });
+  var sec = document.getElementById('about');
+  if (!rows.length) { if (sec) sec.style.display = 'none'; return; }
+  FT_SLIDES = rows;
+  ftIndex = 0;
+  renderFeaturedTrip();
+}
+function renderFeaturedTrip() {
+  var r = FT_SLIDES[ftIndex];
+  if (!r) return;
+  setText('ftEyebrow', r.eyebrow || 'Our featured trips');
+  setText('ftHeading', r.heading);
+  setText('ftDesc', r.description);
+  var btn = document.getElementById('ftBtn');
+  if (btn) {
+    btn.textContent = r.button_text || 'Explore';
+    btn.setAttribute('href', r.button_link || '#');
+  }
+  var imgs = [r.img1_url, r.img2_url, r.img3_url, r.img4_url, r.img5_url, r.img6_url, r.img7_url];
+  var collage = document.getElementById('ftCollage');
+  if (!collage) return;
+  function slot(n, i) {
+    return '<div class="ft-img ft-img-' + n + '">' + (imgs[i] ? '<img src="' + esc(imgs[i]) + '" alt="" loading="lazy">' : '') + '</div>';
+  }
+  collage.innerHTML =
+    '<div class="ft-col">' + slot(1, 0) + slot(3, 2) + slot(6, 5) + '</div>' +
+    '<div class="ft-col">' + slot(2, 1) + slot(4, 3) + '</div>' +
+    '<div class="ft-col ft-col-3">' + slot(5, 4) + slot(7, 6) + '</div>';
+}
+function ftGo(dir) {
+  if (!FT_SLIDES.length) return;
+  ftIndex = (ftIndex + dir + FT_SLIDES.length) % FT_SLIDES.length;
+  renderFeaturedTrip();
+}
+document.addEventListener('DOMContentLoaded', function() {
+  var prevBtn = document.getElementById('ftPrev'), nextBtn = document.getElementById('ftNext');
+  if (prevBtn) prevBtn.addEventListener('click', function(){ ftGo(-1); });
+  if (nextBtn) nextBtn.addEventListener('click', function(){ ftGo(1); });
+});
 
 async function applyBlogPreview() {
   var rows = await sbGet('blog_posts', 'featured_home=eq.true&active=eq.true&order=sort_order.asc');
@@ -2707,24 +3337,100 @@ async function applyBlogPreview() {
 }
 
 async function initSupabaseContent() {
+  // Load and inject the per-selection Typography Style CSS (.tsd-X/.tsm-X rules) FIRST,
+  // standalone — not bundled inside the Promise.all below. Ad Banners, Hero Stats,
+  // Reviews, Stats Grid, and Why Cards all embed those classes directly in their HTML
+  // the moment their own fetch resolves; if that happens before this CSS exists, the
+  // text would flash unstyled for a moment until it catches up. Awaiting this first
+  // guarantees the CSS is already in place before any of that content can render.
+  await loadTypographyStylesFrontend();
   await Promise.all([
     applySettings(),
     applyCategoryBar(),
-    applyHeroPhotos(),
     applyTrips(),
+    applyAdBanners(),
+    applyHeroStats(),
+    applyTrustBadges(),
+    applyPaymentLogos(),
+    applyFeaturedTrips(),
+    applyCustomTourCards(),
     applyReviews(),
     applyStatsBento(),
     applyWhyCards(),
     applyBlogPreview()
   ]);
+  // The safety net inside applySettings() fires concurrently with the functions above,
+  // not after them — so anything they insert (Hero Stats, Featured Trips, Reviews, Stats
+  // Grid, Why Cards) can land in the DOM too late to be caught by it. This second pass,
+  // run only once every promise above has actually resolved, guarantees full coverage.
+  applyAllTaggedTypography();
 }
+/* PROMO BANNER CAROUSEL — init runs after applyAdBanners() injects slides from Supabase */
+function initPromoBannerCarousel(){
+  var track=document.getElementById('promoBannerTrack');
+  var dotsWrap=document.getElementById('promoBannerDots');
+  if(!track || !dotsWrap) return;
+  dotsWrap.innerHTML='';
+  var slides=track.querySelectorAll('.promo-banner-slide');
+  var n=slides.length;
+  if(n<=1) return;
+  var idx=0, timer=null, syncing=false;
+
+  for(var i=0;i<n;i++){
+    var dot=document.createElement('button');
+    dot.className='promo-banner-dot'+(i===0?' active':'');
+    dot.setAttribute('aria-label','Go to slide '+(i+1));
+    dot.onclick=(function(k){ return function(){ goTo(k); resetTimer(); }; })(i);
+    dotsWrap.appendChild(dot);
+  }
+  var dots=dotsWrap.querySelectorAll('.promo-banner-dot');
+
+  /* Native browser scrolling — the browser always knows the real width of
+     each slide, so there's nothing left for us to measure or get wrong. */
+  function goTo(i){
+    idx=(i+n)%n;
+    syncing=true;
+    track.scrollTo({ left: idx*track.clientWidth, behavior:'smooth' });
+    dots.forEach(function(d,j){ d.classList.toggle('active', j===idx); });
+    setTimeout(function(){ syncing=false; }, 700);
+  }
+  function next(){ goTo(idx+1); }
+  function resetTimer(){
+    if(timer) clearInterval(timer);
+    timer=setInterval(next, 2000); /* advance every 2 seconds */
+  }
+  track.addEventListener('mouseenter',function(){ if(timer) clearInterval(timer); });
+  track.addEventListener('mouseleave',resetTimer);
+
+  /* If the visitor manually swipes/drags, keep the dots in sync without
+     fighting their scroll position. */
+  var scrollTimer=null;
+  track.addEventListener('scroll',function(){
+    if(syncing) return;
+    if(scrollTimer) clearTimeout(scrollTimer);
+    scrollTimer=setTimeout(function(){
+      var w=track.clientWidth;
+      var newIdx = w ? Math.round(track.scrollLeft/w) : 0;
+      if(newIdx>=0 && newIdx<n && newIdx!==idx){
+        idx=newIdx;
+        dots.forEach(function(d,j){ d.classList.toggle('active', j===idx); });
+      }
+    },120);
+  },{passive:true});
+
+  resetTimer();
+}
+
 initSupabaseContent();
 
 /* ── INIT ── */
-renderTrips(TRIPS);
-renderReviews();
-renderBlogPreview();
 initObs();
+
+function toggleFooterCol(el) {
+  el.classList.toggle('open');
+  var links = el.nextElementSibling;
+  if (links) links.classList.toggle('open');
+}
 </script>
 </body>
 </html>

@@ -7,7 +7,6 @@
 <meta name="color-scheme" content="light">
 <title>Epic Philippines | Eureka Trips</title>
 <meta name="description" content="Epic Philippines with Eureka Trips — Seminyak, Nusa Penida, Gili Islands, and Ubud.">
-">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://images.unsplash.com">
@@ -16,6 +15,17 @@
   @import url('https://fonts.cdnfonts.com/css/proxima-nova-2');
   @font-face{font-family:'Apfel Grotesk';font-weight:400;font-style:normal;font-display:swap;}
   @font-face{font-family:'Apfel Grotesk';font-weight:500;font-style:normal;font-display:swap;}
+/* ── MOBILE FOOTER ACCORDION — Company & Explore collapse to tap-to-expand ──
+   Desktop default: chevron hidden, no collapse behavior — the link lists
+   just render normally as before, exactly as on every other page. ── */
+.ft-col-chev{display:none}
+@media(max-width:768px){
+  .ft-col-h-toggle{display:flex;align-items:center;justify-content:space-between;cursor:pointer;user-select:none}
+  .ft-col-chev{display:block;width:16px;height:16px;flex-shrink:0;transition:transform .25s ease}
+  .ft-col-h-toggle.open .ft-col-chev{transform:rotate(180deg)}
+  .ft-col-h-toggle ~ .ft-col-links{max-height:0;overflow:hidden;transition:max-height .3s ease;margin-bottom:0}
+  .ft-col-h-toggle.open ~ .ft-col-links{max-height:400px;margin-top:.75rem}
+}
 </style>
 <link rel="preload" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Outfit:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,700;1,400;1,600&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Outfit:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,700;1,400;1,600&display=swap"></noscript>
@@ -84,7 +94,7 @@ img{display:block;max-width:100%}
   border:1.5px solid rgba(255,255,255,.55);
   border-radius:50px;
   padding:.75rem clamp(1.5rem,3vw,2.5rem);
-  max-width:760px;margin:0 auto;
+  max-width:980px;margin:0 auto;
   transition:background .3s,border-color .3s,backdrop-filter .3s;
 }
 .navbar.solid .nav-pill{
@@ -144,20 +154,43 @@ img{display:block;max-width:100%}
 .mob-cta-btn{width:100%;background:#02A9A2;color:#fff;padding:14px;border-radius:50px;font-weight:700;font-size:15px}
 
 /* ─────────────────────────────────────────
+   BROCHURE DOWNLOAD MODAL
+───────────────────────────────────────── */
+.brochure-overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:2100;opacity:0;visibility:hidden;transition:opacity .3s}
+.brochure-overlay.show{opacity:1;visibility:visible}
+.brochure-modal{
+  position:fixed;top:50%;left:50%;transform:translate(-50%,-46%);
+  background:#fff;border-radius:20px;box-shadow:0 24px 64px rgba(0,0,0,.25);
+  width:min(420px,90vw);padding:2rem 1.75rem 1.5rem;z-index:2101;
+  opacity:0;visibility:hidden;transition:opacity .3s,transform .3s;
+}
+.brochure-modal.show{opacity:1;visibility:visible;transform:translate(-50%,-50%)}
+.brochure-close{position:absolute;top:14px;right:14px;background:none;border:none;font-size:18px;color:#9aa0a6;cursor:pointer;padding:4px}
+.brochure-modal-icon{font-size:22px;line-height:1}
+.brochure-modal-h{display:flex;align-items:center;justify-content:center;gap:.5rem;font-family:'Poppins',sans-serif;font-size:25px;font-weight:600;color:#111111;letter-spacing:-1px;line-height:1.15;text-align:center;margin-bottom:.4rem}
+.brochure-modal-sub{font-family:'Poppins',sans-serif;font-size:13px;color:#3A3B3B;text-align:center;line-height:1.5;letter-spacing:-0.2px;margin-bottom:1.5rem}
+.brochure-fg{margin-bottom:.85rem}
+.brochure-fg input{width:100%;padding:12px 16px;border:1.5px solid #e5e7eb;border-radius:10px;font-family:'Poppins',sans-serif;font-size:13px;outline:none;transition:border-color .2s;box-sizing:border-box}
+.brochure-fg input:focus{border-color:#02A9A2}
+.brochure-submit-btn{width:100%;background:#02A9A2;color:#FFFFFF;border:none;padding:14px;border-radius:10px;font-family:'Poppins',sans-serif;font-size:15px;font-weight:500;line-height:1;cursor:pointer;transition:background .25s;margin-top:.25rem}
+.brochure-submit-btn:hover{background:#027A74}
+.brochure-modal-note{font-family:'Poppins',sans-serif;font-size:11.5px;color:#9aa0a6;text-align:center;margin-top:.9rem;line-height:1.4}
+
+/* ─────────────────────────────────────────
    GROUP TRIP HEADER — title, tags, meta, price
 ───────────────────────────────────────── */
-.gt-header-sec{background:var(--off2);padding-top:84px;padding-bottom:2.5rem}
+.gt-header-sec{background:var(--off2);padding-top:84px;padding-bottom:2.4375rem}
 .gt-header-inner{max-width:1400px;margin:0 auto;padding:2.25rem clamp(1.5rem,4vw,4rem) 0}
 
-.gt-title{font-family:'Apfel Grotesk','Poppins',sans-serif;font-size:clamp(34px,5vw,52px);font-weight:800;color:var(--dark);margin-bottom:.6rem}
+.gt-title{font-family:'Apfel Grotesk','Poppins',sans-serif;font-size:60px;font-weight:500;font-style:normal;color:#3A3B3B;margin-bottom:.6rem}
 .gt-route{
-  font-family:'Poppins',sans-serif;font-size:13px;font-weight:600;letter-spacing:.4px;
-  color:var(--body);text-transform:uppercase;margin-bottom:1.5rem;
+  text-align:start;font-family:'Poppins',sans-serif;font-size:15px;font-weight:500;
+  color:#3A3B3B;margin-bottom:.49rem;
   display:flex;align-items:center;flex-wrap:wrap;gap:.5em;
 }
 .gt-route .sep{opacity:.6;font-weight:400}
 
-.gt-row-a{display:flex;justify-content:space-between;align-items:center;gap:2rem;flex-wrap:wrap;margin-bottom:1rem}
+.gt-row-a{display:flex;justify-content:space-between;align-items:center;gap:2rem;flex-wrap:wrap;margin-bottom:.975rem}
 .gt-row-b{display:flex;justify-content:space-between;align-items:center;gap:2rem;flex-wrap:wrap}
 
 .gt-tags{display:flex;gap:10px;flex-wrap:wrap}
@@ -169,32 +202,45 @@ img{display:block;max-width:100%}
 }
 .gt-tag .ic{font-size:15px;line-height:1}
 
-.gt-meta{display:flex;align-items:center;gap:1.75rem;flex-wrap:wrap;font-family:'Poppins',sans-serif;font-size:14px;color:var(--dark);font-weight:500}
+.gt-meta{display:flex;align-items:center;gap:1.75rem;flex-wrap:wrap;font-family:'Proxima Nova Regular','Poppins',sans-serif;font-size:17px;color:#454A4A;font-weight:600}
 .gt-meta-item{display:flex;align-items:center;gap:7px}
 
 .gt-price-mini{text-align:right;flex-shrink:0;display:flex;align-items:baseline;gap:8px}
-.gt-price-lbl{font-family:'Poppins',sans-serif;font-size:13px;color:var(--body)}
-.gt-price{font-family:'Apfel Grotesk','Poppins',sans-serif;font-size:clamp(26px,3vw,34px);font-weight:800;color:var(--dark)}
-.gt-price .cur{font-size:.55em;font-weight:700;color:var(--body);margin-left:4px}
+.gt-price-lbl{font-family:'Outfit','Poppins',sans-serif;font-size:24px;color:var(--body)}
+.gt-price{font-family:'Outfit','Poppins',sans-serif;font-size:28px;font-weight:800;color:var(--dark)}
+.gt-price .cur{font-family:'Outfit','Poppins',sans-serif;font-size:24px;font-weight:700;color:var(--body);margin-left:4px}
 .gt-price-btns{display:flex;gap:12px;justify-content:flex-end;flex-wrap:wrap;flex-shrink:0}
 .gt-btn-solid{
-  background:#F5A623;color:#fff;padding:13px 26px;border-radius:50px;
-  font-family:'Poppins',sans-serif;font-weight:700;font-size:14px;white-space:nowrap;
+  background:#FFA43B;color:#FFFFFF;padding:12px 17px;border-radius:50px;border:2px solid transparent;
+  font-family:'Poppins',sans-serif;font-weight:600;font-size:18px;white-space:nowrap;
   transition:background .2s;display:inline-block;
 }
 .gt-btn-solid:hover{background:#e5981a}
 .gt-btn-outline{
-  background:var(--teal-l);color:var(--teal-d);border:1px solid var(--teal);padding:13px 26px;border-radius:50px;
-  font-family:'Poppins',sans-serif;font-weight:700;font-size:14px;white-space:nowrap;
+  background:#02A9A2;color:#FFFFFF;border:2px solid transparent;padding:12px 17px;border-radius:50px;
+  font-family:'Poppins',sans-serif;font-weight:600;font-size:18px;white-space:nowrap;
   transition:background .2s;display:inline-block;
 }
-.gt-btn-outline:hover{background:#d9f2ee}
+.gt-btn-outline:hover{background:#028f89}
 
 @media(max-width:900px){
-  .gt-row-a{align-items:flex-start}
-  .gt-price-mini{text-align:left}
-  .gt-row-b{flex-direction:column;align-items:flex-start}
-  .gt-price-btns{justify-content:flex-start}
+  /* Reorder the header stack on mobile to: route → title → tags →
+     meta (days/location/ages) → price → buttons. The tags+price and
+     meta+buttons are grouped in two separate row containers in the HTML
+     (for the desktop side-by-side layout), so display:contents here
+     dissolves those two boxes and makes their children direct flex items
+     of gt-header-inner instead — letting each one get its own explicit
+     order, without needing to change any HTML. */
+  .gt-header-inner{display:flex;flex-direction:column}
+  .gt-row-a{display:contents}
+  .gt-row-b{display:contents}
+  .gt-route{order:1}
+  .gt-title{order:2}
+  .gt-tags{order:3;margin-bottom:1rem}
+  .gt-meta{order:4;margin-bottom:1rem}
+  .gt-price-mini{order:5;text-align:left;margin-bottom:1rem}
+  .gt-price-btns{order:6;justify-content:flex-start;flex-wrap:nowrap;width:100%;gap:8px}
+  .gt-btn-solid,.gt-btn-outline{flex:1;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:13px;padding:14px 4px}
 }
 
 /* ─────────────────────────────────────────
@@ -269,40 +315,68 @@ img{display:block;max-width:100%}
 .gt-detail-sec{background:var(--off2)}
 .gt-detail-wrap{
   max-width:1400px;margin:0 auto;
-  padding:3rem clamp(1.5rem,4vw,4rem) 5rem;
+  padding:1rem clamp(1.5rem,4vw,4rem) 3rem;
   display:grid;grid-template-columns:1fr 360px;
   gap:clamp(1.25rem,2.5vw,2rem);
   align-items:start;
 }
-.gt-main{min-width:0;display:flex;flex-direction:column;gap:2.5rem}
-.gt-tabs-wrap{background:transparent}
-.gt-detail-card{background:#fff;border-radius:16px;padding:clamp(1.5rem,3vw,2.25rem);border:2px solid #d1d5db;box-shadow:none}
-.gt-detail-title{font-family:'Apfel Grotesk','Poppins',sans-serif;font-size:clamp(22px,2.6vw,30px);color:#111;font-weight:700;line-height:1.3;margin-bottom:1.25rem}
-.gt-detail-p{font-family:'Poppins',sans-serif;font-size:14.5px;line-height:1.9;color:var(--body);margin-bottom:1.25rem}
+.gt-main{min-width:0;display:flex;flex-direction:column;gap:.5rem}
+.gt-tabs-wrap{
+  background:var(--off2);padding-top:.5rem;padding-bottom:.5rem;
+  position:sticky;top:70px;z-index:50;
+  display:flex;align-items:center;gap:.5rem;
+  margin-bottom:1rem;
+}
+.gt-tabs-scroll-arrow{
+  flex-shrink:0;
+  width:32px;height:32px;border-radius:50%;
+  background:transparent;border:1.5px solid var(--border);
+  display:none;align-items:center;justify-content:center;box-shadow:none;
+  color:var(--teal-d);cursor:pointer;transition:background .2s,border-color .2s;
+}
+.gt-tabs-scroll-arrow:hover{background:rgba(2,169,162,.08);border-color:var(--teal-d)}
+.gt-tabs-scroll-arrow svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2.6}
+.gt-tabs-wrap.has-overflow .gt-tabs-scroll-arrow{display:flex}
+.gt-panels-wrap{display:flex;flex-direction:column}
+.gt-panel{display:none;margin-bottom:1.75rem;scroll-margin-top:150px}
+.gt-panel.active{display:block}
+.gt-panel-heading{font-family:'Poppins',sans-serif;font-size:26px;font-weight:500;color:#3A3B3B;letter-spacing:-1px;line-height:1.15;margin-bottom:.85rem}
+.gt-map-card{border-radius:14px;overflow:hidden;box-shadow:0 4px 16px rgba(0,0,0,.1);margin-bottom:1.25rem}
+.gt-map-hdr{background:var(--teal);color:#fff;font-family:'Poppins',sans-serif;font-size:13px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:.85rem 1.25rem}
+.gt-map-card img{width:100%;height:auto;max-height:480px;object-fit:cover;display:block}
+.gt-detail-card{background:#fff;border-radius:16px;padding:clamp(1rem,2vw,1.4rem);border:2px solid #d1d5db;box-shadow:none}
+.gt-detail-title{font-family:'Poppins',sans-serif;font-size:22px;color:#3A3B3B;font-weight:600;letter-spacing:-.5px;line-height:1.25;margin-bottom:.75rem}
+.gt-detail-p{font-family:'Poppins',sans-serif;font-size:14.5px;line-height:1.4;letter-spacing:-0.2px;color:#454A4A;margin-bottom:.9rem}
 .gt-detail-p:last-child{margin-bottom:0}
 
-.gt-tabs{display:flex;gap:10px;flex-wrap:nowrap;overflow-x:auto;margin:0 0 1.5rem;scrollbar-width:none}
+.gt-tabs{
+  display:flex;gap:4px;flex-wrap:nowrap;overflow-x:auto;margin:0;scrollbar-width:none;
+  background:#fff;border:1.5px solid var(--border);border-radius:50px;padding:6px;
+  flex:1;min-width:0;
+}
 .gt-tabs::-webkit-scrollbar{display:none}
 .gt-tab{
   font-family:'Poppins',sans-serif;font-weight:600;font-size:13.5px;
-  padding:10px 20px;border-radius:50px;border:1.5px solid var(--border);background:#fff;color:var(--dark);
+  padding:10px 20px;border-radius:50px;border:none;background:transparent;color:var(--body2);
   transition:all .2s;white-space:nowrap;flex-shrink:0;
 }
-.gt-tab.active{background:#cfeceA;border-color:#a9ddd6;color:var(--dark)}
-.gt-tab:not(.active):hover{border-color:var(--teal)}
+.gt-tab.active{background:#cfeceA;color:var(--dark)}
+.gt-tab:not(.active):hover{color:var(--dark)}
 
 .gt-slider{position:relative;overflow:hidden;border-radius:12px}
 .gt-slider-track{display:flex;gap:12px;will-change:transform}
 .gt-slider-track img{height:308px;width:220px;object-fit:cover;border-radius:12px;flex-shrink:0;display:block}
 @media(max-width:640px){
-  .gt-slider-track img{height:150px;width:150px}
+  .gt-slider-track img{height:220px;width:190px}
 }
 
 /* Inclusions panel */
-.gt-inc-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem 2.5rem}
-.gt-inc-item{display:flex;align-items:center;gap:12px;font-family:'Poppins',sans-serif;font-size:14.5px;color:var(--dark)}
-.gt-inc-ic{width:22px;height:22px;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.gt-inc-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem 2.5rem}
+.gt-inc-item{display:flex;align-items:flex-start;gap:10px;font-family:'Poppins',sans-serif;font-size:14px;font-weight:500;color:var(--dark)}
+.gt-inc-ic{width:18px;height:18px;flex-shrink:0;display:flex;align-items:center;justify-content:center;margin-top:2px;color:var(--teal)}
+.gt-inc-ic svg{width:100%;height:100%}
 .gt-inc-ic svg{width:22px;height:22px;fill:none;stroke:var(--teal-d);stroke-width:1.6}
+.gt-inc-ic img{width:22px;height:22px;object-fit:contain;display:block}
 @media(max-width:640px){
   .gt-inc-grid{grid-template-columns:1fr}
 }
@@ -310,7 +384,7 @@ img{display:block;max-width:100%}
 /* Accommodation panel */
 .gt-accom-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;align-items:start}
 .gt-accom-list{padding-left:1.2rem;margin-top:.75rem}
-.gt-accom-list li{list-style:disc;font-family:'Poppins',sans-serif;font-size:14.5px;color:var(--dark);padding:.15rem 0}
+.gt-accom-list li{list-style:disc;font-family:'Poppins',sans-serif;font-size:15px;font-weight:500;color:var(--dark);padding:.15rem 0}
 .gt-accom-img{border-radius:14px;overflow:hidden;cursor:pointer}
 .gt-accom-img img{transition:transform .4s ease}
 .gt-accom-img:hover img{transform:scale(1.04)}
@@ -324,59 +398,94 @@ img{display:block;max-width:100%}
    ITINERARY — day accordion
 ───────────────────────────────────────── */
 .gt-itin-sec{background:transparent}
-.gt-itin-title{font-family:'Apfel Grotesk','Poppins',sans-serif;font-size:clamp(24px,2.8vw,32px);font-weight:700;color:#111;margin-bottom:.6rem;position:relative;display:inline-block;padding-bottom:.5rem}
+.gt-itin-title{font-family:'Poppins',sans-serif;font-size:42px;font-weight:600;color:#3A3B3B;letter-spacing:-1px;line-height:1.15;margin-bottom:.6rem;position:relative;display:inline-block;padding-bottom:.5rem}
 .gt-itin-title::after{content:'';position:absolute;left:0;bottom:0;width:64px;height:3px;background:var(--teal);border-radius:2px}
-.gt-itin-sub{font-family:'Poppins',sans-serif;font-size:14px;color:var(--body);margin-bottom:1.75rem;line-height:1.7;margin-top:.75rem}
+.gt-itin-sub{font-family:'Poppins',sans-serif;font-size:15px;color:#3A3B3B;letter-spacing:-0.2px;margin-bottom:1.75rem;line-height:1.5;margin-top:.75rem}
 
 .gt-day{margin-bottom:1rem}
 .gt-day-head{
   display:flex;align-items:center;justify-content:space-between;
   background:#fff;border:1px solid var(--border);border-radius:10px;
   padding:.7rem 1.25rem;cursor:pointer;
-  font-family:'Poppins',sans-serif;font-weight:700;font-size:14px;color:var(--dark);
+  font-family:'Proxima Nova Regular','Poppins',sans-serif;font-weight:700;font-size:14px;color:#3A3B3B;
 }
+.gt-day-head-txt{display:flex;align-items:center;gap:1.5rem}
+.gt-day-num{flex-shrink:0;min-width:44px}
 .gt-day-head .chev{transition:transform .3s;font-size:15px;color:var(--dark)}
 .gt-day.open .gt-day-head .chev{transform:rotate(180deg)}
 .gt-day-body{max-height:0;overflow:hidden;transition:max-height .35s ease}
 .gt-day.open .gt-day-body{max-height:600px}
-.gt-day-inner{padding:1.5rem 0 .5rem;display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:start}
-.gt-day-h3{font-family:'Apfel Grotesk','Poppins',sans-serif;font-size:20px;font-weight:700;color:var(--dark);margin-bottom:.75rem}
-.gt-day-p{font-family:'Poppins',sans-serif;font-size:14px;color:var(--body);line-height:1.8;margin-bottom:1.1rem}
-.gt-day-tags{display:flex;flex-direction:column;gap:.6rem}
-.gt-day-tag{display:flex;align-items:center;gap:9px;font-family:'Poppins',sans-serif;font-size:13.5px;color:var(--dark);font-weight:500}
-.gt-day-img{border-radius:12px;overflow:hidden}
-.gt-day-img img{width:100%;height:230px;object-fit:cover;display:block}
+.gt-day-inner{padding:1.5rem 0 .5rem;display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:stretch}
+.gt-day-text{padding-left:1.25rem}
+.gt-day-h3{font-family:'Outfit','Poppins',sans-serif;font-size:22px;font-weight:500;font-style:normal;letter-spacing:0.2px;color:#3A3B3B;margin-bottom:.75rem}
+.gt-day-p{font-family:'Poppins',sans-serif;font-size:14px;color:#3A3B3B;line-height:1.5;margin-bottom:1.1rem}
+.gt-day-tags{display:flex;flex-direction:column;gap:.6rem;padding-left:1.25rem}
+.gt-day-tag{display:flex;align-items:center;gap:9px;font-family:'Poppins',sans-serif;font-size:15px;color:var(--dark);font-weight:500}
+.gt-day-img{border-radius:12px;overflow:hidden;height:100%}
+.gt-day-img img{width:100%;height:100%;min-height:230px;object-fit:cover;display:block}
 
 @media(max-width:700px){
   .gt-day-inner{grid-template-columns:1fr}
-  .gt-day-img img{height:200px}
+  .gt-day-img{height:auto}
+  .gt-day-img img{height:200px;min-height:0}
 }
 
 /* Sidebar */
-.gt-sidebar{position:sticky;top:20px;display:flex;flex-direction:column;gap:1.5rem}
-.gt-confidence-box{background:#fff;border-radius:16px;padding:1.5rem;border:2px solid #d1d5db;box-shadow:none}
-.gt-confidence-box h3{font-family:'Apfel Grotesk','Poppins',sans-serif;font-size:18px;font-weight:700;color:var(--dark);margin-bottom:.6rem}
-.gt-confidence-box p{font-family:'Poppins',sans-serif;font-size:13.5px;color:var(--body);line-height:1.8;margin-bottom:.75rem}
-.gt-confidence-box a{color:var(--teal);font-weight:600;font-size:13.5px;text-decoration:underline}
+.gt-sidebar{position:sticky;top:70px;display:flex;flex-direction:column;gap:1rem}
+.gt-confidence-box{background:#fff;border-radius:16px;padding:.35rem 1.15rem;border:2px solid #d1d5db;box-shadow:none}
+.gt-confidence-box h3{font-family:'Poppins',sans-serif;font-size:21px;font-weight:600;font-style:normal;letter-spacing:0.2px;color:#3A3B3B;margin-bottom:.5rem}
+.gt-confidence-box p{font-family:'Poppins',sans-serif;font-size:13.5px;color:#454A4A;line-height:1.4;letter-spacing:-0.2px;margin-bottom:.6rem}
+.gt-confidence-box a{font-family:'Poppins',sans-serif;font-size:12px;color:#454A4A;line-height:1.5;letter-spacing:-0.2px;text-decoration:underline}
 
-.gt-form-card{background:#fff;border-radius:16px;padding:1.5rem;border:2px solid #d1d5db;box-shadow:none}
-.gt-form-card-head{display:flex;align-items:center;gap:12px;margin-bottom:1.25rem}
-.gt-form-card-head img{width:56px;height:56px;border-radius:10px;object-fit:cover;flex-shrink:0}
-.gt-form-card-head span{font-family:'Apfel Grotesk','Poppins',sans-serif;font-size:15px;font-weight:700;color:var(--dark);line-height:1.35}
+.gt-itin-download-box{background:#fff;border-radius:16px;padding:1.5rem 1.4rem;border:2px solid #d1d5db;box-shadow:none}
+.gt-itin-download-box h3{font-family:'Poppins',sans-serif;font-size:22px;font-weight:700;color:#111827;margin-bottom:.5rem}
+.gt-itin-download-box p{font-family:'Poppins',sans-serif;font-size:14px;color:#4b5563;margin-bottom:1.1rem}
+.gt-itin-phone-row{
+  display:flex;align-items:center;gap:8px;background:#f3f4f6;border-radius:50px;
+  padding:.75rem 1.1rem;margin-bottom:1.1rem;
+}
+.gt-itin-flag{font-family:'Poppins',sans-serif;font-size:15px;color:#374151;flex-shrink:0;white-space:nowrap}
+.gt-itin-phone-row input{
+  flex:1;min-width:0;border:none;background:transparent;outline:none;
+  font-family:'Poppins',sans-serif;font-size:15px;color:#111827;
+}
+.gt-itin-phone-row input::placeholder{color:#6b7280}
+.gt-itin-download-btn{
+  width:100%;background:#e01552;color:#fff;border:none;border-radius:50px;
+  padding:.95rem 1rem;font-family:'Poppins',sans-serif;font-weight:700;font-size:16px;
+  cursor:pointer;transition:background .2s;
+}
+.gt-itin-download-btn:hover{background:#c01047}
+
+@media(max-width:900px){
+  /* "Book with confidence" is redundant with the confidence messaging already
+     shown elsewhere on mobile, and the WhatsApp itinerary download is the more
+     useful action to surface here — so only the download box shows on mobile. */
+  .gt-confidence-box{display:none}
+}
+
+.gt-form-card{background:#fff;border-radius:16px;padding:1.15rem;border:2px solid #d1d5db;box-shadow:none}
+.gt-form-card-head{display:flex;align-items:center;gap:12px;margin-bottom:.9rem}
+.gt-form-card-head img{width:48px;height:48px;border-radius:10px;object-fit:cover;flex-shrink:0}
+.gt-form-card-head span{font-family:'Proxima Nova Regular','Poppins',sans-serif;font-size:16px;font-weight:600;line-height:19px;color:#3A3B3B}
 .gt-form-field{
-  width:100%;padding:12px 14px;border:1px solid var(--border);border-radius:8px;
-  font-family:'Poppins',sans-serif;font-size:13.5px;color:var(--dark);margin-bottom:.9rem;background:#fff;
+  width:100%;padding:10px 14px;border:1px solid var(--border);border-radius:8px;
+  font-family:'Poppins',sans-serif;font-size:13px;font-weight:400;color:var(--dark);margin-bottom:.6rem;background:#fff;
 }
 .gt-form-field::placeholder{color:#9aa3a3}
-.gt-form-row2{display:grid;grid-template-columns:1fr 1fr;gap:.9rem}
-.gt-form-row2 .gt-form-field{margin-bottom:.9rem}
-.gt-form-check{display:flex;align-items:flex-start;gap:8px;font-family:'Poppins',sans-serif;font-size:12.5px;color:var(--body);margin-bottom:1.1rem}
+.gt-form-row2{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
+.gt-form-row2 .gt-form-field{margin-bottom:.6rem}
+.gt-form-check{display:flex;align-items:flex-start;gap:8px;font-family:'Poppins',sans-serif;font-size:11px;font-weight:400;color:#3A3B3B;margin-bottom:.75rem}
 .gt-form-check input{margin-top:2px}
 .gt-form-submit{
-  width:100%;background:#F5A623;color:#fff;padding:14px;border-radius:50px;
-  font-family:'Poppins',sans-serif;font-weight:700;font-size:15px;transition:background .2s;
+  width:100%;background:#FFA43B;color:#ffffff;padding:15px;border-radius:50px;border:none;
+  font-family:'Poppins',sans-serif;font-weight:500;font-size:15px;transition:background .2s;
 }
 .gt-form-submit:hover{background:#e5981a}
+
+@media(max-width:980px){
+  .gt-form-card{display:none}
+}
 
 @media(max-width:980px){
   .gt-detail-wrap{grid-template-columns:1fr}
@@ -386,9 +495,9 @@ img{display:block;max-width:100%}
 /* ─────────────────────────────────────────
    AVAILABLE START DATES
 ───────────────────────────────────────── */
-.gt-dates-sec{background:#fff;padding:1rem 0 5rem;scroll-margin-top:90px}
-.gt-dates-inner{max-width:1400px;margin:0 auto;padding:0 clamp(1.5rem,4vw,4rem)}
-.gt-dates-h2{font-family:'Apfel Grotesk','Poppins',sans-serif;font-size:clamp(24px,3vw,34px);font-weight:700;color:#111;margin-bottom:1.75rem}
+.gt-dates-sec{background:#fff;padding:2.5rem 0 4rem;scroll-margin-top:90px}
+.gt-dates-inner{max-width:1080px;margin:0 auto;padding:0 clamp(1.5rem,4vw,3rem)}
+.gt-dates-h2{font-family:'Poppins',sans-serif;font-size:42px;font-weight:600;color:#3A3B3B;letter-spacing:-1px;line-height:1.15;margin-bottom:1.75rem}
 
 .date-card{border:2px solid #d1d5db;border-radius:14px;overflow:hidden;margin-bottom:1.25rem}
 .date-card-main{
@@ -396,64 +505,85 @@ img{display:block;max-width:100%}
   padding:1.35rem 1.75rem;
 }
 .date-card-date{text-align:center;min-width:100px;flex-shrink:0}
-.date-card-date .day{font-family:'Apfel Grotesk','Poppins',sans-serif;font-size:26px;font-weight:800;color:var(--teal-d);line-height:1}
-.date-card-date .month{font-family:'Apfel Grotesk','Poppins',sans-serif;font-size:18px;font-weight:800;color:var(--teal-d);text-transform:uppercase;letter-spacing:.5px}
-.date-card-date .dur{font-family:'Poppins',sans-serif;font-size:12px;color:var(--teal-d);font-weight:600;margin-top:.25rem}
+.date-card-date .day{font-family:'Outfit','Poppins',sans-serif;font-size:24px;font-weight:600;font-style:normal;letter-spacing:0.2px;color:#027A74;line-height:1}
+.date-card-date .month{font-family:'Outfit','Poppins',sans-serif;font-size:24px;font-weight:600;font-style:normal;letter-spacing:0.2px;color:#027A74;text-transform:uppercase}
+.date-card-date .dur{font-family:'Poppins',sans-serif;font-size:14px;color:#027A74;font-weight:600;line-height:1.5;margin-top:.25rem}
 
 .date-card-days{display:flex;flex-direction:column;gap:.65rem;font-family:'Poppins',sans-serif}
-.date-card-day-row .lbl{font-weight:700;font-size:13.5px;color:var(--dark)}
-.date-card-day-row .val{font-size:13px;color:var(--body)}
+.date-card-day-row .lbl{font-weight:700;font-size:15px;color:#3A3B3B}
+.date-card-day-row .val{font-weight:400;font-size:15px;color:#3A3B3B}
 
-.date-card-spots{font-family:'Poppins',sans-serif;font-size:14px;color:var(--dark);font-weight:600;text-align:center;flex:1;min-width:120px}
+.date-card-spots{font-family:'Poppins',sans-serif;font-size:16px;color:#3A3B3B;font-weight:500;line-height:1.5;text-align:center;flex:1;min-width:120px}
 
 .date-card-right{text-align:right;flex-shrink:0}
-.date-card-call{color:var(--teal-d);text-decoration:underline;font-weight:700;font-size:13px;font-family:'Poppins',sans-serif}
-.date-card-price{font-family:'Apfel Grotesk','Poppins',sans-serif;font-size:22px;font-weight:800;color:var(--dark);margin-top:.35rem}
+.date-card-call{color:#027A74;text-decoration:underline;font-weight:600;font-size:16px;font-family:'Poppins',sans-serif}
+.date-card-price{font-family:'Outfit','Poppins',sans-serif;font-size:30px;font-weight:700;font-style:normal;letter-spacing:0.2px;color:#3A3B3B;margin-top:.35rem}
 
 .date-card-more{
   border-top:1px solid var(--border);text-align:center;padding:.9rem;
-  font-family:'Poppins',sans-serif;font-weight:700;color:var(--teal-d);cursor:pointer;font-size:14px;
+  font-family:'Poppins',sans-serif;font-weight:500;color:#027A74;cursor:pointer;font-size:16px;text-decoration:underline;
+  background:var(--teal-l);
 }
-.date-card-more:hover{background:var(--teal-l)}
 .date-card-more .chev{display:inline-block;transition:transform .25s;margin-left:2px}
 .date-card-more.open .chev{transform:rotate(90deg)}
 
 .date-more{max-height:0;overflow:hidden;transition:max-height .4s ease;border-top:1px solid var(--border)}
 .date-more.open{max-height:600px}
-.date-more-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:2rem;padding:1.5rem 1.75rem}
+.date-more-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:1.5rem;padding:1.25rem 1.5rem}
 .dm-row{display:flex;align-items:flex-start;gap:.75rem;margin-bottom:1rem}
 .dm-ic{font-size:16px;line-height:1.4;flex-shrink:0}
+.dm-ic img{width:20px;height:20px;object-fit:contain;display:block}
 .dm-lbl{font-family:'Poppins',sans-serif;font-size:13px;font-weight:700;color:var(--dark)}
 .dm-val{font-family:'Poppins',sans-serif;font-size:13px;color:var(--body)}
-.dm-flight{margin:1.1rem 0}
+.dm-flight{margin:1.75rem 0 1.1rem}
 .dm-flight-h{display:flex;align-items:center;gap:.5rem;font-family:'Poppins',sans-serif;font-weight:700;font-size:13.5px;color:var(--dark);margin-bottom:.4rem}
 .dm-flight p{font-family:'Poppins',sans-serif;font-size:13px;color:var(--body);line-height:1.7}
 .dm-confidence{color:var(--teal-d);text-decoration:underline;font-weight:700;font-size:13px;font-family:'Poppins',sans-serif}
 
 .dm-right{background:var(--teal-l);border-radius:12px;padding:1.25rem 1.5rem}
-.dm-right-h{font-family:'Apfel Grotesk','Poppins',sans-serif;font-size:16px;font-weight:700;color:var(--dark);margin-bottom:.35rem}
+.dm-right-h{font-family:'Apfel Grotesk','Poppins',sans-serif;font-size:17px;font-weight:700;color:var(--dark);margin-bottom:.35rem}
 .dm-right-sub{font-family:'Poppins',sans-serif;font-size:12.5px;color:var(--body);margin-bottom:1rem;line-height:1.5}
 .dm-price-head{display:flex;justify-content:space-between;font-family:'Poppins',sans-serif;font-size:12.5px;font-weight:700;color:var(--dark);padding-bottom:.5rem;border-bottom:1px solid rgba(0,0,0,.08);margin-bottom:.5rem}
 .dm-price-row{display:flex;justify-content:space-between;font-family:'Poppins',sans-serif;font-size:13px;color:var(--dark);padding:.35rem 0}
 .dm-price-row span:last-child{font-weight:700}
-.dm-cancel{font-family:'Poppins',sans-serif;font-size:13px;color:var(--dark);font-style:italic;margin:.9rem 0;cursor:pointer}
+.dm-cancel{font-family:'Poppins',sans-serif;font-size:12px;color:var(--dark);font-weight:700;text-decoration:underline;margin:.9rem 0 0;cursor:pointer;display:flex;align-items:center;gap:.3rem}
+.dm-cancel .chev{transition:transform .25s}
+.dm-cancel.open .chev{transform:rotate(180deg)}
+.dm-cancel-body{max-height:0;overflow:hidden;transition:max-height .3s ease;font-family:'Poppins',sans-serif;font-size:12.5px;color:#454A4A;line-height:1.5;white-space:pre-line}
+.dm-cancel-body.open{max-height:300px;margin:.5rem 0 .25rem}
 .dm-btns{display:flex;gap:.75rem;flex-wrap:wrap;margin-top:.5rem}
 .dm-btn{flex:1;min-width:130px;text-align:center;background:#F5A623;color:#fff;padding:11px 18px;border-radius:50px;font-family:'Poppins',sans-serif;font-weight:700;font-size:13.5px;transition:background .2s}
 .dm-btn:hover{background:#e5981a}
+.dm-btn-secondary{background:#b3e0df;color:#0a4a47}
+.dm-btn-secondary:hover{background:#9ed4d2}
 
 @media(max-width:768px){
   .date-more-grid{grid-template-columns:1fr}
 }
 
 @media(max-width:768px){
-  .date-card-main{justify-content:flex-start}
-  .date-card-right{text-align:left;width:100%}
+  .date-card-main{
+    flex-direction:row;flex-wrap:nowrap;align-items:center;justify-content:space-between;
+    gap:.5rem;padding:.85rem .9rem;
+  }
+  .date-card-date{text-align:left;min-width:auto;flex-shrink:0}
+  .date-card-date .day,.date-card-date .month{font-size:14px;line-height:1.05}
+  .date-card-date .dur{font-size:9.5px;margin-top:2px}
+  .date-card-days{gap:.15rem;flex-shrink:0;width:auto}
+  .date-card-day-row .lbl{display:none}
+  .date-card-day-row .val{font-size:10px;white-space:nowrap;line-height:1.4}
+  .date-card-spots{font-size:10px;text-align:left;width:auto;min-width:0;flex:1;line-height:1.3;padding:0 .25rem}
+  .date-card-right{text-align:right;width:auto;flex-shrink:0}
+  .date-card-call{font-size:10px}
+  .date-card-price{font-size:15px;margin-top:3px;white-space:nowrap}
+  .date-card{margin-bottom:.85rem}
+  .date-card-more{padding:.6rem;font-size:13px}
 }
 
 /* ─────────────────────────────────────────
    SOCIAL PROOF — photo mosaic + banner + checklist
 ───────────────────────────────────────── */
-.gt-social-sec{background:#fff;padding:1rem 0 5rem}
+.gt-social-sec{background:#fff;padding:1rem 0 3rem}
 .gt-social-inner{max-width:1400px;margin:0 auto;padding:0 clamp(2rem,8vw,6rem)}
 .gt-social-grid{display:grid;grid-template-columns:1fr 1fr 1.3fr 1.3fr;gap:14px;align-items:start}
 .gt-stack{display:flex;flex-direction:column;gap:14px}
@@ -461,9 +591,9 @@ img{display:block;max-width:100%}
 .gt-right-block{grid-column:3 / 5;display:flex;flex-direction:column;gap:14px}
 .gt-right-photos{display:flex;gap:14px}
 .gt-waterfall-wrap{flex:1.3;border-radius:14px;overflow:hidden}
-.gt-waterfall-wrap img{width:100%;height:430px;object-fit:cover;display:block}
+.gt-waterfall-wrap img{width:100%;height:235px;object-fit:cover;display:block}
 .gt-beach-wrap{flex:1;display:flex;flex-direction:column;gap:.6rem}
-.gt-beach-wrap img{width:100%;height:270px;object-fit:cover;border-radius:14px;display:block}
+.gt-beach-wrap img{width:100%;height:150px;object-fit:cover;border-radius:14px;display:block}
 .gt-beach-cap{font-family:'Poppins',sans-serif;font-size:14px;font-weight:600;color:var(--dark);text-align:center}
 
 .gt-banner{
@@ -490,7 +620,7 @@ img{display:block;max-width:100%}
   .gt-social-grid{grid-template-columns:1fr}
   .gt-right-block{grid-column:1}
   .gt-right-photos{flex-direction:column}
-  .gt-waterfall-wrap img{height:280px}
+  .gt-waterfall-wrap img{height:200px}
   .gt-social-bottom{flex-direction:column}
   .gt-doodle{display:none}
 }
@@ -499,9 +629,23 @@ img{display:block;max-width:100%}
    REVIEWS
 ───────────────────────────────────────── */
 .gt-reviews-sec{padding:1rem 0 5rem;background:#fff}
+.gt-faq-sec{background:#fff;padding:1rem 0 clamp(3rem,6vw,5rem)}
+.gt-faq-inner{max-width:1400px;margin:0 auto;padding:0 clamp(1.5rem,4vw,4rem)}
+.gt-faq-row{display:grid;grid-template-columns:.85fr 1.15fr;gap:clamp(2.5rem,5vw,4rem);align-items:start}
+.gt-faq-txt h2{font-family:'Poppins',sans-serif;font-size:42px;font-weight:600;color:#3A3B3B;letter-spacing:-1px;line-height:1.15;margin-bottom:1rem}
+.gt-faq-txt p{font-family:'Poppins',sans-serif;font-size:15px;color:#454A4A;line-height:1.5;letter-spacing:-0.1px;font-weight:400;max-width:420px}
+.gt-faq-list{display:flex;flex-direction:column;gap:.9rem}
+.gt-faq-item{background:transparent}
+.gt-faq-q{background:#F1F9F9;border-radius:50px;display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:1.1rem 1.75rem;cursor:pointer;font-family:'Outfit','Poppins',sans-serif;font-size:15px;font-weight:600;color:var(--dark)}
+.gt-faq-icon{width:22px;height:22px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:18px;font-weight:400;color:var(--dark)}
+.gt-faq-a{max-height:0;overflow:hidden;transition:max-height .35s ease}
+.gt-faq-a-in{padding:.85rem 1.75rem 0;font-family:'Poppins',sans-serif;font-size:14px;color:var(--body);line-height:1.6;letter-spacing:-0.2px;font-weight:400}
+@media(max-width:768px){
+  .gt-faq-row{grid-template-columns:1fr}
+}
 .gt-reviews-inner{max-width:1400px;margin:0 auto;padding:0 clamp(1.5rem,4vw,4rem)}
 .gt-reviews-hdr{text-align:center;margin-bottom:2.5rem}
-.gt-reviews-hdr h2{font-family:'Apfel Grotesk','Poppins',sans-serif;font-size:clamp(26px,3.2vw,40px);font-weight:700;color:var(--dark);margin-bottom:.75rem}
+.gt-reviews-hdr h2{font-family:'ITApfelGrotezk-Regular','Apfel Grotesk','Poppins',sans-serif;font-size:42px;font-weight:600;color:#3A3B3B;line-height:1.15;letter-spacing:-1px;margin-bottom:.75rem}
 .gt-reviews-hdr p{font-family:'Poppins',sans-serif;font-size:14.5px;color:var(--body);max-width:640px;margin:0 auto;line-height:1.8}
 
 .gt-rev-carousel{position:relative;padding:0 44px}
@@ -561,7 +705,7 @@ img{display:block;max-width:100%}
 ───────────────────────────────────────── */
 .gt-tribe-sec{padding:1rem 0 5.5rem;background:#fff}
 .gt-tribe-inner{max-width:1400px;margin:0 auto;padding:0 clamp(1.5rem,4vw,4rem)}
-.gt-tribe-h2{font-family:'Apfel Grotesk','Poppins',sans-serif;font-size:clamp(26px,3.2vw,40px);font-weight:700;color:#111;text-align:center;margin-bottom:2.5rem}
+.gt-tribe-h2{font-family:'Poppins',sans-serif;font-size:42px;font-weight:600;color:#3A3B3B;letter-spacing:-1px;line-height:1.15;text-align:center;margin-bottom:2.5rem}
 
 .gt-tribe-carousel{position:relative}
 .gt-tribe-track{
@@ -571,35 +715,80 @@ img{display:block;max-width:100%}
 }
 .gt-tribe-track::-webkit-scrollbar{display:none}
 
-.gt-tribe-card{
-  position:relative;background:transparent;border-radius:16px;overflow:hidden;
-  flex:0 0 300px;height:440px;scroll-snap-align:start;
+/* ── Card (matches homepage "Upcoming trips" tc2 card) ── */
+.tc2{
+  position:relative;
+  background:#fff;
+  border-radius:16px;
+  scroll-snap-align:start;
+  overflow:hidden;
   box-shadow:0 0 0 1.5px rgba(15,75,65,.22),0 8px 24px rgba(15,75,65,.14);
-  cursor:pointer;transition:transform .3s ease,box-shadow .3s;
+  cursor:pointer;
+  flex-shrink:0;
+  height:440px;
+  width:300px;
+  display:flex;
+  flex-direction:column;
+  transition:transform .3s ease,box-shadow .3s;
 }
-.gt-tribe-card:hover{transform:translateY(-5px);box-shadow:0 0 0 1px rgba(15,75,65,.22),0 16px 36px rgba(15,75,65,.18)}
-.gt-tribe-img{position:absolute;inset:0;overflow:hidden}
-.gt-tribe-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s ease}
-.gt-tribe-card:hover .gt-tribe-img img{transform:scale(1.05)}
-.gt-tribe-body{
-  position:absolute;left:4px;right:4px;bottom:4px;
-  padding:.6rem .875rem .75rem;
-  display:flex;flex-direction:column;gap:.3rem;
-  background:#fff;border-radius:14px;
-  box-shadow:0 4px 20px rgba(0,0,0,.15);
-  font-family:'Poppins',sans-serif;
+.tc2:hover{transform:translateY(-5px);box-shadow:0 0 0 1px rgba(15,75,65,.22),0 16px 36px rgba(15,75,65,.18)}
+.tc2-img{position:relative;height:230px;flex-shrink:0;overflow:hidden}
+.tc2-gal-arrow{
+  position:absolute;top:50%;transform:translateY(-50%);
+  width:28px;height:28px;border-radius:50%;
+  background:rgba(255,255,255,.9);border:none;
+  display:flex;align-items:center;justify-content:center;
+  color:#111;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.25);
+  opacity:0;transition:opacity .2s;z-index:2;
 }
-.gt-tribe-tags{display:flex;gap:5px;flex-wrap:wrap;align-items:center}
-.gt-tribe-tag{
-  display:inline-flex;align-items:center;gap:4px;
-  padding:5px 13px;border-radius:50px;font-size:12px;font-weight:500;
-  background:rgba(255,255,255,.92);color:#6B7575;border:1px solid rgba(2,169,162,.25);
+.tc2-img:hover .tc2-gal-arrow{opacity:1}
+.tc2-gal-arrow svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2.6}
+.tc2-gal-prev{left:8px}
+.tc2-gal-next{right:8px}
+.tc2-gal-dots{position:absolute;bottom:10px;left:0;right:0;display:flex;justify-content:center;gap:5px;z-index:2}
+.tc2-gal-dot{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.55);transition:all .2s}
+.tc2-gal-dot.active{background:#fff;width:14px;border-radius:3px}
+.tc2-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s ease}
+.tc2:hover .tc2-img img{transform:scale(1.05)}
+.tc2-body{
+  flex:1;
+  display:flex;flex-direction:column;gap:.4rem;
+  padding:.9rem 1.1rem 1rem;
+  background:#fff;
+  min-height:0;
 }
-.gt-tribe-dur{font-size:11px;font-weight:700;color:#027A74;letter-spacing:1.2px;text-transform:uppercase}
-.gt-tribe-title{font-size:19px;font-weight:700;color:#0a0a0a;line-height:1.2;letter-spacing:-.2px;font-family:'Apfel Grotesk','Poppins',sans-serif}
-.gt-tribe-desc{font-size:12.5px;color:var(--body);line-height:1.65;font-weight:400}
-.gt-tribe-price{font-size:17px;font-weight:700;color:#E76F51;margin-top:.15rem}
-.gt-tribe-price span{color:var(--body);font-weight:500;font-size:12.5px;margin-left:4px}
+.tc2-tags{display:flex;gap:5px;flex-wrap:nowrap;align-items:center;overflow:visible;position:relative}
+.tc2-trending-badge{
+  position:absolute;top:10px;left:10px;z-index:2;
+  display:flex;align-items:center;gap:4px;
+  background:linear-gradient(135deg,#FF6B35,#F7931E);
+  color:#fff;font-family:'Poppins',sans-serif;font-size:11px;font-weight:700;
+  padding:5px 12px;border-radius:50px;letter-spacing:.2px;
+  box-shadow:0 2px 8px rgba(0,0,0,.25);
+}
+.tc2-trending-badge svg{width:12px;height:12px;fill:currentColor}
+.tc2-tag{
+  display:inline-flex;align-items:center;gap:3px;
+  padding:5px 11px;border-radius:50px;font-size:var(--tc-tag-size,12px);font-weight:var(--tc-tag-weight,600);
+  font-family:'Proxima Nova','Poppins',sans-serif;
+  background:#e3f3f2;color:#454A4A;border:1px solid rgba(2,169,162,.25);
+  height:26px;box-sizing:border-box;white-space:nowrap;flex-shrink:0;line-height:1;
+}
+.tc2-tag-hot{background:#fef2f2;color:#dc2626;border-color:rgba(220,38,38,.3)}
+.tc2-tag-more{background:#f0f0f0;color:#6b7280;border-color:#e5e7eb;position:relative}
+.tc2-tag-popover{
+  position:absolute;top:calc(100% + 6px);left:0;z-index:5;
+  background:#fff;border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,.18);
+  padding:8px;display:none;flex-wrap:wrap;gap:5px;min-width:160px;
+}
+.tc2-tag-popover.open{display:flex}
+.tc2-name{font-family:'Outfit','Poppins',sans-serif;font-size:var(--tc-name-size,26px);font-weight:var(--tc-name-weight,700);color:#3A3B3B;line-height:1.15;letter-spacing:-.3px;max-height:calc(1.15em * 2);overflow:hidden}
+.tc2-route{font-size:var(--tc-route-size,12px);color:#E8760A;font-weight:var(--tc-route-weight,700)}
+.tc2-foot{display:flex;align-items:flex-end;justify-content:space-between;margin-top:auto;gap:.5rem}
+.tc2-dates{font-family:'Poppins',sans-serif;font-size:var(--tc-dates-size,15px);color:#3A3B3B;font-weight:var(--tc-dates-weight,600);line-height:1.6em}
+.tc2-price-lbl{text-align:end;font-family:'Poppins',sans-serif;font-size:var(--tc-pricelbl-size,15px);color:#454A4A;font-weight:600;line-height:1.6em}
+.tc2-price{text-align:end;font-family:'Outfit','Poppins',sans-serif;font-size:var(--tc-price-size,22px);font-weight:var(--tc-price-weight,600);color:#027A74;line-height:1em;letter-spacing:.2px;white-space:nowrap}
+.tc2-dur{font-family:'Outfit','Poppins',sans-serif;font-size:var(--tc-dur-size,13px);font-weight:var(--tc-dur-weight,600);color:#027A74;letter-spacing:0px;text-transform:uppercase;line-height:1em}
 
 .gt-tribe-arrow{
   position:absolute;top:220px;transform:translateY(-50%);z-index:3;
@@ -613,7 +802,7 @@ img{display:block;max-width:100%}
 .gt-tribe-next{right:-8px}
 
 @media(max-width:640px){
-  .gt-tribe-card{flex:0 0 78vw;height:400px}
+  .gt-tribe-track .tc2{width:78vw;height:400px}
   .gt-tribe-arrow{display:none}
 }
 
@@ -630,13 +819,13 @@ img{display:block;max-width:100%}
 .gt-final-banner-ov{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.05) 0%,rgba(0,0,0,.15) 60%,rgba(0,0,0,.25) 100%)}
 .gt-final-content{position:relative;z-index:2;max-width:640px;padding:0 1.5rem}
 .gt-final-h2{
-  font-family:'Apfel Grotesk','Poppins',sans-serif;font-size:clamp(24px,3.4vw,38px);font-weight:800;color:#fff;
+  font-family:'Poppins',sans-serif;font-size:42px;font-weight:600;font-style:normal;letter-spacing:0.2px;color:#FFFFFF;
   line-height:1.3;margin-bottom:1rem;text-shadow:0 2px 14px rgba(0,0,0,.35);
 }
-.gt-final-p{font-family:'Poppins',sans-serif;font-size:14px;color:#fff;line-height:1.7;margin-bottom:1.5rem;text-shadow:0 2px 10px rgba(0,0,0,.4)}
+.gt-final-p{font-family:'Poppins',sans-serif;font-size:16px;color:#FFF2F2;line-height:1.4;letter-spacing:-0.1px;margin-bottom:1.5rem;text-shadow:0px 0px 10px rgba(0,0,0,.98)}
 .gt-final-btn{
-  display:inline-block;background:#F5A623;color:#fff;
-  padding:14px 34px;border-radius:50px;font-family:'Poppins',sans-serif;font-weight:700;font-size:15px;
+  display:inline-block;background:#FFA43B;color:#FFFFFF;
+  padding:15px 40px;border-radius:50px;border:none;font-family:'Poppins',sans-serif;font-weight:500;font-size:16px;
   transition:background .2s;
 }
 .gt-final-btn:hover{background:#e5981a}
@@ -649,6 +838,7 @@ img{display:block;max-width:100%}
    FOOTER (shared — same as about-us.html)
 ───────────────────────────────────────── */
 .footer-wrap{position:relative;background:#013A38;overflow:hidden}
+.gt-mobile-bar{display:none}
 .footer-wrap-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;z-index:0}
 .footer{
   position:relative;z-index:1;
@@ -657,7 +847,6 @@ img{display:block;max-width:100%}
   -webkit-backdrop-filter:blur(18px) saturate(1.4);
   border-radius:28px 28px 0 0;
   border:1px solid rgba(255,255,255,.08);
-  margin-top:clamp(220px,32vw,380px);
   padding:clamp(2rem,3vw,3rem) clamp(1.25rem,4vw,3rem) 1.5rem;
 }
 .footer-grid{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:1.4fr 1fr 1fr 1.2fr;gap:2.5rem;padding-bottom:2.5rem;border-bottom:1px solid rgba(255,255,255,.1)}
@@ -691,14 +880,91 @@ img{display:block;max-width:100%}
 @media(max-width:560px){
   .footer-grid{grid-template-columns:1fr}
 }
+
+/* ─────────────────────────────────────────
+   MOBILE TYPOGRAPHY — from Group Trip Page Typography Client Review (CR)
+   Desktop styles above are untouched; these only apply at ≤768px.
+   Note: the enquiry form (.gt-form-card) is already hidden below 980px
+   per existing code, matching the CR comment "We don't need form in mobile".
+───────────────────────────────────────── */
+@media(max-width:768px){
+  /* 4. Header (Title, Tags, Meta, Price) */
+  .gt-title{font-size:40px;line-height:1.2em}
+  .gt-tag{font-size:16px}
+  .gt-meta{font-size:14px}
+  .gt-price-lbl{font-size:14px;line-height:22px}
+  .gt-price{font-size:36px;line-height:36px}
+
+  /* 6. Trip Detail — Overview & Tabs */
+  .gt-detail-card{padding-bottom:.65rem}
+  .gt-detail-title{font-size:22px;line-height:1.1em}
+  .gt-detail-p{font-size:14.5px;line-height:1.5em}
+
+  /* 7. Trip Detail — Panels */
+  .gt-panel-heading{font-size:17px}
+  .gt-inc-item{font-size:15px;line-height:30px}
+  .gt-accom-list li{font-size:15px;line-height:30px}
+
+  /* 8. Itinerary */
+  .gt-itin-title{font-size:28px;line-height:1.1em}
+  .gt-itin-sub{font-size:14px;line-height:23px}
+  .gt-day-head{font-size:18px;line-height:23px}
+  .gt-day-h3{font-size:20px;line-height:22px}
+  .gt-day-p{font-size:15px;line-height:24px}
+  .gt-day-tag{font-size:16px;line-height:29px}
+
+  /* 12. Reviews — matched to Home page's mobile reviews values, per CR note */
+  .gt-reviews-hdr h2{font-size:32px;line-height:35px}
+  .gt-reviews-hdr p{font-size:16px;line-height:24px}
+  .gt-rc-name{font-size:15px;line-height:21px}
+  .gt-rc-ago{font-size:13px;line-height:18px}
+  .gt-rc-more{font-size:14px;line-height:20px}
+
+  /* 13. FAQ — matched to About Us page's mobile FAQ values, per CR note */
+  .gt-faq-txt h2{font-size:32px;line-height:35px}
+  .gt-faq-txt p{font-size:15px;line-height:23px}
+  .gt-faq-q{font-size:18px;line-height:23px}
+  .gt-faq-a-in{font-size:15px;line-height:23px}
+
+  /* 14. Choose Your Travel Tribe — cards unchanged (shared, admin-editable component) */
+  .gt-tribe-h2{font-size:32px;line-height:35px}
+
+  /* 15. Final CTA Banner */
+  .gt-final-h2{font-size:28px;line-height:31px}
+  .gt-final-p{font-size:16px;line-height:22px}
+
+  /* 16. Footer — matched to Home page's mobile footer values, per CR note */
+  .ft-col-h{font-size:18px;line-height:22px}
+  .ft-col-links a{font-size:16px;line-height:16px}
+  .ft-contact-lbl{font-size:18px;line-height:18px}
+  .ft-contact-val{font-size:15px;line-height:23px}
+  .ft-copy{font-size:16px;line-height:22px}
+  .ft-legal a{font-size:16px;line-height:16px}
+
+  /* 17. Sticky bottom bar — deposit callout + jump to Available Start Dates */
+  body{padding-bottom:74px}
+  .gt-mobile-bar{
+    display:flex;align-items:center;justify-content:space-between;gap:12px;
+    position:fixed;left:0;right:0;bottom:0;z-index:999;
+    background:#027A74;
+    padding:14px 16px calc(14px + env(safe-area-inset-bottom));
+  }
+  .gt-mb-txt{display:flex;flex-direction:column;gap:2px;font-family:'Poppins',sans-serif;color:#fff;font-size:13px;line-height:1.3}
+  .gt-mb-txt strong{font-weight:700}
+  .gt-mb-btn{
+    flex-shrink:0;background:#FFA43B;color:#3A3B3B;font-family:'Poppins',sans-serif;font-weight:700;font-size:14px;
+    padding:11px 22px;border-radius:50px;text-decoration:none;white-space:nowrap;
+  }
+}
 </style>
+<script src="typography-engine.js"></script>
 </head>
 <body>
 
 <!-- NAVBAR -->
 <nav class="navbar" id="navbar">
   <a href="index.html" class="nav-logo">
-    <img class="nav-logo-img" src="https://etrips.digitalgrowthtechnology.com/wp-content/uploads/2026/01/Eureka-Logo-1-02-scaled-e1769966688826.png" alt="Eureka Trips" onerror="this.style.display='none'">
+    <img class="nav-logo-img" id="navLogoImg" src="https://etrips.digitalgrowthtechnology.com/wp-content/uploads/2026/01/Eureka-Logo-1-02-scaled-e1769966688826.png" alt="Eureka Trips" onerror="this.style.display='none'">
   </a>
     <div class="nav-pill">
     <a href="about-us.html">About Us</a>
@@ -738,16 +1004,29 @@ img{display:block;max-width:100%}
   </div>
 </div>
 
+<!-- BROCHURE DOWNLOAD — LEAD CAPTURE MODAL -->
+<div class="brochure-overlay" id="brochureOverlay" onclick="closeBrochureModal()"></div>
+<div class="brochure-modal" id="brochureModal">
+  <button class="brochure-close" onclick="closeBrochureModal()" aria-label="Close">✕</button>
+  <h3 class="brochure-modal-h"><span class="brochure-modal-icon">📄</span>Get the Brochure</h3>
+  <p class="brochure-modal-sub">Pop in your details and we'll send the full itinerary straight to you.</p>
+  <div class="brochure-fg"><input type="text" id="bro_name" placeholder="Your Name"></div>
+  <div class="brochure-fg"><input type="tel" id="bro_phone" placeholder="Phone Number"></div>
+  <div class="brochure-fg"><input type="email" id="bro_email" placeholder="Email Address"></div>
+  <button class="brochure-submit-btn" id="brochureSubmitBtn" onclick="submitBrochureRequest()">Download Brochure</button>
+  <p class="brochure-modal-note">We'll only use this to share trip info — no spam, promise.</p>
+</div>
+
 <!-- HEADER: TITLE, TAGS, META, PRICE -->
 <section class="gt-header-sec">
   <div class="gt-header-inner">
-    <h1 class="gt-title" id="gtTitleEl">Epic Philippines</h1>
-    <div class="gt-route" id="gtRouteEl">
+    <div class="gt-route" id="gtRouteEl" data-ts="gt_waypoints">
       <span>Seminyak</span><span class="sep">➾</span>
       <span>Nusa Penida</span><span class="sep">➾</span>
       <span>Gili Islands</span><span class="sep">➾</span>
       <span>Ubud</span>
     </div>
+    <h1 class="gt-title" id="gtTitleEl" data-ts="gt_title"></h1>
     <div class="gt-row-a">
       <div class="gt-tags" id="gtTagsEl">
         <span class="gt-tag"><span class="ic">🎒</span>Solo</span>
@@ -758,18 +1037,18 @@ img{display:block;max-width:100%}
       </div>
       <div class="gt-price-mini">
         <div class="gt-price-lbl">From</div>
-        <div class="gt-price" id="gtPriceEl">₹2,45,000<span class="cur">INR</span></div>
+        <div class="gt-price" id="gtPriceEl" data-ts="gt_price">₹2,45,000<span class="cur">INR</span></div>
       </div>
     </div>
     <div class="gt-row-b">
       <div class="gt-meta">
-        <div class="gt-meta-item">📅 <span id="gtDurationEl">18 days</span></div>
-        <div class="gt-meta-item">📍 <span id="gtLocationEl">Bangkok - Chiang Mai</span></div>
-        <div class="gt-meta-item">🧑‍🤝‍🧑 <span id="gtAgeEl">Ages 18 to 40s</span></div>
+        <div class="gt-meta-item">📅 <span id="gtDurationEl" data-ts="gt_duration"></span></div>
+        <div class="gt-meta-item">📍 <span id="gtLocationEl" data-ts="gt_meta_location"></span></div>
+        <div class="gt-meta-item">🧑‍🤝‍🧑 <span id="gtAgeEl" data-ts="gt_age"></span></div>
       </div>
       <div class="gt-price-btns">
-        <a href="#dates" class="gt-btn-solid" id="gtBtn1El">Check available start dates</a>
-        <a href="#" class="gt-btn-outline" id="gtBtn2El">Download Brochure</a>
+        <a href="#dates" class="gt-btn-solid" id="gtBtn1El" data-ts="gt_btn1"></a>
+        <a href="#" class="gt-btn-outline" id="gtBtn2El" data-ts="gt_btn2" onclick="return openBrochureModal(event)"></a>
       </div>
     </div>
   </div>
@@ -780,18 +1059,18 @@ img{display:block;max-width:100%}
   <div class="gt-gallery-inner">
     <div class="gt-gallery" id="gtGallery">
       <div class="gt-video-tile" onclick="gtOpenLightbox(0)">
-        <video id="gtVideoEl" autoplay muted loop playsinline poster="https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?w=700&q=80&auto=format&fm=webp&fit=crop">
+        <video id="gtVideoEl" autoplay muted loop playsinline poster="">
           <source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4" type="video/mp4">
         </video>
         <div class="gt-video-ov"></div>
         <div class="gt-reel-badge"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>Reel</div>
-        <div class="gt-video-caption" id="gtVideoCapEl">pov: you open my camera roll after going to Thailand with Eureka Trips</div>
+        <div class="gt-video-caption" id="gtVideoCapEl" data-ts="gt_video_caption"></div>
       </div>
-      <div class="gt-photo gt-p1" onclick="gtOpenLightbox(1)"><img id="gtPhoto1" src="https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?w=600&q=80&auto=format&fm=webp&fit=crop" alt="Trip photo"></div>
-      <div class="gt-photo gt-p2" onclick="gtOpenLightbox(2)"><img id="gtPhoto2" src="https://images.unsplash.com/photo-1528181304800-259b08848526?w=600&q=80&auto=format&fm=webp&fit=crop" alt="Trip photo"></div>
-      <div class="gt-photo gt-p3" onclick="gtOpenLightbox(3)"><img id="gtPhoto3" src="https://images.unsplash.com/photo-1555597673-b21d5c935865?w=500&q=80&auto=format&fm=webp&fit=crop" alt="Trip photo"></div>
-      <div class="gt-photo gt-p4" onclick="gtOpenLightbox(4)"><img id="gtPhoto4" src="https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?w=500&q=80&auto=format&fm=webp&fit=crop" alt="Trip photo"></div>
-      <div class="gt-photo gt-p5" onclick="gtOpenLightbox(5)"><img id="gtPhoto5" src="https://images.unsplash.com/photo-1552550049-db097c9480d1?w=500&q=80&auto=format&fm=webp&fit=crop" alt="Trip photo"></div>
+      <div class="gt-photo gt-p1" onclick="gtOpenLightbox(1)"><img id="gtPhoto1" src="" alt="Trip photo" loading="lazy" decoding="async"></div>
+      <div class="gt-photo gt-p2" onclick="gtOpenLightbox(2)"><img id="gtPhoto2" src="" alt="Trip photo" loading="lazy" decoding="async"></div>
+      <div class="gt-photo gt-p3" onclick="gtOpenLightbox(3)"><img id="gtPhoto3" src="" alt="Trip photo" loading="lazy" decoding="async"></div>
+      <div class="gt-photo gt-p4" onclick="gtOpenLightbox(4)"><img id="gtPhoto4" src="" alt="Trip photo" loading="lazy" decoding="async"></div>
+      <div class="gt-photo gt-p5" onclick="gtOpenLightbox(5)"><img id="gtPhoto5" src="" alt="Trip photo" loading="lazy" decoding="async"></div>
     </div>
   </div>
 </section>
@@ -811,51 +1090,45 @@ img{display:block;max-width:100%}
   <!-- LEFT: MAIN CONTENT -->
   <div class="gt-main">
     <div class="gt-detail-card">
-      <h2 class="gt-detail-title" id="gtDetailTitleEl">Mezcal in Mexico City, Chichén Itzá at sunrise and a week on the Caribbean coast. 14 days through Mexico.</h2>
-      <p class="gt-detail-p" id="gtDetailP1El">Blissful white-sand beaches, palm-lined shores, and crystal-blue waters, the Philippines' absolute paradise. Picture yourself canyoning through jungle swimming holes, tackling natural rock slides and cliff jumps, snorkeling the rare sardine run, and chasing unforgettable sunset hikes.</p>
-      <p class="gt-detail-p" style="margin-bottom:0" id="gtDetailP2El">In Palawan, arguably the best spot in the Philippines (some say the world!) Hop into a colourful Filipino jeepney, chase hidden waterfalls, explore magical underground rivers, and sail off on dreamy island-hopping trips. Fresh coconuts, El Nido sunsets, and nonstop good vibes, this is the tropical adventure you'll never forget. Let's GO!</p>
+      <h2 class="gt-detail-title" id="gtDetailTitleEl" data-ts="gt_detail_title"></h2>
+      <p class="gt-detail-p" id="gtDetailP1El" data-ts="gt_detail_p"></p>
+      <p class="gt-detail-p" style="margin-bottom:0" id="gtDetailP2El" data-ts="gt_detail_p"></p>
     </div>
 
-    <div class="gt-tabs-wrap">
+    <div class="gt-tabs-wrap" id="gtTabsWrap">
       <div class="gt-tabs" id="gtTabs">
         <button class="gt-tab active" data-panel="highlights" onclick="gtSelectTab(this)">Highlights</button>
         <button class="gt-tab" data-panel="inclusions" onclick="gtSelectTab(this)">Inclusions</button>
         <button class="gt-tab" data-panel="accommodation" onclick="gtSelectTab(this)">Accommodation</button>
         <button class="gt-tab" data-panel="exclusions" onclick="gtSelectTab(this)">Exclusions</button>
         <button class="gt-tab" data-panel="map" onclick="gtSelectTab(this)">Map</button>
+        <button class="gt-tab active" data-panel="itinerary" onclick="gtSelectTab(this)">Itinerary</button>
       </div>
+      <button class="gt-tabs-scroll-arrow" id="gtTabsScrollArrow" onclick="gtScrollTabs()" aria-label="See more tabs"><svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></button>
+    </div>
 
+
+    <div class="gt-panels-wrap">
       <!-- HIGHLIGHTS PANEL -->
-      <div class="gt-panel" data-panel="highlights">
+      <div class="gt-panel active" id="gt-panel-highlights" data-panel="highlights">
         <div class="gt-slider" id="gtSlider">
           <div class="gt-slider-track" id="gtSliderTrack">
-            <img src="https://images.unsplash.com/photo-1502920917128-1aa500764cbd?w=440&q=80&auto=format&fm=webp&fit=crop" alt="Trip photo 1">
-            <img src="https://images.unsplash.com/photo-1503220317375-aaad61436b1b?w=440&q=80&auto=format&fm=webp&fit=crop" alt="Trip photo 2">
-            <img src="https://images.unsplash.com/photo-1467269204594-9661b134dd2b?w=440&q=80&auto=format&fm=webp&fit=crop" alt="Trip photo 3">
-            <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=440&q=80&auto=format&fm=webp&fit=crop" alt="Trip photo 4">
-            <img src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=440&q=80&auto=format&fm=webp&fit=crop" alt="Trip photo 5">
           </div>
         </div>
       </div>
 
-      <!-- ITINERARY PANEL -->
       <!-- INCLUSIONS PANEL -->
-      <div class="gt-panel" data-panel="inclusions" style="display:none">
-        <div class="gt-inc-grid">
-          <div class="gt-inc-item"><span class="gt-inc-ic"><svg viewBox="0 0 24 24"><path d="M3 18v-6a3 3 0 013-3h12a3 3 0 013 3v6"/><path d="M3 18h18"/><path d="M5 9V6a2 2 0 012-2h3"/><circle cx="8" cy="12" r="1.4"/></svg></span><span id="gtIncAccomEl">Accommodation 3 &amp; 4 Star Hotels</span></div>
-          <div class="gt-inc-item"><span class="gt-inc-ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="4.5" r="1.6"/><path d="M6 20l3-6 2-2.5L14 14l4 6"/><path d="M9 12l2-4 3 1.5 3-1"/></svg></span><span id="gtIncActivitiesEl">Activities 10 Days of EPIC Activities</span></div>
-          <div class="gt-inc-item"><span class="gt-inc-ic"><svg viewBox="0 0 24 24"><path d="M4 3v9a4 4 0 004 4V3"/><path d="M8 3v13"/><path d="M12 3v9a4 4 0 004 4"/><path d="M16 3v20"/></svg></span><span id="gtIncMealsEl">11 Meals 9 Breakfasts, 2 Lunch &amp; 1 Dinner</span></div>
-          <div class="gt-inc-item"><span class="gt-inc-ic"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="2.2"/><circle cx="17" cy="9" r="1.8"/><path d="M4 19c0-3 2.5-5 5-5s5 2 5 5"/><path d="M14 15c2.5 0 5 1.7 5 4.5"/></svg></span><span id="gtIncGroupsizeEl">Group Size 12-16 People avg.</span></div>
-          <div class="gt-inc-item"><span class="gt-inc-ic"><svg viewBox="0 0 24 24"><rect x="3" y="10" width="14" height="7" rx="2"/><path d="M17 12h3l1 3v2h-4"/><circle cx="7.5" cy="19" r="1.5"/><circle cx="16.5" cy="19" r="1.5"/></svg></span><span id="gtIncTransportEl">Transport Coach, Ferry &amp; Flight</span></div>
-          <div class="gt-inc-item"><span class="gt-inc-ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="6" r="2.5"/><path d="M12 9v7"/><path d="M8 12l4-1 4 1"/><path d="M9 20l3-4 3 4"/></svg></span><span id="gtIncTeamEl">Team Awesome Trip Manager</span></div>
-        </div>
+      <div class="gt-panel" id="gt-panel-inclusions" data-panel="inclusions">
+        <h3 class="gt-panel-heading" id="gtPanelInclusions" data-ts="gt_panel_label_inclusions">Inclusions</h3>
+        <div class="gt-inc-grid" id="gtIncGrid"></div>
       </div>
 
       <!-- ACCOMMODATION PANEL -->
-      <div class="gt-panel" data-panel="accommodation" style="display:none">
+      <div class="gt-panel" id="gt-panel-accommodation" data-panel="accommodation">
+        <h3 class="gt-panel-heading" id="gtPanelAccommodation" data-ts="gt_panel_label_accommodation">Accommodation</h3>
         <div class="gt-accom-grid">
           <div class="gt-accom-text">
-            <p class="gt-detail-p" id="gtAccomTextEl">We've got 3 &amp; 4 star premium hotels where solo travellers will share a room with a same-gender buddy.</p>
+            <p class="gt-detail-p" id="gtAccomTextEl" data-ts="gt_accom_text"></p>
             <ul class="gt-accom-list" id="gtAccomListEl">
               <li>Tropicana Suites, Manila</li>
               <li>Kasai Village, Moalboal</li>
@@ -864,110 +1137,61 @@ img{display:block;max-width:100%}
             </ul>
           </div>
           <div class="gt-accom-img" onclick="gtOpenImageLightbox(this.querySelector('img').dataset.full,this.querySelector('img').alt)">
-            <img id="gtAccomImgEl" src="https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?w=700&q=80&auto=format&fm=webp&fit=crop" data-full="https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?w=1600&q=85&auto=format&fm=webp&fit=crop" alt="Accommodation photo">
+            <img id="gtAccomImgEl" src="" data-full="" alt="Accommodation photo" loading="lazy" decoding="async">
           </div>
         </div>
       </div>
 
       <!-- EXCLUSIONS PANEL -->
-      <div class="gt-panel" data-panel="exclusions" style="display:none">
-        <ul class="gt-accom-list" id="gtExclusionsListEl">
-          <li>International flights</li>
-          <li>Travel insurance</li>
-          <li>Personal expenses &amp; optional activities</li>
-          <li>Visa fees (if applicable)</li>
-        </ul>
+      <div class="gt-panel" id="gt-panel-exclusions" data-panel="exclusions">
+        <h3 class="gt-panel-heading" id="gtPanelExclusions" data-ts="gt_panel_label_exclusions">Exclusions</h3>
+        <div class="gt-inc-grid" id="gtExclusionsListEl"></div>
       </div>
 
       <!-- MAP PANEL -->
-      <div class="gt-panel" data-panel="map" style="display:none">
-        <p class="gt-detail-p" id="gtMapNoteEl">Interactive route map coming soon — Seminyak → Nusa Penida → Gili Islands → Ubud.</p>
-      </div>
-    </div>
-
-    <!-- ITINERARY -->
-    <div class="gt-itin-sec">
-      <h2 class="gt-itin-title" id="gtItinTitleEl">Itinerary</h2>
-      <p class="gt-itin-sub" id="gtItinSubEl">Visit iconic waterfalls, explore pristine beaches, snorkel in emerald green waters &amp; more! Let us introduce you to real travel.</p>
-
-      <div id="gtDaysContainer">
-      <div class="gt-day open" id="day1">
-        <div class="gt-day-head" onclick="toggleDay('day1')">
-          <span>DAY 1</span><span class="chev">▾</span>
+      <div class="gt-panel" id="gt-panel-map" data-panel="map">
+        <h3 class="gt-panel-heading" id="gtPanelMap" data-ts="gt_panel_label_map">Map</h3>
+        <div class="gt-map-card">
+          <div class="gt-map-hdr">Where We Go</div>
+          <img id="gtMapImageEl" src="https://images.unsplash.com/photo-1518509562904-e7ef99cdcc86?w=1100&q=80&auto=format&fm=webp&fit=crop" alt="Trip route map" loading="lazy" decoding="async">
         </div>
-        <div class="gt-day-body">
-          <div class="gt-day-inner">
-            <div>
-              <h3 class="gt-day-h3">Arrive in Manila</h3>
-              <p class="gt-day-p">Touchdown at Manila Airport and without wasting a second – head straight to your hotel in the heart of the traveller's district. Meet up with your travel crew and get excited for the adventure to come.</p>
-              <div class="gt-day-tags">
-                <div class="gt-day-tag">🍽️ Meals: Filipino Welcome Dinner</div>
-                <div class="gt-day-tag">🎉 Included Today: Meetup &amp; Manila Nightlife</div>
-              </div>
-            </div>
-            <div class="gt-day-img">
-              <img src="https://images.unsplash.com/photo-1527631746610-bca00a040d60?w=700&q=80&auto=format&fm=webp&fit=crop" alt="Friends meeting up in Manila">
-            </div>
+        <p class="gt-detail-p" id="gtMapNoteEl" data-ts="gt_map_note"></p>
+      </div>
+
+      <!-- ITINERARY PANEL -->
+      <div class="gt-panel active" id="gt-panel-itinerary" data-panel="itinerary">
+        <div class="gt-itin-sec">
+          <h2 class="gt-itin-title" id="gtItinTitleEl" data-ts="gt_itin_title"></h2>
+          <p class="gt-itin-sub" id="gtItinSubEl" data-ts="gt_itin_sub"></p>
+
+          <div id="gtDaysContainer">
           </div>
         </div>
-      </div>
-
-      <div class="gt-day" id="day2">
-        <div class="gt-day-head" onclick="toggleDay('day2')">
-          <span>DAY 2</span><span class="chev">▾</span>
-        </div>
-        <div class="gt-day-body">
-          <div class="gt-day-inner">
-            <div>
-              <h3 class="gt-day-h3">Canyoneering in Moalboal</h3>
-              <p class="gt-day-p">Head to Moalboal for a full day of canyoneering — natural rock slides, cliff jumps, and swims through jungle pools, followed by a snorkel alongside the famous sardine run.</p>
-              <div class="gt-day-tags">
-                <div class="gt-day-tag">🍽️ Meals: Breakfast &amp; Lunch</div>
-                <div class="gt-day-tag">🎒 Included Today: Canyoneering &amp; Sardine Run Snorkel</div>
-              </div>
-            </div>
-            <div class="gt-day-img">
-              <img src="https://images.unsplash.com/photo-1502920917128-1aa500764cbd?w=700&q=80&auto=format&fm=webp&fit=crop" alt="Canyoneering in Moalboal">
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="gt-day" id="day3">
-        <div class="gt-day-head" onclick="toggleDay('day3')">
-          <span>DAY 3</span><span class="chev">▾</span>
-        </div>
-        <div class="gt-day-body">
-          <div class="gt-day-inner">
-            <div>
-              <h3 class="gt-day-h3">Island Hopping in El Nido</h3>
-              <p class="gt-day-p">Fly into Palawan and hop aboard a traditional boat for a full day of island-hopping — hidden lagoons, secret beaches, and underground rivers await.</p>
-              <div class="gt-day-tags">
-                <div class="gt-day-tag">🍽️ Meals: Breakfast, Lunch &amp; Dinner</div>
-                <div class="gt-day-tag">⛵ Included Today: Island-Hopping Boat Tour</div>
-              </div>
-            </div>
-            <div class="gt-day-img">
-              <img src="https://images.unsplash.com/photo-1518509562904-e7ef99cdcc86?w=700&q=80&auto=format&fm=webp&fit=crop" alt="Island hopping in El Nido">
-            </div>
-          </div>
-        </div>
-      </div>
       </div>
     </div>
   </div>
 
   <!-- RIGHT: STICKY SIDEBAR -->
   <aside class="gt-sidebar">
-    <div class="gt-confidence-box">
-      <h3>Book with confidence</h3>
+    <div class="gt-confidence-box" id="gtConfidenceBox">
+      <h3 id="gtConfidenceH" data-ts="gt_confidence_heading">Book with confidence</h3>
       <p>With Eureka Trips, your booking, money, and experience are safe, stress-free, and enjoyable.</p>
       <a href="#">Learn more →</a>
     </div>
 
+    <div class="gt-itin-download-box" id="gtItinDownloadBox">
+      <h3 id="gtItinH" data-ts="gt_itin_heading">Download Full Itinerary</h3>
+      <p id="gtItinSub" data-ts="gt_itin_subtext">Get the PDF instantly on your WhatsApp</p>
+      <div class="gt-itin-phone-row">
+        <span class="gt-itin-flag">🇮🇳 +91</span>
+        <input type="tel" id="gtItinPhone" placeholder="Enter your Whatsapp number" maxlength="10" inputmode="numeric">
+      </div>
+      <button type="button" class="gt-itin-download-btn" onclick="downloadItineraryWA()">Download</button>
+    </div>
+
     <div class="gt-form-card">
       <div class="gt-form-card-head">
-        <img src="https://images.unsplash.com/photo-1527631746610-bca00a040d60?w=120&q=80&auto=format&fm=webp&fit=crop" alt="Travellers">
+        <img src="https://images.unsplash.com/photo-1527631746610-bca00a040d60?w=120&q=80&auto=format&fm=webp&fit=crop" alt="Travellers" loading="lazy" decoding="async">
         <span>You're just one step away from your adventure.</span>
       </div>
       <form onsubmit="event.preventDefault();alert('Thanks! We will get back to you shortly.')">
@@ -994,53 +1218,8 @@ img{display:block;max-width:100%}
 <!-- AVAILABLE START DATES -->
 <section class="gt-dates-sec" id="dates">
   <div class="gt-dates-inner">
-    <h2 class="gt-dates-h2">Available Start Dates</h2>
+    <h2 class="gt-dates-h2" id="gtDatesH" data-ts="gt_dates_heading">Available Start Dates</h2>
     <div id="gtDatesContainer">
-    <div class="date-card">
-      <div class="date-card-main">
-        <div class="date-card-date">
-          <div class="day">28</div>
-          <div class="month">June</div>
-          <div class="dur">10 Days</div>
-        </div>
-        <div class="date-card-days">
-          <div class="date-card-day-row"><span class="lbl">Saturday</span><br><span class="val">28 May 2026</span></div>
-          <div class="date-card-day-row"><span class="lbl">Sunday</span><br><span class="val">06 June 2026</span></div>
-        </div>
-        <div class="date-card-spots">Last 5 Spots</div>
-        <div class="date-card-right">
-          <a href="tel:+919792496457" class="date-card-call">call us</a>
-          <div class="date-card-price">INR 56,000</div>
-        </div>
-      </div>
-      <div class="date-card-more" id="moreBtn1" onclick="toggleDateMore(1,this)">More Info <span class="chev">›</span></div>
-      <div class="date-more" id="moreInfo1">
-        <div class="date-more-grid">
-          <div>
-            <div class="dm-row"><span class="dm-ic">📍</span><div><div class="dm-lbl">Trip Start</div><div class="dm-val">Seminyak, 12:00 (Local Time)</div></div></div>
-            <div class="dm-row"><span class="dm-ic">🏁</span><div><div class="dm-lbl">Trip End</div><div class="dm-val">Ubud, 12:00 (Local Time)</div></div></div>
-            <div class="dm-flight">
-              <div class="dm-flight-h"><span class="dm-ic">✈️</span> Flight Info</div>
-              <p>You will be flying in and out of Ngurah Rai International Airport (DPS) also known as Denpasar Airport. Flights landing in the morning/noon of Day 1 and leaving anytime on Day 10 will be suitable for this trip.</p>
-            </div>
-            <a href="contact-us.html" class="dm-confidence">Book with confidence</a>
-          </div>
-          <div class="dm-right">
-            <div class="dm-right-h">Book now by paying just 15k</div>
-            <p class="dm-right-sub">And the balance amount can be paid until 30 days before departure</p>
-            <div class="dm-price-head"><span>Book Before</span><span>Price (pp)</span></div>
-            <div class="dm-price-row"><span>1st May, 2026</span><span>₹54,000</span></div>
-            <div class="dm-price-row"><span>20th May, 2026</span><span>₹55,000</span></div>
-            <div class="dm-price-row"><span>Until spots are available</span><span>₹56,000</span></div>
-            <div class="dm-cancel"><em>Cancellation Policy</em> <span class="chev">▾</span></div>
-            <div class="dm-btns">
-              <a href="#" class="dm-btn" onclick="openWA('Hi EUREKA Trips! I want to book the 28 June departure.')">🎫 Book Now</a>
-              <a href="contact-us.html" class="dm-btn">Contact Us</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
     </div>
   </div>
 </section>
@@ -1050,46 +1229,38 @@ img{display:block;max-width:100%}
   <div class="gt-social-inner">
     <div class="gt-social-grid">
       <div class="gt-stack">
-        <img id="gtSocP1" style="height:180px" src="https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=400&q=80&auto=format&fm=webp&fit=crop" alt="">
-        <img id="gtSocP2" style="height:330px" src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=400&q=80&auto=format&fm=webp&fit=crop" alt="">
-        <img id="gtSocP3" style="height:180px" src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=400&q=80&auto=format&fm=webp&fit=crop" alt="">
+        <img id="gtSocP1" style="height:141px" src="" alt="" loading="lazy" decoding="async">
+        <img id="gtSocP2" style="height:246px" src="" alt="" loading="lazy" decoding="async">
+        <img id="gtSocP3" style="height:141px" src="" alt="" loading="lazy" decoding="async">
       </div>
       <div class="gt-stack">
-        <img id="gtSocP4" style="height:260px" src="https://images.unsplash.com/photo-1527631746610-bca00a040d60?w=400&q=80&auto=format&fm=webp&fit=crop" alt="">
-        <img id="gtSocP5" style="height:290px" src="https://images.unsplash.com/photo-1502920917128-1aa500764cbd?w=400&q=80&auto=format&fm=webp&fit=crop" alt="">
+        <img id="gtSocP4" style="height:259px" src="" alt="" loading="lazy" decoding="async">
+        <img id="gtSocP5" style="height:284px" src="" alt="" loading="lazy" decoding="async">
       </div>
       <div class="gt-right-block">
         <div class="gt-right-photos">
           <div class="gt-waterfall-wrap">
-            <img id="gtSocWaterfall" src="https://images.unsplash.com/photo-1544644181-1484b3fdfc62?w=700&q=80&auto=format&fm=webp&fit=crop" alt="">
+            <img id="gtSocWaterfall" src="" alt="" loading="lazy" decoding="async">
           </div>
           <div class="gt-beach-wrap">
-            <img id="gtSocBeach" src="https://images.unsplash.com/photo-1518509562904-e7ef99cdcc86?w=500&q=80&auto=format&fm=webp&fit=crop" alt="">
-            <div class="gt-beach-cap" id="gtSocBeachCap">#eurekamoment</div>
+            <img id="gtSocBeach" src="" alt="" loading="lazy" decoding="async">
+            <div class="gt-beach-cap" id="gtSocBeachCap" data-ts="gt_beach_caption"></div>
           </div>
         </div>
         <div class="gt-banner">
-          <div class="gt-banner-l1" id="gtSocBannerL1">Social group trip for 21-39 years old</div>
-          <div class="gt-banner-l2" id="gtSocBannerL2">For cool adults, only!</div>
+          <div class="gt-banner-l1" id="gtSocBannerL1" data-ts="gt_banner_l1"></div>
+          <div class="gt-banner-l2" id="gtSocBannerL2" data-ts="gt_banner_l2"></div>
         </div>
         <div class="gt-social-bottom">
           <div class="gt-social-heading">
-            <h3 id="gtSocHeading">2000+ Solo Travellers</h3>
-            <div class="sub" id="gtSocSubheading">Since 2023</div>
+            <h3 id="gtSocHeading" data-ts="gt_social_heading"></h3>
+            <div class="sub" id="gtSocSubheading" data-ts="gt_social_heading"></div>
             <div class="gt-checklist" id="gtSocChecklist">
               <div class="gt-check-item"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/></svg>Like-minded travelleres</div>
               <div class="gt-check-item"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/></svg>Unique experiences</div>
               <div class="gt-check-item"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/></svg>Ultimate accommodations</div>
               <div class="gt-check-item"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/></svg>Smart trip captains</div>
             </div>
-          </div>
-          <div class="gt-doodle">
-            <svg viewBox="0 0 100 100">
-              <path d="M35 70l10-25 8 5 4-3"/>
-              <path d="M57 47l8-4 4 3"/>
-              <path d="M45 30v-8M52 32l4-7M39 32l-4-7"/>
-              <path d="M60 60c3-3 8-3 11 0"/>
-            </svg>
           </div>
         </div>
       </div>
@@ -1101,8 +1272,8 @@ img{display:block;max-width:100%}
 <section class="gt-reviews-sec" id="reviews">
   <div class="gt-reviews-inner">
     <div class="gt-reviews-hdr">
-      <h2>What Our Travellers Say</h2>
-      <p>With tens of thousands of 5 star reviews and over 20 years of experience, we know how to show you the best adventure ever!</p>
+      <h2 id="gtReviewsH" data-ts="gt_reviews_heading">What Our Travellers Say</h2>
+      <p id="gtReviewsSub" data-ts="gt_reviews_subtitle">With tens of thousands of 5 star reviews and over 20 years of experience, we know how to show you the best adventure ever!</p>
     </div>
 
     <div class="gt-rev-carousel">
@@ -1117,10 +1288,23 @@ img{display:block;max-width:100%}
   </div>
 </section>
 
+<!-- FAQ -->
+<section class="gt-faq-sec" id="faqs">
+  <div class="gt-faq-inner">
+    <div class="gt-faq-row">
+      <div class="gt-faq-txt">
+        <h2 id="gtFaqH" data-ts="gt_faq_heading">Frequently asked questions</h2>
+        <p id="gtFaqIntro" data-ts="gt_faq_intro">Got questions about this trip? We've gathered the essential details right here to help you plan your adventure.</p>
+      </div>
+      <div class="gt-faq-list" id="gtFaqListEl"></div>
+    </div>
+  </div>
+</section>
+
 <!-- CHOOSE YOUR TRAVEL TRIBE -->
 <section class="gt-tribe-sec">
   <div class="gt-tribe-inner">
-    <h2 class="gt-tribe-h2">Choose Your Travel Tribe</h2>
+    <h2 class="gt-tribe-h2" id="gtTribeH" data-ts="gt_tribe_heading">Choose Your Travel Tribe</h2>
     <div class="gt-tribe-carousel">
       <button class="gt-tribe-arrow gt-tribe-prev" onclick="gtTribeNav(-1)" aria-label="Previous"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
       <div class="gt-tribe-track" id="gtTribeTrack"><!-- cards injected by JS --></div>
@@ -1133,26 +1317,28 @@ img{display:block;max-width:100%}
 <section class="gt-final-cta-sec">
   <div class="gt-final-cta-inner">
     <div class="gt-final-banner">
-      <img src="https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=1600&q=80&auto=format&fm=webp&fit=crop" alt="Illustrated world landmarks collage">
+      <img src="https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=1600&q=80&auto=format&fm=webp&fit=crop" alt="Illustrated world landmarks collage" loading="lazy" decoding="async">
       <div class="gt-final-banner-ov"></div>
       <div class="gt-final-content">
-        <h2 class="gt-final-h2">Plan Your Perfect Trip with Eureka Trips</h2>
-        <p class="gt-final-p">Got questions about this trip? We've gathered the essential details right here to help you plan your adventure.</p>
-        <a href="#dates" class="gt-final-btn">Book Trip</a>
+        <h2 class="gt-final-h2" id="gtFinalH" data-ts="gt_final_heading">Plan Your Perfect Trip with Eureka Trips</h2>
+        <p class="gt-final-p" id="gtFinalP" data-ts="gt_final_text">Got questions about this trip? We've gathered the essential details right here to help you plan your adventure.</p>
+        <a href="#dates" class="gt-final-btn" id="gtFinalBtn" data-ts="gt_final_btn_text">Book Trip</a>
       </div>
     </div>
   </div>
 </section>
 
 <!-- FOOTER -->
+<!-- FOOTER WRAP — full-bleed photo + mission quote + footer -->
 <div class="footer-wrap">
-  <img class="footer-wrap-bg" src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1920&q=80&auto=format&fm=webp&fit=crop" alt="Misty green mountain range over a bay" loading="lazy">
 
+
+  <!-- FOOTER -->
   <footer class="footer">
     <div class="footer-grid">
       <div>
         <img class="ft-logo-img" src="https://etrips.digitalgrowthtechnology.com/wp-content/uploads/2026/01/Eureka-Logo-1-02-scaled-e1769966688826.png" alt="Eureka Trips" onerror="this.style.display='none'">
-        <p class="ft-mission" style="margin-top:1rem">Our mission is to inspire travel experiences that open your mind, ignite your curiosity, and broaden your horizons so you can discover your own &ldquo;Eureka moment&rdquo;</p>
+        <p class="ft-mission" id="ftMission" data-ts="ft_mission">Our mission is to inspire travel experiences that open your mind, ignite your curiosity, and broaden your horizons so you can discover your own &ldquo;Eureka moment&rdquo;</p>
         <div class="ft-social">
           <a href="https://www.instagram.com/eureka.trips" target="_blank" class="fsb" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
           <a href="https://www.google.com/search?q=Eureka+Trips" target="_blank" class="fsb" aria-label="Google"><svg viewBox="0 0 48 48"><path fill="currentColor" d="M43.6 20.1H42V20H24v8h11.3C33.6 32.8 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.1 8 2.9l5.7-5.7C34.1 6.8 29.3 5 24 5 13.5 5 5 13.5 5 24s8.5 19 19 19 19-8.5 19-19c0-1.3-.1-2.5-.4-3.9z"/></svg></a>
@@ -1160,60 +1346,55 @@ img{display:block;max-width:100%}
       </div>
 
       <div>
-                <div class="ft-col-h">Company</div>
+                <div class="ft-col-h ft-col-h-toggle" onclick="toggleFooterCol(this)"><span id="ftCol1H" data-ts="ft_col1_heading">Company</span><svg class="ft-col-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>
         <div class="ft-col-links">
-          <a href="about-us.html">About Us</a>
-          <a href="index.html#trips">Our Trips</a>
-          <a href="destinations.html">Destinations</a>
-          <a href="whats-included.html">What's Included</a>
-          <a href="index.html#reviews">Reviews</a>
-          <a href="blog.html">Blogs</a>
+          <a href="about-us.html" data-ts="ft_links">About Us</a>
+          <a href="index.html#trips" data-ts="ft_links">Our Trips</a>
+          <a href="destinations.html" data-ts="ft_links">Destinations</a>
+          <a href="whats-included.html" data-ts="ft_links">What's Included</a>
+          <a href="index.html#reviews" data-ts="ft_links">Reviews</a>
+          <a href="blog.html" data-ts="ft_links">Blogs</a>
         </div>
       </div>
 
       <div>
-                <div class="ft-col-h">Explore</div>
+                <div class="ft-col-h ft-col-h-toggle" onclick="toggleFooterCol(this)"><span id="ftCol2H" data-ts="ft_col2_heading">Explore</span><svg class="ft-col-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>
         <div class="ft-col-links">
-          <a href="contact-us.html">Contact Us</a>
-          <a href="custom-trips.html">Adventure Planner</a>
-          <a href="group-trip.html">Group Trip</a>
-          <a href="about-us.html#faqs">FAQ</a>
-          <a href="booking-page.html">Book Your Trip</a>
+          <a href="contact-us.html" data-ts="ft_links">Contact Us</a>
+          <a href="custom-trips.html" data-ts="ft_links">Adventure Planner</a>
+          <a href="group-trip.html" data-ts="ft_links">Group Trip</a>
+          <a href="about-us.html#faqs" data-ts="ft_links">FAQ</a>
+          <a href="booking-page.html" data-ts="ft_links">Book Your Trip</a>
         </div>
       </div>
 
       <div>
-        <div class="ft-col-h">Contact Information</div>
+        <div class="ft-col-h"><span id="ftCol3H" data-ts="ft_col3_heading">Contact Information</span></div>
         <div class="ft-contact-item">
           <div class="ft-contact-icon"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg></div>
-          <div><div class="ft-contact-lbl">Phone Number</div><div class="ft-contact-val">+91 9792496457</div></div>
+          <div><div class="ft-contact-lbl" data-ts="ft_contact_info">Phone Number</div><div class="ft-contact-val" data-ts="ft_contact_info">+91 9792496457</div></div>
         </div>
         <div class="ft-contact-item">
           <div class="ft-contact-icon"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4V4z"/><path d="M4 6l8 7 8-7"/></svg></div>
-          <div><div class="ft-contact-lbl">Email Address</div><div class="ft-contact-val">hello@eurekatrips.com</div></div>
+          <div><div class="ft-contact-lbl" data-ts="ft_contact_info">Email Address</div><div class="ft-contact-val" data-ts="ft_contact_info">hello@eurekatrips.com</div></div>
         </div>
       </div>
     </div>
 
-    <div class="ft-badges">
-      <img class="ft-badge" src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Tripadvisor_Logo_circle-green_vertical-lockup_registered_RGB.svg/200px-Tripadvisor_Logo_circle-green_vertical-lockup_registered_RGB.svg.png" alt="Tripadvisor 5.0 stars" loading="lazy">
-      <span style="color:#fff;font-size:13px;font-weight:700;opacity:.9">100% Carbon Neutral Tours</span>
-      <span style="color:#fff;font-size:13px;font-weight:700;opacity:.9">#SmallChange Sustainable Travel</span>
-      <span style="color:#fff;font-size:13px;font-weight:700;opacity:.9">Google 4.9 ★★★★★</span>
-    </div>
-
-    <div class="ft-pay-row">
-      <span style="color:#fff;font-size:12px;font-weight:700;opacity:.85">We accept:</span>
-      <span style="color:rgba(255,255,255,.85);font-size:13px;font-weight:600">MasterCard</span>
-      <span style="color:rgba(255,255,255,.85);font-size:13px;font-weight:600">VISA</span>
-      <span style="color:rgba(255,255,255,.85);font-size:13px;font-weight:600">American Express</span>
-      <span style="color:rgba(255,255,255,.85);font-size:13px;font-weight:600">G Pay</span>
-      <span style="color:rgba(255,255,255,.85);font-size:13px;font-weight:600">Apple Pay</span>
+    <!-- Bottom row: payment methods (left) + certification badges (right) -->
+    <div class="ft-bottom-row">
+      <!-- Payment methods — populated entirely by applyPaymentLogos() from Supabase -->
+      <div class="ft-pay-row">
+        <span style="color:#fff;font-size:12px;font-weight:700;opacity:.85">We accept:</span>
+        <div id="ftPayLogos" style="display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap"></div>
+      </div>
+      <!-- Certification badges — populated entirely by applyTrustBadges() from Supabase -->
+      <div class="ft-badges" id="ftBadges"></div>
     </div>
 
     <div class="footer-btm">
-      <span class="ft-copy">&copy; 2026 Eureka Trips. All rights reserved.</span>
-            <div class="ft-legal"><a href="privacy-policy.html">Privacy Policy</a><a href="terms-conditions.html">Terms &amp; Conditions</a></div>
+      <span class="ft-copy" id="ftCopy" data-ts="ft_copyright">&copy; 2026 Eureka Trips. All rights reserved.</span>
+            <div class="ft-legal"><a href="privacy-policy.html" data-ts="ft_legal_links">Privacy Policy</a><a href="terms-conditions.html" data-ts="ft_legal_links">Terms &amp; Conditions</a></div>
     </div>
   </footer>
 </div>
@@ -1224,6 +1405,18 @@ img{display:block;max-width:100%}
 ═════════════════════════════════════════════════════════════ */
 var SB_URL = 'https://caigrloiymgfxubzprbg.supabase.co/rest/v1';
 var SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNhaWdybG9peW1nZnh1YnpwcmJnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODMzOTM1MjksImV4cCI6MjA5ODk2OTUyOX0.zA5Q1kAAk66fgX_Ertnrbb4TJmM5yPE71zy-alK-yqE';
+var CURRENT_TRIP = null;
+
+async function sbInsert(table, data) {
+  try {
+    var r = await fetch(SB_URL + '/' + table, {
+      method: 'POST',
+      headers: { apikey: SB_KEY, Authorization: 'Bearer ' + SB_KEY, 'Content-Type': 'application/json', Prefer: 'return=representation' },
+      body: JSON.stringify(data)
+    });
+    return r.ok;
+  } catch(e) { console.error('Supabase insert error', e); return false; }
+}
 
 async function sbGet(table, query) {
   try {
@@ -1236,7 +1429,70 @@ async function sbGet(table, query) {
   } catch (e) { console.error('Supabase fetch error [' + table + ']', e); return []; }
 }
 function esc(s) { if (s === null || s === undefined) return ''; return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-function setText(id, val) { if (!val) return; var el = document.getElementById(id); if (el) el.innerHTML = val; }
+
+/* ── GENERIC TYPOGRAPHY ENGINE ─────────────────────────────────────────
+   Now powered by the shared TypographyEngine (typography-engine.js) — the
+   exact same code the admin panel uses to preview these styles live, so
+   the two can never silently drift apart again. These are thin aliases so
+   every existing call site below (applyElementTypography,
+   applyAllTaggedTypography, CURRENT_SETTINGS, isMobileViewport, etc.)
+   keeps working unchanged. */
+var CURRENT_SETTINGS = {};
+async function loadTypographyStylesFrontend() { return TypographyEngine.loadStyles(); }
+
+async function applyPaymentLogos() {
+  var rows = await sbGet('payment_logos', 'active=eq.true&order=sort_order.asc');
+  rows = rows.filter(function(r) { return r.image_url; });
+  var wrap = document.getElementById('ftPayLogos');
+  if (!wrap || !rows.length) return;
+  wrap.innerHTML = rows.map(function(r) {
+    return '<img class="ft-pay" src="' + esc(r.image_url) + '" alt="' + esc(r.name || 'Payment method') + '" loading="lazy">';
+  }).join('');
+}
+
+async function applyTrustBadges() {
+  var rows = await sbGet('trust_badges', 'active=eq.true&order=sort_order.asc');
+  rows = rows.filter(function(r) { return r.image_url; });
+  var wrap = document.getElementById('ftBadges');
+  if (!wrap || !rows.length) return;
+  wrap.innerHTML = rows.map(function(r) {
+    var img = '<img class="ft-badge" src="' + esc(r.image_url) + '" alt="' + esc(r.name || 'Trust badge') + '" loading="lazy">';
+    return r.link ? '<a href="' + esc(r.link) + '" target="_blank" rel="noopener">' + img + '</a>' : img;
+  }).join('');
+}
+
+function toggleFooterCol(el) {
+  el.classList.toggle('open');
+  var links = el.nextElementSibling;
+  if (links) links.classList.toggle('open');
+}
+function isMobileViewport() { return TypographyEngine.isMobileViewport(); }
+function applyElementTypography(el) {
+  TypographyEngine.setCurrentSettings(CURRENT_SETTINGS);
+  return TypographyEngine.applyTagged(el);
+}
+function applyAllTaggedTypography() {
+  TypographyEngine.setCurrentSettings(CURRENT_SETTINGS);
+  TypographyEngine.applyAllTagged();
+  if (window.location.search.indexOf('ts_debug=1') !== -1) TypographyEngine.debug();
+}
+(function() {
+  var lastIsMobile = isMobileViewport();
+  var resizeTimer = null;
+  window.addEventListener('resize', function() {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(function() {
+      var nowMobile = isMobileViewport();
+      if (nowMobile !== lastIsMobile) { lastIsMobile = nowMobile; applyAllTaggedTypography(); }
+    }, 150);
+  });
+})();
+
+function stripOuterParagraph(html) {
+  var m = html.match(/^<p>([\s\S]*)<\/p>\s*$/i);
+  return m ? m[1] : html;
+}
+function setText(id, val) { if (!val) return; var el = document.getElementById(id); if (el) { el.innerHTML = val; applyElementTypography(el); } }
 function setAttr(id, attr, val) { if (!val) return; var el = document.getElementById(id); if (el) el.setAttribute(attr, val); }
 
 /* NAVBAR scroll behavior */
@@ -1262,38 +1518,180 @@ function closeDrawer(){
 }
 function openWA(msg) { window.open('https://wa.me/919792496457?text=' + encodeURIComponent(msg), '_blank'); }
 
-/* CHOOSE YOUR TRAVEL TRIBE */
-var GT_TRIBE_TRIPS=[
-  {img:'https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=600&q=80&auto=format&fm=webp&fit=crop', tags:['Solo','Beach','Hills'], dur:'9 NIGHTS / 10 DAYS', title:'Philippines Hop & Chill', desc:'From stunning beaches to vibrant sunsets, this tour is all about relaxing, exploring, and unforgettable island moments.', price:'₹46,255'},
-  {img:'https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=600&q=80&auto=format&fm=webp&fit=crop', tags:['Solo','Beach','Hills'], dur:'9 NIGHTS / 10 DAYS', title:'Philippines Hop & Chill', desc:'From stunning beaches to vibrant sunsets, this tour is all about relaxing, exploring, and unforgettable island moments.', price:'₹46,255'},
-  {img:'https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=600&q=80&auto=format&fm=webp&fit=crop', tags:['Solo','Beach','Hills'], dur:'9 NIGHTS / 10 DAYS', title:'Philippines Hop & Chill', desc:'From stunning beaches to vibrant sunsets, this tour is all about relaxing, exploring, and unforgettable island moments.', price:'₹46,255'},
-  {img:'https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=600&q=80&auto=format&fm=webp&fit=crop', tags:['Solo','Beach','Hills'], dur:'9 NIGHTS / 10 DAYS', title:'Philippines Hop & Chill', desc:'From stunning beaches to vibrant sunsets, this tour is all about relaxing, exploring, and unforgettable island moments.', price:'₹46,255'},
-  {img:'https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=600&q=80&auto=format&fm=webp&fit=crop', tags:['Solo','Beach','Hills'], dur:'9 NIGHTS / 10 DAYS', title:'Philippines Hop & Chill', desc:'From stunning beaches to vibrant sunsets, this tour is all about relaxing, exploring, and unforgettable island moments.', price:'₹46,255'}
-];
+/* "Download Full Itinerary" box — validates the number, then opens WhatsApp
+   with a pre-filled request so the team can send the PDF over chat. */
+function downloadItineraryWA() {
+  var input = document.getElementById('gtItinPhone');
+  var phone = input ? input.value.trim() : '';
+  if (!/^\d{10}$/.test(phone)) {
+    if (input) input.focus();
+    notify('Enter a valid 10-digit WhatsApp number.', 'error');
+    return;
+  }
+  var tripName = (document.getElementById('gtTitleEl') && document.getElementById('gtTitleEl').textContent.trim()) || 'this trip';
+  openWA('Hi EUREKA Trips! Please send me the full itinerary PDF for "' + tripName + '" — my WhatsApp number is +91' + phone + '.');
+}
+// Lightweight inline error message — this page has no toast() helper (that's
+// an admin-panel-only function), so this just shows/hides a small text hint
+// under the phone field instead.
+function notify(msg, type) {
+  var box = document.getElementById('gtItinPhoneError');
+  if (!box) {
+    box = document.createElement('div');
+    box.id = 'gtItinPhoneError';
+    box.style.cssText = 'font-family:Poppins,sans-serif;font-size:12.5px;color:#e01552;margin:-.6rem 0 .9rem';
+    var row = document.querySelector('.gt-itin-phone-row');
+    if (row && row.parentNode) row.parentNode.insertBefore(box, row.nextSibling);
+  }
+  box.textContent = msg;
+}
+
+/* ── BROCHURE DOWNLOAD MODAL ── */
+function openBrochureModal(e) {
+  if (e) e.preventDefault();
+  if (!CURRENT_TRIP || !CURRENT_TRIP.brochure_link) {
+    openWA('Hi EUREKA Trips! Could you send me the brochure for this trip?');
+    return false;
+  }
+  document.getElementById('brochureOverlay').classList.add('show');
+  document.getElementById('brochureModal').classList.add('show');
+  return false;
+}
+function closeBrochureModal() {
+  document.getElementById('brochureOverlay').classList.remove('show');
+  document.getElementById('brochureModal').classList.remove('show');
+}
+function submitBrochureRequest() {
+  var name = document.getElementById('bro_name').value.trim();
+  var phone = document.getElementById('bro_phone').value.trim();
+  var email = document.getElementById('bro_email').value.trim();
+  if (!name) { alert('Please enter your name'); return; }
+  if (!phone) { alert('Please enter your phone number'); return; }
+  if (!email) { alert('Please enter your email'); return; }
+
+  var tripTitle = CURRENT_TRIP ? CURRENT_TRIP.title : 'this trip';
+  var tripId = CURRENT_TRIP ? CURRENT_TRIP.id : null;
+  var brochureUrl = CURRENT_TRIP ? CURRENT_TRIP.brochure_link : '';
+
+  /* Give the visitor their brochure right away — inside the same click, so the
+     popup isn't blocked by the browser. */
+  if (brochureUrl) window.open(brochureUrl, '_blank');
+
+  closeBrochureModal();
+  document.getElementById('bro_name').value = '';
+  document.getElementById('bro_phone').value = '';
+  document.getElementById('bro_email').value = '';
+
+  /* Log the lead in Supabase (visible in Admin Panel → Brochure Leads) — a backup
+     record even if the notification below hasn't been switched on yet. */
+  sbInsert('brochure_leads', { trip_id: tripId, trip_title: tripTitle, name: name, phone: phone, email: email });
+
+  /* Notify the admin automatically, server-side — both WhatsApp (Meta Cloud API) and
+     email (Web3Forms) are sent from a Supabase Edge Function, not from the visitor's
+     browser, so nothing needs to be clicked or sent on their end.
+     See brochure-notify Edge Function — needs WHATSAPP_ACCESS_TOKEN, WHATSAPP_PHONE_NUMBER_ID,
+     ADMIN_WHATSAPP_NUMBER, and WEB3FORMS_KEY set as secrets before this will fire for real. */
+  fetch('https://caigrloiymgfxubzprbg.supabase.co/functions/v1/brochure-notify', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', apikey: SB_KEY, Authorization: 'Bearer ' + SB_KEY },
+    body: JSON.stringify({ name: name, phone: phone, email: email, tripTitle: tripTitle, tripId: tripId })
+  }).catch(function(e){ console.error('Admin notification failed (edge function not deployed yet?)', e); });
+}
+
+/* CHOOSE YOUR TRAVEL TRIBE — now mirrors homepage "Upcoming trips" (group_trips table + tc2 card) */
+var BL={adventure:"Adventure",beach:"Beach",culture:"Culture",nature:"Nature",solo:"Solo",nightlife:"Nightlife"};
+var TAG_EMOJI={adventure:'🚀',beach:'🏖️',culture:'🎭',nature:'🌿',solo:'🎒',nightlife:'🎉'};
+var GT_TRIBE_TRIPS=[];
+function tc2GalNav(btn, dir){
+  var wrap = btn.closest('.tc2-img');
+  if (!wrap) return;
+  var gallery;
+  try { gallery = JSON.parse(wrap.getAttribute('data-gallery') || '[]'); } catch(e) { gallery = []; }
+  if (!gallery.length || gallery.length <= 1) return;
+  var idx = parseInt(wrap.getAttribute('data-idx') || '0', 10);
+  idx = (idx + dir + gallery.length) % gallery.length;
+  wrap.setAttribute('data-idx', idx);
+  var img = wrap.querySelector('img');
+  if (img) img.src = gallery[idx];
+  var dots = wrap.querySelectorAll('.tc2-gal-dot');
+  dots.forEach(function(d, j){ d.classList.toggle('active', j === idx); });
+}
+function tc2ToggleTags(el) {
+  var pop = el.querySelector('.tc2-tag-popover');
+  if (!pop) return;
+  var wasOpen = pop.classList.contains('open');
+  document.querySelectorAll('.tc2-tag-popover.open').forEach(function(p){ p.classList.remove('open'); });
+  if (!wasOpen) pop.classList.add('open');
+}
+document.addEventListener('click', function(e){
+  if (!e.target.closest('.tc2-tag-more')) {
+    document.querySelectorAll('.tc2-tag-popover.open').forEach(function(p){ p.classList.remove('open'); });
+  }
+});
+
 function gtTribeRender(){
   var track=document.getElementById('gtTribeTrack');
   if(!track) return;
   var out='';
   for(var i=0;i<GT_TRIBE_TRIPS.length;i++){
     var t=GT_TRIBE_TRIPS[i];
-    var tagsHtml='';
-    for(var j=0;j<t.tags.length;j++){ tagsHtml+='<span class="gt-tribe-tag">'+t.tags[j]+'</span>'; }
-    out+='<div class="gt-tribe-card">';
-    out+='<div class="gt-tribe-img"><img src="'+t.img+'" alt="'+t.title+'"></div>';
-    out+='<div class="gt-tribe-body">';
-    out+='<div class="gt-tribe-tags">'+tagsHtml+'</div>';
-    out+='<div class="gt-tribe-dur">'+t.dur+'</div>';
-    out+='<div class="gt-tribe-title">'+t.title+'</div>';
-    out+='<div class="gt-tribe-desc">'+t.desc+'</div>';
-    out+='<div class="gt-tribe-price">'+t.price+' <span>Onwards</span></div>';
-    out+='</div></div>';
+    var allTags = [];
+    if (t.hot) allTags.push({ hot: true, label: '\uD83D\uDD25 Hot' });
+    for(var j=0;j<t.tags.length;j++){
+      var rawTag = t.tags[j] || '';
+      var tagKey = rawTag.toLowerCase().trim();
+      var label = TAG_EMOJI[tagKey] ? (TAG_EMOJI[tagKey] + ' ' + (BL[tagKey] || rawTag)) : esc(rawTag);
+      allTags.push({ hot: false, label: label });
+    }
+    var shownTags = allTags.slice(0, 3);
+    var extraTags = allTags.slice(3);
+    var tags = shownTags.map(function(tg) {
+      return '<span class="tc2-tag' + (tg.hot ? ' tc2-tag-hot' : '') + '">' + tg.label + '</span>';
+    }).join('');
+    if (extraTags.length > 0) {
+      var popoverHtml = extraTags.map(function(tg) {
+        return '<span class="tc2-tag' + (tg.hot ? ' tc2-tag-hot' : '') + '">' + tg.label + '</span>';
+      }).join('');
+      tags += '<span class="tc2-tag tc2-tag-more" onclick="event.stopPropagation();tc2ToggleTags(this)">+' + extraTags.length + '<div class="tc2-tag-popover">' + popoverHtml + '</div></span>';
+    }
+    var dStr = t.dates.join(' | ');
+    var prNum = (t.price||0).toLocaleString('en-IN');
+    var pr = '\u20B9' + prNum;
+    var gallery = (t.gallery && t.gallery.length) ? t.gallery : [t.img];
+    var galJson = esc(JSON.stringify(gallery));
+    out += '<div class="tc2" onclick="window.location.href=\''+esc(t.page)+'\'">';
+    out += '<div class="tc2-img" data-gallery=\''+galJson+'\' data-idx="0">';
+    if (t.trending) {
+      out += '<div class="tc2-trending-badge"><svg viewBox="0 0 24 24"><path d="M13 2L3 14h7l-1 8 11-14h-7z"/></svg>Trending</div>';
+    }
+    out += '<img width="800" height="600" src="'+esc(gallery[0])+'" alt="'+esc(t.name)+'" loading="lazy" decoding="async">';
+    if (gallery.length > 1) {
+      out += '<button type="button" class="tc2-gal-arrow tc2-gal-prev" aria-label="Previous photo" onclick="event.stopPropagation();tc2GalNav(this,-1)"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>';
+      out += '<button type="button" class="tc2-gal-arrow tc2-gal-next" aria-label="Next photo" onclick="event.stopPropagation();tc2GalNav(this,1)"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></button>';
+      out += '<div class="tc2-gal-dots">';
+      for (var k = 0; k < gallery.length; k++) {
+        out += '<span class="tc2-gal-dot' + (k===0?' active':'') + '"></span>';
+      }
+      out += '</div>';
+    }
+    out += '</div>';
+    out += '<div class="tc2-body">';
+    out += '<div class="tc2-tags">' + tags + '</div>';
+    out += '<div class="tc2-name">' + esc(t.name) + '</div>';
+    out += '<div class="tc2-route">' + esc(t.route||'') + '</div>';
+    out += '<div class="tc2-foot">';
+    out += '<div class="tc2-dates">' + esc(dStr) + '</div>';
+    out += '<div><div class="tc2-price-lbl">per person</div><div class="tc2-price">' + pr + '*</div></div>';
+    out += '</div>';
+    out += '<div class="tc2-dur">' + esc(t.dur) + '</div>';
+    out += '</div></div>';
   }
   track.innerHTML=out;
 }
 function gtTribeNav(dir){
   var track=document.getElementById('gtTribeTrack');
   if(!track) return;
-  var card=track.querySelector('.gt-tribe-card');
+  var card=track.querySelector('.tc2');
   if(!card) return;
   var step=card.getBoundingClientRect().width + 24;
   track.scrollBy({left:dir*step*2, behavior:'smooth'});
@@ -1311,6 +1709,13 @@ var GT_REVIEWS=[
   {name:'Namrata Bhan', init:'NB', color:'#EF4444', ago:'8 months ago', stars:4, verified:true,
    q:"It was a great experience traveling to Sri Lanka with Eureka Trips! Met some amazing people on the trip, and Shubham, our trip lead, did a good job being patien..."}
 ];
+function gtBuildFaqItem(f, idx) {
+  return '' +
+  '<div class="gt-faq-item' + (idx===0?' open':'') + '">' +
+    '<div class="gt-faq-q" onclick="gtToggleFaq(this)">' + stripOuterParagraph(f.question||'') + '<span class="gt-faq-icon">' + (idx===0?'−':'+') + '</span></div>' +
+    '<div class="gt-faq-a"' + (idx===0?' style="max-height:600px"':'') + '><div class="gt-faq-a-in">' + stripOuterParagraph(f.answer||'') + '</div></div>' +
+  '</div>';
+}
 function gtRenderReviews(){
   var track=document.getElementById('gtRevTrack');
   if(!track) return;
@@ -1324,11 +1729,11 @@ function gtRenderReviews(){
     out+='<div class="gt-rc">';
     out+='<div class="gt-rc-top">';
     out+='<div class="gt-rc-av" style="background:'+r.color+'">'+r.init+'</div>';
-    out+='<div class="gt-rc-who"><div class="gt-rc-name">'+r.name+'</div><div class="gt-rc-ago">'+r.ago+'</div></div>';
+    out+='<div class="gt-rc-who"><div class="gt-rc-name">'+stripOuterParagraph(r.name||'')+'</div><div class="gt-rc-ago">'+stripOuterParagraph(r.ago||'')+'</div></div>';
     out+='<div class="gt-rc-gicon">'+gIcon+'</div>';
     out+='</div>';
     out+='<div class="gt-rc-stars-row"><div class="gt-rc-stars">'+stars+'</div>'+(r.verified?'<div class="gt-rc-verified">'+verifyIcon+'</div>':'')+'</div>';
-    out+='<div class="gt-rc-q">'+r.q+'</div>';
+    out+='<div class="gt-rc-q">'+stripOuterParagraph(r.q||'')+'</div>';
     out+='<a href="https://www.google.com/maps" target="_blank" class="gt-rc-more">Read more</a>';
     out+='</div>';
   }
@@ -1359,14 +1764,55 @@ function toggleDateMore(idx,btn){
 }
 
 /* TABS */
+function gtToggleFaq(q){
+  var item=q.parentElement;
+  var ans=item.querySelector('.gt-faq-a');
+  var icon=q.querySelector('.gt-faq-icon');
+  var wasOpen=item.classList.contains('open');
+  document.querySelectorAll('.gt-faq-item.open').forEach(function(it){
+    it.classList.remove('open');
+    it.querySelector('.gt-faq-a').style.maxHeight=null;
+    it.querySelector('.gt-faq-icon').textContent='+';
+  });
+  if(!wasOpen){
+    item.classList.add('open');
+    ans.style.maxHeight=ans.scrollHeight+'px';
+    icon.textContent='−';
+  }
+}
+
 function gtSelectTab(el){
   document.querySelectorAll('.gt-tab').forEach(function(t){ t.classList.remove('active'); });
   el.classList.add('active');
-  var target = el.dataset.panel;
-  document.querySelectorAll('.gt-panel').forEach(function(p){
-    p.style.display = (p.dataset.panel === target) ? '' : 'none';
-  });
+  document.querySelectorAll('.gt-panel').forEach(function(p){ p.classList.remove('active'); });
+  var target = document.getElementById('gt-panel-' + el.dataset.panel);
+  if(target) target.classList.add('active');
 }
+
+/* Tabs row can overflow horizontally (Highlights/Inclusions/.../Itinerary don't
+   all fit on narrow screens) — show a fade + arrow hinting there's more to
+   scroll to, and hide it once the row is fully scrolled or doesn't overflow
+   at all (e.g. wide screens). */
+function gtScrollTabs(){
+  var tabs = document.getElementById('gtTabs');
+  if (tabs) tabs.scrollBy({ left: 150, behavior: 'smooth' });
+}
+function gtUpdateTabsOverflow(){
+  var tabs = document.getElementById('gtTabs');
+  var wrap = document.getElementById('gtTabsWrap');
+  if (!tabs || !wrap) return;
+  var overflowing = tabs.scrollWidth > tabs.clientWidth + 4;
+  var atEnd = tabs.scrollLeft + tabs.clientWidth >= tabs.scrollWidth - 4;
+  wrap.classList.toggle('has-overflow', overflowing && !atEnd);
+}
+(function(){
+  var tabs = document.getElementById('gtTabs');
+  if (!tabs) return;
+  tabs.addEventListener('scroll', gtUpdateTabsOverflow, { passive: true });
+  window.addEventListener('resize', gtUpdateTabsOverflow);
+  window.addEventListener('load', gtUpdateTabsOverflow);
+  gtUpdateTabsOverflow();
+})();
 
 /* ─────────────────────────────────────────
    GALLERY LIGHTBOX
@@ -1450,7 +1896,7 @@ function initGtSlider(){
       var firstImg=imgs[0];
       var w=firstImg.getBoundingClientRect().width + 12;
       pos -= w;
-      track.style.transition='transform .6s ease';
+      track.style.transition='transform 1s ease';
       track.style.transform='translateX('+pos+'px)';
       var halfCount = imgs.length/2;
       var scrolledCount = Math.round(Math.abs(pos)/w);
@@ -1459,11 +1905,11 @@ function initGtSlider(){
           track.style.transition='none';
           pos=0;
           track.style.transform='translateX(0)';
-        },620);
+        },1020);
       }
     }
   }
-  setInterval(step,1000);
+  setInterval(step,2200);
 }
 
 /* ═════════════════════════════════════════════════════════════
@@ -1472,67 +1918,130 @@ function initGtSlider(){
 function buildDateCard(d) {
   var tiers = (d.price_tiers || []).map(function(t) {
     var parts = String(t).split('|');
-    return '<div class="dm-price-row"><span>' + esc(parts[0]||'') + '</span><span>₹' + esc(parts[1]||'') + '</span></div>';
+    return '<div class="dm-price-row" data-ts="gt_dc_price"><span>' + esc(parts[0]||'') + '</span><span>₹' + esc(parts[1]||'') + '</span></div>';
   }).join('');
   var waMsg = esc(d.whatsapp_message || '').replace(/'/g, '&#39;');
+  var icStart = window.GT_ICON_TRIP_START ? '<img src="' + esc(window.GT_ICON_TRIP_START) + '" alt="">' : '📍';
+  var icEnd = window.GT_ICON_TRIP_END ? '<img src="' + esc(window.GT_ICON_TRIP_END) + '" alt="">' : '🏁';
+  var icFlight = window.GT_ICON_FLIGHT ? '<img src="' + esc(window.GT_ICON_FLIGHT) + '" alt="">' : '✈️';
+  var cancelId = 'cancelPolicy' + d.id;
   return '' +
   '<div class="date-card">' +
     '<div class="date-card-main">' +
-      '<div class="date-card-date"><div class="day">' + esc(d.date_day) + '</div><div class="month">' + esc(d.date_month) + '</div><div class="dur">' + esc(d.duration_label) + '</div></div>' +
-      '<div class="date-card-days">' +
+      '<div class="date-card-date" data-ts="gt_dc_date"><div class="day">' + esc(d.date_day) + '</div><div class="month">' + esc(d.date_month) + '</div><div class="dur">' + esc(d.duration_label) + '</div></div>' +
+      '<div class="date-card-days" data-ts="gt_dc_date">' +
         '<div class="date-card-day-row"><span class="lbl">' + esc(d.start_day_label) + '</span><br><span class="val">' + esc(d.start_date_label) + '</span></div>' +
         '<div class="date-card-day-row"><span class="lbl">' + esc(d.end_day_label) + '</span><br><span class="val">' + esc(d.end_date_label) + '</span></div>' +
       '</div>' +
-      '<div class="date-card-spots">' + esc(d.spots_label) + '</div>' +
-      '<div class="date-card-right"><a href="tel:+919792496457" class="date-card-call">call us</a><div class="date-card-price">INR ' + Number(d.price||0).toLocaleString('en-IN') + '</div></div>' +
+      '<div class="date-card-spots" data-ts="gt_dc_date">' + esc(d.spots_label) + '</div>' +
+      '<div class="date-card-right"><a href="tel:+919792496457" class="date-card-call" data-ts="gt_dc_labels">call us</a><div class="date-card-price" data-ts="gt_dc_price">INR ' + Number(d.price||0).toLocaleString('en-IN') + '</div></div>' +
     '</div>' +
-    '<div class="date-card-more" id="moreBtn' + d.id + '" onclick="toggleDateMore(\'' + d.id + '\',this)">More Info <span class="chev">›</span></div>' +
+    '<div class="date-card-more" id="moreBtn' + d.id + '" data-ts="gt_dc_labels" onclick="toggleDateMore(\'' + d.id + '\',this)">More Info <span class="chev">›</span></div>' +
     '<div class="date-more" id="moreInfo' + d.id + '">' +
       '<div class="date-more-grid">' +
         '<div>' +
-          '<div class="dm-row"><span class="dm-ic">📍</span><div><div class="dm-lbl">Trip Start</div><div class="dm-val">' + esc(d.trip_start_location) + '</div></div></div>' +
-          '<div class="dm-row"><span class="dm-ic">🏁</span><div><div class="dm-lbl">Trip End</div><div class="dm-val">' + esc(d.trip_end_location) + '</div></div></div>' +
-          '<div class="dm-flight"><div class="dm-flight-h"><span class="dm-ic">✈️</span> Flight Info</div><p>' + esc(d.flight_info) + '</p></div>' +
-          '<a href="contact-us.html" class="dm-confidence">Book with confidence</a>' +
+          '<div class="dm-row"><span class="dm-ic">' + icStart + '</span><div><div class="dm-lbl" data-ts="gt_dc_labels">Trip Start</div><div class="dm-val" data-ts="gt_dc_content">' + esc(d.trip_start_location) + '</div></div></div>' +
+          '<div class="dm-row"><span class="dm-ic">' + icEnd + '</span><div><div class="dm-lbl" data-ts="gt_dc_labels">Trip End</div><div class="dm-val" data-ts="gt_dc_content">' + esc(d.trip_end_location) + '</div></div></div>' +
+          '<div class="dm-flight"><div class="dm-flight-h" data-ts="gt_dc_labels"><span class="dm-ic">' + icFlight + '</span> Flight Info</div><p data-ts="gt_dc_content">' + esc(d.flight_info) + '</p></div>' +
+          '<a href="contact-us.html" class="dm-confidence" data-ts="gt_dc_labels">Book with confidence</a>' +
         '</div>' +
         '<div class="dm-right">' +
-          '<div class="dm-right-h">' + esc(d.deposit_heading) + '</div>' +
-          '<p class="dm-right-sub">' + esc(d.deposit_subtext) + '</p>' +
-          '<div class="dm-price-head"><span>Book Before</span><span>Price (pp)</span></div>' +
+          '<div class="dm-right-h" data-ts="gt_dc_content">' + esc(d.deposit_heading) + '</div>' +
+          '<p class="dm-right-sub" data-ts="gt_dc_content">' + esc(d.deposit_subtext) + '</p>' +
+          '<div class="dm-price-head" data-ts="gt_dc_labels"><span>Book Before</span><span>Price (pp)</span></div>' +
           tiers +
-          '<div class="dm-cancel"><em>Cancellation Policy</em> <span class="chev">▾</span></div>' +
+          '<div class="dm-cancel" data-ts="gt_dc_labels" onclick="toggleCancelPolicy(\'' + cancelId + '\',this)">Cancellation Policy <span class="chev">▾</span></div>' +
+          '<div class="dm-cancel-body" data-ts="gt_dc_content" id="' + cancelId + '">' + (window.GT_CANCELLATION_POLICY ? esc(window.GT_CANCELLATION_POLICY) : 'Cancellation policy details coming soon — contact us for specifics.') + '</div>' +
           '<div class="dm-btns">' +
-            '<a href="#" class="dm-btn" onclick="openWA(&quot;' + waMsg + '&quot;)">🎫 Book Now</a>' +
-            '<a href="contact-us.html" class="dm-btn">Contact Us</a>' +
+            '<a href="#" class="dm-btn" data-ts="gt_dc_labels" onclick="openWA(&quot;' + waMsg + '&quot;)">🎫 Book Now</a>' +
+            '<a href="contact-us.html" class="dm-btn dm-btn-secondary" data-ts="gt_dc_labels">Contact Us</a>' +
           '</div>' +
         '</div>' +
       '</div>' +
     '</div>' +
   '</div>';
 }
+function toggleCancelPolicy(id, el) {
+  var body = document.getElementById(id);
+  if (!body) return;
+  var isOpen = body.classList.toggle('open');
+  el.classList.toggle('open', isOpen);
+}
 
 function buildDayCard(d, idx) {
   var dayId = 'day' + (idx+1);
   var tagsHtml = '';
-  if (d.meals_tag) tagsHtml += '<div class="gt-day-tag">' + esc(d.meals_tag) + '</div>';
-  if (d.included_tag) tagsHtml += '<div class="gt-day-tag">' + esc(d.included_tag) + '</div>';
+  if (d.meals_tag) tagsHtml += '<div class="gt-day-tag" data-ts="gt_day_meals">' + esc(d.meals_tag) + '</div>';
+  if (d.included_tag) tagsHtml += '<div class="gt-day-tag" data-ts="gt_day_included">' + esc(d.included_tag) + '</div>';
   return '' +
   '<div class="gt-day' + (idx===0?' open':'') + '" id="' + dayId + '">' +
-    '<div class="gt-day-head" onclick="toggleDay(\'' + dayId + '\')"><span>DAY ' + (idx+1) + '</span><span class="chev">▾</span></div>' +
+    '<div class="gt-day-head" onclick="toggleDay(\'' + dayId + '\')"><div class="gt-day-head-txt"><span class="gt-day-num">Day ' + (idx+1) + '</span>' + (d.title ? '<span>' + esc(d.title) + '</span>' : '') + '</div><span class="chev">▾</span></div>' +
     '<div class="gt-day-body"><div class="gt-day-inner">' +
-      '<div>' +
-        '<h3 class="gt-day-h3">' + esc(d.title) + '</h3>' +
-        '<p class="gt-day-p">' + esc(d.description) + '</p>' +
+      '<div class="gt-day-text">' +
+        '<h3 class="gt-day-h3" data-ts="gt_day_title">' + esc(d.title) + '</h3>' +
+        '<p class="gt-day-p" data-ts="gt_day_desc">' + stripOuterParagraph(d.description || '') + '</p>' +
         '<div class="gt-day-tags">' + tagsHtml + '</div>' +
       '</div>' +
-      '<div class="gt-day-img"><img src="' + esc(d.image_url||'') + '" alt="' + esc(d.title) + '"></div>' +
+      '<div class="gt-day-img"><img src="' + esc(d.image_url||'') + '" alt="' + esc(d.title) + '" loading="lazy" decoding="async"></div>' +
     '</div></div>' +
   '</div>';
+}
+
+function applyCardTypography(s) {
+  var root = document.documentElement.style;
+  var map = {
+    tc_name_size: '--tc-name-size', tc_name_weight: '--tc-name-weight',
+    tc_route_size: '--tc-route-size', tc_route_weight: '--tc-route-weight',
+    tc_dates_size: '--tc-dates-size', tc_dates_weight: '--tc-dates-weight',
+    tc_price_size: '--tc-price-size', tc_price_weight: '--tc-price-weight',
+    tc_pricelbl_size: '--tc-pricelbl-size',
+    tc_dur_size: '--tc-dur-size', tc_dur_weight: '--tc-dur-weight',
+    tc_tag_size: '--tc-tag-size', tc_tag_weight: '--tc-tag-weight'
+  };
+  Object.keys(map).forEach(function(key) {
+    if (!s[key]) return;
+    var isWeight = key.indexOf('_weight') !== -1;
+    root.setProperty(map[key], isWeight ? s[key] : (s[key] + 'px'));
+  });
 }
 
 async function loadGroupTripFromSupabase() {
   var params = new URLSearchParams(window.location.search);
   var slug = params.get('trip');
+
+  /* ── SITE-WIDE SETTINGS (fetched early so date cards can use them, e.g. Cancellation Policy) ── */
+  var settingsRows = await sbGet('settings', '');
+  var settingsMap = {};
+  settingsRows.forEach(function(r){ settingsMap[r.key] = r.value; });
+  window.GT_CANCELLATION_POLICY = settingsMap.gt_cancellation_policy || '';
+  window.GT_ICON_TRIP_START = settingsMap.gt_icon_trip_start || '';
+  window.GT_ICON_TRIP_END = settingsMap.gt_icon_trip_end || '';
+  window.GT_ICON_FLIGHT = settingsMap.gt_icon_flight || '';
+  if (settingsMap.logo_url) { var logoEl = document.getElementById('navLogoImg'); if (logoEl) logoEl.src = settingsMap.logo_url; }
+  CURRENT_SETTINGS = settingsMap;
+  await loadTypographyStylesFrontend();
+  applyPaymentLogos();
+  applyTrustBadges();
+
+  /* ── Static section headings — now editable under Group Trip Page → Static Section Text ── */
+  setText('gtConfidenceH', settingsMap.gt_confidence_heading);
+  setText('gtItinH', settingsMap.gt_itin_heading);
+  setText('gtItinSub', settingsMap.gt_itin_subtext);
+  setText('gtDatesH', settingsMap.gt_dates_heading);
+  setText('gtMbHeadline', settingsMap.gt_mb_headline);
+  setText('gtMbSub', settingsMap.gt_mb_sub);
+  setText('gtReviewsH', settingsMap.gt_reviews_heading);
+  setText('gtReviewsSub', settingsMap.gt_reviews_subtitle);
+  setText('gtFaqH', settingsMap.gt_faq_heading);
+  setText('gtFaqIntro', settingsMap.gt_faq_intro);
+  setText('gtTribeH', settingsMap.gt_tribe_heading);
+  setText('gtFinalH', settingsMap.gt_final_heading);
+  setText('gtFinalP', settingsMap.gt_final_text);
+  setText('gtFinalBtn', settingsMap.gt_final_btn_text);
+  setText('gtPanelInclusions', settingsMap.gt_panel_label_inclusions);
+  setText('gtPanelAccommodation', settingsMap.gt_panel_label_accommodation);
+  setText('gtPanelExclusions', settingsMap.gt_panel_label_exclusions);
+  setText('gtPanelMap', settingsMap.gt_panel_label_map);
 
   var trip = null;
   if (slug) {
@@ -1545,6 +2054,7 @@ async function loadGroupTripFromSupabase() {
   }
 
   if (trip) {
+    CURRENT_TRIP = trip;
     /* ── HEADER ── */
     setText('gtTitleEl', trip.title);
     if (trip.waypoints && trip.waypoints.length) {
@@ -1553,7 +2063,7 @@ async function loadGroupTripFromSupabase() {
       }).join('');
     }
     if (trip.tags && trip.tags.length) {
-      document.getElementById('gtTagsEl').innerHTML = trip.tags.map(function(t){ return '<span class="gt-tag">' + esc(t) + '</span>'; }).join('');
+      document.getElementById('gtTagsEl').innerHTML = trip.tags.map(function(t){ return '<span class="gt-tag" data-ts="gt_tags">' + esc(t) + '</span>'; }).join('');
     }
     if (trip.price) {
       var priceEl = document.getElementById('gtPriceEl');
@@ -1564,7 +2074,6 @@ async function loadGroupTripFromSupabase() {
     setText('gtAgeEl', trip.age_label);
     setText('gtBtn1El', trip.btn1_text);
     setText('gtBtn2El', trip.btn2_text);
-    setAttr('gtBtn2El', 'href', trip.brochure_link);
 
     /* ── GALLERY ── */
     if (trip.gallery_video_url) { var v = document.getElementById('gtVideoEl'); if (v) v.querySelector('source').src = trip.gallery_video_url; }
@@ -1581,32 +2090,45 @@ async function loadGroupTripFromSupabase() {
     /* ── HIGHLIGHTS SLIDER ── */
     if (trip.highlight_photos && trip.highlight_photos.length) {
       var hpTrack = document.getElementById('gtSliderTrack');
-      if (hpTrack) hpTrack.innerHTML = trip.highlight_photos.map(function(u,i){ return '<img src="'+esc(u)+'" alt="Trip photo '+(i+1)+'">'; }).join('');
+      if (hpTrack) hpTrack.innerHTML = trip.highlight_photos.map(function(u,i){ return '<img src="'+esc(u)+'" alt="Trip photo '+(i+1)+'" loading="lazy" decoding="async">'; }).join('');
     }
 
     /* ── INCLUSIONS ── */
-    setText('gtIncAccomEl', trip.inclusion_accommodation);
-    setText('gtIncActivitiesEl', trip.inclusion_activities);
-    setText('gtIncMealsEl', trip.inclusion_meals);
-    setText('gtIncGroupsizeEl', trip.inclusion_groupsize);
-    setText('gtIncTransportEl', trip.inclusion_transport);
-    setText('gtIncTeamEl', trip.inclusion_team);
+    /* ── INCLUSIONS (combines the 6 legacy fields + unlimited admin-added extras, all shown as a uniform checkmark list) ── */
+    var incIconHtml = CURRENT_SETTINGS.gt_inclusion_icon
+      ? '<img src="' + esc(CURRENT_SETTINGS.gt_inclusion_icon) + '" alt="">'
+      : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+    var exclIconHtml = CURRENT_SETTINGS.gt_exclusion_icon
+      ? '<img src="' + esc(CURRENT_SETTINGS.gt_exclusion_icon) + '" alt="">'
+      : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+    var incItems = [trip.inclusion_accommodation, trip.inclusion_activities, trip.inclusion_meals, trip.inclusion_groupsize, trip.inclusion_transport, trip.inclusion_team]
+      .concat(trip.inclusions_extra || [])
+      .filter(Boolean);
+    var incGridEl = document.getElementById('gtIncGrid');
+    if (incGridEl && incItems.length) {
+      incGridEl.innerHTML = incItems.map(function(txt){
+        return '<div class="gt-inc-item" data-ts="gt_inclusions"><span class="gt-inc-ic">' + incIconHtml + '</span><span>' + esc(txt) + '</span></div>';
+      }).join('');
+    }
 
     /* ── ACCOMMODATION ── */
     setText('gtAccomTextEl', trip.accommodation_text);
     if (trip.accommodation_list && trip.accommodation_list.length) {
-      document.getElementById('gtAccomListEl').innerHTML = trip.accommodation_list.map(function(h){ return '<li>'+esc(h)+'</li>'; }).join('');
+      document.getElementById('gtAccomListEl').innerHTML = trip.accommodation_list.map(function(h){ return '<li data-ts="gt_accom_list">'+esc(h)+'</li>'; }).join('');
     }
     setAttr('gtAccomImgEl', 'src', trip.accommodation_image);
     setAttr('gtAccomImgEl', 'data-full', trip.accommodation_image);
 
     /* ── EXCLUSIONS ── */
     if (trip.exclusions && trip.exclusions.length) {
-      document.getElementById('gtExclusionsListEl').innerHTML = trip.exclusions.map(function(x){ return '<li>'+esc(x)+'</li>'; }).join('');
+      document.getElementById('gtExclusionsListEl').innerHTML = trip.exclusions.map(function(x){
+        return '<div class="gt-inc-item" data-ts="gt_exclusions"><span class="gt-inc-ic">' + exclIconHtml + '</span><span>' + esc(x) + '</span></div>';
+      }).join('');
     }
 
     /* ── MAP NOTE ── */
     setText('gtMapNoteEl', trip.map_note);
+    if (trip.map_image) document.getElementById('gtMapImageEl').src = trip.map_image;
 
     /* ── ITINERARY ── */
     setText('gtItinTitleEl', trip.itinerary_heading);
@@ -1637,7 +2159,7 @@ async function loadGroupTripFromSupabase() {
     setText('gtSocSubheading', trip.social_subheading);
     if (trip.social_checklist && trip.social_checklist.length) {
       document.getElementById('gtSocChecklist').innerHTML = trip.social_checklist.map(function(c){
-        return '<div class="gt-check-item"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/></svg>' + esc(c) + '</div>';
+        return '<div class="gt-check-item" data-ts="gt_checklist"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/></svg>' + esc(c) + '</div>';
       }).join('');
     }
   }
@@ -1650,20 +2172,53 @@ async function loadGroupTripFromSupabase() {
     });
   }
 
-  /* ── CHOOSE YOUR TRAVEL TRIBE (shared across pages) ── */
-  var tribeRows = await sbGet('tribe_cards', 'active=eq.true&order=sort_order.asc');
+  /* ── CHOOSE YOUR TRAVEL TRIBE — same source as homepage "Upcoming trips" ── */
+  var tribeRows = await sbGet('group_trips', 'active=eq.true&order=sort_order.asc');
   if (tribeRows.length) {
-    GT_TRIBE_TRIPS = tribeRows.map(function(t) {
-      return { img: t.image_url, tags: t.tags || [], dur: t.duration_label, title: t.title, desc: t.description, price: '₹' + (t.price||0).toLocaleString('en-IN') };
-    });
+    GT_TRIBE_TRIPS = tribeRows
+      .filter(function(r) { return !CURRENT_TRIP || r.id !== CURRENT_TRIP.id; })
+      .map(function(r) {
+        var gallery = (r.card_gallery_images && r.card_gallery_images.length) ? r.card_gallery_images : (r.card_image_url ? [r.card_image_url] : []);
+        return {
+          id: r.id, name: r.title, route: r.route, dur: r.duration_label, price: r.price || 0,
+          dates: r.card_dates ? [r.card_dates] : [], tags: r.tags || [], hot: r.hot, trending: r.trending,
+          page: 'group-trip.html?trip=' + r.id,
+          img: r.card_image_url, gallery: gallery
+        };
+      });
+  }
+
+  /* ── CARD TYPOGRAPHY (uses the settings already fetched above) ── */
+  applyCardTypography(settingsMap);
+
+  var faqRows = await sbGet('faqs', 'page_scope=eq.group-trip&order=sort_order.asc');
+  if (faqRows.length) {
+    document.getElementById('gtFaqListEl').innerHTML = faqRows.map(gtBuildFaqItem).join('');
   }
 
   /* ── Finalize: render + init animations exactly once, after all content is set ── */
   gtRenderReviews();
   gtTribeRender();
   initGtSlider();
+
+  setText('ftMission', settingsMap.ft_mission);
+  setText('ftCol1H', settingsMap.ft_col1_heading);
+  setText('ftCol2H', settingsMap.ft_col2_heading);
+  setText('ftCol3H', settingsMap.ft_col3_heading);
+  setText('ftCopy', settingsMap.ft_copyright);
+
+  applyAllTaggedTypography(); // safety net — also covers the static headings (Book with Confidence, FAQ, etc.) that have no setText() call of their own
 }
 loadGroupTripFromSupabase();
 </script>
+
+<!-- Mobile-only sticky bottom bar — jumps straight to Available Start Dates -->
+<div class="gt-mobile-bar" id="gtMobileBar">
+  <div class="gt-mb-txt">
+    <strong id="gtMbHeadline">Limited spots!</strong>
+    <span id="gtMbSub">Secure yours with a <b>₹15k</b> deposit</span>
+  </div>
+  <a href="#dates" class="gt-mb-btn">Check Price</a>
+</div>
 </body>
 </html>

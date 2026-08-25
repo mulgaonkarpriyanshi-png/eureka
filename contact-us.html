@@ -10,12 +10,22 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://images.unsplash.com">
-<link rel="preload" as="image" href="https://images.unsplash.com/photo-1543087903-1ac2ec7aa8c5?w=1920&q=85&auto=format&fm=webp&fit=crop" fetchpriority="high">
 <style>
   @import url('https://fonts.cdnfonts.com/css/apfel-grotesk');
   @import url('https://fonts.cdnfonts.com/css/proxima-nova-2');
   @font-face{font-family:'Apfel Grotesk';font-weight:400;font-style:normal;font-display:swap}
   @font-face{font-family:'Apfel Grotesk';font-weight:500;font-style:normal;font-display:swap}
+/* ── MOBILE FOOTER ACCORDION — Company & Explore collapse to tap-to-expand ──
+   Desktop default: chevron hidden, no collapse behavior — the link lists
+   just render normally as before, exactly as on every other page. ── */
+.ft-col-chev{display:none}
+@media(max-width:768px){
+  .ft-col-h-toggle{display:flex;align-items:center;justify-content:space-between;cursor:pointer;user-select:none}
+  .ft-col-chev{display:block;width:16px;height:16px;flex-shrink:0;transition:transform .25s ease}
+  .ft-col-h-toggle.open .ft-col-chev{transform:rotate(180deg)}
+  .ft-col-h-toggle ~ .ft-col-links{max-height:0;overflow:hidden;transition:max-height .3s ease;margin-bottom:0}
+  .ft-col-h-toggle.open ~ .ft-col-links{max-height:400px;margin-top:.75rem}
+}
 </style>
 <link rel="preload" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Outfit:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,700;1,400;1,600&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Outfit:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,700;1,400;1,600&display=swap"></noscript>
@@ -84,7 +94,7 @@ img{display:block;max-width:100%}
   border:1.5px solid rgba(255,255,255,.55);
   border-radius:50px;
   padding:.75rem clamp(1.5rem,3vw,2.5rem);
-  max-width:760px;margin:0 auto;
+  max-width:980px;margin:0 auto;
   transition:background .3s,border-color .3s,backdrop-filter .3s;
 }
 .navbar.solid .nav-pill{background:transparent;border-color:transparent;backdrop-filter:none;padding:.5rem 0}
@@ -152,24 +162,27 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
    CONTACT HERO
 ───────────────────────────────────────── */
 .cu-hero{height:80vh;min-height:560px;max-height:860px;position:relative;display:flex;align-items:center;overflow:hidden;background:var(--dark)}
+@media(max-width:768px){
+  .cu-hero{height:56vh;min-height:392px;max-height:602px}
+}
 .cu-hero-img{position:absolute;inset:0}
 .cu-hero-img img{width:100%;height:100%;object-fit:cover;display:block;animation:kz 16s ease-in-out infinite alternate}
 .cu-hero-ov{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.35) 0%,rgba(0,0,0,.25) 45%,rgba(0,0,0,.6) 100%)}
 .cu-hero-content{position:relative;z-index:2;width:100%;max-width:900px;margin:0 auto;padding:0 1.5rem;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center}
-.cu-hero-h1{font-family:'Apfel Grotesk','Poppins',sans-serif;font-size:clamp(32px,5.2vw,52px);color:#fff;line-height:1.15;font-weight:700;letter-spacing:0.2px;margin-bottom:1.1rem}
-.cu-hero-sub{font-family:'Poppins',sans-serif;font-size:clamp(14px,1.3vw,17px);color:#fff;max-width:600px;line-height:1.6;letter-spacing:-0.1px;font-weight:400;margin:0 auto 1.75rem;text-shadow:0 2px 8px rgba(0,0,0,.5)}
+.cu-hero-h1{font-family:'Outfit','Poppins',sans-serif;font-size:60px;color:#FFFFFF;line-height:1.15;font-weight:600;font-style:normal;margin-bottom:1.1rem}
+.cu-hero-sub{font-family:'Poppins',sans-serif;font-size:18px;color:#FFFFFF;font-style:normal;max-width:600px;line-height:1.6;letter-spacing:-0.1px;margin:0 auto 1.75rem;text-shadow:0 2px 8px rgba(0,0,0,.5)}
 .cu-hero-btns{display:flex;gap:1rem;flex-wrap:wrap;justify-content:center}
-.cu-btn{display:inline-flex;align-items:center;justify-content:center;padding:14px 30px;border-radius:50px;font-family:'Apfel Grotesk','Poppins',sans-serif;font-weight:700;font-size:14.5px;transition:all .25s;border:1.5px solid transparent}
-.cu-btn-solid{background:#FFA43B;color:#fff}
-.cu-btn-solid:hover{background:#F28C13}
-.cu-btn-outline{background:transparent;color:#fff;border-color:#fff}
+.cu-btn{display:inline-flex;align-items:center;justify-content:center;padding:15px 20px;border-radius:50px;font-family:'Proxima Nova Light','Poppins',sans-serif;font-weight:600;font-size:16px;line-height:1;transition:all .25s;border:1px solid transparent}
+.cu-btn-solid{background:#FF8801;color:#FFFFFF;fill:#FFFFFF;border-color:#FF8801}
+.cu-btn-solid:hover{background:#e07a00}
+.cu-btn-outline{background:transparent;color:#FFFFFF;fill:#FFFFFF;border:1px solid #FFFFFF}
 .cu-btn-outline:hover{background:#fff;color:#111}
 
 /* ─────────────────────────────────────────
    GET IN TOUCH CARDS
 ───────────────────────────────────────── */
 .cu-touch{background:#fff;padding:clamp(3rem,5vw,4.5rem) clamp(1.25rem,4vw,3rem)}
-.cu-touch-h{font-family:'Apfel Grotesk','Poppins',sans-serif;font-size:clamp(26px,3vw,34px);font-weight:700;color:#111;text-align:center;margin-bottom:clamp(2rem,4vw,3rem)}
+.cu-touch-h{font-family:'Proxima Nova Light','Poppins',sans-serif;font-size:35px;font-weight:600;font-style:normal;color:rgb(28,34,34);line-height:35px;text-align:center;margin-bottom:clamp(2rem,4vw,3rem)}
 
 /* ─────────────────────────────────────────
    SEND US A MESSAGE — form + get-in-touch text
@@ -179,9 +192,9 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
 .cu-form-bg img{width:100%;height:100%;object-fit:cover;display:block}
 .cu-form-ov{position:absolute;inset:0;background:linear-gradient(110deg,rgba(0,0,0,.78) 0%,rgba(0,0,0,.6) 45%,rgba(0,0,0,.5) 100%)}
 .cu-form-in{position:relative;z-index:2;max-width:1280px;margin:0 auto;padding:clamp(3rem,6vw,5rem) clamp(1.25rem,4vw,3rem);display:grid;grid-template-columns:1fr 1fr;gap:clamp(2rem,4vw,4rem);align-items:center}
-.cu-form-card{background:#1a1a1a;border-radius:20px;padding:clamp(1.75rem,3vw,2.25rem);box-shadow:var(--sh3)}
-.cu-form-card h3{color:#fff;font-size:22px;font-weight:700;margin-bottom:1.25rem;font-family:'Apfel Grotesk','Poppins',sans-serif}
-.cu-form-panel{background:#fff;border-radius:14px;padding:clamp(1.25rem,2vw,1.5rem)}
+.cu-form-card{border-radius:20px}
+.cu-form-panel h3{font-family:'Poppins',sans-serif;font-size:42px;font-weight:600;color:#3A3B3B;letter-spacing:-1px;line-height:1.15;margin-bottom:1.25rem}
+.cu-form-panel{background:#fff;border-radius:14px;padding:clamp(1.25rem,2vw,1.5rem);box-shadow:var(--sh3)}
 .cu-form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem}
 .cu-form-group label{display:block;font-size:12.5px;font-weight:700;color:#111;margin-bottom:.4rem}
 .cu-form-group input,.cu-form-group select{width:100%;padding:.7rem .85rem;border-radius:8px;border:1.5px solid var(--border);background:var(--off);font-family:'Poppins',sans-serif;font-size:13px;color:#111;appearance:none}
@@ -191,20 +204,20 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
 .cu-form-full{margin-bottom:1.1rem}
 .cu-form-btn{width:100%;background:#FF8A66;color:#fff;padding:.85rem;border-radius:10px;font-weight:700;font-size:14px;font-family:'Apfel Grotesk','Poppins',sans-serif;transition:background .2s}
 .cu-form-btn:hover{background:#F5713F}
-.cu-form-txt h2{font-family:'Apfel Grotesk','Poppins',sans-serif;font-size:clamp(26px,3.4vw,38px);font-weight:700;color:#fff;text-align:center;line-height:1.28;margin-bottom:1.5rem}
-.cu-form-txt p{font-family:'Poppins',sans-serif;font-size:14.5px;line-height:1.85;color:rgba(255,255,255,.9);margin-bottom:1.75rem}
+.cu-form-txt h2{font-family:'Proxima Nova Light','Poppins',sans-serif;font-size:35px;font-weight:600;font-style:normal;color:rgb(255,255,255);text-align:center;line-height:35px;margin-bottom:1.5rem}
+.cu-form-txt p{font-family:'apfel-grotezk','Poppins',sans-serif;font-size:18px;font-weight:400;font-style:normal;line-height:28px;color:#FFFFFF;margin-bottom:1.75rem}
 .cu-form-checks{display:grid;grid-template-columns:1fr 1fr;gap:1rem 2rem;margin-bottom:2rem}
-.cu-check-item{display:flex;align-items:center;gap:.65rem}
+.cu-check-item{display:flex;align-items:center;gap:.65rem;font-family:'apfel-grotezk','Poppins',sans-serif;font-size:18px;font-weight:600;font-style:normal;color:#FFFFFF;line-height:18px}
 .cu-check-icon{width:26px;height:26px;border-radius:50%;background:#fff;color:#111;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:12px}
-.cu-check-item span{font-weight:700;font-size:14.5px;color:#fff}
-.cu-form-urgent{font-size:14.5px;color:#fff;line-height:1.6}
+.cu-check-item span{font-family:'apfel-grotezk','Poppins',sans-serif;font-weight:600;font-size:18px;line-height:18px;color:#FFFFFF}
+.cu-form-urgent{font-family:'Poppins',sans-serif;font-size:18px;font-weight:400;font-style:normal;color:#FFFFFF;line-height:28px}
 .cu-form-urgent strong{color:#FF8A66}
 
 /* ─────────────────────────────────────────
    BOOK WITH CONFIDENCE — trust badges
 ───────────────────────────────────────── */
 .cu-trust-sec{background:#fff;padding:clamp(2.5rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem);text-align:center}
-.cu-trust-h{font-family:'Apfel Grotesk','Poppins',sans-serif;font-size:clamp(24px,3vw,32px);font-weight:700;color:#111;margin-bottom:clamp(1.75rem,3vw,2.5rem)}
+.cu-trust-h{font-family:'Poppins',sans-serif;font-size:42px;font-weight:600;color:#3A3B3B;letter-spacing:-1px;line-height:1.15;margin-bottom:clamp(1.75rem,3vw,2.5rem)}
 .cu-trust-logos{display:flex;align-items:center;justify-content:center;gap:clamp(2.5rem,6vw,5rem);flex-wrap:wrap}
 .cu-trust-item{display:flex;flex-direction:column;align-items:center;gap:.35rem}
 .cu-google-word{font-family:Arial,'Poppins',sans-serif;font-size:34px;font-weight:700;letter-spacing:.5px}
@@ -218,11 +231,11 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
 .cu-stars{color:#FBBC05;font-size:14px;letter-spacing:1px}
 .cu-trust-item img{height:38px;width:auto;display:block}
 .cu-cards{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:clamp(1.5rem,3vw,2rem)}
-.cu-card{background:var(--off2);border-radius:20px;padding:clamp(2rem,3vw,2.5rem) clamp(1.5rem,2.5vw,2rem);text-align:center;display:flex;flex-direction:column;align-items:center}
+.cu-card{background:#F1F9F9;border-radius:20px;padding:clamp(2rem,3vw,2.5rem) clamp(1.5rem,2.5vw,2rem);text-align:center;display:flex;flex-direction:column;align-items:center}
 .cu-card-icon{width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,#FFC07A,#FF8A4C);display:flex;align-items:center;justify-content:center;font-size:28px;margin-bottom:1.25rem}
-.cu-card-title{font-family:'Apfel Grotesk','Poppins',sans-serif;font-size:22px;font-weight:700;color:#111;margin-bottom:.9rem}
-.cu-card-desc{font-family:'Poppins',sans-serif;font-size:14px;color:var(--body);line-height:1.75;margin-bottom:1.5rem;max-width:280px}
-.cu-card-btn{display:inline-flex;align-items:center;justify-content:center;padding:.75rem 1.75rem;border:1.5px solid #111;border-radius:50px;font-family:'Apfel Grotesk','Poppins',sans-serif;font-weight:700;font-size:14px;color:#111;background:transparent;transition:all .2s;margin-top:auto}
+.cu-card-title{font-family:'apfel-grotezk','Poppins',sans-serif;font-size:28px;font-weight:500;font-style:normal;color:rgb(0,0,0);line-height:28px;margin-bottom:.9rem}
+.cu-card-desc{font-family:'apfel-grotezk','Poppins',sans-serif;font-size:18px;font-weight:400;font-style:normal;color:rgb(0,0,0);line-height:28px;margin-bottom:1.5rem;max-width:280px}
+.cu-card-btn{display:inline-flex;align-items:center;justify-content:center;padding:15px 20px;border:1px solid #ADADAD;border-radius:50px;font-family:'Proxima Nova Light','Poppins',sans-serif;font-weight:600;font-size:16px;line-height:1;color:#000000;fill:#000000;background:transparent;transition:all .2s;margin-top:auto}
 .cu-card-btn:hover{background:#111;color:#fff}
 
 /* Teal pill tab bar — same look/colors as the reference, own layout */
@@ -361,7 +374,6 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
   -webkit-backdrop-filter:blur(18px) saturate(1.4);
   border-radius:28px 28px 0 0;
   border:1px solid rgba(255,255,255,.08);
-  margin-top:clamp(220px,32vw,380px);
   padding:clamp(2rem,3vw,3rem) clamp(1.25rem,4vw,3rem) 1.5rem;
 }
 .footer-grid{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:1.4fr 1fr 1fr 1.2fr;gap:2.5rem;padding-bottom:2.5rem;border-bottom:1px solid rgba(255,255,255,.1)}
@@ -429,6 +441,7 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
   .sec-h{font-size:clamp(28px,8vw,36px);font-weight:700;color:#111}
 }
 </style>
+<script src="typography-engine.js"></script>
 </head>
 <body>
 
@@ -477,14 +490,14 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
 
 <!-- CONTACT HERO -->
 <section class="cu-hero" id="home" style="padding:0">
-  <div class="cu-hero-img"><img fetchpriority="high" id="cuHeroImg" src="https://images.unsplash.com/photo-1543087903-1ac2ec7aa8c5?w=1920&q=85&auto=format&fm=webp&fit=crop" alt="Group of friends celebrating together on a beach at sunset"></div>
+  <div class="cu-hero-img"><img fetchpriority="high" id="cuHeroImg" src="" alt="Group of friends celebrating together on a beach at sunset"></div>
   <div class="cu-hero-ov"></div>
   <div class="cu-hero-content">
-    <h1 class="cu-hero-h1" id="cuHeroH1">Ready for your next adventure?</h1>
-    <p class="cu-hero-sub" id="cuHeroSub">Get started by exploring all of our trips or by filling out a travel profile if you're looking for personalized recommendations.</p>
+    <h1 class="cu-hero-h1" id="cuHeroH1" data-ts="contact_hero_heading"></h1>
+    <p class="cu-hero-sub" id="cuHeroSub" data-ts="contact_hero_subtext"></p>
     <div class="cu-hero-btns">
-      <a href="index.html#trips" class="cu-btn cu-btn-solid" id="cuHeroBtn1">Explore Trips</a>
-      <a href="custom-trips.html" class="cu-btn cu-btn-outline" id="cuHeroBtn2">Get Started</a>
+      <a href="index.html#trips" class="cu-btn cu-btn-solid" id="cuHeroBtn1"></a>
+      <a href="custom-trips.html" class="cu-btn cu-btn-outline" id="cuHeroBtn2"></a>
     </div>
   </div>
 </section>
@@ -492,25 +505,25 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
 <!-- GET IN TOUCH CARDS -->
 <section class="cu-touch" id="get-in-touch">
   <div class="container">
-    <h2 class="cu-touch-h" id="cuTouchHeading">Get in touch &amp; get ready to go!</h2>
+    <h2 class="cu-touch-h" id="cuTouchHeading" data-ts="contact_touch_heading"></h2>
     <div class="cu-cards">
       <div class="cu-card">
-        <div class="cu-card-icon" id="cuCard1Icon">💬</div>
-        <div class="cu-card-title" id="cuCard1Title">Chat with us</div>
-        <p class="cu-card-desc" id="cuCard1Desc">Our friendly reservations crew are online and ready to help!<br>Get in touch and get your next adventure sorted.</p>
-        <button class="cu-card-btn" id="cuCard1Btn" onclick="openWA('Hi EUREKA Trips! I have a question.')">Chat Now</button>
+        <div class="cu-card-icon" id="cuCard1Icon"></div>
+        <div class="cu-card-title" id="cuCard1Title" data-ts="contact_card1_title"></div>
+        <p class="cu-card-desc" id="cuCard1Desc" data-ts="contact_card1_desc"></p>
+        <button class="cu-card-btn" id="cuCard1Btn" onclick="openWA('Hi EUREKA Trips! I have a question.')"></button>
       </div>
       <div class="cu-card">
-        <div class="cu-card-icon" id="cuCard2Icon">❓</div>
-        <div class="cu-card-title" id="cuCard2Title">FAQ's</div>
-        <p class="cu-card-desc" id="cuCard2Desc">Got a question? Check out our Frequently Asked Questions. Chances are another traveller has asked that one before!</p>
-        <a class="cu-card-btn" id="cuCard2Btn" href="about-us.html#faqs">Read Now</a>
+        <div class="cu-card-icon" id="cuCard2Icon"></div>
+        <div class="cu-card-title" id="cuCard2Title" data-ts="contact_card2_title"></div>
+        <p class="cu-card-desc" id="cuCard2Desc" data-ts="contact_card2_desc"></p>
+        <a class="cu-card-btn" id="cuCard2Btn" href="about-us.html#faqs"></a>
       </div>
       <div class="cu-card">
-        <div class="cu-card-icon" id="cuCard3Icon">📅</div>
-        <div class="cu-card-title" id="cuCard3Title">Manage My Booking</div>
-        <p class="cu-card-desc" id="cuCard3Desc">Here's where you can do everything important you need before your tour starts.</p>
-        <a class="cu-card-btn" id="cuCard3Btn" href="booking-page.html">Get Ready To Go</a>
+        <div class="cu-card-icon" id="cuCard3Icon"></div>
+        <div class="cu-card-title" id="cuCard3Title" data-ts="contact_card3_title"></div>
+        <p class="cu-card-desc" id="cuCard3Desc" data-ts="contact_card3_desc"></p>
+        <a class="cu-card-btn" id="cuCard3Btn" href="booking-page.html"></a>
       </div>
     </div>
   </div>
@@ -518,12 +531,12 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
 
 <!-- SEND US A MESSAGE -->
 <section class="cu-form-sec">
-  <div class="cu-form-bg"><img id="cuFormBg" src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1920&q=80&auto=format&fm=webp&fit=crop" alt="Misty green mountain range with travellers walking below" loading="lazy"></div>
+  <div class="cu-form-bg"><img id="cuFormBg" src="" alt="Misty green mountain range with travellers walking below" loading="lazy"></div>
   <div class="cu-form-ov"></div>
   <div class="cu-form-in">
     <div class="cu-form-card">
-      <h3 id="cuFormCardHeading">Send Us a Message</h3>
       <div class="cu-form-panel">
+        <h3 id="cuFormCardHeading" data-ts="contact_form_card_heading"></h3>
         <div class="cu-form-row">
           <div class="cu-form-group">
             <label for="cu_name">Full Name</label>
@@ -559,8 +572,8 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
     </div>
 
     <div class="cu-form-txt">
-      <h2 id="cuFormRightHeading">Get in Touch with <em style="font-style:italic;color:#02A9A2">Eureka Trips</em></h2>
-      <p id="cuFormRightPara">Got a question about any of our trips? Want to know more about who we are and what we do? Or maybe, you might just feel like a chatting and say hi?. Fill in your details below and one of our team members will be in touch with you shortly.</p>
+      <h2 id="cuFormRightHeading" data-ts="contact_form_right_heading"></h2>
+      <p id="cuFormRightPara" data-ts="contact_form_right_para"></p>
       <div class="cu-form-checks" id="cuChecklist">
         <div class="cu-check-item"><span class="cu-check-icon">✓</span><span>Personalized Travel Planning</span></div>
         <div class="cu-check-item"><span class="cu-check-icon">✓</span><span>Fast &amp; Secure Booking</span></div>
@@ -568,14 +581,14 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
         <div class="cu-check-item"><span class="cu-check-icon">✓</span><span>Local Travel Experts</span></div>
         <div class="cu-check-item"><span class="cu-check-icon">✓</span><span>Exclusive Travel Deals</span></div>
       </div>
-      <p class="cu-form-urgent" id="cuUrgentText">Need urgent assistance? Call us directly for faster response! <strong>+91 9792496457</strong></p>
+      <p class="cu-form-urgent" id="cuUrgentText" data-ts="contact_urgent_text"></p>
     </div>
   </div>
 </section>
 
 <!-- BOOK WITH CONFIDENCE -->
 <section class="cu-trust-sec">
-  <h2 class="cu-trust-h" id="cuTrustHeading">Book with confidence</h2>
+  <h2 class="cu-trust-h" id="cuTrustHeading" data-ts="contact_trust_heading"></h2>
   <div class="cu-trust-logos">
     <div class="cu-trust-item">
       <div class="cu-google-word"><span class="g1">G</span><span class="r1">o</span><span class="y1">o</span><span class="g2">g</span><span class="l1">l</span><span class="r2">e</span></div>
@@ -588,14 +601,16 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
 </section>
 
 <!-- FOOTER -->
+<!-- FOOTER WRAP — full-bleed photo + mission quote + footer -->
 <div class="footer-wrap">
-  <img class="footer-wrap-bg" src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1920&q=80&auto=format&fm=webp&fit=crop" alt="Misty green mountain range over a bay" loading="lazy">
 
+
+  <!-- FOOTER -->
   <footer class="footer">
     <div class="footer-grid">
       <div>
         <img class="ft-logo-img" src="https://etrips.digitalgrowthtechnology.com/wp-content/uploads/2026/01/Eureka-Logo-1-02-scaled-e1769966688826.png" alt="Eureka Trips" onerror="this.style.display='none'">
-        <p class="ft-mission" style="margin-top:1rem">Our mission is to inspire travel experiences that open your mind, ignite your curiosity, and broaden your horizons so you can discover your own &ldquo;Eureka moment&rdquo;</p>
+        <p class="ft-mission" id="ftMission" data-ts="ft_mission">Our mission is to inspire travel experiences that open your mind, ignite your curiosity, and broaden your horizons so you can discover your own &ldquo;Eureka moment&rdquo;</p>
         <div class="ft-social">
           <a href="https://www.instagram.com/eureka.trips" target="_blank" class="fsb" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
           <a href="https://www.google.com/search?q=Eureka+Trips" target="_blank" class="fsb" aria-label="Google"><svg viewBox="0 0 48 48"><path fill="currentColor" d="M43.6 20.1H42V20H24v8h11.3C33.6 32.8 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.1 8 2.9l5.7-5.7C34.1 6.8 29.3 5 24 5 13.5 5 5 13.5 5 24s8.5 19 19 19 19-8.5 19-19c0-1.3-.1-2.5-.4-3.9z"/></svg></a>
@@ -603,60 +618,55 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
       </div>
 
       <div>
-                <div class="ft-col-h">Company</div>
+                <div class="ft-col-h ft-col-h-toggle" onclick="toggleFooterCol(this)"><span id="ftCol1H" data-ts="ft_col1_heading">Company</span><svg class="ft-col-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>
         <div class="ft-col-links">
-          <a href="about-us.html">About Us</a>
-          <a href="index.html#trips">Our Trips</a>
-          <a href="destinations.html">Destinations</a>
-          <a href="whats-included.html">What's Included</a>
-          <a href="index.html#reviews">Reviews</a>
-          <a href="blog.html">Blogs</a>
+          <a href="about-us.html" data-ts="ft_links">About Us</a>
+          <a href="index.html#trips" data-ts="ft_links">Our Trips</a>
+          <a href="destinations.html" data-ts="ft_links">Destinations</a>
+          <a href="whats-included.html" data-ts="ft_links">What's Included</a>
+          <a href="index.html#reviews" data-ts="ft_links">Reviews</a>
+          <a href="blog.html" data-ts="ft_links">Blogs</a>
         </div>
       </div>
 
       <div>
-                <div class="ft-col-h">Explore</div>
+                <div class="ft-col-h ft-col-h-toggle" onclick="toggleFooterCol(this)"><span id="ftCol2H" data-ts="ft_col2_heading">Explore</span><svg class="ft-col-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>
         <div class="ft-col-links">
-          <a href="contact-us.html">Contact Us</a>
-          <a href="custom-trips.html">Adventure Planner</a>
-          <a href="group-trip.html">Group Trip</a>
-          <a href="about-us.html#faqs">FAQ</a>
-          <a href="booking-page.html">Book Your Trip</a>
+          <a href="contact-us.html" data-ts="ft_links">Contact Us</a>
+          <a href="custom-trips.html" data-ts="ft_links">Adventure Planner</a>
+          <a href="group-trip.html" data-ts="ft_links">Group Trip</a>
+          <a href="about-us.html#faqs" data-ts="ft_links">FAQ</a>
+          <a href="booking-page.html" data-ts="ft_links">Book Your Trip</a>
         </div>
       </div>
 
       <div>
-        <div class="ft-col-h">Contact Information</div>
+        <div class="ft-col-h"><span id="ftCol3H" data-ts="ft_col3_heading">Contact Information</span></div>
         <div class="ft-contact-item">
           <div class="ft-contact-icon"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg></div>
-          <div><div class="ft-contact-lbl">Phone Number</div><div class="ft-contact-val">+91 9792496457</div></div>
+          <div><div class="ft-contact-lbl" data-ts="ft_contact_info">Phone Number</div><div class="ft-contact-val" data-ts="ft_contact_info">+91 9792496457</div></div>
         </div>
         <div class="ft-contact-item">
           <div class="ft-contact-icon"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4V4z"/><path d="M4 6l8 7 8-7"/></svg></div>
-          <div><div class="ft-contact-lbl">Email Address</div><div class="ft-contact-val">hello@eurekatrips.com</div></div>
+          <div><div class="ft-contact-lbl" data-ts="ft_contact_info">Email Address</div><div class="ft-contact-val" data-ts="ft_contact_info">hello@eurekatrips.com</div></div>
         </div>
       </div>
     </div>
 
-    <div class="ft-badges">
-      <img class="ft-badge" src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Tripadvisor_Logo_circle-green_vertical-lockup_registered_RGB.svg/200px-Tripadvisor_Logo_circle-green_vertical-lockup_registered_RGB.svg.png" alt="Tripadvisor 5.0 stars" loading="lazy">
-      <span style="color:#fff;font-size:13px;font-weight:700;opacity:.9">100% Carbon Neutral Tours</span>
-      <span style="color:#fff;font-size:13px;font-weight:700;opacity:.9">#SmallChange Sustainable Travel</span>
-      <span style="color:#fff;font-size:13px;font-weight:700;opacity:.9">Google 4.9 ★★★★★</span>
-    </div>
-
-    <div class="ft-pay-row">
-      <span style="color:#fff;font-size:12px;font-weight:700;opacity:.85">We accept:</span>
-      <span style="color:rgba(255,255,255,.85);font-size:13px;font-weight:600">MasterCard</span>
-      <span style="color:rgba(255,255,255,.85);font-size:13px;font-weight:600">VISA</span>
-      <span style="color:rgba(255,255,255,.85);font-size:13px;font-weight:600">American Express</span>
-      <span style="color:rgba(255,255,255,.85);font-size:13px;font-weight:600">G Pay</span>
-      <span style="color:rgba(255,255,255,.85);font-size:13px;font-weight:600">Apple Pay</span>
+    <!-- Bottom row: payment methods (left) + certification badges (right) -->
+    <div class="ft-bottom-row">
+      <!-- Payment methods — populated entirely by applyPaymentLogos() from Supabase -->
+      <div class="ft-pay-row">
+        <span style="color:#fff;font-size:12px;font-weight:700;opacity:.85">We accept:</span>
+        <div id="ftPayLogos" style="display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap"></div>
+      </div>
+      <!-- Certification badges — populated entirely by applyTrustBadges() from Supabase -->
+      <div class="ft-badges" id="ftBadges"></div>
     </div>
 
     <div class="footer-btm">
-      <span class="ft-copy">&copy; 2026 Eureka Trips. All rights reserved.</span>
-            <div class="ft-legal"><a href="privacy-policy.html">Privacy Policy</a><a href="terms-conditions.html">Terms &amp; Conditions</a></div>
+      <span class="ft-copy" id="ftCopy" data-ts="ft_copyright">&copy; 2026 Eureka Trips. All rights reserved.</span>
+            <div class="ft-legal"><a href="privacy-policy.html" data-ts="ft_legal_links">Privacy Policy</a><a href="terms-conditions.html" data-ts="ft_legal_links">Terms &amp; Conditions</a></div>
     </div>
   </footer>
 </div>
@@ -685,7 +695,70 @@ async function sbSettings() {
   return s;
 }
 function esc(s) { if (s === null || s === undefined) return ''; return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-function setText(id, val) { if (!val) return; var el = document.getElementById(id); if (el) el.innerHTML = val; }
+
+/* ── GENERIC TYPOGRAPHY ENGINE ─────────────────────────────────────────
+   Now powered by the shared TypographyEngine (typography-engine.js) — the
+   exact same code the admin panel uses to preview these styles live, so
+   the two can never silently drift apart again. These are thin aliases so
+   every existing call site below (applyElementTypography,
+   applyAllTaggedTypography, CURRENT_SETTINGS, isMobileViewport, etc.)
+   keeps working unchanged. */
+var CURRENT_SETTINGS = {};
+async function loadTypographyStylesFrontend() { return TypographyEngine.loadStyles(); }
+
+async function applyPaymentLogos() {
+  var rows = await sbGet('payment_logos', 'active=eq.true&order=sort_order.asc');
+  rows = rows.filter(function(r) { return r.image_url; });
+  var wrap = document.getElementById('ftPayLogos');
+  if (!wrap || !rows.length) return;
+  wrap.innerHTML = rows.map(function(r) {
+    return '<img class="ft-pay" src="' + esc(r.image_url) + '" alt="' + esc(r.name || 'Payment method') + '" loading="lazy">';
+  }).join('');
+}
+
+async function applyTrustBadges() {
+  var rows = await sbGet('trust_badges', 'active=eq.true&order=sort_order.asc');
+  rows = rows.filter(function(r) { return r.image_url; });
+  var wrap = document.getElementById('ftBadges');
+  if (!wrap || !rows.length) return;
+  wrap.innerHTML = rows.map(function(r) {
+    var img = '<img class="ft-badge" src="' + esc(r.image_url) + '" alt="' + esc(r.name || 'Trust badge') + '" loading="lazy">';
+    return r.link ? '<a href="' + esc(r.link) + '" target="_blank" rel="noopener">' + img + '</a>' : img;
+  }).join('');
+}
+
+function toggleFooterCol(el) {
+  el.classList.toggle('open');
+  var links = el.nextElementSibling;
+  if (links) links.classList.toggle('open');
+}
+function isMobileViewport() { return TypographyEngine.isMobileViewport(); }
+function applyElementTypography(el) {
+  TypographyEngine.setCurrentSettings(CURRENT_SETTINGS);
+  return TypographyEngine.applyTagged(el);
+}
+function applyAllTaggedTypography() {
+  TypographyEngine.setCurrentSettings(CURRENT_SETTINGS);
+  TypographyEngine.applyAllTagged();
+  if (window.location.search.indexOf('ts_debug=1') !== -1) TypographyEngine.debug();
+}
+(function() {
+  var lastIsMobile = isMobileViewport();
+  var resizeTimer = null;
+  window.addEventListener('resize', function() {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(function() {
+      var nowMobile = isMobileViewport();
+      if (nowMobile !== lastIsMobile) { lastIsMobile = nowMobile; applyAllTaggedTypography(); }
+    }, 150);
+  });
+})();
+
+function stripOuterParagraph(html) {
+  var m = html.match(/^<p>([\s\S]*)<\/p>\s*$/i);
+  return m ? m[1] : html;
+}
+function setText(id, val) { if (!val) return; var el = document.getElementById(id); if (el) { el.innerHTML = stripOuterParagraph(val); applyElementTypography(el); } }
 function setAttr(id, attr, val) { if (!val) return; var el = document.getElementById(id); if (el) el.setAttribute(attr, val); }
 
 function openWA(msg){window.open('https://wa.me/919792496457?text='+encodeURIComponent(msg),'_blank');}
@@ -799,6 +872,10 @@ window.addEventListener('scroll',function(){
 ═════════════════════════════════════════════════════════════ */
 async function loadContactUsPageData() {
   var s = await sbSettings();
+  CURRENT_SETTINGS = s;
+  await loadTypographyStylesFrontend();
+  applyPaymentLogos();
+  applyTrustBadges();
 
   /* ── HERO ── */
   setAttr('cuHeroImg', 'src', s.contact_hero_image);
@@ -831,7 +908,7 @@ async function loadContactUsPageData() {
   var checks = [s.contact_check1, s.contact_check2, s.contact_check3, s.contact_check4, s.contact_check5].filter(Boolean);
   if (checks.length) {
     document.getElementById('cuChecklist').innerHTML = checks.map(function(c) {
-      return '<div class="cu-check-item"><span class="cu-check-icon">✓</span><span>' + esc(c) + '</span></div>';
+      return '<div class="cu-check-item"><span class="cu-check-icon">✓</span><span data-ts="contact_checklist">' + esc(c) + '</span></div>';
     }).join('');
   }
 
@@ -851,6 +928,14 @@ async function loadContactUsPageData() {
     var gEl = document.getElementById('cuGoogleRating');
     if (gEl) gEl.innerHTML = esc(s.contact_google_rating) + ' <span class="cu-stars">★★★★★</span>';
   }
+
+  setText('ftMission', s.ft_mission);
+  setText('ftCol1H', s.ft_col1_heading);
+  setText('ftCol2H', s.ft_col2_heading);
+  setText('ftCol3H', s.ft_col3_heading);
+  setText('ftCopy', s.ft_copyright);
+
+  applyAllTaggedTypography(); // safety net
 }
 loadContactUsPageData();
 </script>

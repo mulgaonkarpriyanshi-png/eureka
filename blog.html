@@ -10,12 +10,22 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://images.unsplash.com">
-<link rel="preload" as="image" href="https://images.unsplash.com/photo-1763582519549-d833a8e0eabb?w=1920&q=85&auto=format&fm=webp&fit=crop" fetchpriority="high">
 <style>
   @import url('https://fonts.cdnfonts.com/css/apfel-grotesk');
   @import url('https://fonts.cdnfonts.com/css/proxima-nova-2');
   @font-face{font-family:'Apfel Grotesk';font-weight:400;font-style:normal;font-display:swap}
   @font-face{font-family:'Apfel Grotesk';font-weight:500;font-style:normal;font-display:swap}
+/* ── MOBILE FOOTER ACCORDION — Company & Explore collapse to tap-to-expand ──
+   Desktop default: chevron hidden, no collapse behavior — the link lists
+   just render normally as before, exactly as on every other page. ── */
+.ft-col-chev{display:none}
+@media(max-width:768px){
+  .ft-col-h-toggle{display:flex;align-items:center;justify-content:space-between;cursor:pointer;user-select:none}
+  .ft-col-chev{display:block;width:16px;height:16px;flex-shrink:0;transition:transform .25s ease}
+  .ft-col-h-toggle.open .ft-col-chev{transform:rotate(180deg)}
+  .ft-col-h-toggle ~ .ft-col-links{max-height:0;overflow:hidden;transition:max-height .3s ease;margin-bottom:0}
+  .ft-col-h-toggle.open ~ .ft-col-links{max-height:400px;margin-top:.75rem}
+}
 </style>
 <link rel="preload" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Outfit:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,700;1,400;1,600&family=Caveat:wght@600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Outfit:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,700;1,400;1,600&family=Caveat:wght@600;700&display=swap"></noscript>
@@ -84,7 +94,7 @@ img{display:block;max-width:100%}
   border:1.5px solid rgba(255,255,255,.55);
   border-radius:50px;
   padding:.75rem clamp(1.5rem,3vw,2.5rem);
-  max-width:760px;margin:0 auto;
+  max-width:980px;margin:0 auto;
   transition:background .3s,border-color .3s,backdrop-filter .3s;
 }
 .navbar.solid .nav-pill{background:transparent;border-color:transparent;backdrop-filter:none;padding:.5rem 0}
@@ -133,13 +143,16 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
    BLOG HERO — full-bleed aerial photo, matches reference layout
 ───────────────────────────────────────── */
 .bl-hero{height:80vh;min-height:560px;max-height:820px;position:relative;display:flex;align-items:center;overflow:hidden;background:var(--dark)}
+@media(max-width:768px){
+  .bl-hero{height:56vh;min-height:392px;max-height:574px}
+}
 .bl-hero-img{position:absolute;inset:0}
 .bl-hero-img img{width:100%;height:100%;object-fit:cover;display:block;animation:kz 16s ease-in-out infinite alternate}
 @keyframes kz{0%{transform:scale(1)}100%{transform:scale(1.06)}}
 .bl-hero-ov{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.2) 0%,rgba(0,0,0,.08) 40%,rgba(0,0,0,.55) 100%)}
 .bl-hero-content{position:relative;z-index:2;width:100%;max-width:900px;margin:0 auto;padding:0 1.5rem;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center}
-.bl-hero-h1{font-family:'Playfair Display',serif;font-weight:700;font-size:clamp(34px,5.4vw,56px);color:#fff;line-height:1.12;letter-spacing:0.2px;margin-bottom:1.1rem}
-.bl-hero-sub{font-family:'Poppins',sans-serif;font-size:clamp(14px,1.35vw,17px);color:#fff;max-width:640px;line-height:1.65;letter-spacing:-0.1px;font-weight:400;margin:0 auto;text-shadow:0 2px 8px rgba(0,0,0,.5)}
+.bl-hero-h1{font-family:'Proxima Nova Light','Poppins',sans-serif;font-size:70px;color:#FFFFFF;line-height:1.12;font-weight:600;font-style:normal;margin-bottom:1.1rem}
+.bl-hero-sub{font-family:'apfel-grotezk','Poppins',sans-serif;font-size:18px;color:rgb(226,226,226);max-width:640px;line-height:28px;font-weight:400;font-style:normal;margin:0 auto;text-shadow:0 2px 8px rgba(0,0,0,.5)}
 
 /* ─────────────────────────────────────────
    FOOTER (shared)
@@ -153,7 +166,6 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
   -webkit-backdrop-filter:blur(18px) saturate(1.4);
   border-radius:28px 28px 0 0;
   border:1px solid rgba(255,255,255,.08);
-  margin-top:clamp(220px,32vw,380px);
   padding:clamp(2rem,3vw,3rem) clamp(1.25rem,4vw,3rem) 1.5rem;
 }
 .footer-grid{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:1.4fr 1fr 1fr 1.2fr;gap:2.5rem;padding-bottom:2.5rem;border-bottom:1px solid rgba(255,255,255,.1)}
@@ -187,13 +199,13 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
 .bl-featured{background:#fff;padding-top:clamp(2.5rem,5vw,4rem)}
 .bl-feat-slide{display:grid;grid-template-columns:1fr 1.2fr;gap:clamp(2rem,5vw,4.5rem);align-items:center;opacity:1;transition:opacity .28s ease}
 .bl-feat-slide.fading{opacity:0}
-.bl-feat-txt h2{font-family:'Apfel Grotesk','Poppins',sans-serif;font-size:clamp(24px,2.8vw,34px);font-weight:700;color:#111;line-height:1.25;letter-spacing:0.1px;margin-bottom:1.1rem}
-.bl-feat-txt p{font-family:'Poppins',sans-serif;font-size:15px;color:var(--body);line-height:1.7;letter-spacing:-0.1px;font-weight:400;max-width:480px}
+.bl-feat-txt h2{font-family:'Poppins',sans-serif;font-size:42px;font-weight:600;color:#3A3B3B;letter-spacing:-1px;line-height:1.15;margin-bottom:1.1rem}
+.bl-feat-txt p{font-family:'Proxima Nova Regular','Poppins',sans-serif;font-size:14px;color:#000000;line-height:1.7;letter-spacing:-0.1px;font-weight:400;max-width:480px}
 .bl-feat-img-wrap{position:relative;border-radius:22px;overflow:hidden;aspect-ratio:16/10;box-shadow:var(--sh2);background:var(--dark)}
 .bl-feat-img-wrap img{width:100%;height:100%;object-fit:cover;display:block}
 .bl-feat-badges{position:absolute;top:22px;left:22px;display:flex;flex-direction:column;align-items:flex-start;gap:8px;max-width:88%}
-.bf-badge{padding:.55rem 1.1rem;font-family:'Outfit','Poppins',sans-serif;font-weight:800;font-size:clamp(13px,1.6vw,19px);letter-spacing:.3px;text-transform:uppercase;color:#fff;line-height:1.2}
-.bf-badge.coral{background:#FF8A66}
+.bf-badge{padding:.55rem 1.1rem;font-family:'Poppins',sans-serif;font-weight:600;font-style:normal;font-size:16px;color:#FFFFFF;line-height:16px}
+.bf-badge.coral{background:#FF8801}
 .bf-badge.teal{background:#02A9A2}
 .bf-script{font-family:'Caveat',cursive;font-size:clamp(22px,2.6vw,30px);color:#02A9A2;display:flex;align-items:center;gap:8px;padding:0 2px}
 .bl-feat-nav{display:flex;justify-content:center;gap:1.35rem;margin-top:clamp(1.75rem,3vw,2.5rem)}
@@ -221,9 +233,9 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
 .bl-card-badges .bf-script{font-size:15px;gap:5px}
 .bl-card-bottom{position:absolute;left:0;right:0;bottom:0;padding:1.1rem 1.25rem 1.25rem;z-index:2}
 .bl-card-tags{display:flex;gap:.9rem;margin-bottom:.5rem}
-.bl-card-tags span{font-size:12px;font-weight:700;color:#fff;opacity:.9}
-.bl-card-title{font-family:'Apfel Grotesk','Poppins',sans-serif;font-size:17px;font-weight:700;color:#fff;line-height:1.32;letter-spacing:0.1px}
-.bl-empty{grid-column:1/-1;text-align:center;padding:2rem 0;font-family:'Poppins',sans-serif;font-size:14px;color:var(--body)}
+.bl-card-tags span{font-family:'Poppins',sans-serif;font-size:12px;font-weight:600;font-style:normal;color:#FFFFFF;line-height:12px;opacity:.9}
+.bl-card-title{font-family:'IT ApfelGrotezk-Regular','Poppins',sans-serif;font-size:21px;font-weight:500;font-style:normal;color:#FFFFFF;line-height:21px}
+.bl-empty{grid-column:1/-1;text-align:center;padding:2rem 0;font-family:'Poppins',sans-serif;font-size:14px;font-weight:400;color:var(--body)}
 
 /* ─────────────────────────────────────────
    RESPONSIVE
@@ -243,6 +255,7 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
   .bl-hero-sub{padding:0 .5rem}
 }
 </style>
+<script src="typography-engine.js"></script>
 </head>
 <body>
 
@@ -291,11 +304,11 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
 
 <!-- BLOG HERO -->
 <section class="bl-hero" id="home" style="padding:0">
-  <div class="bl-hero-img"><img fetchpriority="high" id="blHeroImg" src="https://images.unsplash.com/photo-1763582519549-d833a8e0eabb?w=1920&q=85&auto=format&fm=webp&fit=crop" alt="Aerial view of boats docked in a tropical island lagoon"></div>
+  <div class="bl-hero-img"><img fetchpriority="high" id="blHeroImg" src="" alt="Aerial view of boats docked in a tropical island lagoon"></div>
   <div class="bl-hero-ov"></div>
   <div class="bl-hero-content">
-    <h1 class="bl-hero-h1" id="blHeroH1">Eureka Travel Journal</h1>
-    <p class="bl-hero-sub" id="blHeroSub">Destination guides, travel tips, packing advice, itinerary ideas, and real traveler stories.<br>For solo travelers and young professionals looking to meet people, plan with ease, and explore the world through curated small-group trips.</p>
+    <h1 class="bl-hero-h1" id="blHeroH1" data-ts="bl_hero_heading"></h1>
+    <p class="bl-hero-sub" id="blHeroSub" data-ts="bl_hero_subtext"></p>
   </div>
 </section>
 
@@ -319,14 +332,16 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
 </section>
 
 <!-- FOOTER -->
+<!-- FOOTER WRAP — full-bleed photo + mission quote + footer -->
 <div class="footer-wrap">
-  <img class="footer-wrap-bg" src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1920&q=80&auto=format&fm=webp&fit=crop" alt="Misty green mountain range over a bay" loading="lazy">
 
+
+  <!-- FOOTER -->
   <footer class="footer">
     <div class="footer-grid">
       <div>
         <img class="ft-logo-img" src="https://etrips.digitalgrowthtechnology.com/wp-content/uploads/2026/01/Eureka-Logo-1-02-scaled-e1769966688826.png" alt="Eureka Trips" onerror="this.style.display='none'">
-        <p class="ft-mission" style="margin-top:1rem">Our mission is to inspire travel experiences that open your mind, ignite your curiosity, and broaden your horizons so you can discover your own &ldquo;Eureka moment&rdquo;</p>
+        <p class="ft-mission" id="ftMission" data-ts="ft_mission">Our mission is to inspire travel experiences that open your mind, ignite your curiosity, and broaden your horizons so you can discover your own &ldquo;Eureka moment&rdquo;</p>
         <div class="ft-social">
           <a href="https://www.instagram.com/eureka.trips" target="_blank" class="fsb" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
           <a href="https://www.google.com/search?q=Eureka+Trips" target="_blank" class="fsb" aria-label="Google"><svg viewBox="0 0 48 48"><path fill="currentColor" d="M43.6 20.1H42V20H24v8h11.3C33.6 32.8 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.1 8 2.9l5.7-5.7C34.1 6.8 29.3 5 24 5 13.5 5 5 13.5 5 24s8.5 19 19 19 19-8.5 19-19c0-1.3-.1-2.5-.4-3.9z"/></svg></a>
@@ -334,60 +349,55 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
       </div>
 
       <div>
-                <div class="ft-col-h">Company</div>
+                <div class="ft-col-h ft-col-h-toggle" onclick="toggleFooterCol(this)"><span id="ftCol1H" data-ts="ft_col1_heading">Company</span><svg class="ft-col-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>
         <div class="ft-col-links">
-          <a href="about-us.html">About Us</a>
-          <a href="index.html#trips">Our Trips</a>
-          <a href="destinations.html">Destinations</a>
-          <a href="whats-included.html">What's Included</a>
-          <a href="index.html#reviews">Reviews</a>
-          <a href="blog.html">Blogs</a>
+          <a href="about-us.html" data-ts="ft_links">About Us</a>
+          <a href="index.html#trips" data-ts="ft_links">Our Trips</a>
+          <a href="destinations.html" data-ts="ft_links">Destinations</a>
+          <a href="whats-included.html" data-ts="ft_links">What's Included</a>
+          <a href="index.html#reviews" data-ts="ft_links">Reviews</a>
+          <a href="blog.html" data-ts="ft_links">Blogs</a>
         </div>
       </div>
 
       <div>
-                <div class="ft-col-h">Explore</div>
+                <div class="ft-col-h ft-col-h-toggle" onclick="toggleFooterCol(this)"><span id="ftCol2H" data-ts="ft_col2_heading">Explore</span><svg class="ft-col-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>
         <div class="ft-col-links">
-          <a href="contact-us.html">Contact Us</a>
-          <a href="custom-trips.html">Adventure Planner</a>
-          <a href="group-trip.html">Group Trip</a>
-          <a href="about-us.html#faqs">FAQ</a>
-          <a href="booking-page.html">Book Your Trip</a>
+          <a href="contact-us.html" data-ts="ft_links">Contact Us</a>
+          <a href="custom-trips.html" data-ts="ft_links">Adventure Planner</a>
+          <a href="group-trip.html" data-ts="ft_links">Group Trip</a>
+          <a href="about-us.html#faqs" data-ts="ft_links">FAQ</a>
+          <a href="booking-page.html" data-ts="ft_links">Book Your Trip</a>
         </div>
       </div>
 
       <div>
-        <div class="ft-col-h">Contact Information</div>
+        <div class="ft-col-h"><span id="ftCol3H" data-ts="ft_col3_heading">Contact Information</span></div>
         <div class="ft-contact-item">
           <div class="ft-contact-icon"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg></div>
-          <div><div class="ft-contact-lbl">Phone Number</div><div class="ft-contact-val">+91 9792496457</div></div>
+          <div><div class="ft-contact-lbl" data-ts="ft_contact_info">Phone Number</div><div class="ft-contact-val" data-ts="ft_contact_info">+91 9792496457</div></div>
         </div>
         <div class="ft-contact-item">
           <div class="ft-contact-icon"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4V4z"/><path d="M4 6l8 7 8-7"/></svg></div>
-          <div><div class="ft-contact-lbl">Email Address</div><div class="ft-contact-val">hello@eurekatrips.com</div></div>
+          <div><div class="ft-contact-lbl" data-ts="ft_contact_info">Email Address</div><div class="ft-contact-val" data-ts="ft_contact_info">hello@eurekatrips.com</div></div>
         </div>
       </div>
     </div>
 
-    <div class="ft-badges">
-      <img class="ft-badge" src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Tripadvisor_Logo_circle-green_vertical-lockup_registered_RGB.svg/200px-Tripadvisor_Logo_circle-green_vertical-lockup_registered_RGB.svg.png" alt="Tripadvisor 5.0 stars" loading="lazy">
-      <span style="color:#fff;font-size:13px;font-weight:700;opacity:.9">100% Carbon Neutral Tours</span>
-      <span style="color:#fff;font-size:13px;font-weight:700;opacity:.9">#SmallChange Sustainable Travel</span>
-      <span style="color:#fff;font-size:13px;font-weight:700;opacity:.9">Google 4.9 ★★★★★</span>
-    </div>
-
-    <div class="ft-pay-row">
-      <span style="color:#fff;font-size:12px;font-weight:700;opacity:.85">We accept:</span>
-      <span style="color:rgba(255,255,255,.85);font-size:13px;font-weight:600">MasterCard</span>
-      <span style="color:rgba(255,255,255,.85);font-size:13px;font-weight:600">VISA</span>
-      <span style="color:rgba(255,255,255,.85);font-size:13px;font-weight:600">American Express</span>
-      <span style="color:rgba(255,255,255,.85);font-size:13px;font-weight:600">G Pay</span>
-      <span style="color:rgba(255,255,255,.85);font-size:13px;font-weight:600">Apple Pay</span>
+    <!-- Bottom row: payment methods (left) + certification badges (right) -->
+    <div class="ft-bottom-row">
+      <!-- Payment methods — populated entirely by applyPaymentLogos() from Supabase -->
+      <div class="ft-pay-row">
+        <span style="color:#fff;font-size:12px;font-weight:700;opacity:.85">We accept:</span>
+        <div id="ftPayLogos" style="display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap"></div>
+      </div>
+      <!-- Certification badges — populated entirely by applyTrustBadges() from Supabase -->
+      <div class="ft-badges" id="ftBadges"></div>
     </div>
 
     <div class="footer-btm">
-      <span class="ft-copy">&copy; 2026 Eureka Trips. All rights reserved.</span>
-            <div class="ft-legal"><a href="privacy-policy.html">Privacy Policy</a><a href="terms-conditions.html">Terms &amp; Conditions</a></div>
+      <span class="ft-copy" id="ftCopy" data-ts="ft_copyright">&copy; 2026 Eureka Trips. All rights reserved.</span>
+            <div class="ft-legal"><a href="privacy-policy.html" data-ts="ft_legal_links">Privacy Policy</a><a href="terms-conditions.html" data-ts="ft_legal_links">Terms &amp; Conditions</a></div>
     </div>
   </footer>
 </div>
@@ -416,7 +426,69 @@ async function sbSettings() {
   return s;
 }
 function esc(s) { if (s === null || s === undefined) return ''; return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-function setText(id, val) { if (!val) return; var el = document.getElementById(id); if (el) el.innerHTML = val; }
+
+/* ── GENERIC TYPOGRAPHY ENGINE ─────────────────────────────────────────
+   Now powered by the shared TypographyEngine (typography-engine.js) — the
+   exact same code the admin panel uses to preview these styles live, so
+   the two can never silently drift apart again. These are thin aliases so
+   every existing call site below (applyElementTypography,
+   applyAllTaggedTypography, CURRENT_SETTINGS, isMobileViewport, etc.)
+   keeps working unchanged. */
+var CURRENT_SETTINGS = {};
+async function loadTypographyStylesFrontend() { return TypographyEngine.loadStyles(); }
+
+async function applyPaymentLogos() {
+  var rows = await sbGet('payment_logos', 'active=eq.true&order=sort_order.asc');
+  rows = rows.filter(function(r) { return r.image_url; });
+  var wrap = document.getElementById('ftPayLogos');
+  if (!wrap || !rows.length) return;
+  wrap.innerHTML = rows.map(function(r) {
+    return '<img class="ft-pay" src="' + esc(r.image_url) + '" alt="' + esc(r.name || 'Payment method') + '" loading="lazy">';
+  }).join('');
+}
+
+async function applyTrustBadges() {
+  var rows = await sbGet('trust_badges', 'active=eq.true&order=sort_order.asc');
+  rows = rows.filter(function(r) { return r.image_url; });
+  var wrap = document.getElementById('ftBadges');
+  if (!wrap || !rows.length) return;
+  wrap.innerHTML = rows.map(function(r) {
+    var img = '<img class="ft-badge" src="' + esc(r.image_url) + '" alt="' + esc(r.name || 'Trust badge') + '" loading="lazy">';
+    return r.link ? '<a href="' + esc(r.link) + '" target="_blank" rel="noopener">' + img + '</a>' : img;
+  }).join('');
+}
+
+function toggleFooterCol(el) {
+  el.classList.toggle('open');
+  var links = el.nextElementSibling;
+  if (links) links.classList.toggle('open');
+}
+function isMobileViewport() { return TypographyEngine.isMobileViewport(); }
+function applyElementTypography(el) {
+  TypographyEngine.setCurrentSettings(CURRENT_SETTINGS);
+  return TypographyEngine.applyTagged(el);
+}
+function applyAllTaggedTypography() {
+  TypographyEngine.setCurrentSettings(CURRENT_SETTINGS);
+  TypographyEngine.applyAllTagged();
+  if (window.location.search.indexOf('ts_debug=1') !== -1) TypographyEngine.debug();
+}
+(function() {
+  var lastIsMobile = isMobileViewport();
+  var resizeTimer = null;
+  window.addEventListener('resize', function() {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(function() {
+      var nowMobile = isMobileViewport();
+      if (nowMobile !== lastIsMobile) { lastIsMobile = nowMobile; applyAllTaggedTypography(); }
+    }, 150);
+  });
+})();
+function stripOuterParagraph(html) {
+  var m = html.match(/^<p>([\s\S]*)<\/p>\s*$/i);
+  return m ? m[1] : html;
+}
+function setText(id, val) { if (!val) return; var el = document.getElementById(id); if (el) { el.innerHTML = stripOuterParagraph(val); applyElementTypography(el); } }
 function setAttr(id, attr, val) { if (!val) return; var el = document.getElementById(id); if (el) el.setAttribute(attr, val); }
 
 function openWA(msg){window.open('https://wa.me/919792496457?text='+encodeURIComponent(msg),'_blank');}
@@ -470,7 +542,7 @@ function renderFeat(){
   var track=document.getElementById('blFeatSlide');
   track.innerHTML=
     '<div class="bl-feat-txt fu in">'+
-      '<h2><a href="blog-post.html?post='+p.slug+'" style="color:inherit">'+p.title+'</a></h2>'+
+      '<h2><a href="blog-post.html?post='+p.slug+'" style="color:inherit">'+stripOuterParagraph(p.title||'')+'</a></h2>'+
       '<p>'+p.desc+'</p>'+
     '</div>'+
     '<a class="bl-feat-img-wrap" href="blog-post.html?post='+p.slug+'" style="display:block">'+
@@ -538,7 +610,7 @@ function renderGrid(){
       '<div class="bl-card-badges">'+badgesHtml+'</div>'+
       '<div class="bl-card-bottom">'+
         '<div class="bl-card-tags">'+tagsHtml+'</div>'+
-        '<div class="bl-card-title">'+p.title+'</div>'+
+        '<div class="bl-card-title">'+stripOuterParagraph(p.title||'')+'</div>'+
       '</div>'+
     '</a>';
   }).join('');
@@ -549,6 +621,10 @@ function renderGrid(){
 ═════════════════════════════════════════════════════════════ */
 async function loadBlogPageData() {
   var s = await sbSettings();
+  CURRENT_SETTINGS = s;
+  await loadTypographyStylesFrontend();
+  applyPaymentLogos();
+  applyTrustBadges();
   setAttr('blHeroImg', 'src', s.bl_hero_image);
   setText('blHeroH1', s.bl_hero_heading);
   setText('blHeroSub', s.bl_hero_subtext);
@@ -567,6 +643,13 @@ async function loadBlogPageData() {
   startFeatAutoplay();
   renderFilters();
   renderGrid();
+  setText('ftMission', s.ft_mission);
+  setText('ftCol1H', s.ft_col1_heading);
+  setText('ftCol2H', s.ft_col2_heading);
+  setText('ftCol3H', s.ft_col3_heading);
+  setText('ftCopy', s.ft_copyright);
+
+  applyAllTaggedTypography();
 }
 loadBlogPageData();
 </script>
