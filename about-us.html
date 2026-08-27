@@ -1094,32 +1094,31 @@ async function loadAboutUsPageData() {
     slot1.parentElement.classList.remove('is-empty');
     if (stickers.length > 1) slot2.parentElement.classList.remove('is-empty');
 
-    // Preload every sticker photo before any rotation starts. Each rotation
-    // slides the pair forward by one, so slot 1's NEXT photo is always the
-    // exact photo slot 2 is CURRENTLY showing — meaning it's already cached
-    // and swaps in instantly, while slot 2's next photo (one it's never
-    // shown before) has to actually download first. That gap between an
-    // instant swap and a delayed one is what made it look like the same
-    // picture lingered before "changing" — preloading here means every
-    // photo is already decoded and cached by the time any swap happens, on
-    // either slot, so there's no lag for either side to fall behind on.
+    // Preload every sticker photo before rotation starts so both slots can swap together.
     stickers.forEach(function(url) { var pre = new Image(); pre.src = url; });
 
     var idx = 0;
     function showPair() {
       var img1 = stickers[idx % stickers.length];
       var img2 = stickers[(idx + 1) % stickers.length];
-      crossfadeTo(slot1, img1);
-      if (stickers.length > 1) crossfadeTo(slot2, img2);
+      crossfadePair(img1, img2);
     }
-    function crossfadeTo(imgEl, src) {
-      if (imgEl.getAttribute('src') === src) return;
-      imgEl.style.opacity = 0;
-      setTimeout(function(){ imgEl.src = src; imgEl.style.opacity = 1; }, 300);
+    function crossfadePair(src1, src2) {
+      var nextSlot1 = slot1.getAttribute('src') !== src1;
+      var nextSlot2 = stickers.length > 1 && slot2.getAttribute('src') !== src2;
+      if (!nextSlot1 && !nextSlot2) return;
+      if (nextSlot1) slot1.style.opacity = 0;
+      if (nextSlot2) slot2.style.opacity = 0;
+      setTimeout(function(){
+        if (nextSlot1) slot1.src = src1;
+        if (nextSlot2) slot2.src = src2;
+        slot1.style.opacity = 1;
+        if (stickers.length > 1) slot2.style.opacity = 1;
+      }, 300);
     }
     showPair();
     if (stickers.length > 2) {
-      setInterval(function(){ idx = (idx + 1) % stickers.length; showPair(); }, 2000);
+      setInterval(function(){ idx = (idx + 2) % stickers.length; showPair(); }, 2500);
     }
   })();
   [1,2,3,4].forEach(function(n){
