@@ -159,7 +159,8 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
 .ab-hero-ov{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.45) 0%,rgba(0,0,0,.15) 35%,rgba(0,0,0,.15) 60%,rgba(0,0,0,.6) 100%)}
 .ab-hero-content{position:relative;z-index:2;width:100%;max-width:1100px;margin:0 auto;padding:0 1.5rem;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center}
 .ab-hero-h1{font-family:'Outfit','Poppins',sans-serif;font-size:60px;color:#FFFFFF;line-height:1.15;font-weight:600;font-style:normal;letter-spacing:0.2px;margin-bottom:.85rem}
-.ab-hero-sub{font-family:'Poppins',sans-serif;font-size:18px;color:#FFFFFF;font-style:normal;max-width:520px;line-height:1.5;letter-spacing:-0.2px;font-weight:400;margin:0 auto;text-shadow:0 2px 8px rgba(0,0,0,.5)}
+.ab-hero-sub{font-family:'Poppins',sans-serif;font-size:18px;color:#FFFFFF;font-style:normal;max-width:min(900px,calc(100vw - 48px));line-height:1.5;letter-spacing:-0.2px;font-weight:400;margin:0 auto;text-shadow:0 2px 8px rgba(0,0,0,.5)}
+@media(min-width:769px){.ab-hero-sub{white-space:nowrap}}
 
 /* Teal pill tab bar — same look/colors as the reference, own layout */
 .ab-tabs{background:#027A74;position:sticky;top:0;z-index:1001}
@@ -447,7 +448,7 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
 @media(max-width:768px){
   /* 3. About Hero */
   .ab-hero-h1{font-size:33px;line-height:33px}
-  .ab-hero-sub{font-size:16px;line-height:16px}
+  .ab-hero-sub{font-size:16px;line-height:16px;max-width:520px;white-space:normal}
 
   /* 5. About Eureka (belief quote) */
   .ab-belief-quote{font-size:32px;line-height:35px}
