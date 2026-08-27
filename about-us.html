@@ -560,8 +560,8 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
   <div class="container">
     <div class="ab-belief-row">
       <div class="ab-belief-stickers fu">
-        <div class="ab-sticker ab-sticker1 is-empty"><img id="abStickerSlot1" src="" alt="" loading="lazy"></div>
-        <div class="ab-sticker ab-sticker2 is-empty"><img id="abStickerSlot2" src="" alt="" loading="lazy"></div>
+        <div class="ab-sticker ab-sticker1 is-empty"><img id="abStickerSlot1" src="" alt="" loading="eager" decoding="async"></div>
+        <div class="ab-sticker ab-sticker2 is-empty"><img id="abStickerSlot2" src="" alt="" loading="eager" decoding="async"></div>
       </div>
       <div class="ab-belief-quote-wrap fu d1">
         <p class="ab-belief-quote" id="abBeliefQuote" data-ts="about_belief_quote">We believe travel should start with <em>you</em> — your desires, your vibe, <em>your reasons for going.</em></p>
@@ -1094,27 +1094,51 @@ async function loadAboutUsPageData() {
     slot1.parentElement.classList.remove('is-empty');
     if (stickers.length > 1) slot2.parentElement.classList.remove('is-empty');
 
-    // Preload every sticker photo before rotation starts so both slots can swap together.
-    stickers.forEach(function(url) { var pre = new Image(); pre.src = url; });
+    var preloadCache = {};
+    function preloadSticker(url) {
+      if (preloadCache[url]) return preloadCache[url];
+      preloadCache[url] = new Promise(function(resolve) {
+        var pre = new Image();
+        pre.onload = function() {
+          if (pre.decode) {
+            pre.decode().then(resolve).catch(resolve);
+          } else {
+            resolve();
+          }
+        };
+        pre.onerror = resolve;
+        pre.src = url;
+      });
+      return preloadCache[url];
+    }
+    stickers.forEach(preloadSticker);
 
     var idx = 0;
+    var rotationToken = 0;
     function showPair() {
       var img1 = stickers[idx % stickers.length];
       var img2 = stickers[(idx + 1) % stickers.length];
       crossfadePair(img1, img2);
     }
     function crossfadePair(src1, src2) {
-      var nextSlot1 = slot1.getAttribute('src') !== src1;
-      var nextSlot2 = stickers.length > 1 && slot2.getAttribute('src') !== src2;
-      if (!nextSlot1 && !nextSlot2) return;
-      if (nextSlot1) slot1.style.opacity = 0;
-      if (nextSlot2) slot2.style.opacity = 0;
-      setTimeout(function(){
-        if (nextSlot1) slot1.src = src1;
-        if (nextSlot2) slot2.src = src2;
-        slot1.style.opacity = 1;
-        if (stickers.length > 1) slot2.style.opacity = 1;
-      }, 300);
+      var token = ++rotationToken;
+      var ready = stickers.length > 1 ? [preloadSticker(src1), preloadSticker(src2)] : [preloadSticker(src1)];
+      Promise.all(ready).then(function() {
+        if (token !== rotationToken) return;
+        if (slot1.getAttribute('src') === src1 && (!slot2 || stickers.length < 2 || slot2.getAttribute('src') === src2)) return;
+        slot1.style.opacity = 0;
+        if (stickers.length > 1) slot2.style.opacity = 0;
+        setTimeout(function(){
+          if (token !== rotationToken) return;
+          slot1.src = src1;
+          if (stickers.length > 1) slot2.src = src2;
+          requestAnimationFrame(function() {
+            if (token !== rotationToken) return;
+            slot1.style.opacity = 1;
+            if (stickers.length > 1) slot2.style.opacity = 1;
+          });
+        }, 300);
+      });
     }
     showPair();
     if (stickers.length > 2) {
