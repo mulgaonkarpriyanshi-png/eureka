@@ -1089,7 +1089,7 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
   .arr-prev{left:-2px}
   .arr-next{right:-2px}
   /* Card width on mobile = 1 visible — hide arrows, pure swipe */
-  .carousel-arrow{display:none}
+  .carousel-arrow,.ft-arrows,#arrPrev,#arrNext,#revPrev,#revNext,.tc2-gal-arrow{display:none!important}
   .carousel-track{padding:8px 0 16px}.carousel-track::-webkit-scrollbar{display:none}
   /* Dots */
   .carousel-dots{margin-top:1rem}
@@ -1103,13 +1103,11 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
   .reviews-card-outer{border-radius:20px;padding:1.25rem 1.25rem 1.5rem}
   .reviews-hdr{margin-bottom:1.75rem}
   .reviews-hdr h2{font-size:clamp(22px,5.5vw,28px)}
-  .reviews-carousel-outer{overflow:hidden;padding:0 36px;margin-bottom:.5rem}
-  .rc{width:calc(100vw - 152px);height:auto;min-height:200px}
+  .reviews-carousel-outer{overflow:hidden;padding:0 24px;margin-bottom:.5rem}
+  .rc{width:calc(100vw - 98px);height:auto;min-height:220px;padding:1rem 1.1rem;gap:.6rem}
+  .rc-q{line-height:1.55;-webkit-line-clamp:4}
   .rev-dots{margin-top:1.25rem}
   .reviews-confidence{margin-top:2rem}
-  /* Review card arrows */
-  #revPrev{left:6px}
-  #revNext{right:6px}
 
   /* Stats bento */
   .stats-bento{padding:2.5rem 1.25rem}
@@ -1231,7 +1229,7 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
   .why-card{
     position:sticky;
     grid-template-columns:1fr !important;
-    grid-template-rows:auto 200px;
+    grid-template-rows:200px auto;
     height:auto !important;
     min-height:unset !important;
     border-radius:16px !important;
@@ -1245,9 +1243,9 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
   .why-card:nth-child(4){top:112px}
   .why-card:nth-child(5){top:124px}
   .why-card:nth-child(6){top:136px}
-  /* On mobile: text first, image below (matches reference) */
-  .why-card-txt{order:0}
-  .why-card-img{height:200px;order:1;flex-shrink:0}
+  /* On mobile: image first, text below. */
+  .why-card-img{height:200px;order:0;flex-shrink:0}
+  .why-card-txt{order:1}
   .why-card-txt{
     padding:1.25rem 1.25rem 1.5rem;
     height:auto !important;
