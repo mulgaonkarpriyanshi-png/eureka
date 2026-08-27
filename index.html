@@ -882,7 +882,9 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
 .ft-sec{background:var(--white);padding:clamp(2.5rem,5vw,4.5rem) clamp(1.25rem,4vw,3rem)}
 .ft-inner{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:46fr 54fr;gap:clamp(2rem,4vw,3.5rem);align-items:center}
 
-.ft-collage{display:flex;align-items:flex-start;gap:clamp(10px,1.4vw,14px)}
+.ft-collage{display:block}
+.ft-desktop-collage{display:flex;align-items:flex-start;gap:clamp(10px,1.4vw,14px)}
+.ft-mobile-gallery{display:none}
 .ft-col{display:flex;flex-direction:column;gap:clamp(10px,1.4vw,14px);flex:1;min-width:0}
 .ft-col-3{margin-top:clamp(60px,12%,110px)}
 .ft-img{border-radius:16px;overflow:hidden;box-shadow:0 10px 28px rgba(0,0,0,.12);background:#eef1f1}
@@ -904,6 +906,12 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
 .ft-arrow{width:46px;height:46px;border-radius:50%;border:1.5px solid var(--teal);background:#fff;color:var(--teal);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s}
 .ft-arrow:hover{background:var(--teal);color:#fff}
 .ft-arrow svg{width:18px;height:18px}
+.ft-progress{display:none}
+.ft-progress[hidden]{display:none!important}
+.ft-progress-track{display:block;width:min(220px,68vw);height:4px;margin:0 auto;border-radius:999px;background:#DCEAEA;overflow:hidden}
+.ft-progress-fill{display:block;width:100%;height:100%;border-radius:inherit;background:var(--teal);transform:scaleX(0);transform-origin:left}
+.ft-progress-fill.is-running{animation:ftMobileProgress 4.5s linear forwards}
+@keyframes ftMobileProgress{from{transform:scaleX(0)}to{transform:scaleX(1)}}
 
 /* ══════════════════════════════════════
    STATS BENTO GRID — photos + text overlay
@@ -1057,6 +1065,14 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
   /* Featured trips */
   .ft-sec{padding:2.5rem 1.25rem}
   .ft-heading{font-family:'Apfel Grotezk','Poppins',sans-serif;font-size:clamp(32px,9vw,42px);font-weight:700;color:#3A3B3B;letter-spacing:-1px}
+  .ft-desktop-collage{display:none}
+  .ft-mobile-gallery{display:block;width:100%;overflow:hidden}
+  .ft-mobile-track{display:flex;gap:.75rem;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding:0 .125rem;padding:.125rem .125rem .85rem;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+  .ft-mobile-track::-webkit-scrollbar{display:none}
+  .ft-mobile-slide{flex:0 0 min(78vw,290px);aspect-ratio:4/5;border-radius:14px;overflow:hidden;background:#eef1f1;box-shadow:0 10px 24px rgba(0,0,0,.14);scroll-snap-align:center}
+  .ft-mobile-slide img{width:100%;height:100%;object-fit:cover;display:block}
+  .ft-arrows{display:none}
+  .ft-progress{display:block;margin-top:.2rem}
 
   /* Features */
   .choose-grid{grid-template-columns:1fr;gap:2rem}
@@ -1797,6 +1813,7 @@ body{font-display:swap}
       <h2 class="ft-heading" id="ftHeading"></h2>
       <p class="ft-desc" id="ftDesc"></p>
       <a href="#" class="ft-btn" id="ftBtn" data-ts="ft_button_text"></a>
+      <div class="ft-progress" id="ftProgress" aria-hidden="true" hidden><span class="ft-progress-track"><span class="ft-progress-fill" id="ftProgressFill"></span></span></div>
       <div class="ft-arrows">
         <button class="ft-arrow" id="ftPrev" aria-label="Previous slide"><svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
         <button class="ft-arrow" id="ftNext" aria-label="Next slide"><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
@@ -3290,6 +3307,8 @@ window.addEventListener('resize', function () {
 
 var FT_SLIDES = [];
 var ftIndex = 0;
+var ftAutoTimer = null;
+var FT_PROGRESS_MS = 4500;
 async function applyFeaturedTrips() {
   var rows = await sbGet('featured_trip_slides', 'active=eq.true&order=sort_order.asc');
   rows = rows.filter(function(r) { return r.heading; });
@@ -3317,20 +3336,44 @@ function renderFeaturedTrip() {
   function slot(n, i) {
     return '<div class="ft-img ft-img-' + n + '">' + (imgs[i] ? '<img src="' + esc(imgs[i]) + '" alt="" loading="lazy">' : '') + '</div>';
   }
+  var mobileSlides = imgs.filter(Boolean).map(function(src) {
+    return '<div class="ft-mobile-slide"><img src="' + esc(src) + '" alt="" loading="lazy"></div>';
+  }).join('');
   collage.innerHTML =
-    '<div class="ft-col">' + slot(1, 0) + slot(3, 2) + slot(6, 5) + '</div>' +
-    '<div class="ft-col">' + slot(2, 1) + slot(4, 3) + '</div>' +
-    '<div class="ft-col ft-col-3">' + slot(5, 4) + slot(7, 6) + '</div>';
+    '<div class="ft-desktop-collage">' +
+      '<div class="ft-col">' + slot(1, 0) + slot(3, 2) + slot(6, 5) + '</div>' +
+      '<div class="ft-col">' + slot(2, 1) + slot(4, 3) + '</div>' +
+      '<div class="ft-col ft-col-3">' + slot(5, 4) + slot(7, 6) + '</div>' +
+    '</div>' +
+    '<div class="ft-mobile-gallery"><div class="ft-mobile-track">' + mobileSlides + '</div></div>';
+  restartFeaturedTripProgress();
 }
 function ftGo(dir) {
   if (!FT_SLIDES.length) return;
   ftIndex = (ftIndex + dir + FT_SLIDES.length) % FT_SLIDES.length;
   renderFeaturedTrip();
 }
+function isFeaturedTripMobile() {
+  return window.matchMedia && window.matchMedia('(max-width: 768px)').matches;
+}
+function restartFeaturedTripProgress() {
+  clearTimeout(ftAutoTimer);
+  var progress = document.getElementById('ftProgress');
+  var fill = document.getElementById('ftProgressFill');
+  if (!fill) return;
+  var active = isFeaturedTripMobile() && FT_SLIDES.length > 1;
+  if (progress) progress.hidden = !active;
+  fill.classList.remove('is-running');
+  if (!active) return;
+  void fill.offsetWidth;
+  fill.classList.add('is-running');
+  ftAutoTimer = setTimeout(function(){ ftGo(1); }, FT_PROGRESS_MS);
+}
 document.addEventListener('DOMContentLoaded', function() {
   var prevBtn = document.getElementById('ftPrev'), nextBtn = document.getElementById('ftNext');
   if (prevBtn) prevBtn.addEventListener('click', function(){ ftGo(-1); });
   if (nextBtn) nextBtn.addEventListener('click', function(){ ftGo(1); });
+  window.addEventListener('resize', function(){ restartFeaturedTripProgress(); });
 });
 
 async function applyBlogPreview() {
