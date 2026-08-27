@@ -94,6 +94,7 @@ img{display:block;max-width:100%}
   --fw-regular:400;
   --fw-medium:500;
   --fw-bold:700;
+  --home-title-byline-gap:.35rem;
 }
 
 /* ─────────────────────────────────────────
@@ -162,25 +163,17 @@ img{display:block;max-width:100%}
 .nav-search button svg{width:14px;height:14px}
 
 /* Center nav-links pill — same style used on about-us.html and other inner pages */
-.nav-pill{
-  display:flex;align-items:center;justify-content:center;
-  gap:clamp(1rem,2vw,2rem);
-  flex:1;
-  background:rgba(40,50,55,.45);
-  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
-  border:1.5px solid rgba(255,255,255,.55);
-  border-radius:50px;
-  padding:.65rem clamp(1.5rem,3vw,2.5rem);
-  max-width:980px;margin:0 auto;
-  transition:background .3s,border-color .3s,backdrop-filter .3s;
-}
-.navbar.solid .nav-pill{background:transparent;border-color:transparent;backdrop-filter:none;padding:.5rem 0}
-.nav-pill a{font-size:14px;font-weight:600;color:#fff;white-space:nowrap;text-decoration:none;transition:color .2s;letter-spacing:.1px;display:flex;align-items:center;gap:4px}
-.nav-pill a:hover{color:#02A9A2}
-.nav-pill a.active{color:#02A9A2}
+.nav-pill{display:flex;align-items:center;justify-content:center;gap:clamp(1.1rem,1.8vw,2.15rem);position:absolute;left:50%;transform:translateX(-50%);width:fit-content;min-width:0;flex:none;background:linear-gradient(90deg,rgba(114,106,94,.62),rgba(76,88,101,.62));backdrop-filter:blur(18px) saturate(120%);-webkit-backdrop-filter:blur(18px) saturate(120%);border:1px solid rgba(255,255,255,.28);box-shadow:inset 0 1px 0 rgba(255,255,255,.22),0 8px 28px rgba(0,0,0,.18);border-radius:50px;padding:.72rem clamp(1.8rem,2.8vw,3rem);max-width:calc(100vw - 520px);margin:0;transition:background .3s,border-color .3s,backdrop-filter .3s,box-shadow .3s}
+.navbar.solid .nav-pill{background:transparent;border-color:transparent;backdrop-filter:none;-webkit-backdrop-filter:none;box-shadow:none;padding:.5rem 0}
+.nav-pill a{font-size:14px;font-weight:600;color:#fff;white-space:nowrap;text-decoration:none;position:relative;padding:.25rem 0;transition:opacity .2s;letter-spacing:.1px;display:flex;align-items:center;gap:4px}
+.nav-pill a::after{content:"";position:absolute;left:50%;bottom:-5px;width:100%;height:2px;background:currentColor;border-radius:999px;opacity:0;transform:translateX(-50%) scaleX(0);transform-origin:center;transition:transform .24s ease,opacity .18s ease}
+.nav-pill a:hover{color:#fff}
+.nav-pill a.active{color:#fff}
 .navbar.solid .nav-pill a{color:#6B7575}
-.navbar.solid .nav-pill a:hover{color:#02A9A2}
-.navbar.solid .nav-pill a.active{color:#02A9A2}
+.nav-pill a:hover::after{opacity:1;transform:translateX(-50%) scaleX(1)}
+
+.navbar.solid .nav-pill a:hover{color:#6B7575}
+
 .nav-plus{font-size:16px;font-weight:400;opacity:.7}
 
 /* Right — social icons */
@@ -215,6 +208,7 @@ img{display:block;max-width:100%}
 .hbg.open .hbg-icon span:nth-child(1){transform:rotate(45deg) translate(4px,4px)}
 .hbg.open .hbg-icon span:nth-child(2){opacity:0}
 .hbg.open .hbg-icon span:nth-child(3){transform:rotate(-45deg) translate(4px,-4px)}
+@media(max-width:1024px){.nav-pill,.nav-soc{display:none}.hbg{display:flex}}
 /* Responsive */
 
 /* ─────────────────────────────────────────
@@ -323,9 +317,10 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
 .eyebrow{display:flex;align-items:center;gap:10px;margin-bottom:.75rem}
 .ey-line{width:28px;height:2px;background:var(--teal);border-radius:1px}
 .ey-txt{font-size:11px;font-weight:600;letter-spacing:3.5px;text-transform:uppercase;color:var(--teal)}
-.sec-h{font-family:'ITApfelGrotezk-Regular','Apfel Grotesk','Poppins',sans-serif;font-size:42px;color:#3A3B3B;font-weight:600;line-height:1.15;letter-spacing:-1px;margin-bottom:.75rem}
+.sec-h{font-family:'ITApfelGrotezk-Regular','Apfel Grotesk','Poppins',sans-serif;font-size:42px;color:#3A3B3B;font-weight:600;line-height:1.15;letter-spacing:-1px;margin-bottom:var(--home-title-byline-gap)}
 .sec-h em{color:var(--teal);font-style:italic;font-family:var(--serif);font-weight:400}
 .sec-p{font-family:'Poppins',sans-serif;font-size:16px;color:#3A3B3B;line-height:1.5;letter-spacing:-0.2px;font-weight:400;max-width:520px}
+#upcomingH,#reviewsH,#whyTitleEl,#blogHeadingEl{line-height:1.15!important;margin-bottom:var(--home-title-byline-gap)!important}
 /* Scroll anim */
 .fu{opacity:0;transform:translateY(14px);transition:opacity .5s ease-out,transform .5s ease-out;will-change:opacity,transform}
 .fu.in{opacity:1;transform:none}
@@ -588,7 +583,7 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
 .reviews-hdr h2{
   font-family:'ITApfelGrotezk-Regular','Apfel Grotesk','Poppins',sans-serif;
   font-size:42px;font-weight:600;color:#3A3B3B;
-  line-height:1.15;letter-spacing:-1px;margin-bottom:.4rem;font-style:normal;
+  line-height:1.15;letter-spacing:-1px;margin-bottom:var(--home-title-byline-gap);font-style:normal;
 }
 .reviews-hdr h2 em{font-style:normal;color:#02A9A2;font-weight:600}
 .reviews-hdr h2 .rh-accent{color:#02A9A2;font-weight:600}
@@ -661,7 +656,7 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
 ══════════════════════════════════════ */
 .why-sec{background:#fff;padding:clamp(2rem,4vw,3rem) clamp(1.25rem,4vw,3rem)}
 .why-inner{max-width:1100px;margin:0 auto}
-.why-title{font-size:clamp(26px,3.5vw,38px);font-weight:700;color:#0a0a0a;text-align:center;margin-bottom:1rem;letter-spacing:-.3px}
+.why-title{font-size:clamp(26px,3.5vw,38px);font-weight:700;color:#0a0a0a;text-align:center;margin-bottom:var(--home-title-byline-gap);letter-spacing:-.3px}
 .why-cards{display:flex;flex-direction:column;gap:1.25rem}
 
 /* The wide rectangle card */
@@ -752,7 +747,7 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
 ══════════════════════════════════════ */
 .why-sec{background:#fff;padding:clamp(2rem,4vw,3rem) clamp(1.25rem,4vw,3rem)}
 .why-inner{max-width:1100px;margin:0 auto}
-.why-title{font-family:'ITApfelGrotezk-Regular','Apfel Grotesk','Poppins',sans-serif;font-size:42px;font-weight:600;color:#3A3B3B;text-align:center;margin-bottom:.75rem;letter-spacing:-1px}
+.why-title{font-family:'ITApfelGrotezk-Regular','Apfel Grotesk','Poppins',sans-serif;font-size:42px;font-weight:600;color:#3A3B3B;text-align:center;margin-bottom:var(--home-title-byline-gap);letter-spacing:-1px}
 .why-byline{font-family:'Poppins',sans-serif;font-size:16px;color:#6b7280;font-weight:400;text-align:center;max-width:560px;margin:0 auto clamp(2.5rem,5vw,4rem)}
 
 /* Stack container — tall enough for all cards */
@@ -1110,7 +1105,7 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
 
   /* Why travel */
   .why-sec{padding:2.5rem 0 0}
-  .why-title{font-size:clamp(20px,5.5vw,28px);margin-bottom:1.5rem;padding:0 1.25rem}
+  .why-title{font-size:clamp(20px,5.5vw,28px);margin-bottom:var(--home-title-byline-gap);padding:0 1.25rem}
 
   /* Booking CTA */
   .cta-sec{padding:2.5rem 1.25rem}
@@ -1678,7 +1673,6 @@ body{font-display:swap}
   </a>
   <div class="nav-pill">
     <a href="about-us.html">About Us</a>
-    <a href="index.html#trips">Our Trips <span class="nav-plus">+</span></a>
     <a href="destinations.html">Destinations</a>
     <a href="group-trip.html">Group Trip</a>
     <a href="custom-trips.html">Build Your Adventure</a>
@@ -1736,31 +1730,31 @@ body{font-display:swap}
     <div class="cat-bar-track" id="catBarTrack">
       <a class="cat-item" href="destinations.html?region=Coming%20up">
         <div class="cat-ic-wrap"><span class="cat-ic cat-ic-emoji">✨</span></div>
-        <span class="cat-lbl">Coming up</span>
+        <span class="cat-lbl" data-ts="home_catbar_label">Coming up</span>
       </a>
       <a class="cat-item" href="destinations.html?region=Asia">
         <div class="cat-ic-wrap"><span class="cat-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2 3h-4z"/><path d="M9 5h6l1.5 3h-9z"/><path d="M7 8h10l2 4H5z"/><path d="M6 12h12v8H6z"/><path d="M4 21h16"/></svg></span></div>
-        <span class="cat-lbl">Asia</span>
+        <span class="cat-lbl" data-ts="home_catbar_label">Asia</span>
       </a>
       <a class="cat-item" href="destinations.html?region=Europe">
         <div class="cat-ic-wrap"><span class="cat-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l-1.5 5h3z"/><path d="M9.5 9h5l-1 4h-3z"/><path d="M8.5 15h7l-1.2 4.5h-4.6z"/><path d="M4 21h16"/><path d="M7 21l3-8M17 21l-3-8"/></svg></span></div>
-        <span class="cat-lbl">Europe</span>
+        <span class="cat-lbl" data-ts="home_catbar_label">Europe</span>
       </a>
       <a class="cat-item" href="destinations.html?region=Middle%20east">
         <div class="cat-ic-wrap"><span class="cat-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21v-7a8 8 0 0116 0v7"/><path d="M4 21h16"/><path d="M12 6V3M10.5 4.5h3"/></svg></span></div>
-        <span class="cat-lbl">Middle east</span>
+        <span class="cat-lbl" data-ts="home_catbar_label">Middle east</span>
       </a>
       <a class="cat-item" href="destinations.html?region=Domestic">
         <div class="cat-ic-wrap"><span class="cat-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11l8-7 8 7"/><path d="M6 10v10h12V10"/><path d="M10 20v-6h4v6"/></svg></span></div>
-        <span class="cat-lbl">Domestic</span>
+        <span class="cat-lbl" data-ts="home_catbar_label">Domestic</span>
       </a>
       <a class="cat-item" href="destinations.html?region=Africa">
         <div class="cat-ic-wrap"><span class="cat-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v6"/><path d="M5 9c0-2 3-3 7-3s7 1 7 3-3 2-7 2-7 0-7-2z"/><path d="M12 12v9"/><path d="M8 21h8"/></svg></span></div>
-        <span class="cat-lbl">Africa</span>
+        <span class="cat-lbl" data-ts="home_catbar_label">Africa</span>
       </a>
       <a class="cat-item active" href="destinations.html">
         <div class="cat-ic-wrap"><span class="cat-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3c2.5 2.5 2.5 15.5 0 18M12 3c-2.5 2.5-2.5 15.5 0 18"/></svg></span></div>
-        <span class="cat-lbl">All Trips</span>
+        <span class="cat-lbl" data-ts="home_catbar_label">All Trips</span>
       </a>
     </div>
     <button class="cat-bar-arrow" onclick="catBarScroll(1)" aria-label="Scroll right"><svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></button>
@@ -1801,7 +1795,7 @@ body{font-display:swap}
       <div class="ft-eyebrow" id="ftEyebrow">Our featured trips</div>
       <h2 class="ft-heading" id="ftHeading"></h2>
       <p class="ft-desc" id="ftDesc"></p>
-      <a href="#" class="ft-btn" id="ftBtn"></a>
+      <a href="#" class="ft-btn" id="ftBtn" data-ts="ft_button_text"></a>
       <div class="ft-arrows">
         <button class="ft-arrow" id="ftPrev" aria-label="Previous slide"><svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
         <button class="ft-arrow" id="ftNext" aria-label="Next slide"><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
@@ -1813,7 +1807,7 @@ body{font-display:swap}
 <!-- TRIP CARDS -->
 <section class="trips-sec" id="trips">
   <div class="trips-inner">
-    <div class="trips-hdr2" style="justify-content:center;text-align:center;flex-direction:column;gap:.5rem">
+    <div class="trips-hdr2" style="justify-content:center;text-align:center;flex-direction:column;gap:0">
       <h2 class="sec-h" style="font-style:normal" id="upcomingH" data-ts="ut_heading">Upcoming trips</h2>
       <p class="trips-byline" id="upcomingByline" data-ts="ut_byline">Handpicked group adventures, ready for you to join.</p>
     </div>
@@ -1832,72 +1826,6 @@ body{font-display:swap}
     <div class="promo-banner-outer">
       <div class="promo-banner-track" id="promoBannerTrack"></div>
       <div class="promo-banner-dots" id="promoBannerDots"></div>
-    </div>
-  </div>
-</section>
-
-<!-- CUSTOM TOURS -->
-<section class="ct-cards-sec" id="customTours">
-  <div class="trips-inner">
-    <div class="trips-hdr2 fu" style="justify-content:center;text-align:center;flex-direction:column;gap:.5rem">
-      <div class="ct-cards-eyebrow" id="ctEyebrow" data-ts="ct_eyebrow">Custom Tours</div>
-      <h2 class="sec-h" id="ctHeading" style="font-style:normal" data-ts="ct_heading">Build your own adventure. Your itinerary your way!</h2>
-    </div>
-    <div class="carousel-outer" id="ctcCarouselOuter">
-      <button class="carousel-arrow arr-prev disabled" id="ctcArrPrev" onclick="ctcCarouselPrev()" aria-label="Previous"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
-      <div class="carousel-track" id="customToursGrid"><!-- cards injected by applyCustomTourCards() --></div>
-      <button class="carousel-arrow arr-next" id="ctcArrNext" onclick="ctcCarouselNext()" aria-label="Next"><svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></button>
-    </div>
-    <div class="carousel-dots" id="ctcCarouselDots"></div>
-    <div class="trips-more2 fu"><a href="custom-trips.html" class="btn-view-more">Build Your Adventure</a></div>
-  </div>
-</section>
-
-<!-- VIDEO SECTION -->
-<section class="video-sec" id="video">
-  <div class="video-inner fu">
-    <h2 class="video-title" id="videoTitleEl" data-ts="video_title">We do fun stuff. You are invited to join!</h2>
-    <div class="video-wrap" id="videoWrap">
-      <iframe
-        id="ytPlayer"
-        src=""
-        title="Eureka Trips — We do fun stuff"
-        allow="autoplay; encrypted-media; picture-in-picture"
-        allowfullscreen>
-      </iframe>
-      
-    </div>
-  </div>
-</section>
-
-<!-- REVIEWS -->
-<section class="reviews-sec" id="reviews">
-  <div class="reviews-card-outer">
-    <div class="reviews-hdr fu">
-      <h2 id="reviewsH" data-ts="reviews_heading">See What Past Travelers Say About <em>Eureka Trips!</em></h2>
-      <p id="reviewsSub" data-ts="reviews_subtitle">Newton's 3rd law holds true with our tribe too, They love us just like we love them.</p>
-    </div>
-    <div class="reviews-carousel-outer" id="revOuter">
-      <button class="carousel-arrow arr-prev disabled" id="revPrev" onclick="revPrev()" aria-label="Previous"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
-      <div class="reviews-track" id="revTrack"></div>
-      <button class="carousel-arrow arr-next" id="revNext" onclick="revNext()" aria-label="Next"><svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></button>
-    </div>
-    <div class="rev-dots" id="revDots"></div>
-
-    <div class="reviews-confidence fu">
-      <h3 id="confidenceH" data-ts="confidence_heading">Book with confidence</h3>
-      <div class="confidence-badges">
-        <div class="cb-google">
-          <svg width="100" height="34" viewBox="0 0 272 92" xmlns="http://www.w3.org/2000/svg"><path fill="#EA4335" d="M115.75 47.18c0 12.77-9.99 22.18-22.25 22.18s-22.25-9.41-22.25-22.18C71.25 34.32 81.24 25 93.5 25s22.25 9.32 22.25 22.18zm-9.74 0c0-7.98-5.79-13.44-12.51-13.44S80.99 39.2 80.99 47.18c0 7.9 5.79 13.44 12.51 13.44s12.51-5.55 12.51-13.44z"/><path fill="#FBBC05" d="M163.75 47.18c0 12.77-9.99 22.18-22.25 22.18s-22.25-9.41-22.25-22.18c0-12.85 9.99-22.18 22.25-22.18s22.25 9.32 22.25 22.18zm-9.74 0c0-7.98-5.79-13.44-12.51-13.44s-12.51 5.46-12.51 13.44c0 7.9 5.79 13.44 12.51 13.44s12.51-5.55 12.51-13.44z"/><path fill="#4285F4" d="M209.75 26.34v39.82c0 16.38-9.66 23.07-21.08 23.07-10.75 0-17.22-7.19-19.66-13.07l8.48-3.53c1.51 3.61 5.21 7.87 11.17 7.87 7.31 0 11.84-4.51 11.84-13v-3.19h-.34c-2.18 2.69-6.38 5.04-11.68 5.04-11.09 0-21.25-9.66-21.25-22.09 0-12.52 10.16-22.26 21.25-22.26 5.29 0 9.49 2.35 11.68 4.96h.34v-3.61h9.25zm-8.56 20.92c0-7.81-5.21-13.52-11.84-13.52-6.72 0-12.35 5.71-12.35 13.52 0 7.73 5.63 13.36 12.35 13.36 6.63 0 11.84-5.63 11.84-13.36z"/><path fill="#34A853" d="M225 3v65h-9.5V3h9.5z"/><path fill="#EA4335" d="M262.02 54.48l7.56 5.04c-2.44 3.61-8.32 9.83-18.48 9.83-12.6 0-22.01-9.74-22.01-22.18 0-13.19 9.49-22.18 20.92-22.18 11.51 0 17.14 9.16 18.98 14.11l1.01 2.52-29.65 12.28c2.27 4.45 5.8 6.72 10.75 6.72 4.96 0 8.4-2.44 10.92-6.14zm-23.27-7.98l19.82-8.23c-1.09-2.77-4.37-4.7-8.23-4.7-4.95 0-11.84 4.37-11.59 12.93z"/><path fill="#4285F4" d="M35.29 41.41V32H67c.31 1.64.47 3.58.47 5.68 0 7.06-1.93 15.79-8.15 22.01-6.05 6.3-13.78 9.66-24.02 9.66C16.32 69.35.36 53.89.36 34.91.36 15.93 16.32.47 35.3.47c10.5 0 17.98 4.12 23.6 9.49l-6.64 6.64c-4.03-3.78-9.49-6.72-16.97-6.72-13.86 0-24.7 11.17-24.7 25.03 0 13.86 10.84 25.03 24.7 25.03 8.99 0 14.11-3.61 17.39-6.89 2.66-2.66 4.41-6.46 5.1-11.65l-22.49.01z"/></svg>
-          <div class="cb-google-rating" id="googleRatingEl" data-ts="google_rating">4.9 <span class="rc-stars">★★★★★</span></div>
-        </div>
-        <div class="cb-tripadvisor">
-          <div class="cb-ta-icon">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0a0a0a" stroke-width="1.6"><circle cx="7" cy="13" r="3.4"/><circle cx="17" cy="13" r="3.4"/><circle cx="7" cy="13" r="1.2" fill="#0a0a0a" stroke="none"/><circle cx="17" cy="13" r="1.2" fill="#0a0a0a" stroke="none"/><path d="M12 9.2c1-1.4 2.7-2.4 5-2.4 1.6 0 2.9.4 3.8 1M12 9.2c-1-1.4-2.7-2.4-5-2.4-1.6 0-2.9.4-3.8 1" stroke-linecap="round"/></svg>
-          </div>
-          <span class="cb-ta-text">Tripadvisor</span>
-        </div>
-      </div>
     </div>
   </div>
 </section>
@@ -1941,6 +1869,55 @@ body{font-display:swap}
   </div>
 </section>
 
+<!-- CUSTOM TOURS -->
+<section class="ct-cards-sec" id="customTours">
+  <div class="trips-inner">
+    <div class="trips-hdr2 fu" style="justify-content:center;text-align:center;flex-direction:column;gap:.5rem">
+      <div class="ct-cards-eyebrow" id="ctEyebrow" data-ts="ct_eyebrow">Custom Tours</div>
+      <h2 class="sec-h" id="ctHeading" style="font-style:normal" data-ts="ct_heading">Build your own adventure. Your itinerary your way!</h2>
+    </div>
+    <div class="carousel-outer" id="ctcCarouselOuter">
+      <button class="carousel-arrow arr-prev disabled" id="ctcArrPrev" onclick="ctcCarouselPrev()" aria-label="Previous"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
+      <div class="carousel-track" id="customToursGrid"><!-- cards injected by applyCustomTourCards() --></div>
+      <button class="carousel-arrow arr-next" id="ctcArrNext" onclick="ctcCarouselNext()" aria-label="Next"><svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></button>
+    </div>
+    <div class="carousel-dots" id="ctcCarouselDots"></div>
+    <div class="trips-more2 fu"><a href="custom-trips.html" class="btn-view-more" data-ts="ct_more_btn_text">Build Your Adventure</a></div>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section class="reviews-sec" id="reviews">
+  <div class="reviews-card-outer">
+    <div class="reviews-hdr fu">
+      <h2 id="reviewsH" data-ts="reviews_heading">See What Past Travelers Say About <em>Eureka Trips!</em></h2>
+      <p id="reviewsSub" data-ts="reviews_subtitle">Newton's 3rd law holds true with our tribe too, They love us just like we love them.</p>
+    </div>
+    <div class="reviews-carousel-outer" id="revOuter">
+      <button class="carousel-arrow arr-prev disabled" id="revPrev" onclick="revPrev()" aria-label="Previous"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
+      <div class="reviews-track" id="revTrack"></div>
+      <button class="carousel-arrow arr-next" id="revNext" onclick="revNext()" aria-label="Next"><svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></button>
+    </div>
+    <div class="rev-dots" id="revDots"></div>
+
+    <div class="reviews-confidence fu">
+      <h3 id="confidenceH" data-ts="confidence_heading">Book with confidence</h3>
+      <div class="confidence-badges">
+        <div class="cb-google">
+          <svg width="100" height="34" viewBox="0 0 272 92" xmlns="http://www.w3.org/2000/svg"><path fill="#EA4335" d="M115.75 47.18c0 12.77-9.99 22.18-22.25 22.18s-22.25-9.41-22.25-22.18C71.25 34.32 81.24 25 93.5 25s22.25 9.32 22.25 22.18zm-9.74 0c0-7.98-5.79-13.44-12.51-13.44S80.99 39.2 80.99 47.18c0 7.9 5.79 13.44 12.51 13.44s12.51-5.55 12.51-13.44z"/><path fill="#FBBC05" d="M163.75 47.18c0 12.77-9.99 22.18-22.25 22.18s-22.25-9.41-22.25-22.18c0-12.85 9.99-22.18 22.25-22.18s22.25 9.32 22.25 22.18zm-9.74 0c0-7.98-5.79-13.44-12.51-13.44s-12.51 5.46-12.51 13.44c0 7.9 5.79 13.44 12.51 13.44s12.51-5.55 12.51-13.44z"/><path fill="#4285F4" d="M209.75 26.34v39.82c0 16.38-9.66 23.07-21.08 23.07-10.75 0-17.22-7.19-19.66-13.07l8.48-3.53c1.51 3.61 5.21 7.87 11.17 7.87 7.31 0 11.84-4.51 11.84-13v-3.19h-.34c-2.18 2.69-6.38 5.04-11.68 5.04-11.09 0-21.25-9.66-21.25-22.09 0-12.52 10.16-22.26 21.25-22.26 5.29 0 9.49 2.35 11.68 4.96h.34v-3.61h9.25zm-8.56 20.92c0-7.81-5.21-13.52-11.84-13.52-6.72 0-12.35 5.71-12.35 13.52 0 7.73 5.63 13.36 12.35 13.36 6.63 0 11.84-5.63 11.84-13.36z"/><path fill="#34A853" d="M225 3v65h-9.5V3h9.5z"/><path fill="#EA4335" d="M262.02 54.48l7.56 5.04c-2.44 3.61-8.32 9.83-18.48 9.83-12.6 0-22.01-9.74-22.01-22.18 0-13.19 9.49-22.18 20.92-22.18 11.51 0 17.14 9.16 18.98 14.11l1.01 2.52-29.65 12.28c2.27 4.45 5.8 6.72 10.75 6.72 4.96 0 8.4-2.44 10.92-6.14zm-23.27-7.98l19.82-8.23c-1.09-2.77-4.37-4.7-8.23-4.7-4.95 0-11.84 4.37-11.59 12.93z"/><path fill="#4285F4" d="M35.29 41.41V32H67c.31 1.64.47 3.58.47 5.68 0 7.06-1.93 15.79-8.15 22.01-6.05 6.3-13.78 9.66-24.02 9.66C16.32 69.35.36 53.89.36 34.91.36 15.93 16.32.47 35.3.47c10.5 0 17.98 4.12 23.6 9.49l-6.64 6.64c-4.03-3.78-9.49-6.72-16.97-6.72-13.86 0-24.7 11.17-24.7 25.03 0 13.86 10.84 25.03 24.7 25.03 8.99 0 14.11-3.61 17.39-6.89 2.66-2.66 4.41-6.46 5.1-11.65l-22.49.01z"/></svg>
+          <div class="cb-google-rating" id="googleRatingEl" data-ts="google_rating">4.9 <span class="rc-stars">★★★★★</span></div>
+        </div>
+        <div class="cb-tripadvisor">
+          <div class="cb-ta-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0a0a0a" stroke-width="1.6"><circle cx="7" cy="13" r="3.4"/><circle cx="17" cy="13" r="3.4"/><circle cx="7" cy="13" r="1.2" fill="#0a0a0a" stroke="none"/><circle cx="17" cy="13" r="1.2" fill="#0a0a0a" stroke="none"/><path d="M12 9.2c1-1.4 2.7-2.4 5-2.4 1.6 0 2.9.4 3.8 1M12 9.2c-1-1.4-2.7-2.4-5-2.4-1.6 0-2.9.4-3.8 1" stroke-linecap="round"/></svg>
+          </div>
+          <span class="cb-ta-text">Tripadvisor</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- WHY SEC -->
 <section class="why-sec" id="why">
   <div class="why-inner">
@@ -1952,7 +1929,7 @@ body{font-display:swap}
       <div class="why-card"><div class="why-card-txt"><div class="why-card-ttl">Unique experiences</div><div class="why-card-desc">We do more than tick off tourist spots. Every Eureka trip is built with social experiences, local moments, and memorable moments that make the destination feel deeper, richer, and way more exciting than a regular holiday.</div></div><div class="why-card-img"><img width="800" height="600" loading="lazy" src="https://images.unsplash.com/photo-1551632811-561732d1e306?w=900&q=80&auto=format&fm=webp&fit=crop" alt="Group hiking coastal path"></div></div>
       <div class="why-card"><div class="why-card-txt"><div class="why-card-ttl">Better accommodation</div><div class="why-card-desc">We handpick stays that feel special, comfortable, and worth it. From stylish city hotels to charming stays in nature, you get a place that adds to the experience, not just a bed to sleep in. All included and booked in advance for you.</div></div><div class="why-card-img"><img width="800" height="600" loading="lazy" src="https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=900&q=80&auto=format&fm=webp&fit=crop" alt="Woman relaxing at resort"></div></div>
       <div class="why-card"><div class="why-card-txt"><div class="why-card-ttl">Travel solo without oh-no</div><div class="why-card-desc">We believe travel comes with a responsibility. On all our trips you'll live life through a local lens and make a real difference through our Small Change initiative. We are proud to say each of our tours are 100% carbon neutral!</div></div><div class="why-card-img"><img width="800" height="600" loading="lazy" src="https://images.unsplash.com/photo-1504214208698-ea1916a2195a?w=900&q=80&auto=format&fm=webp&fit=crop" alt="Solo traveller with arms open in nature"></div></div>
-      <div class="why-card"><div class="why-card-txt"><div class="why-card-ttl">Book with confidence</div><div class="why-card-desc">We keep things simple, safe, and stress-free. With flexible changes, easy payments, and a trusted booking process, you can plan your trip with confidence and focus on the fun part instead of the admin.</div><a href="contact-us.html" class="why-card-btn">Find out more</a></div><div class="why-card-img"><img width="800" height="600" loading="lazy" src="https://images.unsplash.com/photo-1502680390469-be75c86b636f?w=900&q=80&auto=format&fm=webp&fit=crop" alt="Woman with backpack in nature"></div></div>
+      <div class="why-card"><div class="why-card-txt"><div class="why-card-ttl">Book with confidence</div><div class="why-card-desc">We keep things simple, safe, and stress-free. With flexible changes, easy payments, and a trusted booking process, you can plan your trip with confidence and focus on the fun part instead of the admin.</div><a href="contact-us.html" class="why-card-btn" data-ts="why_card_button_text">Find out more</a></div><div class="why-card-img"><img width="800" height="600" loading="lazy" src="https://images.unsplash.com/photo-1502680390469-be75c86b636f?w=900&q=80&auto=format&fm=webp&fit=crop" alt="Woman with backpack in nature"></div></div>
     </div>
     <div class="why-pad"></div>
   </div>
@@ -1966,7 +1943,7 @@ body{font-display:swap}
     <p class="why-subtitle" style="margin-bottom:0" id="blogSubtitleEl" data-ts="blog_subtitle">Destination guides, packing advice, and real traveler stories — for solo travelers and young professionals exploring the world through curated small-group trips.</p>
   </div>
   <div class="blog-prev-grid" id="blogPrevGrid"></div>
-  <div class="blog-prev-more fu"><a href="blog.html" class="btn-view-more">Read the blog</a></div>
+  <div class="blog-prev-more fu"><a href="blog.html" class="btn-view-more" data-ts="blog_more_btn_text">Read the blog</a></div>
 </section>
 
 <!-- BOOKING CTA — VIP signup, matches reference -->
@@ -1983,7 +1960,24 @@ body{font-display:swap}
       <div class="fg"><input type="email" id="bk_email" placeholder="Enter Your Email"></div>
       <div class="fg"><input type="tel" id="bk_phone" placeholder="+91-0000-000-000"></div>
       <div class="fg-check"><input type="checkbox" id="bk_policy" checked><label for="bk_policy" id="bkformCheckLabel" data-ts="bkform_privacy_text">By checking this box you are agreeing to the Eureka Trips <a href="#">Privacy Policy</a>.</label></div>
-      <button class="btn-form" onclick="submitBooking()"><span id="bkformBtnText" data-ts="bkform_btn_text">subscribe now</span> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+      <button class="btn-form" onclick="submitBooking()"><span id="bkformBtnText" data-ts="bkform_btn_text">Subscribe now</span> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+    </div>
+  </div>
+</section>
+
+<!-- VIDEO SECTION -->
+<section class="video-sec" id="video">
+  <div class="video-inner fu">
+    <h2 class="video-title" id="videoTitleEl" data-ts="video_title">We do fun stuff. You are invited to join!</h2>
+    <div class="video-wrap" id="videoWrap">
+      <iframe
+        id="ytPlayer"
+        src=""
+        title="Eureka Trips — We do fun stuff"
+        allow="autoplay; encrypted-media; picture-in-picture"
+        allowfullscreen>
+      </iframe>
+
     </div>
   </div>
 </section>
@@ -2556,10 +2550,11 @@ async function applyCustomTourCards() {
     out += '</div>';
     out += '<div class="ctc-actions" onclick="event.stopPropagation()">';
     out += '<a href="tel:+919792496457" class="ctc-call-icon" aria-label="Call us"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></a>';
-    out += '<button class="ctc-callback-btn" onclick="openWA(\'' + waMsg.replace(/'/g,"&#39;") + '\')">Request Callback</button>';
+    out += '<button class="ctc-callback-btn" data-ts="ctc_button_text" onclick="openWA(\'' + waMsg.replace(/'/g,"&#39;") + '\')">Request Callback</button>';
     out += '</div></div></div>';
   }
   track.innerHTML = out;
+  applyAllTaggedTypography();
   initObs(); /* re-scan for the new .fu cards so they actually get revealed — this line was missing, which is what caused the intermittent invisible cards */
   /* Wait for the browser to finish laying out these new cards before measuring
      the container's width — measuring too early can read 0 and collapse the
@@ -2894,6 +2889,13 @@ function toggleHeroMute(){
    APPLY SUPABASE DATA — overrides hardcoded content where present
 ═════════════════════════════════════════════════════════════ */
 function esc(s) { if (s === null || s === undefined) return ''; return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function cleanSubscribeCopy(s) {
+  if (!s) return s;
+  var text = String(s)
+    .replace(/\bsuscribe\b/ig, 'subscribe')
+    .replace(/\bsubcribe\b/ig, 'subscribe');
+  return text.trim().toLowerCase() === 'subscribe now' ? 'Subscribe now' : text;
+}
 
 function applyMiniCard(n, s) {
   var icon = s['msh_card'+n+'_icon'], title = s['msh_card'+n+'_title'], desc = s['msh_card'+n+'_desc'];
@@ -3132,7 +3134,7 @@ async function applySettings() {
     var lbl = document.getElementById('bkformCheckLabel');
     if (lbl) { lbl.innerHTML = esc(s.bkform_privacy_text) + ' <a href="#">Privacy Policy</a>.'; applyElementTypography(lbl); }
   }
-  setText('bkformBtnText', s.bkform_btn_text);
+  setText('bkformBtnText', cleanSubscribeCopy(s.bkform_btn_text));
 
   setText('ftMission', s.ft_mission);
   setText('ftCol1H', s.ft_col1_heading);
@@ -3149,8 +3151,9 @@ async function applyCategoryBar() {
   var track = document.getElementById('catBarTrack');
   if (!track) return;
   track.innerHTML = rows.map(function(r) {
-    return '<a class="cat-item" href="' + esc(r.link || '#') + '"><div class="cat-ic-wrap"><span class="cat-ic cat-ic-emoji">' + esc(r.icon || '') + '</span></div><span class="cat-lbl">' + esc(r.label) + '</span></a>';
+    return '<a class="cat-item" href="' + esc(r.link || '#') + '"><div class="cat-ic-wrap"><span class="cat-ic cat-ic-emoji">' + esc(r.icon || '') + '</span></div><span class="cat-lbl" data-ts="home_catbar_label">' + esc(r.label) + '</span></a>';
   }).join('');
+  applyAllTaggedTypography();
 }
 
 async function applyTrips() {
@@ -3197,9 +3200,10 @@ async function applyWhyCards() {
   var stack = document.getElementById('whyStack');
   if (!stack) return;
   stack.innerHTML = rows.map(function(r) {
-    var btn = r.button_text ? '<a href="' + esc(r.button_link || '#') + '" class="why-card-btn">' + esc(r.button_text) + '</a>' : '';
+    var btn = r.button_text ? '<a href="' + esc(r.button_link || '#') + '" class="why-card-btn" data-ts="why_card_button_text">' + esc(r.button_text) + '</a>' : '';
     return '<div class="why-card"><div class="why-card-txt"><div class="why-card-ttl">' + stripOuterParagraph(r.title || '') + '</div><div class="why-card-desc">' + stripOuterParagraph(r.description || '') + '</div>' + btn + '</div><div class="why-card-img"><img loading="lazy" src="' + esc(r.image_url || '') + '" alt="' + esc(r.title) + '"></div></div>';
   }).join('');
+  applyAllTaggedTypography();
 }
 
 async function applyPaymentLogos() {
@@ -3304,6 +3308,7 @@ function renderFeaturedTrip() {
   if (btn) {
     btn.textContent = r.button_text || 'Explore';
     btn.setAttribute('href', r.button_link || '#');
+    applyElementTypography(btn);
   }
   var imgs = [r.img1_url, r.img2_url, r.img3_url, r.img4_url, r.img5_url, r.img6_url, r.img7_url];
   var collage = document.getElementById('ftCollage');

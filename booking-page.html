@@ -86,27 +86,19 @@ img{display:block;max-width:100%}
 .nav-logo{flex-shrink:0;text-decoration:none}
 .nav-logo-img{height:76px;width:auto;object-fit:contain;flex-shrink:0;display:block;transition:height .3s}
 .navbar.solid .nav-logo-img{height:60px}
-.nav-pill{
-  display:flex;align-items:center;justify-content:center;
-  gap:clamp(1rem,2vw,2rem);
-  flex:1;
-  background:rgba(40,50,55,.45);
-  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
-  border:1.5px solid rgba(255,255,255,.55);
-  border-radius:50px;
-  padding:.75rem clamp(1.5rem,3vw,2.5rem);
-  max-width:980px;margin:0 auto;
-  transition:background .3s,border-color .3s,backdrop-filter .3s;
-}
-.navbar.solid .nav-pill{background:transparent;border-color:transparent;backdrop-filter:none;padding:.5rem 0}
-.nav-pill a{font-size:14px;font-weight:600;color:#fff;white-space:nowrap;text-decoration:none;transition:color .2s;letter-spacing:.1px;display:flex;align-items:center;gap:4px}
-.nav-pill a:hover{color:#02A9A2}
-.nav-pill a.active{color:#02A9A2}
+.nav-pill{display:flex;align-items:center;justify-content:center;gap:clamp(1.1rem,1.8vw,2.15rem);position:absolute;left:50%;transform:translateX(-50%);width:fit-content;min-width:0;flex:none;background:linear-gradient(90deg,rgba(114,106,94,.62),rgba(76,88,101,.62));backdrop-filter:blur(18px) saturate(120%);-webkit-backdrop-filter:blur(18px) saturate(120%);border:1px solid rgba(255,255,255,.28);box-shadow:inset 0 1px 0 rgba(255,255,255,.22),0 8px 28px rgba(0,0,0,.18);border-radius:50px;padding:.72rem clamp(1.8rem,2.8vw,3rem);max-width:calc(100vw - 520px);margin:0;transition:background .3s,border-color .3s,backdrop-filter .3s,box-shadow .3s}
+.navbar.solid .nav-pill{background:transparent;border-color:transparent;backdrop-filter:none;-webkit-backdrop-filter:none;box-shadow:none;padding:.5rem 0}
+.nav-pill a{font-size:14px;font-weight:600;color:#fff;white-space:nowrap;text-decoration:none;position:relative;padding:.25rem 0;transition:opacity .2s;letter-spacing:.1px;display:flex;align-items:center;gap:4px}
+.nav-pill a::after{content:"";position:absolute;left:50%;bottom:-5px;width:100%;height:2px;background:currentColor;border-radius:999px;opacity:0;transform:translateX(-50%) scaleX(0);transform-origin:center;transition:transform .24s ease,opacity .18s ease}
+.nav-pill a:hover{color:#fff}
+.nav-pill a.active{color:#fff}
 .navbar.solid .nav-pill a{color:#6B7575}
-.navbar.solid .nav-pill a:hover{color:#02A9A2}
-.navbar.solid .nav-pill a.active{color:#02A9A2}
+.nav-pill a:hover::after{opacity:1;transform:translateX(-50%) scaleX(1)}
+
+.navbar.solid .nav-pill a:hover{color:#6B7575}
+
 .nav-plus{font-size:16px;font-weight:400;opacity:.7}
-.nav-right{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.nav-right{display:flex;align-items:center;gap:10px;flex-shrink:0;margin-left:auto}
 .nav-soc{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.5);color:#fff;transition:all .25s;flex-shrink:0}
 .nav-soc:hover{background:rgba(0,0,0,.55)}
 .nav-soc svg{width:16px;height:16px;fill:currentColor}
@@ -118,6 +110,7 @@ img{display:block;max-width:100%}
 .hbg.open span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
 .hbg.open span:nth-child(2){opacity:0}
 .hbg.open span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
+@media(max-width:1024px){.nav-pill,.nav-soc{display:none}.hbg{display:flex}}
 
 /* Mobile drawer */
 .mob-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:1001;opacity:0;pointer-events:none;transition:opacity .3s}
@@ -496,7 +489,7 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
   .faq-row{grid-template-columns:1fr}
   .gal-drag-wrap{height:clamp(320px,60vw,420px)}
   .footer-grid{grid-template-columns:1fr 1fr}
-  .nav-pill{display:none}
+  .nav-pill,.nav-soc{display:none}
   .hbg{display:flex}
   .ab-icon-grid{flex-wrap:wrap;display:grid}
   .ic-card:nth-child(3),.ic-card:nth-child(4){margin-top:0}
@@ -537,7 +530,6 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
   </a>
     <div class="nav-pill">
     <a href="about-us.html">About Us</a>
-    <a href="index.html#trips">Our Trips <span class="nav-plus">+</span></a>
     <a href="destinations.html">Destinations</a>
     <a href="group-trip.html">Group Trip</a>
     <a href="custom-trips.html">Build Your Adventure</a>

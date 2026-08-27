@@ -458,6 +458,13 @@ function fileField(label, inputId, currentUrl) {
 function setLoading() { document.getElementById('mainContent').innerHTML = '<div class="loading"><div class="spinner"></div> Loading...</div>'; }
 function val(id) { var el = document.getElementById(id); return el ? el.value.trim() : ''; }
 function esc(str) { if (!str && str !== 0) return ''; return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function cleanSubscribeCopy(str) {
+  if (!str) return str;
+  var text = String(str)
+    .replace(/\bsuscribe\b/ig, 'subscribe')
+    .replace(/\bsubcribe\b/ig, 'subscribe');
+  return text.trim().toLowerCase() === 'subscribe now' ? 'Subscribe now' : text;
+}
 function csv(str) { return str ? str.split(',').map(function(s){return s.trim();}).filter(Boolean) : []; }
 function lines(str) { return str ? str.split('\n').map(function(s){return s.trim();}).filter(Boolean) : []; }
 function fg(label, type, id, value, options, placeholder, extra, hint) {
@@ -706,6 +713,7 @@ var NAV = [
     { id:'home-why',      label:'↳ Reason Cards', icon:'💚', sub:true },
     { id:'home-blogpreview-settings', label:'Blog Preview Settings', icon:'📰' },
     { id:'home-blogpreview-featured', label:'↳ Featured Posts', icon:'📰', sub:true },
+    { id:'home-button-typography', label:'Button Typography', icon:'🔘' },
     { id:'home-bookingform', label:'Booking Form Settings', icon:'📋' }
   ]},
   { section: 'Private Trip Pages', icon: '📄', items: [
@@ -803,6 +811,7 @@ var TAB_CONFIG = {
   'home-why':         { crumb:'Home Page', title:'Reason Cards', add:true, load: function(){ loadWhy('home'); }, addFn: function(){ openWhyModal(null,'home'); } },
   'home-blogpreview-settings': { crumb:'Home Page', title:'Blog Preview Settings', add:false, load: function(){ renderSettingsGroup('blogpreview'); } },
   'home-blogpreview-featured': { crumb:'Home Page', title:'Featured Posts', add:false, load: loadFeaturedBlogPosts },
+  'home-button-typography': { crumb:'Home Page', title:'Button Typography', add:false, load: function(){ renderSettingsGroup('homebuttontypography'); } },
   'home-bookingform': { crumb:'Home Page', title:'Booking Form Settings', add:false, load: function(){ renderSettingsGroup('bookingform'); } },
 
   'trips-manage':     { crumb:'Private Trip Pages', title:'Trips & Itineraries', add:true, load: loadTrips, addFn: function(){ addNewTrip(); } },
@@ -3704,6 +3713,15 @@ var SETTINGS_GROUPS = {
     { key:'blog_heading', label:'Section Heading', type:'richtext', hint:'e.g. From the Eureka Travel Journal' },
     { key:'blog_subtitle', label:'Section Subtitle', type:'richtext', hint:'e.g. Destination guides, packing advice, and real traveler stories...' }
   ],
+  homebuttontypography: [
+    { key:'home_catbar_label', label:'Category Bar Labels', type:'typography_only', hint:'Applies to the small category pill labels below the homepage navbar.' },
+    { key:'ft_button_text', label:'Featured Trips Slider Button', type:'typography_only', hint:'Applies to the CTA button inside the Featured Trips slider.' },
+    { key:'ct_more_btn_text', label:'Custom Tours Section Button', type:'typography_only', hint:'Applies to the "Build Your Adventure" button below Custom Tours.' },
+    { key:'ctc_button_text', label:'Custom Tour Card Button', type:'typography_only', hint:'Applies to every "Request Callback" button on Custom Tour cards.' },
+    { key:'why_card_button_text', label:'Reason Card Button', type:'typography_only', hint:'Applies to every optional button on Reason cards, such as "Find out more".' },
+    { key:'blog_more_btn_text', label:'Blog Preview Button', type:'typography_only', hint:'Applies to the "Read the blog" button below the Blog Preview section.' },
+    { key:'bkform_btn_text', label:'Subscribe CTA Button', type:'typography_only', hint:'Applies to the subscribe button in the Home bottom CTA form.' }
+  ],
   bookingform: [
     { key:'bkform_image', label:'Side Photo', type:'image', hint:'Landscape, ~4:3, e.g. 1000×750px' },
     { key:'bkform_heading', label:'Card Heading', type:'richtext', hint:'e.g. Join the EUREKA VIP fam!' },
@@ -3711,8 +3729,8 @@ var SETTINGS_GROUPS = {
     { key:'bkform_name_placeholder', label:'Name Field Placeholder', type:'text', hint:'e.g. Your Name' },
     { key:'bkform_email_placeholder', label:'Email Field Placeholder', type:'text', hint:'e.g. Enter Your Email' },
     { key:'bkform_phone_placeholder', label:'Phone Field Placeholder', type:'text', hint:'e.g. +91-0000-000-000' },
-    { key:'bkform_privacy_text', label:'Privacy Checkbox Text', type:'text', hint:'e.g. By checking this box you are agreeing to the Eureka Trips Privacy Policy.' },
-    { key:'bkform_btn_text', label:'Button Text', type:'text', hint:'e.g. subscribe now' }
+    { key:'bkform_privacy_text', label:'Privacy Checkbox Text', type:'text', hint:'e.g. By checking this box you agree to the Eureka Trips Privacy Policy.' },
+    { key:'bkform_btn_text', label:'Subscribe Button Text', type:'text', hint:'e.g. Subscribe now' }
   ],
   subhero: [
     { key:'subhero_heading', label:'Heading', type:'textarea', hint:'e.g. Discover cultures. Meet your people. Travel differently.' },
@@ -3941,6 +3959,7 @@ async function renderSettingsGroup(group) {
   fields.forEach(function(f) {
     if (f.type === 'typography_only') { html += renderTypographyOnlyField(group, f, s); return; }
     var v = s[f.key] || '';
+    if (f.key === 'bkform_btn_text') v = cleanSubscribeCopy(v);
     if (f.type === 'textarea') html += ta(f.label, 'set_'+f.key, v, 2, f.hint);
     else if (f.type === 'richtext') html += rta(f.label, 'set_'+f.key, v, f.hint);
     else if (f.type === 'image') html += imageField(f.label, 'set_'+f.key, 'set_'+f.key+'prev', v, f.hint);
@@ -4114,7 +4133,7 @@ async function fetchFrontendSource(pageFile) {
 var GROUP_TO_PAGE = {
   home:'index.html', minisubhero:'index.html', upcomingtrips:'index.html', customtours:'index.html',
   customtourcard:'index.html', video:'index.html', reviewsection:'index.html', reasonsection:'index.html',
-  blogpreview:'index.html', bookingform:'index.html',
+  blogpreview:'index.html', homebuttontypography:'index.html', bookingform:'index.html',
   abouthero:'about-us.html', abouteureka:'about-us.html', aboutmore:'about-us.html', aboutwhy:'about-us.html',
   aboutstory:'about-us.html', aboutgallerysettings:'about-us.html', aboutfaqsettings:'about-us.html'
 };
