@@ -1330,6 +1330,8 @@ body{font-display:swap}
 .carousel-track:active{cursor:grabbing}
 @media(max-width:600px){
   .carousel-outer{padding:0}
+  .trips-sec #carouselOuter{padding:0 1.25rem}
+  .trips-sec .carousel-track{gap:14px}
 }
 
 /* ── Card ── */
@@ -2460,8 +2462,9 @@ function makeCarousel(cfg) {
     var v = getVisible();
     var track = document.getElementById(cfg.trackId);
     if (!track) return;
-    var gap = window.innerWidth < 600 ? 14 : 20;
-    var cardW = Math.floor((track.clientWidth - gap * (v - 1)) / v * 0.86);
+    var gap = window.innerWidth < 600 ? (cfg.mobileGap || 14) : 20;
+    var scale = window.innerWidth < 600 ? (cfg.mobileCardScale || 0.86) : 0.86;
+    var cardW = Math.floor((track.clientWidth - gap * (v - 1)) / v * scale);
     if (cardW <= 0) {
       /* Container isn't laid out yet — try again shortly rather than
          collapsing every card to an invisible 0px width. */
@@ -2495,7 +2498,8 @@ function makeCarousel(cfg) {
 
 var tripsCarousel = makeCarousel({
   trackId: 'tripsGrid', dotsId: 'carouselDots', prevBtnId: 'arrPrev', nextBtnId: 'arrNext',
-  cardSelector: '.tc2', outerId: 'carouselOuter', globalName: 'tripsCarousel'
+  cardSelector: '.tc2', outerId: 'carouselOuter', globalName: 'tripsCarousel',
+  mobileGap: 14, mobileCardScale: 0.92
 });
 var ctcCarousel = makeCarousel({
   trackId: 'customToursGrid', dotsId: 'ctcCarouselDots', prevBtnId: 'ctcArrPrev', nextBtnId: 'ctcArrNext',
