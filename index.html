@@ -1510,7 +1510,7 @@ body{font-display:swap}
 }
 @media(max-width:640px){
   .ct-cards-grid{grid-template-columns:1fr;max-width:340px}
-  .promo-banner-track{aspect-ratio:4/6}
+  .promo-banner-track{aspect-ratio:5/6}
   .promo-banner-txt{left:1.25rem;right:1.25rem}
 }
 
@@ -1954,7 +1954,8 @@ body{font-display:swap}
   </div>
 </section>
 
-<!-- BLOG PREVIEW — "From the journal" -->
+<!-- BLOG PREVIEW — hidden from Home page -->
+<!--
 <section class="blog-prev-sec" id="journal">
   <div class="blog-prev-hdr fu">
     <div class="eyebrow"><span class="ey-line"></span><span class="ey-txt" id="blogEyebrow" data-ts="blog_eyebrow">Stories &amp; Tips</span><span class="ey-line"></span></div>
@@ -1964,6 +1965,7 @@ body{font-display:swap}
   <div class="blog-prev-grid" id="blogPrevGrid"></div>
   <div class="blog-prev-more fu"><a href="blog.html" class="btn-view-more" data-ts="blog_more_btn_text">Read the blog</a></div>
 </section>
+-->
 
 <!-- BOOKING CTA — VIP signup, matches reference -->
 <section class="cta-sec" id="book">
@@ -3410,8 +3412,7 @@ async function initSupabaseContent() {
     applyCustomTourCards(),
     applyReviews(),
     applyStatsBento(),
-    applyWhyCards(),
-    applyBlogPreview()
+    applyWhyCards()
   ]);
   // The safety net inside applySettings() fires concurrently with the functions above,
   // not after them — so anything they insert (Hero Stats, Featured Trips, Reviews, Stats
