@@ -1126,18 +1126,13 @@ async function loadAboutUsPageData() {
       Promise.all(ready).then(function() {
         if (token !== rotationToken) return;
         if (slot1.getAttribute('src') === src1 && (!slot2 || stickers.length < 2 || slot2.getAttribute('src') === src2)) return;
-        slot1.style.opacity = 0;
-        if (stickers.length > 1) slot2.style.opacity = 0;
-        setTimeout(function(){
+        requestAnimationFrame(function(){
           if (token !== rotationToken) return;
           slot1.src = src1;
           if (stickers.length > 1) slot2.src = src2;
-          requestAnimationFrame(function() {
-            if (token !== rotationToken) return;
-            slot1.style.opacity = 1;
-            if (stickers.length > 1) slot2.style.opacity = 1;
-          });
-        }, 300);
+          slot1.style.opacity = 1;
+          if (stickers.length > 1) slot2.style.opacity = 1;
+        });
       });
     }
     showPair();
