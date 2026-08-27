@@ -925,6 +925,14 @@ function stripOuterParagraph(html) {
   var m = html.match(/^<p>([\s\S]*)<\/p>\s*$/i);
   return m ? m[1] : html;
 }
+function stripTrailingEmptyBlocks(html) {
+  var wrap = document.createElement('div');
+  wrap.innerHTML = html || '';
+  while (wrap.lastElementChild && wrap.lastElementChild.textContent.replace(/\u00a0/g, ' ').trim() === '') {
+    wrap.removeChild(wrap.lastElementChild);
+  }
+  return wrap.innerHTML;
+}
 function setText(id, val) { if (!val) return; var el = document.getElementById(id); if (el) { el.innerHTML = stripOuterParagraph(val); applyElementTypography(el); } }
 function setAttr(id, attr, val) { if (!val) return; var el = document.getElementById(id); if (el) el.setAttribute(attr, val); }
 
@@ -1207,7 +1215,7 @@ async function loadAboutUsPageData() {
       if (h2) h2.style.display = 'none';
     }
   })();
-  setText('abStoryBody', s.about_story_body);
+  setText('abStoryBody', stripTrailingEmptyBlocks(s.about_story_body));
   // setText('abStorySignature', s.about_story_signature);
 
   /* ── FAQ ── */
