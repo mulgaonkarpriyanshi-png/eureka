@@ -73,7 +73,7 @@ img{display:block;max-width:100%}
    NAVBAR
 ───────────────────────────────────────── */
 .navbar{
-  position:fixed;top:0;left:0;right:0;z-index:1000;
+  position:absolute;top:0;left:0;right:0;z-index:1000;
   height:84px;
   background:transparent;
   display:flex;align-items:center;
@@ -172,6 +172,23 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
 .ab-tab-cta{background:#FFA43B;color:#fff}
 .ab-tab-cta:hover{background:#F28C13}
 
+/* "Jump to..." dropdown — mobile-only replacement for the pill row above,
+   which gets cramped wrapping into an uneven grid on narrow screens. */
+.ab-tabs-select-wrap{display:none}
+.ab-tabs-select{
+  width:100%;max-width:480px;margin:0 auto;display:block;
+  background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%233A3B3B' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E") no-repeat right 1rem center/16px 16px;
+  color:#3A3B3B;font-family:'Poppins',sans-serif;font-size:14px;font-weight:600;
+  letter-spacing:.3px;text-transform:uppercase;
+  border:none;border-radius:50px;padding:.85rem 2.75rem .85rem 1.5rem;
+  appearance:none;-webkit-appearance:none;-moz-appearance:none;
+  cursor:pointer;
+}
+@media(max-width:768px){
+  .ab-tabs-in{display:none}
+  .ab-tabs-select-wrap{display:block}
+}
+
 /* ─────────────────────────────────────────
    INTRO STATEMENT + 4 ICON CARDS
 ───────────────────────────────────────── */
@@ -202,7 +219,7 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
 }
 .ab-belief-stickers{position:relative;display:flex;align-items:center;justify-content:center;gap:1.25rem;min-height:320px}
 .ab-sticker{flex-shrink:0;filter:drop-shadow(0 14px 24px rgba(0,0,0,.18));transition:transform .3s ease}
-.ab-sticker img{display:block;max-width:100%;height:auto;max-height:340px;width:auto;transition:opacity .3s ease}
+.ab-sticker img{display:block;max-width:100%;height:auto;max-height:340px;width:auto;transition:opacity .3s ease;will-change:opacity}
 .ab-sticker1{transform:rotate(-6deg);z-index:2}
 .ab-sticker2{transform:rotate(4deg) translateY(18px);z-index:1}
 .ab-sticker:hover{transform:scale(1.04) rotate(0deg)}
@@ -250,8 +267,8 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
 .gal-title{text-align:center;font-family:'Poppins',sans-serif;font-size:42px;font-weight:600;color:#3A3B3B;letter-spacing:-1px;line-height:1.15;margin-bottom:var(--about-title-byline-gap)}
 .gal-sub{text-align:center;font-family:'Poppins',sans-serif;font-size:16px;color:#454A4A;line-height:1.5;letter-spacing:-0.2px;font-weight:400;max-width:640px;margin:0 auto clamp(2rem,4vw,3rem)}
 .ab-gallery{background:var(--white)}
-.gal-scrolldrive{position:relative;height:240vh}
-.gal-drag-wrap{position:sticky;top:100px;height:clamp(420px,55vw,620px);overflow:hidden;border-radius:var(--r3);background:#F1F9F9}
+.gal-scrolldrive{position:relative}
+.gal-drag-wrap{position:relative;height:clamp(420px,55vw,620px);overflow:hidden;border-radius:var(--r3);background:#F1F9F9}
 .gal-canvas{position:absolute;top:0;left:0;width:1600px;height:900px;will-change:transform}
 .gal-photo{position:absolute;border-radius:16px;overflow:hidden;box-shadow:0 12px 30px rgba(0,0,0,.16);pointer-events:none}
 .gal-photo img{width:100%;height:100%;object-fit:cover;display:block}
@@ -361,7 +378,6 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
   .why-row{grid-template-columns:1fr}
   .faq-row{grid-template-columns:1fr}
   .gal-drag-wrap{height:clamp(320px,60vw,420px)}
-  .gal-scrolldrive{height:180vh}
   .footer-grid{grid-template-columns:1fr 1fr}
   .nav-pill,.nav-soc{display:none}
   .hbg{display:flex}
@@ -390,30 +406,15 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
 }
 @media(max-width:560px){
   .gal-drag-wrap{height:300px;border-radius:16px}
-  .gal-scrolldrive{height:140vh}
   .footer-grid{grid-template-columns:1fr}
 }
 
 @media(max-width:768px){
-  /* Convert the scroll-driven photo-pan gallery into a normal swipeable
-     horizontal strip on mobile. The scroll-driven version needs a very
-     tall (140vh–240vh) invisible wrapper purely to create scroll distance
-     for the pan effect — on a phone that reads as a long stretch of
-     empty-feeling scrolling for a fairly modest visual payoff. Letting
-     people just swipe instead removes that wasted scroll space entirely.
-     Placed after the 560px block above so it wins the cascade at every
-     mobile width, not just under 768px. */
-  .gal-scrolldrive{height:auto}
-  .gal-drag-wrap{
-    position:relative;top:auto;
-    height:300px;
-    overflow-x:auto;overflow-y:hidden;
-    -webkit-overflow-scrolling:touch;
-    scrollbar-width:none;
-  }
-  .gal-drag-wrap::-webkit-scrollbar{display:none}
-  .gal-canvas{position:relative;transform:none !important}
-  .gal-hint{display:none}
+  /* Photo pan is now driven by the box's own natural scroll-through-viewport
+     position (see the JS), so it needs no tall spacer at all on any screen
+     size — that's what eliminated the empty scroll space entirely. Only the
+     box's own height still needs a mobile-appropriate value. */
+  .gal-drag-wrap{height:300px;border-radius:16px}
 }
 @media(max-width:480px){
   .ab-icon-grid{grid-template-columns:1fr}
@@ -439,7 +440,14 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
   .wwd-grid{grid-template-columns:repeat(2,1fr)}
 }
 @media(max-width:768px){
-  .wwd-grid{grid-template-columns:1fr;max-width:340px}
+  .wwd-grid{
+    display:flex;grid-template-columns:unset;
+    overflow-x:auto;scroll-snap-type:x mandatory;gap:1rem;
+    max-width:100%;padding-bottom:.25rem;
+    -webkit-overflow-scrolling:touch;scrollbar-width:none;
+  }
+  .wwd-grid::-webkit-scrollbar{display:none}
+  .wwd-card{flex:0 0 82%;width:82%;scroll-snap-align:center}
 }
 
 /* ─────────────────────────────────────────
@@ -553,6 +561,16 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
     <a href="#our-story" class="ab-tab">Our Story</a>
     <a href="#faqs" class="ab-tab">FAQ's</a>
     <a href="custom-trips.html" class="ab-tab ab-tab-cta">Get Started</a>
+  </div>
+  <div class="ab-tabs-select-wrap">
+    <select class="ab-tabs-select" id="abTabsSelect" onchange="abTabsJump(this)">
+      <option value="" selected>Jump to...</option>
+      <option value="#about-eureka">About Eureka</option>
+      <option value="#why-us">Why Us</option>
+      <option value="#our-story">Our Story</option>
+      <option value="#faqs">FAQ's</option>
+      <option value="custom-trips.html">Get Started</option>
+    </select>
   </div>
 </div>
 
@@ -941,16 +959,10 @@ function openWA(msg){window.open('https://wa.me/919792496457?text='+encodeURICom
 function openDrawer(){document.getElementById('hbg').classList.add('open');document.getElementById('mobDrawer').classList.add('open');document.getElementById('mobOverlay').classList.add('show');document.body.style.overflow='hidden';}
 function closeDrawer(){document.getElementById('hbg').classList.remove('open');document.getElementById('mobDrawer').classList.remove('open');document.getElementById('mobOverlay').classList.remove('show');document.body.style.overflow='';}
 
-var lastScroll=0;
-window.addEventListener('scroll',function(){
-  var nb=document.getElementById('navbar');
-  var hero=document.getElementById('home');
-  var s=window.scrollY;
-  var solidThreshold=hero?hero.offsetHeight-100:window.innerHeight-100;
-  if(s>lastScroll && s>80){nb.classList.add('hide');}else{nb.classList.remove('hide');}
-  nb.classList.toggle('solid', s>solidThreshold);
-  lastScroll=s;
-},{passive:true});
+/*
+Navbar solid/hide scroll behavior disabled per design request.
+Original scroll handler is commented out so the white sticky header does not appear.
+*/
 
 function initObs(){
   var o=new IntersectionObserver(function(entries){
@@ -969,10 +981,9 @@ function initObs(){
 }
 initObs();
 
-/* Scroll-driven photo-wall gallery — horizontal pan tied to vertical page scroll.
-   Desktop/tablet only: on mobile this section becomes a normal swipeable strip
-   instead (see the max-width:768px CSS block), so this transform-driven effect
-   would otherwise fight with the person's own horizontal swipe there. */
+/* Scroll-driven photo-wall gallery — horizontal pan tied to vertical page scroll,
+   on every screen size including mobile (see the mobile CSS block below for the
+   shorter scroll distance used there, so it doesn't feel like empty scrolling). */
 (function(){
   var section=document.getElementById('galScrollDrive');
   var wrap=document.getElementById('galDragWrap');
@@ -981,19 +992,25 @@ initObs();
   if(!section||!wrap||!canvas) return;
 
   function update(){
-    if (window.innerWidth <= 768) return;
-    var rect=section.getBoundingClientRect();
-    var wrapH=wrap.offsetHeight;
-    var scrollable=rect.height-wrapH;
-    if(scrollable<=0) return;
-    var progress=(-rect.top)/scrollable;
+    var rect=wrap.getBoundingClientRect();
+    var vh=window.innerHeight;
+    // Progress ties directly to the photo box's own natural position as it
+    // scrolls through the viewport — 0 when its top just enters at the
+    // bottom edge, 1 when its bottom just exits at the top edge. No extra
+    // spacer height is needed for this: the pan happens entirely across the
+    // distance the box would scroll through anyway, so there's no leftover
+    // "dead" scroll space before or after it like the old tall-wrapper
+    // version had.
+    var total=vh+rect.height;
+    var scrolled=vh-rect.top;
+    var progress=scrolled/total;
     progress=Math.max(0, Math.min(1, progress));
 
     var maxX=Math.min(0, wrap.clientWidth-canvas.offsetWidth);
     canvas.style.transform='translateX('+(maxX*progress)+'px)';
 
     if(hint){
-      if(progress>0.05) hint.classList.add('hide');
+      if(progress>0.15) hint.classList.add('hide');
       else hint.classList.remove('hide');
     }
   }
@@ -1044,12 +1061,27 @@ function toggleFaq(q){
 /* active tab highlight on scroll */
 var tabSections=['about-eureka','why-us','our-story','faqs'].map(function(id){return document.getElementById(id);});
 var tabs=document.querySelectorAll('.ab-tab');
+var tabsSelect=document.getElementById('abTabsSelect');
 window.addEventListener('scroll',function(){
   var pos=window.scrollY+180;
   var current='';
   tabSections.forEach(function(sec){ if(sec && pos>=sec.offsetTop) current=sec.id; });
   tabs.forEach(function(t){ t.classList.toggle('active', t.getAttribute('href')==='#'+current); });
+  if (tabsSelect && current) tabsSelect.value = '#' + current;
 },{passive:true});
+
+/* "Jump to..." dropdown (mobile) — same destinations as the pill links above,
+   just picked from a select instead of tapping a pill. */
+function abTabsJump(sel) {
+  var val = sel.value;
+  if (!val) return;
+  if (val.charAt(0) === '#') {
+    var target = document.querySelector(val);
+    if (target) target.scrollIntoView({ behavior: 'smooth' });
+  } else {
+    window.location.href = val;
+  }
+}
 
 /* ═════════════════════════════════════════════════════════════
    LOAD & APPLY ABOUT US PAGE DATA FROM SUPABASE

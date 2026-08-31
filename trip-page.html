@@ -67,7 +67,7 @@ img{display:block;max-width:100%}
    NAVBAR — transparent glass-pill overlay on hero
 ───────────────────────────────────────── */
 .navbar{
-  position:fixed;top:0;left:0;right:0;z-index:1000;
+  position:absolute;top:0;left:0;right:0;z-index:1000;
   height:84px;
   background:transparent;
   display:flex;align-items:center;
@@ -145,8 +145,9 @@ img{display:block;max-width:100%}
 @keyframes kz{0%{transform:scale(1)}100%{transform:scale(1.06)}}
 .trip-hero-ov{position:absolute;inset:0;z-index:1;background:linear-gradient(to bottom,rgba(0,0,0,.45) 0%,rgba(0,0,0,.15) 35%,rgba(0,0,0,.15) 60%,rgba(0,0,0,.6) 100%)}
 .trip-hero-content{position:relative;z-index:2;width:100%;max-width:1100px;margin:0 auto;padding:0 1.5rem;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center}
-.trip-hero-h1{font-family:'Apfel Grotesk','Poppins',sans-serif;font-size:60px;color:#fff;line-height:1.15;font-weight:500;font-style:normal;margin-bottom:1rem;text-shadow:0 2px 14px rgba(0,0,0,.25);width:100%!important;text-align:center!important}
-.trip-hero-route{font-family:'Outfit',sans-serif;font-size:16px;font-weight:500;font-style:normal;color:#FFFFFF;text-transform:uppercase;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:.5em;text-shadow:0 2px 8px rgba(0,0,0,.5)}
+.trip-hero-h1{font-family:'Apfel Grotesk','Poppins',sans-serif;font-size:60px;color:#fff;line-height:1.15;font-weight:500;font-style:normal;margin-bottom:0;text-shadow:0 2px 14px rgba(0,0,0,.25);width:100%!important;text-align:center!important}
+/* Keep the route available for the trip data, but do not show it in the private-trip hero. */
+.trip-hero-route{display:none}
 .trip-hero-route .sep{opacity:.75;font-weight:400}
 
 /* ─────────────────────────────────────────
@@ -155,7 +156,7 @@ img{display:block;max-width:100%}
 .trip-subnav{
   position:sticky;top:0;z-index:900;
   background:#027A74;
-  padding:.4rem clamp(1rem,4vw,3rem);
+  padding:.65rem clamp(1rem,4vw,3rem);
   display:flex;align-items:center;justify-content:center;
   gap:14px;flex-wrap:wrap;
 }
@@ -174,7 +175,7 @@ img{display:block;max-width:100%}
 .subnav-pill.book:hover{background:#e5981a}
 
 @media(max-width:640px){
-  .trip-subnav{gap:8px;padding:.85rem 1rem}
+  .trip-subnav{gap:8px;padding:.95rem 1rem}
   .subnav-pill{padding:10px 18px;font-size:12.5px}
   .trip-hero-content{padding:0 1.25rem}
 }
@@ -304,18 +305,49 @@ img{display:block;max-width:100%}
 }
 
 /* Sidebar */
-.trip-sidebar{position:sticky;top:calc(76px + 1.5rem);display:flex;flex-direction:column;gap:1.5rem}
+/* Keep the sidebar clear of the sticky itinerary strip, with a 10px breathing gap. */
+.trip-sidebar{position:sticky;top:90px;display:flex;flex-direction:column;gap:1rem}
 .confidence-box{
-  background:#fff;border:2px solid #d1d5db;border-radius:16px;padding:.6rem 1.5rem;
+  background:#fff;border:2px solid #d1d5db;border-radius:16px;padding:.5rem 1rem;
 }
-.confidence-box h3{font-family:'Poppins',sans-serif;font-size:25px;font-weight:600;font-style:normal;letter-spacing:0.2px;color:#3A3B3B;margin-bottom:.6rem}
-.confidence-box p{font-family:'Poppins',sans-serif;font-size:14px;color:#454A4A;line-height:1.5;letter-spacing:-0.2px;margin-bottom:.75rem}
+.confidence-box h3{font-family:'Poppins',sans-serif;font-size:25px;font-weight:600;font-style:normal;letter-spacing:0.2px;color:#3A3B3B;margin-bottom:.35rem}
+.confidence-box p{font-family:'Poppins',sans-serif;font-size:14px;color:#454A4A;line-height:1.5;letter-spacing:-0.2px;margin-bottom:.4rem}
 .confidence-box a{font-family:'Poppins',sans-serif;font-size:12px;color:#454A4A;line-height:1.5;letter-spacing:-0.2px;text-decoration:underline}
 
-.form-card{background:#fff;border:2px solid #d1d5db;border-radius:16px;padding:1.5rem;box-shadow:none}
-.form-card-head{display:flex;align-items:center;gap:12px;margin-bottom:1.25rem}
-.form-card-head img{width:56px;height:56px;border-radius:10px;object-fit:cover;flex-shrink:0}
-.form-card-head span{font-family:'Proxima Nova Regular','Poppins',sans-serif;font-size:18px;font-weight:600;line-height:21px;color:#3A3B3B}
+.trip-sidebar .form-card{background:#fff;border:2px solid #d1d5db;border-radius:16px;padding:1rem;box-shadow:none}
+.trip-sidebar .form-card-head{display:flex;align-items:center;gap:12px;margin-bottom:.65rem}
+.trip-sidebar .form-card-head img{width:48px;height:48px;border-radius:10px;object-fit:cover;flex-shrink:0}
+.trip-sidebar .form-card-head span{font-family:'Proxima Nova Regular','Poppins',sans-serif;font-size:16px;font-weight:600;line-height:19px;color:#3A3B3B}
+
+/* Booking form popup — appears automatically after the page has been open a while */
+.booking-popup-overlay{
+  position:fixed;inset:0;z-index:99999;
+  background:rgba(0,0,0,.55);
+  display:none;align-items:center;justify-content:center;
+  padding:1.25rem;
+  animation:bpFadeIn .25s ease;
+}
+.booking-popup-overlay.show{display:flex}
+@keyframes bpFadeIn{from{opacity:0}to{opacity:1}}
+.booking-popup-card{
+  position:relative;background:#fff;border-radius:18px;
+  padding:2rem 1.75rem 1.75rem;
+  max-width:440px;width:100%;
+  max-height:90vh;overflow-y:auto;
+  box-shadow:0 20px 60px rgba(0,0,0,.3);
+  animation:bpSlideUp .3s ease;
+}
+@keyframes bpSlideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.booking-popup-close{
+  position:absolute;top:14px;right:14px;
+  width:32px;height:32px;border-radius:50%;border:none;background:#f3f4f6;
+  display:flex;align-items:center;justify-content:center;color:#3A3B3B;
+  cursor:pointer;transition:background .2s;
+}
+.booking-popup-close:hover{background:#e5e7eb}
+.booking-popup-close svg{width:16px;height:16px}
+.booking-popup-h3{font-family:'Proxima Nova Regular','Poppins',sans-serif;font-size:24px;font-weight:600;color:#3A3B3B;margin-bottom:.4rem}
+.booking-popup-sub{font-family:'Poppins',sans-serif;font-size:14px;color:#6B7575;margin-bottom:1.25rem;line-height:1.4}
 .form-field{
   width:100%;padding:12px 14px;border:1.5px solid var(--border);border-radius:8px;
   font-family:'Poppins',sans-serif;font-size:13px;font-weight:400;color:var(--dark);margin-bottom:.9rem;background:#fff;
@@ -332,6 +364,13 @@ img{display:block;max-width:100%}
   font-family:'Poppins',sans-serif;font-weight:500;font-size:16px;transition:background .2s;
 }
 .form-submit:hover{background:#e5981a}
+/* Match the compact group-trip form without changing the separate booking popup. */
+.trip-sidebar .form-field{padding:10px 14px;border-width:1px;margin-bottom:.5rem}
+.trip-sidebar .form-row2{gap:.6rem}
+.trip-sidebar .form-row2 .form-field{margin-bottom:.5rem}
+.trip-sidebar .form-check{gap:6px;line-height:1.3;margin-bottom:.3rem}
+.trip-sidebar .form-check input{margin-top:1px}
+.trip-sidebar .form-submit{padding:12px;font-size:15px}
 
 @media(max-width:980px){
   .trip-detail-wrap{grid-template-columns:1fr}
@@ -1138,6 +1177,28 @@ img{display:block;max-width:100%}
 </section>
 
 <!-- FOOTER -->
+<!-- BOOKING FORM POPUP — appears automatically after the page has been open a while -->
+<div class="booking-popup-overlay" id="bookingPopupOverlay" onclick="if(event.target===this)closeBookingPopup()">
+  <div class="booking-popup-card">
+    <button type="button" class="booking-popup-close" onclick="closeBookingPopup()" aria-label="Close">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+    <h3 class="booking-popup-h3">Still planning your trip?</h3>
+    <p class="booking-popup-sub">Leave your details and we'll help you get this adventure booked.</p>
+    <form onsubmit="return submitBookingPopup(event)">
+      <input class="form-field" id="bpName" type="text" placeholder="Full Name*" required>
+      <input class="form-field" id="bpEmail" type="email" placeholder="Email*" required>
+      <input class="form-field" id="bpPhone" type="tel" placeholder="Phone*" required>
+      <div class="form-row2">
+        <input class="form-field" id="bpDate" type="text" placeholder="Travel Date*" onfocus="(this.type='date')" required>
+        <input class="form-field" id="bpTravellers" type="number" min="1" placeholder="No of Travellers*" required>
+      </div>
+      <textarea class="form-field" id="bpMsg" rows="2" placeholder="Message" style="resize:vertical"></textarea>
+      <button type="submit" class="form-submit">Send Message</button>
+    </form>
+  </div>
+</div>
+
 <!-- FOOTER WRAP — full-bleed photo + mission quote + footer -->
 <div class="footer-wrap">
 
@@ -1315,17 +1376,10 @@ function stripOuterParagraph(html) {
 function setText(id, val) { if (!val) return; var el = document.getElementById(id); if (el) { el.innerHTML = stripOuterParagraph(val); applyElementTypography(el); } }
 function setAttr(id, attr, val) { if (!val) return; var el = document.getElementById(id); if (el) el.setAttribute(attr, val); }
 
-/* NAVBAR scroll behavior */
-(function(){
-  var nav=document.getElementById('navbar');
-  var lastY=window.scrollY;
-  window.addEventListener('scroll',function(){
-    var y=window.scrollY;
-    if(y>60){nav.classList.add('solid')}else{nav.classList.remove('solid')}
-    if(y>lastY && y>200){nav.classList.add('hide')}else{nav.classList.remove('hide')}
-    lastY=y;
-  },{passive:true});
-})();
+/*
+Navbar solid/hide scroll behavior disabled per design request.
+Original scroll handler is commented out so the white sticky header does not appear.
+*/
 function openDrawer(){
   document.getElementById('hbg').classList.add('open');
   document.getElementById('mobOverlay').classList.add('show');
@@ -1662,6 +1716,41 @@ function buildTripFaqItem(f, idx) {
 /* CHOOSE YOUR TRAVEL TRIBE — homepage card shape, original tribe content */
 function openWA(msg) { window.open('https://wa.me/919792496457?text=' + encodeURIComponent(msg), '_blank'); }
 
+/* BOOKING FORM POPUP — appears once after the page has been open a while.
+   Won't reappear if the person already saw it this session (sessionStorage). */
+(function(){
+  var POPUP_DELAY = 1000; // 1 second — testing value, change back to 60 * 60 * 1000 for a real 60-minute delay
+  if (sessionStorage.getItem('bookingPopupShownTP')) return;
+  setTimeout(function(){
+    if (sessionStorage.getItem('bookingPopupShownTP')) return; // could've been shown via another tab in the meantime
+    var overlay = document.getElementById('bookingPopupOverlay');
+    if (!overlay) return;
+    overlay.classList.add('show');
+    sessionStorage.setItem('bookingPopupShownTP', '1');
+  }, POPUP_DELAY);
+})();
+function closeBookingPopup(){
+  var overlay = document.getElementById('bookingPopupOverlay');
+  if (overlay) overlay.classList.remove('show');
+}
+document.addEventListener('keydown', function(e){
+  if (e.key === 'Escape') closeBookingPopup();
+});
+function submitBookingPopup(e){
+  e.preventDefault();
+  var name = document.getElementById('bpName').value.trim();
+  var email = document.getElementById('bpEmail').value.trim();
+  var phone = document.getElementById('bpPhone').value.trim();
+  var date = document.getElementById('bpDate').value.trim();
+  var travellers = document.getElementById('bpTravellers').value.trim();
+  var msg = document.getElementById('bpMsg').value.trim();
+  var waMsg = 'Hi EUREKA Trips! I want to book this trip.\nName: ' + name + '\nEmail: ' + email + '\nPhone: ' + phone +
+    (date ? '\nTravel Date: ' + date : '') + (travellers ? '\nTravellers: ' + travellers : '') + (msg ? '\nMessage: ' + msg : '');
+  openWA(waMsg);
+  closeBookingPopup();
+  return false;
+}
+
 // Booking sidebar: on mobile it's hidden from the normal scroll and only opens
 // as a slide-down panel when "Book Now" is tapped in the sticky bottom bar.
 // On desktop the sidebar is just a normal always-visible sticky column, so we
@@ -1830,9 +1919,24 @@ async function loadTripFromSupabase() {
       : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>';
     if (trip.inclusions && trip.inclusions.length) {
       var inclEl = document.getElementById('inclusionsList');
-      if (inclEl) { inclEl.innerHTML = trip.inclusions.map(function(i){
-        return '<li><span class="li-ic">' + tpIncIconHtml + '</span>' + esc(i) + '</li>';
-      }).join(''); applyElementTypography(inclEl); }
+      if (inclEl) {
+        inclEl.innerHTML = trip.inclusions.map(function(i){
+          return '<li><span class="li-ic">' + tpIncIconHtml + '</span>' + esc(i) + '</li>';
+        }).join('');
+        applyElementTypography(inclEl);
+        // "What's Included" (acc1) starts open by default via a hardcoded HTML
+        // class, so it's sized by the page's initial CSS (a fixed 700px cap)
+        // before this content even exists — toggleAcc()'s dynamic height-to-
+        // content fix only runs when a person clicks to toggle it, which never
+        // happens for an accordion that's already open. Re-measuring here,
+        // right after the real (often much longer) content is actually in the
+        // DOM, is what makes the fix apply to the default-open state too.
+        var acc1El = document.getElementById('acc1');
+        var acc1Body = acc1El ? acc1El.querySelector('.acc-body') : null;
+        if (acc1El && acc1Body && acc1El.classList.contains('open')) {
+          acc1Body.style.maxHeight = (acc1Body.scrollHeight + 24) + 'px';
+        }
+      }
     }
     if (trip.exclusions && trip.exclusions.length) {
       var exclEl = document.getElementById('exclusionsList');

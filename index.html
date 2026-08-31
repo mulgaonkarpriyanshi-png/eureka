@@ -110,7 +110,7 @@ img{display:block;max-width:100%}
    NAVBAR — transparent glass-pill overlay on hero
 ───────────────────────────────────────── */
 .navbar{
-  position:fixed;top:0;left:0;right:0;z-index:1000;
+  position:absolute;top:0;left:0;right:0;z-index:1000;
   height:72px;
   background:transparent;
   display:flex;align-items:center;
@@ -1064,12 +1064,12 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
   /* Featured trips */
   .ft-sec{padding:2.5rem 1.25rem}
   .ft-heading{font-family:'Apfel Grotezk','Poppins',sans-serif;font-size:clamp(32px,9vw,42px);font-weight:700;color:#3A3B3B;letter-spacing:-1px}
-  .ft-desktop-collage{display:none}
-  .ft-mobile-gallery{display:block;width:100%;overflow:hidden}
-  .ft-mobile-track{display:flex;gap:0;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding:0;padding:.125rem 0 .85rem;scrollbar-width:none;-webkit-overflow-scrolling:touch}
-  .ft-mobile-track::-webkit-scrollbar{display:none}
-  .ft-mobile-slide{flex:0 0 100%;width:100%;aspect-ratio:4/3;border-radius:14px;overflow:hidden;background:#eef1f1;box-shadow:0 10px 24px rgba(0,0,0,.14);scroll-snap-align:start}
-  .ft-mobile-slide img{width:100%;height:100%;object-fit:cover;display:block}
+  /* Keep the original multi-image collage on phones as well. */
+  .ft-desktop-collage{display:flex;gap:8px}
+  .ft-mobile-gallery{display:none}
+  .ft-col{gap:8px}
+  .ft-col-3{margin-top:44px}
+  .ft-img{border-radius:10px}
   .ft-arrows{display:none}
   .ft-progress{display:block;margin-top:.2rem}
 
@@ -2326,27 +2326,11 @@ function handleNavSearch(e) {
   return false;
 }
 
-/* ── SCROLL ── */
-var lastScroll = 0;
+/* -- SCROLL -- */
+/* Navbar solid/hide scroll behavior disabled per design request. */
 window.addEventListener('scroll', function() {
-  var nb = document.getElementById('navbar');
   var wa = document.getElementById('waWrap');
   var s = window.scrollY;
-  var heroEl = document.getElementById('home');
-  var solidThreshold = heroEl ? heroEl.offsetHeight - 100 : window.innerHeight - 100;
-  /* Once scrolled well past the hero/category bar, the full navbar (search + menu)
-     stays hidden even when scrolling up — only the sticky category strip below it
-     should reappear, so it doesn't float on top of page content further down. */
-  var navRevealLimit = solidThreshold + 400;
-  if (s > navRevealLimit) {
-    nb.classList.add('hide');
-  } else if (s > lastScroll && s > 80) {
-    nb.classList.add('hide');
-  } else {
-    nb.classList.remove('hide');
-  }
-  nb.classList.toggle('solid', s > solidThreshold);
-  lastScroll = s;
   if (wa) wa.classList.toggle('show', s > 300);
 }, { passive: true });
 ;
@@ -3337,16 +3321,12 @@ function renderFeaturedTrip() {
   function slot(n, i) {
     return '<div class="ft-img ft-img-' + n + '">' + (imgs[i] ? '<img src="' + esc(imgs[i]) + '" alt="" loading="lazy">' : '') + '</div>';
   }
-  var mobileSlides = imgs.filter(Boolean).map(function(src) {
-    return '<div class="ft-mobile-slide"><img src="' + esc(src) + '" alt="" loading="lazy"></div>';
-  }).join('');
   collage.innerHTML =
     '<div class="ft-desktop-collage">' +
       '<div class="ft-col">' + slot(1, 0) + slot(3, 2) + slot(6, 5) + '</div>' +
       '<div class="ft-col">' + slot(2, 1) + slot(4, 3) + '</div>' +
       '<div class="ft-col ft-col-3">' + slot(5, 4) + slot(7, 6) + '</div>' +
-    '</div>' +
-    '<div class="ft-mobile-gallery"><div class="ft-mobile-track">' + mobileSlides + '</div></div>';
+    '</div>';
   renderFeaturedTripProgress();
 }
 function ftGo(dir) {
@@ -3378,6 +3358,24 @@ document.addEventListener('DOMContentLoaded', function() {
   var prevBtn = document.getElementById('ftPrev'), nextBtn = document.getElementById('ftNext');
   if (prevBtn) prevBtn.addEventListener('click', function(){ ftGo(-1); });
   if (nextBtn) nextBtn.addEventListener('click', function(){ ftGo(1); });
+  var featuredSection = document.getElementById('about');
+  var touchStartX = 0;
+  var touchStartY = 0;
+  if (featuredSection) {
+    featuredSection.addEventListener('touchstart', function(event) {
+      if (!isFeaturedTripMobile() || !event.touches.length) return;
+      touchStartX = event.touches[0].clientX;
+      touchStartY = event.touches[0].clientY;
+    }, { passive: true });
+    featuredSection.addEventListener('touchend', function(event) {
+      if (!isFeaturedTripMobile() || !event.changedTouches.length) return;
+      if (event.target.closest('a, button')) return;
+      var dx = event.changedTouches[0].clientX - touchStartX;
+      var dy = event.changedTouches[0].clientY - touchStartY;
+      if (Math.abs(dx) < 48 || Math.abs(dx) <= Math.abs(dy)) return;
+      ftGo(dx < 0 ? 1 : -1);
+    }, { passive: true });
+  }
   window.addEventListener('resize', function(){ renderFeaturedTripProgress(); });
 });
 

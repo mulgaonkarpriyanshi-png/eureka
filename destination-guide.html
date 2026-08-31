@@ -71,7 +71,7 @@ img{display:block;max-width:100%}
    NAVBAR
 ───────────────────────────────────────── */
 .navbar{
-  position:fixed;top:0;left:0;right:0;z-index:1000;
+  position:absolute;top:0;left:0;right:0;z-index:1000;
   height:84px;
   background:transparent;
   display:flex;align-items:center;
@@ -799,16 +799,10 @@ loadDestinationGuidesData();
 function openDrawer(){document.getElementById('hbg').classList.add('open');document.getElementById('mobDrawer').classList.add('open');document.getElementById('mobOverlay').classList.add('show');document.body.style.overflow='hidden';}
 function closeDrawer(){document.getElementById('hbg').classList.remove('open');document.getElementById('mobDrawer').classList.remove('open');document.getElementById('mobOverlay').classList.remove('show');document.body.style.overflow='';}
 
-var lastScroll=0;
-window.addEventListener('scroll',function(){
-  var nb=document.getElementById('navbar');
-  var hero=document.getElementById('home');
-  var s=window.scrollY;
-  var solidThreshold=hero?hero.offsetHeight-100:window.innerHeight-100;
-  if(s>lastScroll && s>80){nb.classList.add('hide');}else{nb.classList.remove('hide');}
-  nb.classList.toggle('solid', s>solidThreshold);
-  lastScroll=s;
-},{passive:true});
+/*
+Navbar solid/hide scroll behavior disabled per design request.
+Original scroll handler is commented out so the white sticky header does not appear.
+*/
 
 function initObs(){
   var o=new IntersectionObserver(function(entries){

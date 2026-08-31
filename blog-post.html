@@ -62,7 +62,7 @@ img{display:block;max-width:100%}
 /* ─────────────────────────────────────────
    NAVBAR (shared)
 ───────────────────────────────────────── */
-.navbar{position:fixed;top:0;left:0;right:0;z-index:1000;height:84px;background:transparent;display:flex;align-items:center;padding:0 clamp(1.25rem,4vw,3rem);gap:1.5rem;transition:transform .35s cubic-bezier(.4,0,.2,1),background .3s,box-shadow .3s,height .3s}
+.navbar{position:absolute;top:0;left:0;right:0;z-index:1000;height:84px;background:transparent;display:flex;align-items:center;padding:0 clamp(1.25rem,4vw,3rem);gap:1.5rem;transition:transform .35s cubic-bezier(.4,0,.2,1),background .3s,box-shadow .3s,height .3s}
 .navbar.hide{transform:translateY(-100%)}
 .navbar.solid{background:#fff;height:70px;border-bottom:1px solid #e5e7eb;box-shadow:0 1px 12px rgba(0,0,0,.06)}
 .nav-logo{flex-shrink:0;text-decoration:none}
@@ -505,16 +505,10 @@ function openWA(msg){window.open('https://wa.me/919792496457?text='+encodeURICom
 function openDrawer(){document.getElementById('hbg').classList.add('open');document.getElementById('mobDrawer').classList.add('open');document.getElementById('mobOverlay').classList.add('show');document.body.style.overflow='hidden';}
 function closeDrawer(){document.getElementById('hbg').classList.remove('open');document.getElementById('mobDrawer').classList.remove('open');document.getElementById('mobOverlay').classList.remove('show');document.body.style.overflow='';}
 
-var lastScroll=0;
-window.addEventListener('scroll',function(){
-  var nb=document.getElementById('navbar');
-  var hero=document.getElementById('home');
-  var s=window.scrollY;
-  var solidThreshold=hero?hero.offsetHeight-100:window.innerHeight-100;
-  if(s>lastScroll && s>80){nb.classList.add('hide');}else{nb.classList.remove('hide');}
-  nb.classList.toggle('solid', s>solidThreshold);
-  lastScroll=s;
-},{passive:true});
+/*
+Navbar solid/hide scroll behavior disabled per design request.
+Original scroll handler is commented out so the white sticky header does not appear.
+*/
 
 /* ─────────────────────────────────────────
    POST DATA — inlined directly (no external file dependency)

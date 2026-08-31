@@ -60,13 +60,14 @@ img{display:block;max-width:100%}
   --r2:16px;
   --serif:'Playfair Display',Georgia,serif;
   --sans:'Apfel Grotesk','Poppins',system-ui,sans-serif;
+  --custom-title-byline-gap:.35rem;
 }
 
 /* ─────────────────────────────────────────
    NAVBAR — transparent glass-pill overlay on hero
 ───────────────────────────────────────── */
 .navbar{
-  position:fixed;top:0;left:0;right:0;z-index:1000;
+  position:absolute;top:0;left:0;right:0;z-index:1000;
   height:84px;
   background:transparent;
   display:flex;align-items:center;
@@ -147,12 +148,12 @@ img{display:block;max-width:100%}
 .ct-hero-h1{
   font-family:'Proxima Nova Light','Poppins',sans-serif;font-size:42px;
   color:#FFFFFF;line-height:1.25;font-weight:600;font-style:normal;
-  text-shadow:0 2px 14px rgba(0,0,0,.3);max-width:820px;
+  text-shadow:0 2px 14px rgba(0,0,0,.3);max-width:820px;margin-bottom:var(--custom-title-byline-gap);
 }
 .ct-hero-h1 .ct-accent{color:#FFA43B}
 .ct-hero-sub{
   font-family:'Proxima Nova Regular','Poppins',sans-serif;font-size:18px;color:#FFFFFF;
-  max-width:720px;line-height:1.4;letter-spacing:-0.1px;font-weight:500;margin:1.5rem 0 2rem;
+  max-width:720px;line-height:1.4;letter-spacing:-0.1px;font-weight:500;margin:0 0 2rem;
   text-shadow:0 2px 8px rgba(0,0,0,.4);
 }
 .ct-hero-ctas{display:flex;gap:14px;flex-wrap:wrap}
@@ -180,62 +181,12 @@ img{display:block;max-width:100%}
 }
 
 /* ─────────────────────────────────────────
-   DESTINATION CATEGORY BAR — sticky, sits below navbar
-───────────────────────────────────────── */
-.cat-bar-wrap{
-  margin-top:84px; /* clears the fixed navbar so it's not hidden underneath at rest */
-  position:sticky;top:0;z-index:998;
-  background:#fff;border-bottom:1px solid var(--border);
-}
-.cat-bar{
-  max-width:1400px;margin:0 auto;padding:0 clamp(1.25rem,4vw,3rem);
-  display:flex;align-items:center;justify-content:center;gap:8px;
-}
-.cat-bar-track{
-  display:flex;align-items:center;justify-content:center;gap:clamp(1.25rem,2.5vw,2.25rem);
-  overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;
-  padding:10px 20px;
-}
-.cat-bar-track::-webkit-scrollbar{display:none}
-.cat-item{
-  display:flex;flex-direction:column;align-items:center;gap:6px;
-  flex-shrink:0;cursor:pointer;position:relative;
-  transition:color .2s;white-space:nowrap;padding:4px 2px 10px;
-}
-.cat-ic-wrap{position:relative;width:34px;height:34px;display:flex;align-items:center;justify-content:center}
-.cat-ic{width:26px;height:26px;color:#9aa0a6;display:flex;align-items:center;justify-content:center;transition:color .2s}
-.cat-ic svg{width:100%;height:100%}
-.cat-ic-emoji{font-size:22px;line-height:1}
-.cat-lbl{font-family:'Poppins',sans-serif;font-size:13.5px;font-weight:600;color:var(--body);transition:color .2s}
-.cat-item:hover .cat-ic{color:var(--dark)}
-.cat-item:hover .cat-lbl{color:var(--dark)}
-.cat-item.active .cat-ic{color:#F5A623}
-.cat-item.active .cat-lbl{color:#F5A623}
-.cat-item.active::after{
-  content:'';position:absolute;bottom:0;left:15%;right:15%;height:2px;background:#F5A623;
-}
-.cat-trending{
-  position:absolute;top:-6px;right:-22px;
-  background:#F5A623;color:#fff;font-size:7.5px;font-weight:700;letter-spacing:.2px;
-  padding:2px 5px;border-radius:4px;white-space:nowrap;z-index:1;
-}
-.cat-bar-arrow{
-  flex-shrink:0;width:34px;height:34px;border-radius:50%;background:#f0f0f0;border:none;
-  display:flex;align-items:center;justify-content:center;color:var(--dark);transition:background .2s;
-}
-.cat-bar-arrow:hover{background:#e2e2e2}
-.cat-bar-arrow svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2.4}
-
-@media(max-width:640px){
-  .cat-bar-wrap{margin-top:70px;top:0}
-}
-
 /* ─────────────────────────────────────────
    THIS SUMMER, THINK ASIA
 ───────────────────────────────────────── */
 .tsta-sec{padding:4rem 0 5rem;background:#fff}
 .tsta-inner{max-width:1400px;margin:0 auto;padding:0 clamp(1.5rem,4vw,4rem)}
-.tsta-eyebrow{font-family:'Poppins',sans-serif;font-size:13px;font-weight:700;color:#02A9A2;letter-spacing:.4px;margin-bottom:.5rem}
+.tsta-eyebrow{font-family:'Poppins',sans-serif;font-size:13px;font-weight:700;color:#02A9A2;letter-spacing:.4px;margin-bottom:var(--custom-title-byline-gap)}
 .tsta-h2{font-family:'IT ApfelGrotezk-Regular','Poppins',sans-serif;font-size:42px;font-weight:600;font-style:normal;letter-spacing:0.2px;color:#303535;margin-bottom:2rem}
 .tsta-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.75rem 1.5rem}
 .tsta-card{
@@ -266,7 +217,7 @@ img{display:block;max-width:100%}
 .tribe-sec{padding:1rem 0 5.5rem;background:#fff}
 .tribe-inner{max-width:1400px;margin:0 auto;padding:0 clamp(1.5rem,4vw,4rem)}
 .tribe-h2{font-family:'Poppins',sans-serif;font-size:42px;font-weight:600;color:#3A3B3B;letter-spacing:-1px;line-height:1.15;margin-bottom:1.5rem}
-.tribe-eyebrow{font-family:'Poppins',sans-serif;font-size:13px;font-weight:700;color:#02A9A2;letter-spacing:.4px;margin-bottom:.5rem}
+.tribe-eyebrow{font-family:'Poppins',sans-serif;font-size:13px;font-weight:700;color:#02A9A2;letter-spacing:.4px;margin-bottom:var(--custom-title-byline-gap)}
 
 .tribe-carousel{position:relative}
 .tribe-track{
@@ -473,9 +424,9 @@ img{display:block;max-width:100%}
 }
 .group-banner img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
 .group-banner-ov{position:absolute;inset:0;background:linear-gradient(to right,rgba(0,0,0,.6) 0%,rgba(0,0,0,.35) 42%,rgba(0,0,0,0) 68%)}
-.group-banner-content{position:relative;z-index:2;padding:0 clamp(1.5rem,3vw,3rem);max-width:480px}
-.group-banner-h3{font-family:'Proxima Nova Light','Poppins',sans-serif;font-size:23px;font-weight:700;font-style:normal;color:#FFFFFF;line-height:1.3;margin-bottom:.5rem;text-shadow:0 2px 10px rgba(0,0,0,.3)}
-.group-banner-p{font-family:'Proxima Nova Light','Poppins',sans-serif;font-size:18px;font-weight:500;line-height:1.2;letter-spacing:0.2px;color:#FFFFFF;margin-bottom:1.1rem;text-shadow:0 2px 8px rgba(0,0,0,.4)}
+.group-banner-content{position:relative;z-index:2;padding:0 clamp(1.5rem,3vw,3rem);max-width:min(900px,70vw)}
+.group-banner-h3{font-family:'Proxima Nova Light','Poppins',sans-serif;font-size:23px;font-weight:700;font-style:normal;color:#FFFFFF;line-height:1.3;margin-bottom:var(--custom-title-byline-gap);text-shadow:0 2px 10px rgba(0,0,0,.3);white-space:nowrap}
+.group-banner-p{font-family:'Proxima Nova Light','Poppins',sans-serif;font-size:18px;font-weight:500;line-height:1.2;letter-spacing:0.2px;color:#FFFFFF;margin-bottom:1.1rem;text-shadow:0 2px 8px rgba(0,0,0,.4);white-space:nowrap}
 .group-banner-btn{
   display:inline-block;background:#FFFFFF;color:#000000;fill:#000000;
   padding:15px 20px;border-radius:50px;font-family:'Proxima Nova Light','Poppins',sans-serif;font-weight:600;font-size:16px;line-height:1;
@@ -487,26 +438,33 @@ img{display:block;max-width:100%}
   .group-banner{height:auto;padding:2rem 0}
   .group-banner-ov{background:linear-gradient(to bottom,rgba(0,0,0,.35) 0%,rgba(0,0,0,.65) 100%)}
   .group-banner-content{max-width:100%}
+  .group-banner-h3,.group-banner-p{white-space:normal}
 }
 
 /* ─────────────────────────────────────────
    HOW TO BUILD YOUR ADVENTURE
 ───────────────────────────────────────── */
 .htb-sec{background:#fff;padding:clamp(2.5rem,5vw,4rem) clamp(1.25rem,4vw,3rem);text-align:center}
-.htb-sec .sec-h{font-family:'Poppins',sans-serif;font-size:42px;font-weight:600;color:#3A3B3B;letter-spacing:-1px;line-height:1.15;margin-bottom:0}
-.choose-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2.5rem 2rem;max-width:1100px;margin:2rem auto 0}
-.ch{display:flex;flex-direction:column;align-items:center;text-align:center;gap:1.125rem}
-.ch-icon{width:80px;height:80px;display:flex;align-items:center;justify-content:center;margin-bottom:.25rem}
-.ch-icon svg{width:70px;height:70px}
-.ch-ttl{font-family:'Outfit','Poppins',sans-serif;font-size:20px;font-weight:500;color:#027A74;line-height:1.2;letter-spacing:normal}
-.ch-desc{font-family:'Poppins',sans-serif;font-size:15px;color:#6B7575;line-height:1.5;letter-spacing:-0.2px;font-weight:400}
+.htb-sec .sec-h{font-family:'Poppins',sans-serif;font-size:42px;font-weight:600;color:#3A3B3B;letter-spacing:-1px;line-height:1.15;margin-bottom:clamp(2rem,4vw,3rem)}
+.choose-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;max-width:1200px;margin:0 auto}
+.ch{display:flex;flex-direction:column;align-items:center;text-align:center;padding:0 1.75rem;border-left:1px solid var(--border);gap:0}
+.ch:first-child{border-left:none}
+.ch-icon{width:44px;height:44px;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem}
+.ch-icon svg{width:44px;height:44px}
+.ch-icon svg [stroke]{stroke:#02A9A2}
+.ch-icon svg [fill="#FFA43B"]{fill:#02A9A2}
+.ch-step-lbl{font-family:'Poppins',sans-serif;font-size:12px;font-weight:600;color:#02A9A2;letter-spacing:1px;margin-bottom:.4rem}
+.ch-ttl{font-family:'Outfit','Poppins',sans-serif;font-size:20px;font-weight:500;color:#027A74;line-height:1.12;letter-spacing:normal;max-width:260px;margin:0 auto}
+.ch-desc{font-family:'Poppins',sans-serif;font-size:15px;color:#454A4A;line-height:1.5;letter-spacing:-0.2px;font-weight:400;max-width:280px;margin:.15rem auto 0}
 .ch-desc b{font-weight:700;color:#0a0a0a}
 @media(max-width:768px){
-  .choose-grid{grid-template-columns:repeat(2,1fr);gap:2.5rem 1.5rem}
+  .choose-grid{grid-template-columns:repeat(2,1fr);row-gap:2rem}
+  .ch{padding:0 1.5rem}
+  .ch:nth-child(3){border-left:none}
 }
 @media(max-width:480px){
-  .choose-grid{grid-template-columns:1fr;gap:2rem}
-  .ch-icon svg{width:56px;height:56px}
+  .choose-grid{grid-template-columns:1fr;row-gap:2rem}
+  .ch{border-left:none;padding:0 .5rem}
   .ch-ttl{font-size:18px}
 }
 
@@ -515,9 +473,9 @@ img{display:block;max-width:100%}
 ───────────────────────────────────────── */
 .passport-sec{
   width:100vw;margin-left:calc(50% - 50vw);
-  background:var(--off2);
-  min-height:100vh;display:flex;align-items:center;
-  padding:2rem 0;
+  background:#EDF8F8;
+  display:flex;align-items:center;
+  padding:3rem 0;
   overflow:hidden;
 }
 .passport-inner{
@@ -525,24 +483,69 @@ img{display:block;max-width:100%}
   display:grid;grid-template-columns:1fr 1fr;gap:clamp(2rem,4vw,4rem);
   align-items:center;
 }
-.passport-h2{font-family:'IT ApfelGrotezk-Regular','Poppins',sans-serif;font-size:clamp(28px,3vw,42px);font-weight:600;font-style:normal;letter-spacing:0.2px;color:#303535;text-align:center;margin-bottom:1rem}
-.passport-form-card{background:#fff;border-radius:18px;padding:1.5rem;box-shadow:0 4px 24px rgba(0,0,0,.06)}
-.pf-row2{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+.passport-h2{font-family:'Poppins',sans-serif;font-size:24px;font-weight:600;font-style:normal;letter-spacing:0.2px;color:#3A3B3B;text-align:left;margin-bottom:.9rem;line-height:29px}
+.passport-form-card{background:transparent;border-radius:24px;padding:clamp(1.85rem,3vw,2.625rem);box-shadow:none;display:flex;flex-direction:column;justify-content:center}
+.pf-row2{display:grid;grid-template-columns:1fr 1fr;gap:.875rem}
 .pf-field{
   width:100%;padding:11px 16px;border:1px solid var(--border);border-radius:8px;
   font-family:'Poppins',sans-serif;font-size:13.5px;color:var(--dark);margin-bottom:.75rem;background:#fff;
 }
 .pf-field::placeholder{color:#9aa3a3}
+.passport-form-card .pf-field{
+  padding:13px 18px;border:1px solid #e5e7eb;border-radius:50px;
+  font-family:'Apfel Grotezk','Poppins',sans-serif;color:#3A3B3B;margin-bottom:.875rem;
+  font-weight:400;transition:box-shadow .2s,border-color .2s;outline:none;
+}
+.passport-form-card .pf-field:focus{box-shadow:0 0 0 3px rgba(2,169,162,.18);border-color:#02A9A2}
+.passport-form-card .pf-field::placeholder{color:#9ca3af}
+.passport-form-card textarea.pf-field{border-radius:18px;min-height:96px;line-height:1.5;resize:vertical}
 .pf-submit{
   width:100%;background:#f4a261;color:#ffffff;padding:13px 20px;border-radius:5px;border:none;
   font-family:'Poppins',sans-serif;font-weight:600;font-style:normal;font-size:16px;line-height:16px;transition:background .2s;
 }
 .pf-submit:hover{background:#e5981a}
+.passport-form-card .pf-submit{
+  background:#F4A261;padding:15px;border-radius:50px;
+  font-family:'Apfel Grotezk','Poppins',sans-serif;font-weight:700;font-size:14.5px;line-height:1;transition:all .25s;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+}
+.passport-form-card .pf-submit:hover{background:#e5904a;transform:translateY(-1px)}
+
+/* Booking form popup — appears 60 minutes after the page loads */
+.booking-popup-overlay{
+  position:fixed;inset:0;z-index:99999;
+  background:rgba(0,0,0,.55);
+  display:none;align-items:center;justify-content:center;
+  padding:1.25rem;
+  animation:bpFadeIn .25s ease;
+}
+.booking-popup-overlay.show{display:flex}
+@keyframes bpFadeIn{from{opacity:0}to{opacity:1}}
+.booking-popup-card{
+  position:relative;background:#fff;border-radius:18px;
+  padding:2rem 1.75rem 1.75rem;
+  max-width:440px;width:100%;
+  max-height:90vh;overflow-y:auto;
+  box-shadow:0 20px 60px rgba(0,0,0,.3);
+  animation:bpSlideUp .3s ease;
+}
+@keyframes bpSlideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.booking-popup-close{
+  position:absolute;top:14px;right:14px;
+  width:32px;height:32px;border-radius:50%;border:none;background:#f3f4f6;
+  display:flex;align-items:center;justify-content:center;color:#3A3B3B;
+  cursor:pointer;transition:background .2s;
+}
+.booking-popup-close:hover{background:#e5e7eb}
+.booking-popup-close svg{width:16px;height:16px}
+.booking-popup-h3{font-family:'IT ApfelGrotezk-Regular','Poppins',sans-serif;font-size:24px;font-weight:600;color:#303535;margin-bottom:.4rem}
+.booking-popup-sub{font-family:'Poppins',sans-serif;font-size:14px;color:#6B7575;margin-bottom:1.25rem;line-height:1.4}
 
 /* Photo columns — continuous auto-scroll, opposite directions */
 .passport-photos{
   display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;
-  height:min(560px,72vh);overflow:hidden;
+  height:min(400px,55vh); /* fits exactly 2 images (180px each) + the 20px gap between them, instead of ~2.8 */
+  overflow:hidden;
   -webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 6%,#000 94%,transparent 100%);
   mask-image:linear-gradient(to bottom,transparent 0,#000 6%,#000 94%,transparent 100%);
 }
@@ -556,7 +559,7 @@ img{display:block;max-width:100%}
 
 @media(max-width:900px){
   .passport-inner{grid-template-columns:1fr}
-  .passport-photos{height:420px}
+  .passport-photos{height:400px}
   .pf-row2{grid-template-columns:1fr}
 }
 
@@ -626,7 +629,7 @@ img{display:block;max-width:100%}
 .promo-banner-slide img{width:100%;height:100%;object-fit:cover;display:block}
 .promo-banner-txt{position:absolute;left:clamp(1.5rem,4vw,3rem);top:50%;transform:translateY(-50%);max-width:520px;z-index:2}
 .promo-banner-ov{position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,rgba(0,0,0,.6) 0%,rgba(0,0,0,.1) 100%)}
-.promo-banner-ttl{font-family:'Proxima Nova Light','Poppins',sans-serif;font-size:23px;font-weight:700;font-style:normal;color:#FFFFFF;margin-bottom:.4rem;line-height:1.2}
+.promo-banner-ttl{font-family:'Proxima Nova Light','Poppins',sans-serif;font-size:23px;font-weight:700;font-style:normal;color:#FFFFFF;margin-bottom:var(--custom-title-byline-gap);line-height:1.2}
 .promo-banner-sub{font-family:'Proxima Nova Light','Poppins',sans-serif;font-size:18px;font-weight:500;line-height:1.2;letter-spacing:0.2px;color:#FFFFFF}
 .promo-banner-dots{display:flex;justify-content:center;gap:8px;margin-top:1rem}
 .promo-banner-dot{width:8px;height:8px;border-radius:50%;background:#d1d5db;cursor:pointer;transition:all .25s;border:none;padding:0}
@@ -674,7 +677,7 @@ img{display:block;max-width:100%}
   /* 12. Your Passport to Good Stuff */
   .passport-h2{font-size:24px;line-height:26.4px}
   .pf-field{font-size:16px;line-height:21px}
-  .pf-submit{font-size:12.8px;line-height:12.8px}
+  .passport-form-card .pf-submit{font-size:16px;line-height:16px}
 }
 </style>
 <script src="typography-engine.js"></script>
@@ -720,55 +723,6 @@ img{display:block;max-width:100%}
   </nav>
   <div class="mob-foot">
     <button class="mob-cta-btn" onclick="closeDrawer()">💬 Book on WhatsApp</button>
-  </div>
-</div>
-
-<!-- DESTINATION CATEGORY BAR -->
-<div class="cat-bar-wrap">
-  <div class="cat-bar">
-    <div class="cat-bar-track" id="catBarTrack">
-      <div class="cat-item active" data-country="Explore" onclick="selectCat(this)">
-        <div class="cat-ic-wrap"><span class="cat-ic cat-ic-emoji">🔥</span></div>
-        <span class="cat-lbl">Explore</span>
-      </div>
-      <div class="cat-item" data-country="Europe" onclick="selectCat(this)">
-        <div class="cat-ic-wrap"><span class="cat-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l-1.5 5h3z"/><path d="M9.5 9h5l-1 4h-3z"/><path d="M8.5 15h7l-1.2 4.5h-4.6z"/><path d="M4 21h16"/><path d="M7 21l3-8M17 21l-3-8"/></svg></span></div>
-        <span class="cat-lbl">Europe</span>
-      </div>
-      <div class="cat-item" data-country="Japan" onclick="selectCat(this)">
-        <div class="cat-ic-wrap"><span class="cat-trending">Trending</span><span class="cat-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M2 10h20"/><path d="M4 5.5c3-1.3 13-1.3 16 0"/><path d="M7 7v14M17 7v14"/><path d="M3 7h18"/></svg></span></div>
-        <span class="cat-lbl">Japan</span>
-      </div>
-      <div class="cat-item" data-country="Singapore" onclick="selectCat(this)">
-        <div class="cat-ic-wrap"><span class="cat-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21V9M9 21V5M13 21V9M17 21V5M21 21V9"/><path d="M5 9c4 3 12 3 16 0"/><path d="M3 21h18"/></svg></span></div>
-        <span class="cat-lbl">Singapore</span>
-      </div>
-      <div class="cat-item" data-country="Maldives" onclick="selectCat(this)">
-        <div class="cat-ic-wrap"><span class="cat-trending">Trending</span><span class="cat-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 5H5l7-5z"/><path d="M6 8v7M18 8v7"/><path d="M4 15h16"/><path d="M3 20c2-2 4-2 6 0s4 2 6 0 4-2 6 0"/></svg></span></div>
-        <span class="cat-lbl">Maldives</span>
-      </div>
-      <div class="cat-item" data-country="North East India" onclick="selectCat(this)">
-        <div class="cat-ic-wrap"><span class="cat-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M2 16c4-4 16-4 20 0"/><path d="M4 9v12M20 9v12"/><path d="M4 9c0-2 2-3 2-3M20 9c0-2-2-3-2-3"/></svg></span></div>
-        <span class="cat-lbl">North East India</span>
-      </div>
-      <div class="cat-item" data-country="Dubai" onclick="selectCat(this)">
-        <div class="cat-ic-wrap"><span class="cat-trending">Trending</span><span class="cat-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l1.5 6h-3z"/><path d="M10.5 8h3l1 6h-5z"/><path d="M9.5 14h5l1.5 7h-8z"/><path d="M4 21h16"/></svg></span></div>
-        <span class="cat-lbl">Dubai</span>
-      </div>
-      <div class="cat-item" data-country="Thailand" onclick="selectCat(this)">
-        <div class="cat-ic-wrap"><span class="cat-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2 3h-4z"/><path d="M9 5h6l1.5 3h-9z"/><path d="M7 8h10l2 4H5z"/><path d="M6 12h12v8H6z"/><path d="M4 21h16"/></svg></span></div>
-        <span class="cat-lbl">Thailand</span>
-      </div>
-      <div class="cat-item" data-country="Vietnam" onclick="selectCat(this)">
-        <div class="cat-ic-wrap"><span class="cat-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 16c3-8 15-8 18 0z"/><circle cx="12" cy="16" r="1"/></svg></span></div>
-        <span class="cat-lbl">Vietnam</span>
-      </div>
-      <div class="cat-item" data-country="Norway" onclick="selectCat(this)">
-        <div class="cat-ic-wrap"><span class="cat-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M2 18l5-8 4 5 3-4 8 7z"/><path d="M2 18h20"/></svg></span></div>
-        <span class="cat-lbl">Norway</span>
-      </div>
-    </div>
-    <button class="cat-bar-arrow" onclick="catBarScroll(1)" aria-label="More destinations"><svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></button>
   </div>
 </div>
 
@@ -912,6 +866,7 @@ img{display:block;max-width:100%}
   <div class="choose-grid">
     <div class="ch">
       <div class="ch-icon" id="htbIcon1"><svg viewBox="0 0 80 80" fill="none" stroke="#FFA43B" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="40" cy="20" r="10"/><path d="M20 60c0-11.046 8.954-20 20-20s20 8.954 20 20"/><circle cx="20" cy="24" r="8"/><path d="M4 60c0-8.837 7.163-16 16-16"/><circle cx="60" cy="24" r="8"/><path d="M76 60c0-8.837-7.163-16-16-16"/></svg></div>
+      <div class="ch-step-lbl">STEP 1</div>
       <div class="ch-ttl" id="htbTtl1" data-ts="ba_step1_title"></div>
       <div class="ch-desc" id="htbDesc1" data-ts="ba_step1_desc"></div>
     </div>
@@ -927,16 +882,19 @@ img{display:block;max-width:100%}
         </g>
         <path d="M58 12l3 3M65 16l3 3M62 6l2 4" stroke-width="2"/>
       </svg></div>
+      <div class="ch-step-lbl">STEP 2</div>
       <div class="ch-ttl" id="htbTtl2" data-ts="ba_step2_title"></div>
       <div class="ch-desc" id="htbDesc2" data-ts="ba_step2_desc"></div>
     </div>
     <div class="ch">
       <div class="ch-icon" id="htbIcon3"><svg viewBox="0 0 80 80" fill="none" stroke="#FFA43B" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="36" y1="6" x2="36" y2="56"/><path d="M36 10L20 50h16z"/><path d="M36 16l18 34H36z"/><path d="M14 56h54"/><path d="M14 62h54"/></svg></div>
+      <div class="ch-step-lbl">STEP 3</div>
       <div class="ch-ttl" id="htbTtl3" data-ts="ba_step3_title"></div>
       <div class="ch-desc" id="htbDesc3" data-ts="ba_step3_desc"></div>
     </div>
     <div class="ch">
       <div class="ch-icon" id="htbIcon4"><svg viewBox="0 0 80 80" fill="none" stroke="#FFA43B" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="42" cy="46" r="24"/><path d="M18 46h48"/><path d="M42 22c-7.5 5.5-12 14.5-12 24s4.5 18.5 12 24"/><path d="M42 22c7.5 5.5 12 14.5 12 24s-4.5 18.5-12 24"/><path d="M28 28c4 5 11 6 18 3M28 64c4-5 11-6 18-3"/><path d="M10 22c0-7 6-13 14-13 0 9-6 15-14 13z" fill="#FFA43B" stroke="none"/><path d="M10 22c0-7 6-13 14-13 0 9-6 15-14 13z"/></svg></div>
+      <div class="ch-step-lbl">STEP 4</div>
       <div class="ch-ttl" id="htbTtl4" data-ts="ba_step4_title"></div>
       <div class="ch-desc" id="htbDesc4" data-ts="ba_step4_desc"></div>
     </div>
@@ -947,8 +905,8 @@ img{display:block;max-width:100%}
 <section class="passport-sec" id="plan">
   <div class="passport-inner">
     <div>
-      <h2 class="passport-h2" id="passportHeadingEl" data-ts="ba_passport_heading"></h2>
       <div class="passport-form-card">
+        <h2 class="passport-h2" id="passportHeadingEl" data-ts="ba_passport_heading"></h2>
         <form onsubmit="event.preventDefault();alert('Thanks! We will get back to you shortly.')">
           <div class="pf-row2">
             <input class="pf-field" id="baFormName" type="text" placeholder="Full Name*" required>
@@ -959,7 +917,7 @@ img{display:block;max-width:100%}
             <input class="pf-field" id="baFormDest" type="text" placeholder="Where would you like to go?">
           </div>
           <textarea class="pf-field" id="baFormMsg" rows="2" placeholder="Message" style="resize:vertical"></textarea>
-          <button type="submit" class="pf-submit" id="baFormBtn" data-ts="ba_form_btn_text">Send Message</button>
+          <button type="submit" class="pf-submit" id="baFormBtn" data-ts="ba_form_btn_text">Send Message <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
         </form>
       </div>
     </div>
@@ -996,6 +954,29 @@ img{display:block;max-width:100%}
 </section>
 
 <!-- FOOTER -->
+<!-- BOOKING FORM POPUP — appears automatically 60 minutes after the page loads -->
+<div class="booking-popup-overlay" id="bookingPopupOverlay" onclick="if(event.target===this)closeBookingPopup()">
+  <div class="booking-popup-card">
+    <button type="button" class="booking-popup-close" onclick="closeBookingPopup()" aria-label="Close">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+    <h3 class="booking-popup-h3">Still planning your trip?</h3>
+    <p class="booking-popup-sub">Leave your details and we'll help you build the perfect adventure.</p>
+    <form onsubmit="return submitBookingPopup(event)">
+      <div class="pf-row2">
+        <input class="pf-field" id="bpName" type="text" placeholder="Full Name*" required>
+        <input class="pf-field" id="bpEmail" type="email" placeholder="Email*" required>
+      </div>
+      <div class="pf-row2">
+        <input class="pf-field" id="bpPhone" type="tel" placeholder="Phone*" required>
+        <input class="pf-field" id="bpDest" type="text" placeholder="Where would you like to go?">
+      </div>
+      <textarea class="pf-field" id="bpMsg" rows="2" placeholder="Message" style="resize:vertical"></textarea>
+      <button type="submit" class="pf-submit">Send Message</button>
+    </form>
+  </div>
+</div>
+
 <!-- FOOTER WRAP — full-bleed photo + mission quote + footer -->
 <div class="footer-wrap">
 
@@ -1178,18 +1159,20 @@ function stripOuterParagraph(html) {
 }
 function setText(id, val) { if (!val) return; var el = document.getElementById(id); if (el) { el.innerHTML = stripOuterParagraph(val); applyElementTypography(el); } }
 function setAttr(id, attr, val) { if (!val) return; var el = document.getElementById(id); if (el) el.setAttribute(attr, val); }
+function setAdminPlaceholder(id, key, settings) {
+  if (settings && settings[key]) setAttr(id, 'placeholder', settings[key]);
+  applyPlaceholderTypography(id, key);
+}
+function ensurePassportButtonArrow() {
+  var btn = document.getElementById('baFormBtn');
+  if (!btn || btn.querySelector('svg')) return;
+  btn.insertAdjacentHTML('beforeend', ' <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>');
+}
 
-/* NAVBAR scroll behavior */
-(function(){
-  var nav=document.getElementById('navbar');
-  var lastY=window.scrollY;
-  window.addEventListener('scroll',function(){
-    var y=window.scrollY;
-    if(y>60){nav.classList.add('solid')}else{nav.classList.remove('solid')}
-    if(y>lastY && y>60){nav.classList.add('hide')}else{nav.classList.remove('hide')}
-    lastY=y;
-  },{passive:true});
-})();
+/*
+Navbar solid/hide scroll behavior disabled per design request.
+Original scroll handler is commented out so the white sticky header does not appear.
+*/
 function openDrawer(){
   document.getElementById('hbg').classList.add('open');
   document.getElementById('mobOverlay').classList.add('show');
@@ -1201,30 +1184,45 @@ function closeDrawer(){
   document.getElementById('mobDrawer').classList.remove('show');
 }
 
-/* DESTINATION CATEGORY BAR */
-function selectCat(el){
-  document.querySelectorAll('.cat-item').forEach(function(c){ c.classList.remove('active'); });
-  el.classList.add('active');
-  currentCatFilter = el.dataset.country;
-  if (typeof tribeRender === 'function') tribeRender();
-}
-function catBarScroll(dir){
-  var track=document.getElementById('catBarTrack');
-  if(!track) return;
-  track.scrollBy({left:dir*220, behavior:'smooth'});
-}
-/* Keep the active tab in view on narrower screens where the centered row overflows */
-(function(){
-  var track=document.getElementById('catBarTrack');
-  if(!track) return;
-  var firstTab=track.querySelector('.cat-item');
-  if(firstTab) firstTab.scrollIntoView({inline:'start', block:'nearest'});
-})();
-
 /* CHOOSE YOUR TRAVEL TRIBE */
 var TRIBE_TRIPS=[];
 var currentCatFilter='Explore';
 function openWA(msg) { window.open('https://wa.me/919792496457?text=' + encodeURIComponent(msg), '_blank'); }
+
+/* BOOKING FORM POPUP — appears once, 60 minutes after the page loads.
+   Won't reappear if the person already saw it or submitted it this session
+   (sessionStorage), so it doesn't nag someone who's kept the tab open. */
+(function(){
+  var POPUP_DELAY = 1000; // 1 second — testing value, change back to 60 * 60 * 1000 for the real 60-minute delay
+  if (sessionStorage.getItem('bookingPopupShown')) return;
+  setTimeout(function(){
+    if (sessionStorage.getItem('bookingPopupShown')) return; // could've been shown via another tab in the meantime
+    var overlay = document.getElementById('bookingPopupOverlay');
+    if (!overlay) return;
+    overlay.classList.add('show');
+    sessionStorage.setItem('bookingPopupShown', '1');
+  }, POPUP_DELAY);
+})();
+function closeBookingPopup(){
+  var overlay = document.getElementById('bookingPopupOverlay');
+  if (overlay) overlay.classList.remove('show');
+}
+document.addEventListener('keydown', function(e){
+  if (e.key === 'Escape') closeBookingPopup();
+});
+function submitBookingPopup(e){
+  e.preventDefault();
+  var name = document.getElementById('bpName').value.trim();
+  var email = document.getElementById('bpEmail').value.trim();
+  var phone = document.getElementById('bpPhone').value.trim();
+  var dest = document.getElementById('bpDest').value.trim();
+  var msg = document.getElementById('bpMsg').value.trim();
+  var waMsg = 'Hi EUREKA Trips! I want to plan a trip.\nName: ' + name + '\nEmail: ' + email + '\nPhone: ' + phone +
+    (dest ? '\nDestination: ' + dest : '') + (msg ? '\nMessage: ' + msg : '');
+  openWA(waMsg);
+  closeBookingPopup();
+  return false;
+}
 function tribeRender(){
   var track=document.getElementById('tribeTrack');
   if(!track) return;
@@ -1459,18 +1457,6 @@ async function applyBuildAdventureContent() {
     });
   }
 
-  /* ── CATEGORY BAR (admin-controlled, page_scope = build-adventure) ── */
-  var catRows = await sbGet('nav_categories', 'page_scope=eq.build-adventure&active=eq.true&order=sort_order.asc');
-  if (catRows.length) {
-    var catTrack = document.getElementById('catBarTrack');
-    if (catTrack) {
-      catTrack.innerHTML = catRows.map(function(c, i) {
-        return '<div class="cat-item' + (i===0?' active':'') + '" data-country="' + esc(c.link) + '" onclick="selectCat(this)"><div class="cat-ic-wrap"><span class="cat-ic cat-ic-emoji">' + esc(c.icon||'') + '</span></div><span class="cat-lbl">' + esc(c.label) + '</span></div>';
-      }).join('');
-      currentCatFilter = catRows[0].link;
-    }
-  }
-
   /* ── STATS BAR ── */
   var statsRows = await sbGet('stats_banner', 'page_scope=eq.build-adventure&order=sort_order.asc');
   if (statsRows.length) {
@@ -1496,24 +1482,20 @@ async function applyBuildAdventureContent() {
   setText('htbHeadingEl', s.ba_htb_heading);
   [1,2,3,4].forEach(function(n) {
     var icon = s['ba_step'+n+'_icon'], title = s['ba_step'+n+'_title'], desc = s['ba_step'+n+'_desc'];
-    if (icon) { var iconEl = document.getElementById('htbIcon'+n); if (iconEl) iconEl.innerHTML = '<img src="'+esc(icon)+'" alt="" style="width:70px;height:70px;object-fit:contain" loading="lazy" decoding="async">'; }
+    if (icon) { var iconEl = document.getElementById('htbIcon'+n); if (iconEl) iconEl.innerHTML = '<img src="'+esc(icon)+'" alt="" style="width:44px;height:44px;object-fit:contain" loading="lazy" decoding="async">'; }
     setText('htbTtl'+n, title);
     setText('htbDesc'+n, desc);
   });
 
   /* ── YOUR PASSPORT TO GOOD STUFF ── */
   setText('passportHeadingEl', s.ba_passport_heading);
-  if (s.ba_form_name_placeholder) document.getElementById('baFormName').placeholder = s.ba_form_name_placeholder;
-  applyPlaceholderTypography('baFormName', 'ba_form_name_placeholder');
-  if (s.ba_form_email_placeholder) document.getElementById('baFormEmail').placeholder = s.ba_form_email_placeholder;
-  applyPlaceholderTypography('baFormEmail', 'ba_form_email_placeholder');
-  if (s.ba_form_phone_placeholder) document.getElementById('baFormPhone').placeholder = s.ba_form_phone_placeholder;
-  applyPlaceholderTypography('baFormPhone', 'ba_form_phone_placeholder');
-  if (s.ba_form_dest_placeholder) document.getElementById('baFormDest').placeholder = s.ba_form_dest_placeholder;
-  applyPlaceholderTypography('baFormDest', 'ba_form_dest_placeholder');
-  if (s.ba_form_msg_placeholder) document.getElementById('baFormMsg').placeholder = s.ba_form_msg_placeholder;
-  applyPlaceholderTypography('baFormMsg', 'ba_form_msg_placeholder');
+  setAdminPlaceholder('baFormName', 'ba_form_name_placeholder', s);
+  setAdminPlaceholder('baFormEmail', 'ba_form_email_placeholder', s);
+  setAdminPlaceholder('baFormPhone', 'ba_form_phone_placeholder', s);
+  setAdminPlaceholder('baFormDest', 'ba_form_dest_placeholder', s);
+  setAdminPlaceholder('baFormMsg', 'ba_form_msg_placeholder', s);
   setText('baFormBtn', s.ba_form_btn_text);
+  ensurePassportButtonArrow();
   var passportRows = await sbGet('passport_photos', 'active=eq.true&order=sort_order.asc');
   if (passportRows.length) {
     var colA = passportRows.filter(function(r){ return r.column_key === 'a'; }).map(function(r){ return r.image_url; });
