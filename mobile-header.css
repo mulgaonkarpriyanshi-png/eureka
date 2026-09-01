@@ -1,0 +1,34 @@
+/* Mobile header shared with the home page. */
+@media (max-width: 640px) {
+  .navbar,
+  .navbar.solid {
+    height: 84px !important;
+    padding: 0 1rem !important;
+  }
+
+  .nav-logo-img,
+  .navbar.solid .nav-logo-img {
+    height: 76px !important;
+  }
+
+  .hbg {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    padding: 0 !important;
+    gap: 4px !important;
+    background: #027a74 !important;
+    border: 1px solid #027a74 !important;
+    border-radius: 50% !important;
+    color: #ffffff !important;
+  }
+
+  .hbg span,
+  .navbar.solid .hbg span {
+    width: 18px !important;
+    height: 2px !important;
+    background: #ffffff !important;
+  }
+}

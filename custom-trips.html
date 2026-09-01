@@ -61,6 +61,7 @@ img{display:block;max-width:100%}
   --serif:'Playfair Display',Georgia,serif;
   --sans:'Apfel Grotesk','Poppins',system-ui,sans-serif;
   --custom-title-byline-gap:.35rem;
+  --mobile-section-gap:4rem;
 }
 
 /* ─────────────────────────────────────────
@@ -204,12 +205,30 @@ img{display:block;max-width:100%}
   font-family:'Proxima Nova Light','Poppins',sans-serif;font-size:23px;font-weight:600;font-style:normal;color:#000000;
   box-shadow:0 2px 10px rgba(0,0,0,.1);
 }
+.tsta-dots{display:none}
 @media(max-width:900px){
   .tsta-grid{grid-template-columns:1fr 1fr}
 }
 @media(max-width:560px){
-  .tsta-grid{grid-template-columns:1fr}
+  .ct-hero-content{padding:0 1.5rem;text-align:left}
+  .ct-hero-h1,.ct-hero-sub{text-align:left!important}
+  .ct-hero-ctas{justify-content:flex-start}
+
+  .tsta-grid{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;scrollbar-width:none;padding:4px;margin:-4px}
+  .tsta-grid::-webkit-scrollbar{display:none}
+  .tsta-slide{display:grid;grid-template-columns:1fr;grid-template-rows:repeat(2,180px);gap:12px;flex:0 0 calc(100% - 12px);scroll-snap-align:start}
+  .tsta-card{height:180px}
+  .tsta-label{left:8px;right:8px;bottom:8px;padding:8px 6px;border-radius:9px;font-size:15px;line-height:1.1}
+  .tsta-dots{display:flex;justify-content:center;align-items:center;gap:6px;margin-top:1rem}
+  .tsta-dot{width:8px;height:8px;border-radius:50%;background:#d1d5db;border:none;cursor:pointer;padding:0;transition:all .28s}
+  .tsta-dot.active{background:#02A9A2;width:24px;border-radius:4px}
+
+  /* Shared mobile section rhythm: reuse this 64px gap on later pages. */
+  .tsta-sec{padding-bottom:var(--mobile-section-gap)}
+  .tsta-sec + .tribe-sec{padding-top:0}
 }
+
+@media(min-width:561px){.tsta-slide{display:contents}}
 
 /* ─────────────────────────────────────────
    CHOOSE YOUR TRAVEL TRIBE
@@ -554,6 +573,7 @@ img{display:block;max-width:100%}
 .passport-col-track img{width:100%;height:180px;object-fit:cover;border-radius:14px;display:block}
 .passport-col-a .passport-col-track{animation:passportUp 26s linear infinite}
 .passport-col-b .passport-col-track{animation:passportDown 26s linear infinite}
+.passport-mobile-track{display:none}
 @keyframes passportUp{from{transform:translateY(0)}to{transform:translateY(-50%)}}
 @keyframes passportDown{from{transform:translateY(-50%)}to{transform:translateY(0)}}
 
@@ -561,6 +581,13 @@ img{display:block;max-width:100%}
   .passport-inner{grid-template-columns:1fr}
   .passport-photos{height:400px}
   .pf-row2{grid-template-columns:1fr}
+}
+@media(max-width:560px){
+  .passport-photos{display:block;height:auto;overflow:visible;-webkit-mask-image:none;mask-image:none}
+  .passport-col{display:none}
+  .passport-mobile-track{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;scrollbar-width:none;padding:4px;margin:-4px}
+  .passport-mobile-track::-webkit-scrollbar{display:none}
+  .passport-mobile-track img{flex:0 0 76%;height:220px;object-fit:cover;border-radius:14px;scroll-snap-align:start;display:block}
 }
 
 /* ─────────────────────────────────────────
@@ -635,7 +662,7 @@ img{display:block;max-width:100%}
 .promo-banner-dot{width:8px;height:8px;border-radius:50%;background:#d1d5db;cursor:pointer;transition:all .25s;border:none;padding:0}
 .promo-banner-dot.active{background:var(--teal);width:22px;border-radius:5px}
 @media(max-width:640px){
-  .promo-banner-track{aspect-ratio:4/6}
+  .promo-banner-track{aspect-ratio:5/6}
   .promo-banner-txt{left:1.25rem;right:1.25rem}
 }
 
@@ -681,6 +708,7 @@ img{display:block;max-width:100%}
 }
 </style>
 <script src="typography-engine.js"></script>
+<link rel="stylesheet" href="mobile-header.css">
 </head>
 <body>
 
@@ -757,6 +785,7 @@ img{display:block;max-width:100%}
       <a class="tsta-card" href="destinations.html#srilanka"><img src="https://images.unsplash.com/photo-1546708973-b339540b5162?w=500&q=80&auto=format&fm=webp&fit=crop" alt="Sri Lanka" loading="lazy" decoding="async"><div class="tsta-label">Srilanka</div></a>
       <a class="tsta-card" href="trip-page.html"><img src="https://images.unsplash.com/photo-1518509562904-e7ef99cdcc86?w=500&q=80&auto=format&fm=webp&fit=crop" alt="Philippines" loading="lazy" decoding="async"><div class="tsta-label">Philippines</div></a>
     </div>
+    <div class="tsta-dots" id="tstaDots" aria-label="Destination guide pages"></div>
   </div>
 </section>
 
@@ -949,6 +978,7 @@ img{display:block;max-width:100%}
           <img src="https://images.unsplash.com/photo-1518623489648-a173ef7824f3?w=500&q=80&auto=format&fm=webp&fit=crop" alt="Friends cycling" loading="lazy" decoding="async">
         </div>
       </div>
+      <div class="passport-mobile-track" id="passportMobileTrack" aria-label="Adventure photo gallery"></div>
     </div>
   </div>
 </section>
@@ -1414,6 +1444,76 @@ function applyCustomTourCardTypography(s) {
   });
 }
 
+function renderPassportMobileGallery(urls) {
+  var track = document.getElementById('passportMobileTrack');
+  if (!track) return;
+
+  var sources = (urls || []).filter(Boolean);
+  if (!sources.length) {
+    sources = Array.prototype.map.call(document.querySelectorAll('.passport-col-track img'), function(img) { return img.getAttribute('src'); });
+  }
+  var seen = {};
+  sources = sources.filter(function(url) {
+    if (!url || seen[url]) return false;
+    seen[url] = true;
+    return true;
+  });
+  track.innerHTML = sources.map(function(url) {
+    return '<img src="' + esc(url) + '" alt="Adventure photo" loading="lazy" decoding="async">';
+  }).join('');
+}
+
+function initAsiaCardsCarousel() {
+  var grid = document.getElementById('tstaGrid');
+  var dots = document.getElementById('tstaDots');
+  if (!grid || !dots || grid.dataset.carouselReady === 'true') return;
+
+  var cards = Array.prototype.slice.call(grid.querySelectorAll(':scope > .tsta-card'));
+  if (!cards.length) return;
+
+  var fragment = document.createDocumentFragment();
+  var pageCount = Math.ceil(cards.length / 2);
+  for (var i = 0; i < cards.length; i += 2) {
+    var slide = document.createElement('div');
+    slide.className = 'tsta-slide';
+    slide.appendChild(cards[i]);
+    if (cards[i + 1]) slide.appendChild(cards[i + 1]);
+    fragment.appendChild(slide);
+  }
+  grid.replaceChildren(fragment);
+  grid.dataset.carouselReady = 'true';
+
+  dots.innerHTML = '';
+  if (pageCount < 2) return;
+  function setActiveDot(index) {
+    Array.prototype.forEach.call(dots.children, function(dot, dotIndex) {
+      dot.classList.toggle('active', dotIndex === index);
+    });
+  }
+  for (var j = 0; j < pageCount; j++) {
+    var dot = document.createElement('button');
+    dot.type = 'button';
+    dot.className = 'tsta-dot' + (j === 0 ? ' active' : '');
+    dot.setAttribute('aria-label', 'Destination guide page ' + (j + 1));
+    dot.addEventListener('click', (function(index) {
+      return function() {
+        setActiveDot(index);
+        grid.scrollTo({ left: index * grid.clientWidth, behavior: 'smooth' });
+      };
+    })(j));
+    dots.appendChild(dot);
+  }
+
+  var updateTimer;
+  grid.addEventListener('scroll', function() {
+    clearTimeout(updateTimer);
+    updateTimer = setTimeout(function() {
+      var index = Math.max(0, Math.min(pageCount - 1, Math.round(grid.scrollLeft / grid.clientWidth)));
+      setActiveDot(index);
+    }, 80);
+  }, { passive: true });
+}
+
 async function applyBuildAdventureContent() {
   var s = await sbSettings();
   CURRENT_SETTINGS = s;
@@ -1440,6 +1540,7 @@ async function applyBuildAdventureContent() {
       return '<a class="tsta-card" href="' + esc(c.link||'#') + '"><img src="' + esc(c.image_url||'') + '" alt="' + esc(stripOuterParagraph(c.name||'').replace(/<[^>]*>/g,'')) + '" loading="lazy" decoding="async"><div class="tsta-label">' + stripOuterParagraph(c.name||'') + '</div></a>';
     }).join('');
   }
+  initAsiaCardsCarousel();
 
   /* ── CHOOSE YOUR TRAVEL TRIBE — now uses the same source as homepage "Build your own adventure" ── */
   setText('tribeEyebrow', s.ba_tribe_eyebrow);
@@ -1509,6 +1610,7 @@ async function applyBuildAdventureContent() {
       document.getElementById('passportTrackB').innerHTML = doubledB.map(function(u){ return '<img src="'+esc(u)+'" alt="Adventure photo" loading="lazy" decoding="async">'; }).join('');
     }
   }
+  renderPassportMobileGallery(passportRows.map(function(row) { return row.image_url; }));
 
   /* ── MORE TRIPS — also uses "Build your own adventure" cards ── */
   var moreTripsRows = await sbGet('custom_tour_cards', 'active=eq.true&order=sort_order.asc');
