@@ -404,9 +404,9 @@ img{display:block;max-width:100%}
 
 @media(max-width:640px){
   .gt-detail-card,.gt-tabs-wrap{width:100%;max-width:100%}
-  .gt-tabs-wrap{position:sticky;top:10px;gap:0;margin-bottom:.75rem}
+  .gt-tabs-wrap{position:sticky;top:10px;gap:0;margin-bottom:.75rem;min-width:0;overflow:hidden;border-radius:999px;isolation:isolate}
   .gt-tabs{
-    flex:1 1 auto;gap:2px;padding:5px 26px 5px 5px;border:1px solid #e2e8e7;border-radius:999px;
+    flex:1 1 auto;min-width:0;max-width:100%;gap:2px;padding:5px 26px 5px 5px;border:1px solid #e2e8e7;border-radius:999px;
     background:#fff;
   }
   .gt-tab{font-size:11px;font-weight:600;line-height:1;padding:8px 12px}
