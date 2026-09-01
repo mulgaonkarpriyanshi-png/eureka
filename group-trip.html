@@ -403,12 +403,13 @@ img{display:block;max-width:100%}
 .gt-tab:not(.active):hover{color:var(--dark)}
 
 @media(max-width:640px){
+  .gt-detail-card,.gt-tabs-wrap{width:100%;max-width:100%}
   .gt-tabs-wrap{position:sticky;top:10px;gap:0;margin-bottom:.75rem}
   .gt-tabs{
-    flex:1 1 auto;gap:2px;padding:3px 26px 3px 3px;border:1px solid #e2e8e7;border-radius:999px;
+    flex:1 1 auto;gap:2px;padding:5px 26px 5px 5px;border:1px solid #e2e8e7;border-radius:999px;
     background:#fff;
   }
-  .gt-tab{font-size:11px;font-weight:600;line-height:1;padding:7px 12px}
+  .gt-tab{font-size:11px;font-weight:600;line-height:1;padding:8px 12px}
   .gt-tab.active{background:#cfecea;color:#285357}
   .gt-tabs-wrap.has-overflow::after{
     content:"";position:absolute;z-index:1;top:1px;bottom:1px;right:0;width:80px;
