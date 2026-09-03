@@ -150,6 +150,29 @@ img{display:block;max-width:100%}
 .trip-hero-route{display:none}
 .trip-hero-route .sep{opacity:.75;font-weight:400}
 
+/* Desktop sticky trip navigation */
+.trip-subnav{display:none}
+@media(min-width:769px){
+  .trip-subnav{
+    position:sticky;top:0;z-index:900;
+    background:#027A74;
+    padding:.65rem clamp(1rem,4vw,3rem);
+    display:flex;align-items:center;justify-content:center;
+    gap:14px;
+  }
+  .subnav-pill{
+    display:inline-flex;align-items:center;justify-content:center;
+    background:#fff;color:#3A3B3B;
+    padding:10px 22px;border-radius:40px;
+    font-family:'Poppins',sans-serif;font-size:15px;font-weight:600;
+    white-space:nowrap;
+    transition:transform .2s,box-shadow .2s;
+  }
+  .subnav-pill:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,.15)}
+  .subnav-pill.book{background:#FFA43B;color:#fff}
+  .subnav-pill.book:hover{background:#e5981a}
+}
+
 @media(max-width:640px){
   .trip-hero-content{padding:0 1.25rem}
 }
@@ -860,6 +883,14 @@ img{display:block;max-width:100%}
     </div>
   </div>
 </section>
+
+<!-- Desktop sticky trip navigation -->
+<nav class="trip-subnav" aria-label="Trip sections">
+  <a href="#itinerary" class="subnav-pill">Itinerary</a>
+  <a href="#reviews" class="subnav-pill">Reviews</a>
+  <a href="#faqs" class="subnav-pill">FAQ's</a>
+  <a href="#bookingForm" class="subnav-pill book">Book Now</a>
+</nav>
 
 <!-- TRIP DETAIL -->
 <div class="trip-detail-wrap" id="itinerary">
