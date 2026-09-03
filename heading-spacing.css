@@ -1,0 +1,16 @@
+/* Shared heading-to-subline rhythm, matched to the home page. */
+:root{--eureka-heading-subline-gap:.35rem}
+
+/* CMS-managed section titles followed by their supporting line. */
+:is(h1,h2)[data-ts]:has(+ :is(p,.sub,[class*="sub"],[class*="intro"],[class*="byline"])){
+  margin-bottom:var(--eureka-heading-subline-gap)!important;
+}
+
+/* Static title/subline pairs that follow the same Eureka section pattern. */
+.bp-hero-h1:has(+ p),
+.bp-hello-h:has(+ .bp-hello-sub),
+.cu-trust-h:has(+ .cu-trust-logos),
+.tc-hero-h1:has(+ p),
+.wi-hero-h1:has(+ p){
+  margin-bottom:var(--eureka-heading-subline-gap)!important;
+}
