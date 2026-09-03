@@ -185,8 +185,15 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
   cursor:pointer;
 }
 @media(max-width:768px){
+  .ab-tabs{padding:8px 20px;background:var(--teal-d)}
   .ab-tabs-in{display:none}
-  .ab-tabs-select-wrap{display:block}
+  .ab-tabs-select-wrap{display:block;width:100%}
+  .ab-tabs-select{
+    max-width:none;margin:0;border-radius:5px;
+    min-height:36px;padding:.6rem 2.5rem .6rem 1rem;
+    font-size:11px;line-height:1.1;
+    background-position:right .9rem center;background-size:14px 14px;
+  }
 }
 
 /* ─────────────────────────────────────────
