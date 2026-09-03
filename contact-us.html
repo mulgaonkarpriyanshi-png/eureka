@@ -98,9 +98,9 @@ img{display:block;max-width:100%}
 
 .nav-plus{font-size:16px;font-weight:400;opacity:.7}
 .nav-right{display:flex;align-items:center;gap:10px;flex-shrink:0;margin-left:auto}
-.nav-soc{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.5);color:#fff;transition:all .25s;flex-shrink:0}
+.nav-soc{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.5);color:#fff;transition:all .25s;flex-shrink:0}
 .nav-soc:hover{background:rgba(0,0,0,.55)}
-.nav-soc svg{width:16px;height:16px;fill:currentColor}
+.nav-soc svg{width:15px;height:15px;fill:currentColor}
 .navbar.solid .nav-soc{background:#fff;border-color:#e5e7eb;color:#6B7575}
 .navbar.solid .nav-soc:hover{background:#f3f4f6}
 .hbg{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px;flex-shrink:0}
@@ -180,28 +180,30 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
 /* ─────────────────────────────────────────
    SEND US A MESSAGE — form + get-in-touch text
 ───────────────────────────────────────── */
-.cu-form-sec{position:relative;overflow:hidden;background:var(--dark)}
+.cu-form-sec{position:relative;overflow:hidden;background:#013A38 url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=2200&q=85') center/cover no-repeat}
 .cu-form-bg{position:absolute;inset:0}
 .cu-form-bg img{width:100%;height:100%;object-fit:cover;display:block}
-.cu-form-ov{position:absolute;inset:0;background:linear-gradient(110deg,rgba(0,0,0,.78) 0%,rgba(0,0,0,.6) 45%,rgba(0,0,0,.5) 100%)}
+.cu-form-ov{position:absolute;inset:0;background:linear-gradient(110deg,rgba(1,58,56,.9) 0%,rgba(1,58,56,.72) 48%,rgba(0,0,0,.58) 100%)}
 .cu-form-in{position:relative;z-index:2;max-width:1280px;margin:0 auto;padding:clamp(3rem,6vw,5rem) clamp(1.25rem,4vw,3rem);display:grid;grid-template-columns:1fr 1fr;gap:clamp(2rem,4vw,4rem);align-items:center}
 .cu-form-card{border-radius:20px}
 .cu-form-panel h3{font-family:'Poppins',sans-serif;font-size:42px;font-weight:600;color:#3A3B3B;letter-spacing:-1px;line-height:1.15;margin-bottom:1.25rem}
 .cu-form-panel{background:#fff;border-radius:14px;padding:clamp(1.25rem,2vw,1.5rem);box-shadow:var(--sh3)}
 .cu-form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem}
 .cu-form-group label{display:block;font-size:12.5px;font-weight:700;color:#111;margin-bottom:.4rem}
-.cu-form-group input,.cu-form-group select{width:100%;padding:.7rem .85rem;border-radius:8px;border:1.5px solid var(--border);background:var(--off);font-family:'Poppins',sans-serif;font-size:13px;color:#111;appearance:none}
-.cu-form-group select{background-image:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%236B7575" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>');background-repeat:no-repeat;background-position:right .75rem center;background-size:16px}
-.cu-form-group input:focus,.cu-form-group select:focus{outline:none;border-color:var(--teal);box-shadow:0 0 0 3px rgba(2,169,162,.15)}
-.cu-form-group input::placeholder{color:#9ca3af}
+.cu-form-group input,.cu-form-group textarea{width:100%;padding:.7rem .85rem;border-radius:8px;border:1.5px solid var(--border);background:var(--off);font-family:'Poppins',sans-serif;font-size:13px;color:#111;appearance:none}
+.cu-form-group textarea{min-height:108px;resize:vertical}
+.cu-form-group input:focus,.cu-form-group textarea:focus{outline:none;border-color:var(--teal);box-shadow:0 0 0 3px rgba(2,169,162,.15)}
+.cu-form-group input::placeholder,.cu-form-group textarea::placeholder{color:#9ca3af}
 .cu-form-full{margin-bottom:1.1rem}
 .cu-form-btn{width:100%;background:#FF8A66;color:#fff;padding:.85rem;border-radius:10px;font-weight:700;font-size:14px;font-family:'Apfel Grotesk','Poppins',sans-serif;transition:background .2s}
 .cu-form-btn:hover{background:#F5713F}
 .cu-form-txt h2{font-family:'Proxima Nova Light','Poppins',sans-serif;font-size:35px;font-weight:600;font-style:normal;color:rgb(255,255,255);text-align:center;line-height:35px;margin-bottom:1.5rem}
 .cu-form-txt p{font-family:'apfel-grotezk','Poppins',sans-serif;font-size:18px;font-weight:400;font-style:normal;line-height:28px;color:#FFFFFF;margin-bottom:1.75rem}
 .cu-form-checks{display:grid;grid-template-columns:1fr 1fr;gap:1rem 2rem;margin-bottom:2rem}
+.cu-mobile-checks{display:none}
 .cu-check-item{display:flex;align-items:center;gap:.65rem;font-family:'apfel-grotezk','Poppins',sans-serif;font-size:18px;font-weight:600;font-style:normal;color:#FFFFFF;line-height:18px}
-.cu-check-icon{width:26px;height:26px;border-radius:50%;background:#fff;color:#111;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:12px}
+.cu-check-icon{width:26px;height:26px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.cu-check-icon svg{width:17px;height:17px;fill:none;stroke:var(--teal-d);stroke-width:2.7;stroke-linecap:round;stroke-linejoin:round}
 .cu-check-item span{font-family:'apfel-grotezk','Poppins',sans-serif;font-weight:600;font-size:18px;line-height:18px;color:#FFFFFF}
 .cu-form-urgent{font-family:'Poppins',sans-serif;font-size:18px;font-weight:400;font-style:normal;color:#FFFFFF;line-height:28px}
 .cu-form-urgent strong{color:#FF8A66}
@@ -414,9 +416,17 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
   .story-grid{grid-template-columns:1fr}
   .ab-hero-h1{font-size:clamp(30px,8vw,44px)}
   .cu-hero-h1{font-size:clamp(28px,8vw,40px)}
-  .cu-form-in{grid-template-columns:1fr}
+  .cu-form-in{display:flex;flex-direction:column;gap:1.25rem}
+  .cu-form-txt{display:contents}
+  .cu-form-txt h2,.cu-form-txt p,.cu-form-txt .cu-form-checks{display:none}
+  .cu-mobile-checks{display:flex;flex-wrap:wrap;gap:.45rem;margin:1rem 0 0}
+  .cu-check-item{width:auto;min-width:0;align-items:center;gap:.3rem;padding:.3rem .45rem;border-radius:14px;background:#F3F1EF}
+  .cu-check-item span:not(.cu-check-icon){color:#3A3B3B;font-size:9px;line-height:1.2;white-space:nowrap}
+  .cu-check-icon{width:20px;height:20px;background:#fff}
+  .cu-check-icon svg{width:13px;height:13px;stroke:var(--teal-d);stroke-width:2.7}
+  .cu-form-card{order:2}
+  .cu-form-panel{padding:1.25rem .9rem}
   .cu-form-row{grid-template-columns:1fr}
-  .cu-form-checks{grid-template-columns:1fr}
   .ab-belief-row{grid-template-columns:1fr;gap:2.5rem}
   .ab-photo-grid{margin:0 auto;max-width:420px;height:clamp(320px,90vw,420px)}
 }
@@ -524,7 +534,7 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
 
 <!-- SEND US A MESSAGE -->
 <section class="cu-form-sec">
-  <div class="cu-form-bg"><img id="cuFormBg" src="" alt="Misty green mountain range with travellers walking below" loading="lazy"></div>
+  <div class="cu-form-bg"><img id="cuFormBg" src="" alt="Misty green mountain range with travellers walking below" loading="lazy" onerror="this.style.display='none'"></div>
   <div class="cu-form-ov"></div>
   <div class="cu-form-in">
     <div class="cu-form-card">
@@ -540,27 +550,16 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
             <input type="email" id="cu_email" placeholder="Email">
           </div>
         </div>
-        <div class="cu-form-row">
-          <div class="cu-form-group">
-            <label for="cu_phone">Contact Number</label>
-            <input type="tel" id="cu_phone" placeholder="+91-0000-000-000">
-          </div>
-          <div class="cu-form-group">
-            <label for="cu_trip">Choose Trip</label>
-            <select id="cu_trip">
-              <option value="">Select Here</option>
-              <option value="Philippines Hop & Chill">Philippines Hop &amp; Chill</option>
-              <option value="Philippines Hop & Chill Group">Philippines Hop &amp; Chill Group</option>
-              <option value="South Korea">South Korea</option>
-              <option value="Not sure yet">Not sure yet</option>
-            </select>
-          </div>
+        <div class="cu-form-full cu-form-group">
+          <label for="cu_phone">Contact Number</label>
+          <input type="tel" id="cu_phone" placeholder="+91-0000-000-000">
         </div>
         <div class="cu-form-full cu-form-group">
-          <label for="cu_spots">No. of spots you're looking to reserve*</label>
-          <input type="text" id="cu_spots" placeholder="2 Adult, 1 Child">
+          <label for="cu_message">Your Message</label>
+          <textarea id="cu_message" placeholder="Tell us how we can help."></textarea>
         </div>
         <button class="cu-form-btn" onclick="submitContactForm()">Send Message</button>
+        <div class="cu-form-checks cu-mobile-checks" id="cuChecklistMobile"></div>
       </div>
     </div>
 
@@ -568,11 +567,11 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
       <h2 id="cuFormRightHeading" data-ts="contact_form_right_heading"></h2>
       <p id="cuFormRightPara" data-ts="contact_form_right_para"></p>
       <div class="cu-form-checks" id="cuChecklist">
-        <div class="cu-check-item"><span class="cu-check-icon">✓</span><span>Personalized Travel Planning</span></div>
-        <div class="cu-check-item"><span class="cu-check-icon">✓</span><span>Fast &amp; Secure Booking</span></div>
-        <div class="cu-check-item"><span class="cu-check-icon">✓</span><span>24/7 Customer Support</span></div>
-        <div class="cu-check-item"><span class="cu-check-icon">✓</span><span>Local Travel Experts</span></div>
-        <div class="cu-check-item"><span class="cu-check-icon">✓</span><span>Exclusive Travel Deals</span></div>
+        <div class="cu-check-item"><span class="cu-check-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg></span><span>Personalized Travel Planning</span></div>
+        <div class="cu-check-item"><span class="cu-check-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg></span><span>Fast &amp; Secure Booking</span></div>
+        <div class="cu-check-item"><span class="cu-check-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg></span><span>24/7 Customer Support</span></div>
+        <div class="cu-check-item"><span class="cu-check-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg></span><span>Local Travel Experts</span></div>
+        <div class="cu-check-item"><span class="cu-check-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg></span><span>Exclusive Travel Deals</span></div>
       </div>
       <p class="cu-form-urgent" id="cuUrgentText" data-ts="contact_urgent_text"></p>
     </div>
@@ -760,15 +759,13 @@ function submitContactForm(){
   var n=document.getElementById('cu_name').value||'';
   var e=document.getElementById('cu_email').value||'';
   var p=document.getElementById('cu_phone').value||'';
-  var t=document.getElementById('cu_trip').value||'';
-  var s=document.getElementById('cu_spots').value||'';
+  var m=document.getElementById('cu_message').value||'';
   if(!n.trim()){alert('Please enter your full name');return;}
   if(!p.trim()){alert('Please enter your contact number');return;}
   var msg='Hi EUREKA Trips! \uD83D\uDC4B\n\nName: '+n+'\nPhone: '+p+
     (e?'\nEmail: '+e:'')+
-    (t?'\nTrip: '+t:'')+
-    (s?'\nSpots to reserve: '+s:'')+
-    '\n\nCould you share more details and available dates?';
+    (m?'\n\nMessage: '+m:'')+
+    '\n\nCould you share more details?';
   window.open('https://wa.me/919792496457?text='+encodeURIComponent(msg),'_blank');
 }
 
@@ -857,6 +854,32 @@ window.addEventListener('scroll',function(){
 /* ═════════════════════════════════════════════════════════════
    LOAD & APPLY CONTACT US PAGE DATA FROM SUPABASE
 ═════════════════════════════════════════════════════════════ */
+function setContactHeroCta(id, label, configuredLink) {
+  setText(id, label);
+  var normalizedLabel = String(label || '').toLowerCase();
+  var resolvedLink = configuredLink;
+  if (normalizedLabel.indexOf('destination') !== -1) resolvedLink = 'destinations.html';
+  if (normalizedLabel.indexOf('faq') !== -1) resolvedLink = 'about-us.html#faqs';
+  setAttr(id, 'href', resolvedLink);
+}
+
+function setContactCardCta(id, label, configuredLink) {
+  setText(id, label);
+  var normalizedLabel = String(label || '').toLowerCase();
+  var resolvedLink = configuredLink;
+  if (normalizedLabel.indexOf('email') !== -1) resolvedLink = 'mailto:hello@eurekatrips.com';
+  if (normalizedLabel.indexOf('call') !== -1 || normalizedLabel.indexOf('phone') !== -1) resolvedLink = 'tel:+919792496457';
+  setAttr(id, 'href', resolvedLink);
+}
+
+function renderContactChecklist(id, checks) {
+  var target = document.getElementById(id);
+  if (!target) return;
+  target.innerHTML = checks.map(function (check) {
+    return '<div class="cu-check-item"><span class="cu-check-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg></span><span data-ts="contact_checklist">' + esc(check) + '</span></div>';
+  }).join('');
+}
+
 async function loadContactUsPageData() {
   var s = await sbSettings();
   CURRENT_SETTINGS = s;
@@ -868,8 +891,8 @@ async function loadContactUsPageData() {
   setAttr('cuHeroImg', 'src', s.contact_hero_image);
   setText('cuHeroH1', s.contact_hero_heading);
   setText('cuHeroSub', s.contact_hero_subtext);
-  setText('cuHeroBtn1', s.contact_hero_btn1_text); setAttr('cuHeroBtn1', 'href', s.contact_hero_btn1_link);
-  setText('cuHeroBtn2', s.contact_hero_btn2_text); setAttr('cuHeroBtn2', 'href', s.contact_hero_btn2_link);
+  setContactHeroCta('cuHeroBtn1', s.contact_hero_btn1_text, s.contact_hero_btn1_link);
+  setContactHeroCta('cuHeroBtn2', s.contact_hero_btn2_text, s.contact_hero_btn2_link);
 
   /* ── GET IN TOUCH CARDS ── */
   setText('cuTouchHeading', s.contact_touch_heading);
@@ -880,11 +903,11 @@ async function loadContactUsPageData() {
   setText('cuCard2Icon', s.contact_card2_icon);
   setText('cuCard2Title', s.contact_card2_title);
   setText('cuCard2Desc', s.contact_card2_desc);
-  setText('cuCard2Btn', s.contact_card2_btn_text); setAttr('cuCard2Btn', 'href', s.contact_card2_btn_link);
+  setContactCardCta('cuCard2Btn', s.contact_card2_btn_text, s.contact_card2_btn_link);
   setText('cuCard3Icon', s.contact_card3_icon);
   setText('cuCard3Title', s.contact_card3_title);
   setText('cuCard3Desc', s.contact_card3_desc);
-  setText('cuCard3Btn', s.contact_card3_btn_text); setAttr('cuCard3Btn', 'href', s.contact_card3_btn_link);
+  setContactCardCta('cuCard3Btn', s.contact_card3_btn_text, s.contact_card3_btn_link);
 
   /* ── MESSAGE FORM ── */
   setAttr('cuFormBg', 'src', s.contact_form_bg_image);
@@ -894,19 +917,10 @@ async function loadContactUsPageData() {
   setText('cuUrgentText', s.contact_urgent_text);
   var checks = [s.contact_check1, s.contact_check2, s.contact_check3, s.contact_check4, s.contact_check5].filter(Boolean);
   if (checks.length) {
-    document.getElementById('cuChecklist').innerHTML = checks.map(function(c) {
-      return '<div class="cu-check-item"><span class="cu-check-icon">✓</span><span data-ts="contact_checklist">' + esc(c) + '</span></div>';
-    }).join('');
-  }
-
-  /* ── "CHOOSE TRIP" DROPDOWN — auto-derived from real trips, always in sync ── */
-  var tripRows = await sbGet('trips', 'active=eq.true&order=sort_order.asc');
-  if (tripRows.length) {
-    var sel = document.getElementById('cu_trip');
-    var opts = '<option value="">Select Here</option>' +
-      tripRows.map(function(t){ return '<option value="' + esc(t.name) + '">' + esc(t.name) + '</option>'; }).join('') +
-      '<option value="Not sure yet">Not sure yet</option>';
-    sel.innerHTML = opts;
+    renderContactChecklist('cuChecklist', checks);
+    renderContactChecklist('cuChecklistMobile', checks);
+  } else {
+    document.getElementById('cuChecklistMobile').innerHTML = document.getElementById('cuChecklist').innerHTML;
   }
 
   /* ── TRUST SECTION ── */
@@ -926,5 +940,6 @@ async function loadContactUsPageData() {
 }
 loadContactUsPageData();
 </script>
+  <script src="footer-enhancements.js?v=20260903-8" defer></script>
 </body>
 </html>

@@ -98,9 +98,9 @@ img{display:block;max-width:100%}
 
 .nav-plus{font-size:16px;font-weight:400;opacity:.7}
 .nav-right{display:flex;align-items:center;gap:10px;flex-shrink:0;margin-left:auto}
-.nav-soc{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.5);color:#fff;transition:all .25s;flex-shrink:0}
+.nav-soc{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.5);color:#fff;transition:all .25s;flex-shrink:0}
 .nav-soc:hover{background:rgba(0,0,0,.55)}
-.nav-soc svg{width:16px;height:16px;fill:currentColor}
+.nav-soc svg{width:15px;height:15px;fill:currentColor}
 .navbar.solid .nav-soc{background:#fff;border-color:#e5e7eb;color:#6B7575}
 .navbar.solid .nav-soc:hover{background:#f3f4f6}
 .hbg{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px;flex-shrink:0}
@@ -208,12 +208,16 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
 @keyframes featSlideIn{from{opacity:0;transform:translateX(48px)}to{opacity:1;transform:translateX(0)}}
 .bl-feat-slide.entering{animation:featSlideIn .5s cubic-bezier(.22,1,.36,1)}
 
+@media(min-width:769px){
+  .bl-featured{padding-top:3rem;padding-bottom:3rem}
+}
+
 /* ─────────────────────────────────────────
    BLOG GRID — filter pills + post cards
 ───────────────────────────────────────── */
 .bl-grid-section{background:#fff;padding-top:clamp(2rem,4vw,3rem)}
 .bl-filters{display:flex;gap:.75rem;flex-wrap:wrap;margin-bottom:clamp(1.75rem,3vw,2.5rem)}
-.bl-filter-btn{padding:.8rem 1.6rem;border-radius:50px;border:none;font-family:'Outfit','Poppins',sans-serif;font-weight:700;font-size:14px;background:#F1F1F1;color:#111;transition:all .2s}
+.bl-filter-btn{padding:.62rem 1.2rem;border-radius:50px;border:none;font-family:'Outfit','Poppins',sans-serif;font-weight:600;font-size:13px;line-height:1.2;background:#F1F1F1;color:#111;transition:all .2s}
 .bl-filter-btn:hover:not(.active){background:#e6e6e6}
 .bl-filter-btn.active{background:#FFA43B;color:#fff}
 .bl-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:clamp(1.25rem,2.5vw,1.75rem)}
@@ -240,6 +244,10 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
 }
 @media(max-width:768px){
   .bl-hero-h1{font-size:clamp(30px,8vw,42px)}
+  .bl-feat-slide{grid-template-columns:1fr;gap:1.25rem;align-items:start}
+  .bl-feat-img-wrap{order:-1;border-radius:16px;aspect-ratio:16/10}
+  .bl-feat-txt h2{font-size:32px;line-height:1.12;letter-spacing:-.6px;margin-bottom:.8rem}
+  .bl-feat-nav{margin-top:1.25rem}
 }
 @media(max-width:560px){
   .footer-grid{grid-template-columns:1fr}
@@ -640,5 +648,6 @@ async function loadBlogPageData() {
 }
 loadBlogPageData();
 </script>
+  <script src="footer-enhancements.js?v=20260903-8" defer></script>
 </body>
 </html>

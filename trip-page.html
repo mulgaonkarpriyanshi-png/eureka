@@ -101,13 +101,13 @@ img{display:block;max-width:100%}
 
 .nav-right{display:flex;align-items:center;gap:10px;flex-shrink:0;margin-left:auto}
 .nav-soc{
-  width:38px;height:38px;border-radius:50%;
+  width:34px;height:34px;border-radius:50%;
   display:flex;align-items:center;justify-content:center;
   background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.5);
   color:#fff;transition:all .25s;flex-shrink:0;
 }
 .nav-soc:hover{background:rgba(0,0,0,.55)}
-.nav-soc svg{width:16px;height:16px;fill:currentColor}
+.nav-soc svg{width:15px;height:15px;fill:currentColor}
 .navbar.solid .nav-soc{background:#fff;border-color:#e5e7eb;color:#6B7575}
 .navbar.solid .nav-soc:hover{background:#f3f4f6}
 
@@ -195,7 +195,7 @@ img{display:block;max-width:100%}
   height:340px;width:240px;object-fit:cover;border-radius:16px;flex-shrink:0;display:block;
 }
 @media(max-width:640px){
-  .trip-slider-track img{height:200px;width:200px}
+  .trip-slider-track img{height:240px;width:200px}
 }
 
 /* Accordion — header is a standalone fully-rounded bar; body is plain, borderless */
@@ -256,11 +256,8 @@ img{display:block;max-width:100%}
 .gal-arrow:hover{background:#fff}
 .gal-prev{left:12px}
 .gal-next{right:12px}
-.accom-zoom-hint{
-  position:absolute;bottom:10px;right:10px;background:rgba(0,0,0,.55);color:#fff;
-  font-family:'Poppins',sans-serif;font-size:11.5px;font-weight:600;padding:5px 10px;border-radius:20px;
-  display:flex;align-items:center;gap:5px;pointer-events:none;
-}
+.accom-expand-icon{position:absolute;right:12px;bottom:12px;width:30px;height:30px;color:#fff;display:flex;align-items:center;justify-content:center;pointer-events:none;filter:drop-shadow(0 1px 4px rgba(0,0,0,.55))}
+.accom-expand-icon svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
 
 /* Accommodation lightbox */
 .accom-lightbox{position:fixed;inset:0;background:rgba(255,255,255,.35);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);z-index:2000;display:none;align-items:center;justify-content:center}
@@ -373,7 +370,7 @@ img{display:block;max-width:100%}
   height:315px;width:238px;object-fit:cover;border-radius:10px;flex-shrink:0;display:block;
 }
 @media(max-width:768px){
-  .sg-track img{height:170px;width:170px}
+  .sg-track img{height:204px;width:170px}
 }
 
 /* ─────────────────────────────────────────
@@ -385,6 +382,8 @@ img{display:block;max-width:100%}
 .highlights-sub{text-align:center;font-family:'Poppins',sans-serif;font-size:16px;line-height:1.5;letter-spacing:-0.2px;color:#454A4A;max-width:640px;margin:0 auto 2.25rem}
 
 .day-tabs{display:flex;justify-content:center;gap:24px;flex-wrap:wrap;margin-bottom:2.5rem}
+.day-tabs-wrap{position:relative}
+.day-tabs-next{display:none}
 .day-tab{
   font-family:'Poppins',sans-serif;font-weight:700;font-size:13px;letter-spacing:.3px;
   padding:13px 34px;border-radius:50px;border:1.5px solid var(--teal);color:var(--teal);
@@ -422,7 +421,7 @@ img{display:block;max-width:100%}
   .day-photos{min-height:280px}
 }
 @media(max-width:560px){
-  .day-photos{grid-template-columns:1fr 1fr;grid-template-rows:160px 160px}
+  .day-photos{grid-template-columns:1fr 1fr;grid-template-rows:192px 192px}
 }
 
 /* ─────────────────────────────────────────
@@ -703,6 +702,8 @@ img{display:block;max-width:100%}
    element exists. Desktop styles above are untouched; these only apply at ≤768px.
 ───────────────────────────────────────── */
 @media(max-width:768px){
+  .trip-detail-wrap{padding-top:1.25rem;padding-bottom:1.25rem}
+  .day-card{padding:1rem}
   /* 5. Trip Detail — Overview & Ratings (Trip title ~ Group Trip's "Trip title";
      Trip description ~ Group Trip's "Detail paragraph") */
   .trip-title{font-size:40px;line-height:1.2em}
@@ -712,15 +713,22 @@ img{display:block;max-width:100%}
   .acc-head{font-size:17px}
   .acc-body-inner li{font-size:15px;line-height:30px}
   .acc-bullets li{font-size:15px;line-height:30px}
+  .acc-body-inner li.mobile-list-hidden{display:none}
+  .mobile-list-read-more{justify-self:start;margin:.45rem 0 0;padding:0;border:0;background:none;color:var(--teal-d);font-family:'Poppins',sans-serif;font-size:13px;font-weight:700;line-height:1.3;text-decoration:underline;text-underline-offset:2px}
 
   /* 8. Trip Highlights (~ Group Trip's Itinerary section) */
   .highlights-sec{padding:2rem 0 2.5rem}
   .highlights-h2{font-size:28px;line-height:1.1em;margin-bottom:.5rem}
   .highlights-sub{font-size:14px;line-height:23px;margin-bottom:1.25rem}
   /* Day tabs — single scrollable row instead of wrapping to multiple lines */
-  .day-tabs{flex-wrap:nowrap;justify-content:flex-start;overflow-x:auto;gap:10px;margin-bottom:1.5rem;padding-bottom:4px;scrollbar-width:none}
+  .day-tabs-wrap{margin-bottom:1.5rem}
+  .day-tabs{flex-wrap:nowrap;justify-content:flex-start;overflow-x:auto;gap:10px;margin-bottom:0;padding:0 44px 4px 0;scrollbar-width:none}
   .day-tabs::-webkit-scrollbar{display:none}
+  .day-tabs-next{position:absolute;right:0;top:50%;transform:translateY(-50%);width:34px;height:34px;border:1px solid rgba(2,169,162,.3);border-radius:50%;background:#fff;color:var(--teal-d);display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.1);transition:opacity .2s,visibility .2s}
+  .day-tabs-next.is-hidden{opacity:0;visibility:hidden;pointer-events:none}
+  .day-tabs-next svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2.3;stroke-linecap:round;stroke-linejoin:round}
   .day-tab{font-size:14px;padding:11px 22px;white-space:nowrap;flex-shrink:0}
+  .day-eyebrow{background:transparent;padding:0;border-radius:0;margin-bottom:.5rem}
   .day-title{font-size:20px;line-height:22px}
   #dayParas p{font-size:15px;line-height:24px}
 
@@ -953,7 +961,7 @@ img{display:block;max-width:100%}
               <img id="accomImg" src="https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?w=800&q=80&auto=format&fm=webp&fit=crop" alt="Accommodation photo" loading="lazy" decoding="async">
               <button class="gal-arrow gal-prev" onclick="event.stopPropagation();accomNav(-1)" aria-label="Previous photo">‹</button>
               <button class="gal-arrow gal-next" onclick="event.stopPropagation();accomNav(1)" aria-label="Next photo">›</button>
-              <div class="accom-zoom-hint">🔍 Click to enlarge</div>
+              <span class="accom-expand-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 3H3v5M16 3h5v5M21 16v5h-5M3 16v5h5"/><path d="m3 8 6-6M21 8l-6-6M3 16l6 6M21 16l-6 6"/></svg></span>
             </div>
           </div>
         </div>
@@ -1033,11 +1041,14 @@ img{display:block;max-width:100%}
     <h2 class="highlights-h2" id="highlightsHEl" data-ts="tp_highlights_heading">Trip Highlights</h2>
     <p class="highlights-sub" id="highlightsSubEl" data-ts="tp_highlights_sub">Visit iconic waterfalls, explore pristine beaches, snorkel in emerald green waters &amp; more! Let us introduce you to real travel.</p>
 
-    <div class="day-tabs" id="dayTabs">
-      <button class="day-tab active" onclick="selectDay(0)">DAY 1</button>
-      <button class="day-tab" onclick="selectDay(1)">DAY 2</button>
-      <button class="day-tab" onclick="selectDay(2)">DAY 3</button>
-      <button class="day-tab" onclick="selectDay(3)">DAY 4</button>
+    <div class="day-tabs-wrap">
+      <div class="day-tabs" id="dayTabs">
+        <button class="day-tab active" onclick="selectDay(0)">DAY 1</button>
+        <button class="day-tab" onclick="selectDay(1)">DAY 2</button>
+        <button class="day-tab" onclick="selectDay(2)">DAY 3</button>
+        <button class="day-tab" onclick="selectDay(3)">DAY 4</button>
+      </div>
+      <button class="day-tabs-next" id="dayTabsNext" type="button" aria-label="Show more days" onclick="scrollDayTabs()"><svg viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg></button>
     </div>
 
     <div class="day-card">
@@ -1374,6 +1385,41 @@ window.addEventListener('resize', debounce(function () {
 }, 150));
 function debounce(fn, ms) { var t; return function () { clearTimeout(t); t = setTimeout(fn, ms); }; }
 
+function setupMobileInclusionReadMore(){
+  setupMobileListReadMore('inclusionsList',false);
+  setupMobileListReadMore('exclusionsList',true);
+}
+
+function setupMobileListReadMore(listId,hasNestedLists){
+  var list=document.getElementById(listId);
+  if(!list)return;
+
+  list.querySelectorAll('.mobile-list-read-more').forEach(function(btn){btn.remove();});
+  var items=hasNestedLists
+    ? Array.prototype.slice.call(list.querySelectorAll('ul > li'))
+    : Array.prototype.slice.call(list.children).filter(function(item){return item.tagName==='LI';});
+  items.forEach(function(item){item.classList.remove('mobile-list-hidden');});
+  if(window.innerWidth>768)return;
+  if(items.length<=6)return;
+
+  items.slice(6).forEach(function(item){item.classList.add('mobile-list-hidden');});
+  var button=document.createElement('button');
+  button.type='button';
+  button.className='mobile-list-read-more';
+  button.textContent='Read more';
+  button.addEventListener('click',function(){
+    var expanded=button.textContent==='Read more';
+    items.slice(6).forEach(function(item){item.classList.toggle('mobile-list-hidden',!expanded);});
+    button.textContent=expanded?'Show less':'Read more';
+    var accordion=list.closest('.acc');
+    var body=accordion?accordion.querySelector('.acc-body'):null;
+    if(body)body.style.maxHeight=(body.scrollHeight+24)+'px';
+  });
+  list.appendChild(button);
+}
+setupMobileInclusionReadMore();
+window.addEventListener('resize',debounce(setupMobileInclusionReadMore,150));
+
 /* ACCOMMODATION IMAGE CAROUSEL */
 var ACCOM_IMGS=[
   'https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?w=800&q=80&auto=format&fm=webp&fit=crop',
@@ -1537,6 +1583,22 @@ function selectDay(idx){
   var tabs=document.querySelectorAll('.day-tab');
   tabs.forEach(function(t,i){ t.classList.toggle('active', i===idx); });
 }
+
+function updateDayTabsArrow(){
+  var tabs=document.getElementById('dayTabs');
+  var arrow=document.getElementById('dayTabsNext');
+  if(!tabs||!arrow)return;
+  var overflow=tabs.scrollWidth-tabs.clientWidth;
+  var hasMore=overflow>46&&tabs.scrollLeft<overflow-2;
+  arrow.classList.toggle('is-hidden',!hasMore);
+}
+function scrollDayTabs(){
+  var tabs=document.getElementById('dayTabs');
+  if(tabs)tabs.scrollBy({left:Math.max(160,tabs.clientWidth*.7),behavior:'smooth'});
+}
+document.getElementById('dayTabs').addEventListener('scroll',updateDayTabsArrow);
+window.addEventListener('resize',debounce(updateDayTabsArrow,150));
+setTimeout(updateDayTabsArrow,0);
 
 /* REVIEWS — render cards + prev/next nav (fetched from Supabase, page_scope=trip-page) */
 var TRIP_REVIEWS=[];
@@ -1897,6 +1959,7 @@ async function loadTripFromSupabase() {
           return '<li><span class="li-ic">' + tpIncIconHtml + '</span>' + esc(i) + '</li>';
         }).join('');
         applyElementTypography(inclEl);
+        setupMobileInclusionReadMore();
         // "What's Included" (acc1) starts open by default via a hardcoded HTML
         // class, so it's sized by the page's initial CSS (a fixed 700px cap)
         // before this content even exists — toggleAcc()'s dynamic height-to-
@@ -1952,6 +2015,7 @@ async function loadTripFromSupabase() {
       var tabsEl = document.getElementById('dayTabs');
       if (tabsEl) {
         tabsEl.innerHTML = DAYS.map(function(d,i){ return '<button class="day-tab'+(i===0?' active':'')+'" onclick="selectDay('+i+')">DAY '+(i+1)+'</button>'; }).join('');
+        setTimeout(updateDayTabsArrow,0);
       }
       selectDay(0);
     }
@@ -2007,6 +2071,7 @@ async function loadTripFromSupabase() {
   setText('ftCopy', CURRENT_SETTINGS.ft_copyright);
 
   applyAllTaggedTypography(); // safety net — also covers the static headings (Book with Confidence, FAQ, accordion labels, etc.)
+  setupMobileInclusionReadMore();
 }
 loadTripFromSupabase();
 </script>
@@ -2030,5 +2095,6 @@ loadTripFromSupabase();
     Book Now
   </a>
 </div>
+  <script src="footer-enhancements.js?v=20260903-8" defer></script>
 </body>
 </html>

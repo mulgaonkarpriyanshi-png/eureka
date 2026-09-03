@@ -100,13 +100,13 @@ img{display:block;max-width:100%}
 
 .nav-right{display:flex;align-items:center;gap:10px;flex-shrink:0;margin-left:auto}
 .nav-soc{
-  width:38px;height:38px;border-radius:50%;
+  width:34px;height:34px;border-radius:50%;
   display:flex;align-items:center;justify-content:center;
   background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.5);
   color:#fff;transition:all .25s;flex-shrink:0;
 }
 .nav-soc:hover{background:rgba(0,0,0,.55)}
-.nav-soc svg{width:16px;height:16px;fill:currentColor}
+.nav-soc svg{width:15px;height:15px;fill:currentColor}
 .navbar.solid .nav-soc{background:#fff;border-color:#e5e7eb;color:#6B7575}
 .navbar.solid .nav-soc:hover{background:#f3f4f6}
 
@@ -538,7 +538,10 @@ img{display:block;max-width:100%}
 }
 
 @media(max-width:980px){
-  .gt-detail-wrap{grid-template-columns:1fr}
+  .gt-detail-wrap{grid-template-columns:minmax(0,1fr);width:100%;max-width:100%;overflow:hidden}
+  .gt-main,.gt-panels-wrap,.gt-panel,.gt-itin-sec{width:100%;min-width:0;max-width:100%}
+  .gt-day-head,.gt-day-head-txt{min-width:0}
+  .gt-day-head-txt>span:last-child{min-width:0;overflow-wrap:anywhere}
   .gt-sidebar{position:static}
 }
 
@@ -578,7 +581,7 @@ img{display:block;max-width:100%}
 .date-card-more.open .chev{transform:rotate(90deg)}
 
 .date-more{max-height:0;overflow:hidden;transition:max-height .4s ease;border-top:1px solid var(--border)}
-.date-more.open{max-height:600px}
+.date-more.open{max-height:1600px}
 .date-more-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:1.5rem;padding:1.25rem 1.5rem}
 .dm-row{display:flex;align-items:flex-start;gap:.75rem;margin-bottom:1rem}
 .dm-ic{font-size:16px;line-height:1.4;flex-shrink:0}
@@ -612,22 +615,41 @@ img{display:block;max-width:100%}
 }
 
 @media(max-width:768px){
+  .gt-dates-inner{padding:0 .7rem}
   .date-card-main{
-    flex-direction:row;flex-wrap:nowrap;align-items:center;justify-content:space-between;
-    gap:.5rem;padding:.85rem .9rem;
+    display:grid;grid-template-columns:42px minmax(0,1fr) max-content max-content;
+    grid-template-areas:'date dates spots price';
+    align-items:center;column-gap:.7rem;padding:.55rem .8rem;
   }
-  .date-card-date{text-align:left;min-width:auto;flex-shrink:0}
+  .date-card{border-color:#087c76;border-radius:16px;margin-bottom:1.1rem}
+  .date-card-date{grid-area:date;text-align:left;min-width:0;align-self:center}
   .date-card-date .day,.date-card-date .month{font-size:14px;line-height:1.05}
-  .date-card-date .dur{font-size:9.5px;margin-top:2px}
-  .date-card-days{gap:.15rem;flex-shrink:0;width:auto}
+  .date-card-date .month{margin-top:.3rem}
+  .date-card-date .dur{font-size:9.5px;margin-top:3px}
+  .date-card-days{grid-area:dates;gap:.25rem;min-width:0;width:auto;align-self:center;padding-left:.15rem}
   .date-card-day-row .lbl{display:none}
-  .date-card-day-row .val{font-size:10px;white-space:nowrap;line-height:1.4}
-  .date-card-spots{font-size:10px;text-align:left;width:auto;min-width:0;flex:1;line-height:1.3;padding:0 .25rem}
-  .date-card-right{text-align:right;width:auto;flex-shrink:0}
+  .date-card-day-row br{display:none}
+  .date-card-day-row{line-height:1}
+  .date-card-day-row .val{font-size:10px;white-space:nowrap;line-height:1.2}
+  .date-card-spots{grid-area:spots;font-size:10px;text-align:center;width:auto;min-width:0;line-height:1.3;padding:0;white-space:nowrap;justify-self:center}
+  .date-card-right{grid-area:price;align-self:center;text-align:right;width:auto;min-width:0;display:flex;flex-direction:column;align-items:flex-end;gap:.25rem}
   .date-card-call{font-size:10px}
-  .date-card-price{font-size:15px;margin-top:3px;white-space:nowrap}
-  .date-card{margin-bottom:.85rem}
-  .date-card-more{padding:.6rem;font-size:13px}
+  .date-card-price{font-size:15px;margin-top:0;white-space:nowrap}
+  .date-card-more{padding:.35rem;font-size:13px;background:#edf9f8;border-top-color:#087c76}
+  .date-more.open{max-height:2000px;overflow:visible;margin:1.5rem 0 1.25rem;border:2px solid #087c76;border-radius:16px;background:#fff}
+  .date-more-grid{gap:1.5rem;padding:1.5rem 1rem 1rem}
+  .dm-row{gap:.85rem;margin-bottom:1.15rem}
+  .dm-ic{width:24px;text-align:center}
+  .dm-ic img{width:24px;height:24px}
+  .dm-flight{margin:1.55rem 0 1rem}
+  .dm-flight p{margin-left:2rem}
+  .dm-right{border:2px solid #087c76;border-radius:10px;padding:1rem 1.05rem;background:#e3f6f5}
+  .dm-btns{display:flex;flex-direction:column;gap:.55rem;margin-top:1rem}
+  .dm-btn{width:100%;min-width:0;padding:10px 16px}
+}
+
+@media(max-width:390px){
+  .date-card-main{grid-template-columns:37px minmax(0,1fr) max-content max-content;column-gap:.45rem;padding:.5rem .6rem}
 }
 
 /* ─────────────────────────────────────────
@@ -2086,6 +2108,7 @@ function buildDateCard(d) {
       '<div class="date-card-right"><a href="tel:+919792496457" class="date-card-call" data-ts="gt_dc_labels">call us</a><div class="date-card-price" data-ts="gt_dc_price">INR ' + Number(d.price||0).toLocaleString('en-IN') + '</div></div>' +
     '</div>' +
     '<div class="date-card-more" id="moreBtn' + d.id + '" data-ts="gt_dc_labels" onclick="toggleDateMore(\'' + d.id + '\',this)">More Info <span class="chev">›</span></div>' +
+  '</div>' +
     '<div class="date-more" id="moreInfo' + d.id + '">' +
       '<div class="date-more-grid">' +
         '<div>' +
@@ -2105,7 +2128,6 @@ function buildDateCard(d) {
             '<a href="#" class="dm-btn" data-ts="gt_dc_labels" onclick="openWA(&quot;' + waMsg + '&quot;)">🎫 Book Now</a>' +
             '<a href="contact-us.html" class="dm-btn dm-btn-secondary" data-ts="gt_dc_labels">Contact Us</a>' +
           '</div>' +
-        '</div>' +
       '</div>' +
     '</div>' +
   '</div>';
@@ -2378,5 +2400,6 @@ loadGroupTripFromSupabase();
   </div>
   <a href="#dates" class="gt-mb-btn">Check Price</a>
 </div>
+  <script src="footer-enhancements.js?v=20260903-8" defer></script>
 </body>
 </html>
