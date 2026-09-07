@@ -1679,6 +1679,8 @@ body{font-display:swap}
 }
 </style>
 <script src="typography-engine.js"></script>
+<script src="custom-tour-card.js"></script>
+<script src="group-trip-card.js"></script>
 <link rel="stylesheet" href="heading-spacing.css">
 </head>
 <body>
@@ -1783,7 +1785,7 @@ body{font-display:swap}
 <div class="dest-hero-wrap" id="home">
 <section class="dest-hero video-hero">
   <video class="hero-video-bg" id="heroVideoBg" autoplay muted loop playsinline>
-    <source id="heroVideoSrc" src="https://assets.mixkit.co/videos/preview/mixkit-tropical-water-lily-in-a-pond-1497-large.mp4" type="video/mp4">
+    <source id="heroVideoSrc" src="" type="video/mp4">
   </video>
   <div class="hero-video-overlay"></div>
   <button class="hero-mute-btn" id="heroMuteBtn" onclick="toggleHeroMute()" aria-label="Toggle sound">
@@ -1809,7 +1811,7 @@ body{font-display:swap}
   <div class="ft-inner">
     <div class="ft-collage fu" id="ftCollage"></div>
     <div class="ft-content fu d2">
-      <div class="ft-eyebrow" id="ftEyebrow">Our featured trips</div>
+      <div class="ft-eyebrow" id="ftEyebrow"></div>
       <h2 class="ft-heading" id="ftHeading"></h2>
       <p class="ft-desc" id="ftDesc"></p>
       <a href="#" class="ft-btn" id="ftBtn" data-ts="ft_button_text"></a>
@@ -1826,8 +1828,8 @@ body{font-display:swap}
 <section class="trips-sec" id="trips">
   <div class="trips-inner">
     <div class="trips-hdr2" style="justify-content:center;text-align:center;flex-direction:column;gap:0">
-      <h2 class="sec-h" style="font-style:normal" id="upcomingH" data-ts="ut_heading">Upcoming trips</h2>
-      <p class="trips-byline" id="upcomingByline" data-ts="ut_byline">Handpicked group adventures, ready for you to join.</p>
+      <h2 class="sec-h" style="font-style:normal" id="upcomingH" data-ts="ut_heading"></h2>
+      <p class="trips-byline" id="upcomingByline" data-ts="ut_byline"></p>
     </div>
     <div class="carousel-outer" id="carouselOuter">
       <button class="carousel-arrow arr-prev disabled" id="arrPrev" onclick="carouselPrev()" aria-label="Previous"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
@@ -1891,8 +1893,8 @@ body{font-display:swap}
 <section class="ct-cards-sec" id="customTours">
   <div class="trips-inner">
     <div class="trips-hdr2 fu" style="justify-content:center;text-align:center;flex-direction:column;gap:.5rem">
-      <div class="ct-cards-eyebrow" id="ctEyebrow" data-ts="ct_eyebrow">Custom Tours</div>
-      <h2 class="sec-h" id="ctHeading" style="font-style:normal" data-ts="ct_heading">Build your own adventure. Your itinerary your way!</h2>
+      <div class="ct-cards-eyebrow" id="ctEyebrow" data-ts="ct_eyebrow"></div>
+      <h2 class="sec-h" id="ctHeading" style="font-style:normal" data-ts="ct_heading"></h2>
     </div>
     <div class="carousel-outer" id="ctcCarouselOuter">
       <button class="carousel-arrow arr-prev disabled" id="ctcArrPrev" onclick="ctcCarouselPrev()" aria-label="Previous"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
@@ -1939,8 +1941,8 @@ body{font-display:swap}
 <!-- WHY SEC -->
 <section class="why-sec" id="why">
   <div class="why-inner">
-    <h2 class="why-title fu" id="whyTitleEl" data-ts="reason_heading">Why Travel With Eureka Trips</h2>
-    <p class="why-byline fu" id="whyByline" data-ts="reason_byline">The little things that make every Eureka trip different.</p>
+    <h2 class="why-title fu" id="whyTitleEl" data-ts="reason_heading"></h2>
+    <p class="why-byline fu" id="whyByline" data-ts="reason_byline"></p>
     <div class="why-stack" id="whyStack">
       <div class="why-card"><div class="why-card-txt"><div class="why-card-ttl">Inclusions, actually included</div><div class="why-card-desc">Unlike most other tour companies, we don't do hidden surprises. What we promise is what you get. Most of the big experiences are already included in your trip cost, with a few optional ones, so you can just enjoy the journey and feel good knowing exactly where your money is going.</div></div><div class="why-card-img"><img width="800" height="600" loading="lazy" src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=900&q=80&auto=format&fm=webp&fit=crop" alt="Friends planning"></div></div>
       <div class="why-card"><div class="why-card-txt"><div class="why-card-ttl">Awesome crew &amp; support</div><div class="why-card-desc">From the moment you plan till the trip ends, you are never on your own. Our team, trip leaders, and local insiders are there to guide, support, and make things smooth, so your only job is to travel and have the best time of your life.</div></div><div class="why-card-img"><img width="800" height="600" loading="lazy" src="https://images.unsplash.com/photo-1527631746610-bca00a040d60?w=900&q=80&auto=format&fm=webp&fit=crop" alt="Trip leader with group on road"></div></div>
@@ -1957,9 +1959,9 @@ body{font-display:swap}
 <!--
 <section class="blog-prev-sec" id="journal">
   <div class="blog-prev-hdr fu">
-    <div class="eyebrow"><span class="ey-line"></span><span class="ey-txt" id="blogEyebrow" data-ts="blog_eyebrow">Stories &amp; Tips</span><span class="ey-line"></span></div>
+    <div class="eyebrow"><span class="ey-line"></span><span class="ey-txt" id="blogEyebrow" data-ts="blog_eyebrow"></span><span class="ey-line"></span></div>
     <h2 class="sec-h" style="font-style:normal" id="blogHeadingEl" data-ts="blog_heading">From the Eureka <em>Travel Journal</em></h2>
-    <p class="why-subtitle" style="margin-bottom:0" id="blogSubtitleEl" data-ts="blog_subtitle">Destination guides, packing advice, and real traveler stories — for solo travelers and young professionals exploring the world through curated small-group trips.</p>
+    <p class="why-subtitle" style="margin-bottom:0" id="blogSubtitleEl" data-ts="blog_subtitle"></p>
   </div>
   <div class="blog-prev-grid" id="blogPrevGrid"></div>
   <div class="blog-prev-more fu"><a href="blog.html" class="btn-view-more" data-ts="blog_more_btn_text">Read the blog</a></div>
@@ -1968,7 +1970,7 @@ body{font-display:swap}
 
 <!-- BOOKING CTA — VIP signup, matches reference -->
 <section class="cta-sec" id="book">
-  <h2 class="cta-title fu" id="ctaTitleEl" data-ts="cta_title">Plan Your Perfect Trip with Eureka Trips</h2>
+  <h2 class="cta-title fu" id="ctaTitleEl" data-ts="cta_title"></h2>
   <div class="cta-inner">
     <div class="cta-photo fu">
       <img width="800" height="600" loading="lazy" id="bkformImg" src="" alt="Eureka travellers group photo">
@@ -1988,7 +1990,7 @@ body{font-display:swap}
 <!-- VIDEO SECTION -->
 <section class="video-sec" id="video">
   <div class="video-inner fu">
-    <h2 class="video-title" id="videoTitleEl" data-ts="video_title">We do fun stuff. You are invited to join!</h2>
+    <h2 class="video-title" id="videoTitleEl" data-ts="video_title"></h2>
     <div class="video-wrap" id="videoWrap">
       <iframe
         id="ytPlayer"
@@ -2011,7 +2013,7 @@ body{font-display:swap}
     <div class="footer-grid">
       <div>
         <img class="ft-logo-img" src="https://etrips.digitalgrowthtechnology.com/wp-content/uploads/2026/01/Eureka-Logo-1-02-scaled-e1769966688826.png" alt="Eureka Trips" onerror="this.style.display='none'">
-        <p class="ft-mission" id="ftMission" data-ts="ft_mission">Our mission is to inspire travel experiences that open your mind, ignite your curiosity, and broaden your horizons so you can discover your own &ldquo;Eureka moment&rdquo;</p>
+        <p class="ft-mission" id="ftMission" data-ts="ft_mission"></p>
         <div class="ft-social">
           <a href="https://www.instagram.com/eureka.trips" target="_blank" class="fsb" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
           <a href="https://www.google.com/search?q=Eureka+Trips" target="_blank" class="fsb" aria-label="Google"><svg viewBox="0 0 48 48"><path fill="currentColor" d="M43.6 20.1H42V20H24v8h11.3C33.6 32.8 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.1 8 2.9l5.7-5.7C34.1 6.8 29.3 5 24 5 13.5 5 5 13.5 5 24s8.5 19 19 19 19-8.5 19-19c0-1.3-.1-2.5-.4-3.9z"/></svg></a>
@@ -2066,7 +2068,7 @@ body{font-display:swap}
     </div>
 
     <div class="footer-btm">
-      <span class="ft-copy" id="ftCopy" data-ts="ft_copyright">&copy; 2026 Eureka Trips. All rights reserved.</span>
+      <span class="ft-copy" id="ftCopy" data-ts="ft_copyright"></span>
             <div class="ft-legal"><a href="privacy-policy.html" data-ts="ft_legal_links">Privacy Policy</a><a href="terms-conditions.html" data-ts="ft_legal_links">Terms &amp; Conditions</a></div>
     </div>
   </footer>
@@ -2158,38 +2160,9 @@ var TRIPS=[
   {id:8,name:"Meghalaya Explorers",route:"Cherrapunji \u2022 Shnongpdeng \u2022 Shillong",dur:"6 NIGHTS / 7 DAYS",price:26000,dates:["21 Dec"],tags:["nature","adventure"],hot:false,type:"domestic",img:"https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=800&q=80&auto=format&fm=webp&fit=crop"}
 ];
 
-var BL={adventure:"Adventure",beach:"Beach",culture:"Culture",nature:"Nature",solo:"Solo",nightlife:"Nightlife"};
-var TAG_EMOJI={adventure:'🚀',beach:'🏖️',culture:'🎭',nature:'🌿',solo:'🎒',nightlife:'🎉'};
-
-/* ── RENDER TRIPS ── */
-function tc2GalNav(btn, dir){
-  var wrap = btn.closest('.tc2-img');
-  if (!wrap) return;
-  var gallery;
-  try { gallery = JSON.parse(wrap.getAttribute('data-gallery') || '[]'); } catch(e) { gallery = []; }
-  if (!gallery.length || gallery.length <= 1) return;
-  var idx = parseInt(wrap.getAttribute('data-idx') || '0', 10);
-  idx = (idx + dir + gallery.length) % gallery.length;
-  wrap.setAttribute('data-idx', idx);
-  var img = wrap.querySelector('img');
-  if (img) img.src = gallery[idx];
-  var dots = wrap.querySelectorAll('.tc2-gal-dot');
-  dots.forEach(function(d, j){ d.classList.toggle('active', j === idx); });
-}
-
-function tc2ToggleTags(el) {
-  var pop = el.querySelector('.tc2-tag-popover');
-  if (!pop) return;
-  var wasOpen = pop.classList.contains('open');
-  document.querySelectorAll('.tc2-tag-popover.open').forEach(function(p){ p.classList.remove('open'); });
-  if (!wasOpen) pop.classList.add('open');
-}
-document.addEventListener('click', function(e){
-  if (!e.target.closest('.tc2-tag-more')) {
-    document.querySelectorAll('.tc2-tag-popover.open').forEach(function(p){ p.classList.remove('open'); });
-  }
-});
-
+/* ── RENDER TRIPS ──
+   TAG_EMOJI, BL, tc2GalNav, tc2ToggleTags, and the card template itself
+   all now live in group-trip-card.js (shared with group-trip.html). */
 function renderTrips(list, targetId) {
   var g = document.getElementById(targetId || 'tripsGrid');
   if (!g) return;
@@ -2199,60 +2172,7 @@ function renderTrips(list, targetId) {
   }
   var out = '';
   for (var i = 0; i < list.length; i++) {
-    var t = list[i];
-    var allTags = [];
-    if (t.hot) allTags.push({ hot: true, label: '\uD83D\uDD25 Hot' });
-    for (var j = 0; j < t.tags.length; j++) {
-      var rawTag = t.tags[j] || '';
-      var tagKey = rawTag.toLowerCase().trim();
-      var label = TAG_EMOJI[tagKey] ? (TAG_EMOJI[tagKey] + ' ' + (BL[tagKey] || rawTag)) : esc(rawTag);
-      allTags.push({ hot: false, label: label });
-    }
-    var shownTags = allTags.slice(0, 3);
-    var extraTags = allTags.slice(3);
-    var tags = shownTags.map(function(tg) {
-      return '<span class="tc2-tag' + (tg.hot ? ' tc2-tag-hot' : '') + '">' + tg.label + '</span>';
-    }).join('');
-    if (extraTags.length > 0) {
-      var popoverHtml = extraTags.map(function(tg) {
-        return '<span class="tc2-tag' + (tg.hot ? ' tc2-tag-hot' : '') + '">' + tg.label + '</span>';
-      }).join('');
-      tags += '<span class="tc2-tag tc2-tag-more" onclick="event.stopPropagation();tc2ToggleTags(this)">+' + extraTags.length + '<div class="tc2-tag-popover">' + popoverHtml + '</div></span>';
-    }
-    var dStr = t.dates.join(' | ');
-    var prNum = t.price.toLocaleString('en-IN');
-    var pr = prNum;
-    var msg = 'Hi EUREKA Trips! I am interested in "' + t.name + '". Can you share details and available dates?';
-    var clickAction = t.page ? ("window.location.href='" + t.page + "'") : ("openWA('" + msg.replace(/'/g,"&#39;") + "')");
-    out += '<div class="tc2 fu" onclick="' + clickAction + '">';
-    var gallery = (t.gallery && t.gallery.length) ? t.gallery : [t.img];
-    var galJson = esc(JSON.stringify(gallery));
-    out += '<div class="tc2-img" data-gallery=\'' + galJson + '\' data-idx="0">';
-    if (t.trending) {
-      out += '<div class="tc2-trending-badge"><svg viewBox="0 0 24 24"><path d="M13 2L3 14h7l-1 8 11-14h-7z"/></svg>Trending</div>';
-    }
-    out += '<img width="800" height="600" src="' + gallery[0] + '" alt="' + t.name + '" loading="lazy">';
-    if (gallery.length > 1) {
-      out += '<button type="button" class="tc2-gal-arrow tc2-gal-prev" aria-label="Previous photo" onclick="event.stopPropagation();tc2GalNav(this,-1)"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>';
-      out += '<button type="button" class="tc2-gal-arrow tc2-gal-next" aria-label="Next photo" onclick="event.stopPropagation();tc2GalNav(this,1)"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></button>';
-      out += '<div class="tc2-gal-dots">';
-      for (var k = 0; k < gallery.length; k++) {
-        out += '<span class="tc2-gal-dot' + (k===0?' active':'') + '"></span>';
-      }
-      out += '</div>';
-    }
-    out += '</div>';
-    out += '<div class="tc2-body">';
-    out += '<div class="tc2-tags">' + tags + '</div>';
-    out += '<div class="tc2-name">' + t.name + '</div>';
-    out += '<div class="tc2-route">' + t.route + '</div>';
-    out += '<div class="tc2-foot">';
-    out += '<div class="tc2-foot-left"><div class="tc2-dates">' + dStr + '</div><div class="tc2-dur">' + t.dur + '</div>';
-    if (t.location) out += '<div class="tc2-loc">' + esc(t.location) + '</div>';
-    out += '</div>';
-    out += '<div class="tc2-foot-right"><div class="tc2-price-lbl">per person</div><div class="tc2-price">' + pr + '</div></div>';
-    out += '</div>';
-    out += '</div></div>';
+    out += buildGroupTripCardHTML(list[i]);
   }
   g.innerHTML = out;
   initObs();
@@ -2504,62 +2424,11 @@ function ctcSetWidths(total) { ctcCarousel.setWidths(total); }
 function ctcInit(total) { ctcCarousel.init(total); }
 
 
-function ctcGalNav(btn, dir){
-  var wrap = btn.closest('.ctc-img');
-  if (!wrap) return;
-  var gallery;
-  try { gallery = JSON.parse(wrap.getAttribute('data-gallery') || '[]'); } catch(e) { gallery = []; }
-  if (!gallery.length || gallery.length <= 1) return;
-  var idx = parseInt(wrap.getAttribute('data-idx') || '0', 10);
-  idx = (idx + dir + gallery.length) % gallery.length;
-  wrap.setAttribute('data-idx', idx);
-  var img = wrap.querySelector('img');
-  if (img) img.src = gallery[idx];
-  var dots = wrap.querySelectorAll('.ctc-gal-dot');
-  dots.forEach(function(d, j){ d.classList.toggle('active', j === idx); });
-}
 async function applyCustomTourCards() {
   var rows = await sbGet('custom_tour_cards', 'active=eq.true&order=sort_order.asc');
   var track = document.getElementById('customToursGrid');
   if (!track || !rows.length) return;
-  var out = '';
-  for (var i = 0; i < rows.length; i++) {
-    var r = rows[i];
-    var page = 'trip-page.html?trip=' + esc(r.page_slug || r.id);
-    var tag = (r.tag_emoji ? esc(r.tag_emoji) : '') ;
-    var tagLabel = esc(r.tag_label || '');
-    var waMsg = 'Hi EUREKA Trips! I want to build a custom trip — "' + (r.title || '') + '". Can someone call me back?';
-    var gallery = (r.gallery_images && r.gallery_images.length) ? r.gallery_images : (r.image_url ? [r.image_url] : []);
-    var galJson = esc(JSON.stringify(gallery));
-    out += '<div class="ctc-card fu" onclick="window.location.href=\'' + page + '\'">';
-    out += '<div class="ctc-img" data-gallery=\'' + galJson + '\' data-idx="0">';
-    out += '<img width="800" height="600" src="' + esc(gallery[0] || '') + '" alt="' + esc(r.title || '') + '" loading="lazy">';
-    if (gallery.length > 1) {
-      out += '<button type="button" class="ctc-gal-arrow ctc-gal-prev" aria-label="Previous photo" onclick="event.stopPropagation();ctcGalNav(this,-1)"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>';
-      out += '<button type="button" class="ctc-gal-arrow ctc-gal-next" aria-label="Next photo" onclick="event.stopPropagation();ctcGalNav(this,1)"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></button>';
-      out += '<div class="ctc-gal-dots">';
-      for (var k = 0; k < gallery.length; k++) out += '<span class="ctc-gal-dot' + (k===0?' active':'') + '"></span>';
-      out += '</div>';
-    }
-    out += '</div>';
-    out += '<div class="ctc-panel">';
-    out += '<div class="ctc-toprow">';
-    if (tagLabel.trim()) out += '<div class="ctc-tag">' + (tag ? '<span class="ctc-tag-icon">' + tag + '</span>' : '') + '<span>' + tagLabel + '</span></div>';
-    if (r.rating) out += '<div class="ctc-rating-inline"><svg viewBox="0 0 24 24"><path d="M12 2.5l2.9 6.3 6.9.7-5.2 4.7 1.5 6.8L12 17.8l-6.1 3.2 1.5-6.8-5.2-4.7 6.9-.7z"/></svg>' + esc(r.rating) + '</div>';
-    out += '</div>';
-    out += '<div class="ctc-title">' + esc(r.title || '') + '</div>';
-    out += '<div class="ctc-foot">';
-    out += '<div class="ctc-foot-left"><div class="ctc-dur" title="' + esc(r.duration_label || 'Flexible duration') + '">' + esc(r.duration_label || 'Flexible duration') + '</div>';
-    if (r.location_text) out += '<div class="ctc-route" title="' + esc(r.location_text) + '">' + esc(r.location_text) + '</div>';
-    out += '</div>';
-    out += '<div class="ctc-foot-right"><div class="ctc-price-lbl">for Adult/-</div><div class="ctc-price">' + esc(r.price_text || '') + '</div></div>';
-    out += '</div>';
-    out += '<div class="ctc-actions" onclick="event.stopPropagation()">';
-    out += '<a href="tel:+919792496457" class="ctc-call-icon" aria-label="Call us"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></a>';
-    out += '<button class="ctc-callback-btn" data-ts="ctc_button_text" onclick="openWA(\'' + waMsg.replace(/'/g,"&#39;") + '\')">Request Callback</button>';
-    out += '</div></div></div>';
-  }
-  track.innerHTML = out;
+  track.innerHTML = rows.map(buildCustomTourCardHTML).join('');
   applyAllTaggedTypography();
   initObs(); /* re-scan for the new .fu cards so they actually get revealed — this line was missing, which is what caused the intermittent invisible cards */
   /* Wait for the browser to finish laying out these new cards before measuring

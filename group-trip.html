@@ -52,6 +52,8 @@ img{display:block;max-width:100%}
   --teal:#02A9A2;
   --teal-d:#027A74;
   --teal-l:#e8f8f4;
+  --primary-hover:#027A74;
+  --byline:#5C6363;
   --dark:#3A3B3B;
   --body:#6B7575;
   --border:#e5e7eb;
@@ -792,23 +794,29 @@ img{display:block;max-width:100%}
 .gt-tribe-track::-webkit-scrollbar{display:none}
 
 /* ── Card (matches homepage "Upcoming trips" tc2 card) ── */
+/* This .tc2 card design is shared with index.html's "Social group trips"
+   section (see group-trip-card.js) — kept byte-identical here, not just
+   similar, so the two pages can't drift apart the way they previously had
+   (different structure, different default sizes/colors for the same
+   fields, a missing location line here before). */
 .tc2{
   position:relative;
   background:#fff;
-  border-radius:16px;
+  border-radius:22px;
   scroll-snap-align:start;
   overflow:hidden;
-  box-shadow:0 0 0 1.5px rgba(15,75,65,.22),0 8px 24px rgba(15,75,65,.14);
+  border:1.5px solid rgba(2,169,162,.45);
+  box-shadow:0 8px 20px rgba(15,75,65,.08);
   cursor:pointer;
   flex-shrink:0;
-  height:440px;
+  height:470px;
   width:300px;
   display:flex;
   flex-direction:column;
   transition:transform .3s ease,box-shadow .3s;
 }
-.tc2:hover{transform:translateY(-5px);box-shadow:0 0 0 1px rgba(15,75,65,.22),0 16px 36px rgba(15,75,65,.18)}
-.tc2-img{position:relative;height:230px;flex-shrink:0;overflow:hidden}
+.tc2:hover{transform:translateY(-5px);box-shadow:0 16px 36px rgba(15,75,65,.16)}
+.tc2-img{position:relative;flex:1 1 0;min-height:180px;overflow:hidden;border-radius:0 0 20px 20px}
 .tc2-gal-arrow{
   position:absolute;top:50%;transform:translateY(-50%);
   width:28px;height:28px;border-radius:50%;
@@ -822,16 +830,15 @@ img{display:block;max-width:100%}
 .tc2-gal-prev{left:8px}
 .tc2-gal-next{right:8px}
 .tc2-gal-dots{position:absolute;bottom:10px;left:0;right:0;display:flex;justify-content:center;gap:5px;z-index:2}
-.tc2-gal-dot{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.55);transition:all .2s}
-.tc2-gal-dot.active{background:#fff;width:14px;border-radius:3px}
+.tc2-gal-dot{width:7px;height:7px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:all .2s}
+.tc2-gal-dot.active{background:var(--primary-hover);width:10px;height:10px}
 .tc2-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s ease}
 .tc2:hover .tc2-img img{transform:scale(1.05)}
 .tc2-body{
-  flex:1;
+  flex:0 0 auto;
   display:flex;flex-direction:column;gap:.4rem;
   padding:.9rem 1.1rem 1rem;
   background:#fff;
-  min-height:0;
 }
 .tc2-tags{display:flex;gap:5px;flex-wrap:nowrap;align-items:center;overflow:visible;position:relative}
 .tc2-trending-badge{
@@ -845,26 +852,29 @@ img{display:block;max-width:100%}
 .tc2-trending-badge svg{width:12px;height:12px;fill:currentColor}
 .tc2-tag{
   display:inline-flex;align-items:center;gap:3px;
-  padding:5px 11px;border-radius:50px;font-size:var(--tc-tag-size,12px);font-weight:var(--tc-tag-weight,600);
+  padding:5px 11px;border-radius:50px;font-size:var(--tc-tag-size,13px);font-weight:var(--tc-tag-weight,900);
   font-family:'Proxima Nova','Poppins',sans-serif;
-  background:#e3f3f2;color:#454A4A;border:1px solid rgba(2,169,162,.25);
+  background:#e3f3f2;color:var(--byline);border:1px solid rgba(2,169,162,.25);
   height:26px;box-sizing:border-box;white-space:nowrap;flex-shrink:0;line-height:1;
 }
 .tc2-tag-hot{background:#fef2f2;color:#dc2626;border-color:rgba(220,38,38,.3)}
 .tc2-tag-more{background:#f0f0f0;color:#6b7280;border-color:#e5e7eb;position:relative}
 .tc2-tag-popover{
-  position:absolute;top:calc(100% + 6px);left:0;z-index:5;
+  position:absolute;top:calc(100% + 6px);right:0;z-index:5;
   background:#fff;border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,.18);
-  padding:8px;display:none;flex-wrap:wrap;gap:5px;min-width:160px;
+  padding:8px;display:none;flex-wrap:wrap;gap:5px;min-width:160px;max-width:260px;
 }
 .tc2-tag-popover.open{display:flex}
-.tc2-name{font-family:'Outfit','Poppins',sans-serif;font-size:var(--tc-name-size,26px);font-weight:var(--tc-name-weight,700);color:#3A3B3B;line-height:1.15;letter-spacing:-.3px;max-height:calc(1.15em * 2);overflow:hidden}
-.tc2-route{font-size:var(--tc-route-size,12px);color:#E8760A;font-weight:var(--tc-route-weight,700)}
-.tc2-foot{display:flex;align-items:flex-end;justify-content:space-between;margin-top:auto;gap:.5rem}
-.tc2-dates{font-family:'Poppins',sans-serif;font-size:var(--tc-dates-size,15px);color:#3A3B3B;font-weight:var(--tc-dates-weight,600);line-height:1.6em}
-.tc2-price-lbl{text-align:end;font-family:'Poppins',sans-serif;font-size:var(--tc-pricelbl-size,15px);color:#454A4A;font-weight:600;line-height:1.6em}
-.tc2-price{text-align:end;font-family:'Outfit','Poppins',sans-serif;font-size:var(--tc-price-size,22px);font-weight:var(--tc-price-weight,600);color:#027A74;line-height:1em;letter-spacing:.2px;white-space:nowrap}
-.tc2-dur{font-family:'Outfit','Poppins',sans-serif;font-size:var(--tc-dur-size,13px);font-weight:var(--tc-dur-weight,600);color:#027A74;letter-spacing:0px;text-transform:uppercase;line-height:1em}
+.tc2-name{font-family:'Apfel Grotezk','Poppins',sans-serif;font-size:var(--tc-name-size,18px);font-weight:var(--tc-name-weight,700);color:#0a0a0a;line-height:1.22;flex-shrink:0;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;text-overflow:ellipsis}
+.tc2-route{font-family:'Poppins',sans-serif;font-size:var(--tc-route-size,13px);color:#FFA43B;font-weight:var(--tc-route-weight,900);flex-shrink:0;margin-top:-4.8px}
+.tc2-dates{font-family:'Poppins',sans-serif;font-size:var(--tc-dates-size,15px);color:#00897B;font-weight:var(--tc-dates-weight,900);line-height:1.4;flex-shrink:0}
+.tc2-foot{display:flex;align-items:flex-end;justify-content:space-between;margin-top:3px;gap:.5rem;flex-shrink:0}
+.tc2-foot-left{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+.tc2-loc{font-family:'Outfit','Poppins',sans-serif;font-size:12px;color:#4B4B4B;font-weight:500;letter-spacing:0px;text-transform:uppercase;line-height:1em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tc2-foot-right{flex-shrink:0;display:flex;flex-direction:column;gap:2px}
+.tc2-price-lbl{text-align:end;font-family:'Poppins',sans-serif;font-size:var(--tc-pricelbl-size,12px);color:#4B4B4B;font-weight:500;text-transform:lowercase;letter-spacing:.3px;line-height:1.2}
+.tc2-price{text-align:end;font-family:'Outfit','Poppins',sans-serif;font-size:var(--tc-price-size,19px);font-weight:var(--tc-price-weight,900);color:#4B4B4B;line-height:1em;letter-spacing:.2px;white-space:nowrap}
+.tc2-dur{font-family:'Outfit','Poppins',sans-serif;font-size:var(--tc-dur-size,12px);font-weight:var(--tc-dur-weight,900);color:#4B4B4B;letter-spacing:0px;text-transform:uppercase;line-height:1em}
 
 .gt-tribe-arrow{
   position:absolute;top:220px;transform:translateY(-50%);z-index:3;
@@ -1044,6 +1054,7 @@ img{display:block;max-width:100%}
 }
 </style>
 <script src="typography-engine.js"></script>
+<script src="group-trip-card.js"></script>
 <link rel="stylesheet" href="mobile-header.css">
 <link rel="stylesheet" href="heading-spacing.css">
 </head>
@@ -1210,13 +1221,13 @@ img{display:block;max-width:100%}
 
       <!-- INCLUSIONS PANEL -->
       <div class="gt-panel" id="gt-panel-inclusions" data-panel="inclusions">
-        <h3 class="gt-panel-heading" id="gtPanelInclusions" data-ts="gt_panel_label_inclusions">Inclusions</h3>
+        <h3 class="gt-panel-heading" id="gtPanelInclusions" data-ts="gt_panel_label_inclusions"></h3>
         <div class="gt-inc-grid" id="gtIncGrid"></div>
       </div>
 
       <!-- ACCOMMODATION PANEL -->
       <div class="gt-panel" id="gt-panel-accommodation" data-panel="accommodation">
-        <h3 class="gt-panel-heading" id="gtPanelAccommodation" data-ts="gt_panel_label_accommodation">Accommodation</h3>
+        <h3 class="gt-panel-heading" id="gtPanelAccommodation" data-ts="gt_panel_label_accommodation"></h3>
         <div class="gt-accom-grid">
           <div class="gt-accom-text">
             <p class="gt-detail-p" id="gtAccomTextEl" data-ts="gt_accom_text"></p>
@@ -1235,16 +1246,16 @@ img{display:block;max-width:100%}
 
       <!-- EXCLUSIONS PANEL -->
       <div class="gt-panel" id="gt-panel-exclusions" data-panel="exclusions">
-        <h3 class="gt-panel-heading" id="gtPanelExclusions" data-ts="gt_panel_label_exclusions">Exclusions</h3>
+        <h3 class="gt-panel-heading" id="gtPanelExclusions" data-ts="gt_panel_label_exclusions"></h3>
         <div class="gt-inc-grid" id="gtExclusionsListEl"></div>
       </div>
 
       <!-- MAP PANEL -->
       <div class="gt-panel" id="gt-panel-map" data-panel="map">
-        <h3 class="gt-panel-heading" id="gtPanelMap" data-ts="gt_panel_label_map">Map</h3>
+        <h3 class="gt-panel-heading" id="gtPanelMap" data-ts="gt_panel_label_map"></h3>
         <div class="gt-map-card">
           <div class="gt-map-hdr">Where We Go</div>
-          <img id="gtMapImageEl" src="https://images.unsplash.com/photo-1518509562904-e7ef99cdcc86?w=1100&q=80&auto=format&fm=webp&fit=crop" alt="Trip route map" loading="lazy" decoding="async">
+          <img id="gtMapImageEl" src="" alt="Trip route map" loading="lazy" decoding="async">
         </div>
         <p class="gt-detail-p" id="gtMapNoteEl" data-ts="gt_map_note"></p>
       </div>
@@ -1304,7 +1315,7 @@ img{display:block;max-width:100%}
 <!-- AVAILABLE START DATES -->
 <section class="gt-dates-sec" id="dates">
   <div class="gt-dates-inner">
-    <h2 class="gt-dates-h2" id="gtDatesH" data-ts="gt_dates_heading">Available Start Dates</h2>
+    <h2 class="gt-dates-h2" id="gtDatesH" data-ts="gt_dates_heading"></h2>
     <div id="gtDatesContainer">
     </div>
   </div>
@@ -1389,7 +1400,7 @@ img{display:block;max-width:100%}
 <!-- CHOOSE YOUR TRAVEL TRIBE -->
 <section class="gt-tribe-sec">
   <div class="gt-tribe-inner">
-    <h2 class="gt-tribe-h2" id="gtTribeH" data-ts="gt_tribe_heading">Choose Your Travel Tribe</h2>
+    <h2 class="gt-tribe-h2" id="gtTribeH" data-ts="gt_tribe_heading"></h2>
     <div class="gt-tribe-carousel">
       <button class="gt-tribe-arrow gt-tribe-prev" onclick="gtTribeNav(-1)" aria-label="Previous"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
       <div class="gt-tribe-track" id="gtTribeTrack"><!-- cards injected by JS --></div>
@@ -1405,9 +1416,9 @@ img{display:block;max-width:100%}
       <img src="https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=1600&q=80&auto=format&fm=webp&fit=crop" alt="Illustrated world landmarks collage" loading="lazy" decoding="async">
       <div class="gt-final-banner-ov"></div>
       <div class="gt-final-content">
-        <h2 class="gt-final-h2" id="gtFinalH" data-ts="gt_final_heading">Plan Your Perfect Trip with Eureka Trips</h2>
-        <p class="gt-final-p" id="gtFinalP" data-ts="gt_final_text">Got questions about this trip? We've gathered the essential details right here to help you plan your adventure.</p>
-        <a href="#dates" class="gt-final-btn" id="gtFinalBtn" data-ts="gt_final_btn_text">Book Trip</a>
+        <h2 class="gt-final-h2" id="gtFinalH" data-ts="gt_final_heading"></h2>
+        <p class="gt-final-p" id="gtFinalP" data-ts="gt_final_text"></p>
+        <a href="#dates" class="gt-final-btn" id="gtFinalBtn" data-ts="gt_final_btn_text"></a>
       </div>
     </div>
   </div>
@@ -1423,7 +1434,7 @@ img{display:block;max-width:100%}
     <div class="footer-grid">
       <div>
         <img class="ft-logo-img" src="https://etrips.digitalgrowthtechnology.com/wp-content/uploads/2026/01/Eureka-Logo-1-02-scaled-e1769966688826.png" alt="Eureka Trips" onerror="this.style.display='none'">
-        <p class="ft-mission" id="ftMission" data-ts="ft_mission">Our mission is to inspire travel experiences that open your mind, ignite your curiosity, and broaden your horizons so you can discover your own &ldquo;Eureka moment&rdquo;</p>
+        <p class="ft-mission" id="ftMission" data-ts="ft_mission"></p>
         <div class="ft-social">
           <a href="https://www.instagram.com/eureka.trips" target="_blank" class="fsb" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
           <a href="https://www.google.com/search?q=Eureka+Trips" target="_blank" class="fsb" aria-label="Google"><svg viewBox="0 0 48 48"><path fill="currentColor" d="M43.6 20.1H42V20H24v8h11.3C33.6 32.8 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.1 8 2.9l5.7-5.7C34.1 6.8 29.3 5 24 5 13.5 5 5 13.5 5 24s8.5 19 19 19 19-8.5 19-19c0-1.3-.1-2.5-.4-3.9z"/></svg></a>
@@ -1478,7 +1489,7 @@ img{display:block;max-width:100%}
     </div>
 
     <div class="footer-btm">
-      <span class="ft-copy" id="ftCopy" data-ts="ft_copyright">&copy; 2026 Eureka Trips. All rights reserved.</span>
+      <span class="ft-copy" id="ftCopy" data-ts="ft_copyright"></span>
             <div class="ft-legal"><a href="privacy-policy.html" data-ts="ft_legal_links">Privacy Policy</a><a href="terms-conditions.html" data-ts="ft_legal_links">Terms &amp; Conditions</a></div>
     </div>
   </footer>
@@ -1676,93 +1687,17 @@ function submitBrochureRequest() {
   }).catch(function(e){ console.error('Admin notification failed (edge function not deployed yet?)', e); });
 }
 
-/* CHOOSE YOUR TRAVEL TRIBE — now mirrors homepage "Upcoming trips" (group_trips table + tc2 card) */
-var BL={adventure:"Adventure",beach:"Beach",culture:"Culture",nature:"Nature",solo:"Solo",nightlife:"Nightlife"};
-var TAG_EMOJI={adventure:'🚀',beach:'🏖️',culture:'🎭',nature:'🌿',solo:'🎒',nightlife:'🎉'};
+/* CHOOSE YOUR TRAVEL TRIBE — mirrors the home page's "Social group trips"
+   section exactly; TAG_EMOJI, BL, tc2GalNav, tc2ToggleTags, and the card
+   template itself all now live in group-trip-card.js (shared). */
 var GT_TRIBE_TRIPS=[];
-function tc2GalNav(btn, dir){
-  var wrap = btn.closest('.tc2-img');
-  if (!wrap) return;
-  var gallery;
-  try { gallery = JSON.parse(wrap.getAttribute('data-gallery') || '[]'); } catch(e) { gallery = []; }
-  if (!gallery.length || gallery.length <= 1) return;
-  var idx = parseInt(wrap.getAttribute('data-idx') || '0', 10);
-  idx = (idx + dir + gallery.length) % gallery.length;
-  wrap.setAttribute('data-idx', idx);
-  var img = wrap.querySelector('img');
-  if (img) img.src = gallery[idx];
-  var dots = wrap.querySelectorAll('.tc2-gal-dot');
-  dots.forEach(function(d, j){ d.classList.toggle('active', j === idx); });
-}
-function tc2ToggleTags(el) {
-  var pop = el.querySelector('.tc2-tag-popover');
-  if (!pop) return;
-  var wasOpen = pop.classList.contains('open');
-  document.querySelectorAll('.tc2-tag-popover.open').forEach(function(p){ p.classList.remove('open'); });
-  if (!wasOpen) pop.classList.add('open');
-}
-document.addEventListener('click', function(e){
-  if (!e.target.closest('.tc2-tag-more')) {
-    document.querySelectorAll('.tc2-tag-popover.open').forEach(function(p){ p.classList.remove('open'); });
-  }
-});
 
 function gtTribeRender(){
   var track=document.getElementById('gtTribeTrack');
   if(!track) return;
   var out='';
   for(var i=0;i<GT_TRIBE_TRIPS.length;i++){
-    var t=GT_TRIBE_TRIPS[i];
-    var allTags = [];
-    if (t.hot) allTags.push({ hot: true, label: '\uD83D\uDD25 Hot' });
-    for(var j=0;j<t.tags.length;j++){
-      var rawTag = t.tags[j] || '';
-      var tagKey = rawTag.toLowerCase().trim();
-      var label = TAG_EMOJI[tagKey] ? (TAG_EMOJI[tagKey] + ' ' + (BL[tagKey] || rawTag)) : esc(rawTag);
-      allTags.push({ hot: false, label: label });
-    }
-    var shownTags = allTags.slice(0, 3);
-    var extraTags = allTags.slice(3);
-    var tags = shownTags.map(function(tg) {
-      return '<span class="tc2-tag' + (tg.hot ? ' tc2-tag-hot' : '') + '">' + tg.label + '</span>';
-    }).join('');
-    if (extraTags.length > 0) {
-      var popoverHtml = extraTags.map(function(tg) {
-        return '<span class="tc2-tag' + (tg.hot ? ' tc2-tag-hot' : '') + '">' + tg.label + '</span>';
-      }).join('');
-      tags += '<span class="tc2-tag tc2-tag-more" onclick="event.stopPropagation();tc2ToggleTags(this)">+' + extraTags.length + '<div class="tc2-tag-popover">' + popoverHtml + '</div></span>';
-    }
-    var dStr = t.dates.join(' | ');
-    var prNum = (t.price||0).toLocaleString('en-IN');
-    var pr = '\u20B9' + prNum;
-    var gallery = (t.gallery && t.gallery.length) ? t.gallery : [t.img];
-    var galJson = esc(JSON.stringify(gallery));
-    out += '<div class="tc2" onclick="window.location.href=\''+esc(t.page)+'\'">';
-    out += '<div class="tc2-img" data-gallery=\''+galJson+'\' data-idx="0">';
-    if (t.trending) {
-      out += '<div class="tc2-trending-badge"><svg viewBox="0 0 24 24"><path d="M13 2L3 14h7l-1 8 11-14h-7z"/></svg>Trending</div>';
-    }
-    out += '<img width="800" height="600" src="'+esc(gallery[0])+'" alt="'+esc(t.name)+'" loading="lazy" decoding="async">';
-    if (gallery.length > 1) {
-      out += '<button type="button" class="tc2-gal-arrow tc2-gal-prev" aria-label="Previous photo" onclick="event.stopPropagation();tc2GalNav(this,-1)"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>';
-      out += '<button type="button" class="tc2-gal-arrow tc2-gal-next" aria-label="Next photo" onclick="event.stopPropagation();tc2GalNav(this,1)"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></button>';
-      out += '<div class="tc2-gal-dots">';
-      for (var k = 0; k < gallery.length; k++) {
-        out += '<span class="tc2-gal-dot' + (k===0?' active':'') + '"></span>';
-      }
-      out += '</div>';
-    }
-    out += '</div>';
-    out += '<div class="tc2-body">';
-    out += '<div class="tc2-tags">' + tags + '</div>';
-    out += '<div class="tc2-name">' + esc(t.name) + '</div>';
-    out += '<div class="tc2-route">' + esc(t.route||'') + '</div>';
-    out += '<div class="tc2-foot">';
-    out += '<div class="tc2-dates">' + esc(dStr) + '</div>';
-    out += '<div><div class="tc2-price-lbl">per person</div><div class="tc2-price">' + pr + '*</div></div>';
-    out += '</div>';
-    out += '<div class="tc2-dur">' + esc(t.dur) + '</div>';
-    out += '</div></div>';
+    out += buildGroupTripCardHTML(GT_TRIBE_TRIPS[i]);
   }
   track.innerHTML=out;
 }
@@ -1975,17 +1910,15 @@ function gtUpdateTabsOverflow(){
 /* ─────────────────────────────────────────
    GALLERY LIGHTBOX
 ───────────────────────────────────────── */
-var gtLbItems=[
-  {type:'video',src:'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4',poster:'https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?w=1200&q=85&auto=format&fm=webp&fit=crop'},
-  {type:'image',src:'https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?w=1400&q=85&auto=format&fm=webp&fit=crop',alt:'Bamboo rafting through jungle river'},
-  {type:'image',src:'https://images.unsplash.com/photo-1528181304800-259b08848526?w=1400&q=85&auto=format&fm=webp&fit=crop',alt:'Naga staircase at Thai temple'},
-  {type:'image',src:'https://images.unsplash.com/photo-1555597673-b21d5c935865?w=1400&q=85&auto=format&fm=webp&fit=crop',alt:'Muay Thai boxing training'},
-  {type:'image',src:'https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?w=1400&q=85&auto=format&fm=webp&fit=crop',alt:'Aerial view of Thai islands'},
-  {type:'image',src:'https://images.unsplash.com/photo-1552550049-db097c9480d1?w=1400&q=85&auto=format&fm=webp&fit=crop',alt:'Friends overlooking island bay'}
-];
+/* Starts empty; populated entirely from the trip's real gallery_photos once
+   that data loads (see below) — no stock placeholder photos/video here, so
+   clicking a thumbnail before real data arrives can't ever open unrelated
+   stock content. */
+var gtLbItems=[];
 var gtLbIdx=0;
 
 function gtRenderLightbox(){
+  if(!gtLbItems.length) return;
   var item=gtLbItems[gtLbIdx];
   var content=document.getElementById('gtLbContent');
   if(item.type==='video'){
@@ -2013,6 +1946,7 @@ function gtSetLightboxArrows(show){
 }
 
 function gtOpenLightbox(idx){
+  if(!gtLbItems.length) return; // nothing real loaded yet — a blank thumbnail has nothing to open
   gtLbIdx=idx;
   gtRenderLightbox();
   gtSetLightboxArrows(true);
@@ -2036,6 +1970,7 @@ function gtCloseLightbox(){
 }
 
 function gtLightboxNav(step){
+  if(!gtLbItems.length) return;
   gtLbIdx=(gtLbIdx+step+gtLbItems.length)%gtLbItems.length;
   gtRenderLightbox();
 }
@@ -2254,11 +2189,11 @@ async function loadGroupTripFromSupabase() {
     var gp = trip.gallery_photos || [];
     [1,2,3,4,5].forEach(function(n){ if (gp[n-1]) setAttr('gtPhoto'+n, 'src', gp[n-1]); });
     if (gp.length) {
-      gtLbItems = [{
+      gtLbItems = (trip.gallery_video_url ? [{
         type:'video',
-        src:trip.gallery_video_url || 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4',
+        src:trip.gallery_video_url,
         poster:trip.gallery_video_poster || gp[0]
-      }].concat(gp.map(function(url,index){
+      }] : []).concat(gp.map(function(url,index){
         return {type:'image',src:url,alt:'Trip gallery image '+(index+1)};
       }));
     }
@@ -2364,7 +2299,7 @@ async function loadGroupTripFromSupabase() {
           id: r.id, name: r.title, route: r.route, dur: r.duration_label, price: r.price || 0,
           dates: r.card_dates ? [r.card_dates] : [], tags: r.tags || [], hot: r.hot, trending: r.trending,
           page: 'group-trip.html?trip=' + r.id,
-          img: r.card_image_url, gallery: gallery
+          img: r.card_image_url, gallery: gallery, location: r.card_location
         };
       });
   }

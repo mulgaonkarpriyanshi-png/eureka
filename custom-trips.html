@@ -52,6 +52,8 @@ img{display:block;max-width:100%}
   --teal:#02A9A2;
   --teal-d:#027A74;
   --teal-l:#e8f8f4;
+  --primary-hover:#027A74;
+  --heading:#3A3B3B;
   --dark:#3A3B3B;
   --body:#6B7575;
   --border:#e5e7eb;
@@ -246,63 +248,63 @@ img{display:block;max-width:100%}
 }
 .tribe-track::-webkit-scrollbar{display:none}
 
-.tribe-card{
-  position:relative;background:transparent;border-radius:16px;overflow:hidden;
-  flex:0 0 300px;height:440px;scroll-snap-align:start;
-  box-shadow:0 0 0 1.5px rgba(15,75,65,.22),0 8px 24px rgba(15,75,65,.14);
-  cursor:pointer;transition:transform .3s ease,box-shadow .3s;
+/* Choose Your Travel Tribe / More Trips You'll Love — .ctc-card is the
+   genuinely shared design used on index.html's "Our featured tours" too
+   (see custom-tour-card.js). Kept identical here, not just similar, so the
+   two pages can't drift apart again the way the old .tribe-card design had. */
+.ctc-card{
+  position:relative;background:#fff;border-radius:22px;
+  scroll-snap-align:start;overflow:hidden;
+  border:1.5px solid rgba(2,169,162,.45);
+  box-shadow:0 8px 20px rgba(15,75,65,.08);
+  cursor:pointer;flex-shrink:0;height:440px;width:300px;
+  display:flex;flex-direction:column;
+  transition:transform .3s ease,box-shadow .3s;
 }
-.tribe-card:hover{transform:translateY(-5px);box-shadow:0 0 0 1px rgba(15,75,65,.22),0 16px 36px rgba(15,75,65,.18)}
-.tribe-card:hover .ctc-panel{background:#DFF5F3}
-.tribe-img{position:absolute;inset:0;overflow:hidden}
-.tribe-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s ease}
-.tribe-card:hover .tribe-img img{transform:scale(1.05)}
-.tribe-body{
-  position:absolute;left:4px;right:4px;bottom:4px;
-  padding:.6rem .875rem .75rem;
-  display:flex;flex-direction:column;gap:.3rem;
-  background:#fff;border-radius:14px;
-  box-shadow:0 4px 20px rgba(0,0,0,.15);
-  font-family:'Poppins',sans-serif;
+.ctc-card:hover{transform:translateY(-5px);box-shadow:0 16px 36px rgba(15,75,65,.16)}
+.ctc-img{position:relative;height:236px;flex-shrink:0;overflow:hidden;border-radius:0 0 20px 20px}
+.ctc-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s ease}
+.ctc-card:hover .ctc-img img{transform:scale(1.05)}
+.ctc-gal-arrow{
+  position:absolute;top:50%;transform:translateY(-50%);
+  width:28px;height:28px;border-radius:50%;
+  background:rgba(255,255,255,.9);border:none;
+  display:flex;align-items:center;justify-content:center;
+  color:#111;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.25);
+  opacity:0;transition:opacity .2s;z-index:2;
 }
-.tribe-tags{display:flex;gap:5px;flex-wrap:wrap;align-items:center}
-.tribe-tag{
-  display:inline-flex;align-items:center;gap:4px;
-  padding:5px 13px;border-radius:50px;font-size:12px;font-weight:500;
-  background:rgba(255,255,255,.92);color:#6B7575;border:1px solid rgba(2,169,162,.25);
-}
-.tribe-dur{display:inline-block;background:#e3f3f2;padding:4px 10px;border-radius:6px;font-family:'Proxima Nova','Poppins',sans-serif;font-size:12px;font-weight:600;color:#027A74}
-.tribe-title{font-family:'Outfit','Poppins',sans-serif;font-size:26px;font-weight:700;color:#3A3B3B;line-height:1.15;letter-spacing:-.3px}
-.tribe-desc{font-family:'Poppins',sans-serif;font-size:12px;color:#3A3B3B;line-height:1.5;font-weight:400}
-.tribe-price{font-family:'Outfit','Poppins',sans-serif;font-size:20px;font-weight:600;color:#FFA43B;margin-top:.15rem}
-.tribe-price span{font-family:'Outfit','Poppins',sans-serif;font-size:20px;font-weight:600;color:#FFA43B;margin-left:4px}
-
-/* Choose Your Travel Tribe now uses the homepage "Build your own adventure" ctc-card design */
-.ctc-img{position:absolute;top:0;left:0;right:0;bottom:215px;overflow:hidden;border-radius:16px 16px 0 0}
-.ctc-img img{width:100%;height:100%;object-fit:cover;display:block}
-.ctc-img::after{
-  content:'';position:absolute;left:0;right:0;bottom:0;height:12%;
-  background:linear-gradient(180deg,rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%);
-  pointer-events:none;
-}
+.ctc-img:hover .ctc-gal-arrow{opacity:1}
+.ctc-gal-arrow svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2.6}
+.ctc-gal-prev{left:8px}
+.ctc-gal-next{right:8px}
+.ctc-gal-dots{position:absolute;bottom:10px;left:0;right:0;display:flex;align-items:center;justify-content:center;gap:6px;z-index:2}
+.ctc-gal-dot{width:7px;height:7px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:all .2s}
+.ctc-gal-dot.active{background:var(--primary-hover);width:10px;height:10px}
+.ctc-gal-dot:last-child:not(.active){width:5px;height:5px;opacity:.8}
+.ctc-toprow{display:flex;align-items:center;justify-content:flex-start;gap:8px;flex-shrink:0}
+.ctc-tag{display:inline-flex;align-items:center;gap:5px;padding:3px 10px 3px 3px;min-height:24px;box-sizing:border-box;border-radius:50px;font-size:var(--ctc-tag-size,11px);font-weight:var(--ctc-tag-weight,600);font-family:'Proxima Nova','Poppins',sans-serif;background:#e3f3f2;color:var(--primary-hover);white-space:nowrap}
+.ctc-tag-icon{display:flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:50%;background:var(--teal);color:#fff;font-size:10px;flex-shrink:0}
+.ctc-rating-inline{display:flex;align-items:center;gap:4px;color:var(--heading);font-family:'Poppins',sans-serif;font-size:12px;font-weight:700;flex-shrink:0}
+.ctc-rating-inline svg{width:13px;height:13px;fill:#FFA43B;flex-shrink:0}
 .ctc-panel{
-  position:absolute;left:4px;right:4px;bottom:4px;
-  padding:.9rem .95rem 1rem;
-  background:#fff;border-radius:14px;
-  box-shadow:0 4px 20px rgba(0,0,0,.15);
-  transition:background .35s ease;
+  flex:1;display:flex;flex-direction:column;gap:.3rem;
+  padding:.7rem 1.1rem .75rem;
+  background:#fff;
+  min-height:0;
 }
-.ctc-tags{display:flex;gap:6px;margin-bottom:.55rem;flex-wrap:wrap}
-.ctc-tag{display:inline-flex;align-items:center;gap:3px;padding:5px 11px;border-radius:50px;font-size:var(--ctc-tag-size,12px);font-weight:var(--ctc-tag-weight,600);font-family:'Proxima Nova','Poppins',sans-serif;background:#e3f3f2;color:var(--byline,#6B7575);border:1px solid rgba(2,169,162,.25);white-space:nowrap}
-.ctc-title{font-family:'Apfel Grotezk','Poppins',sans-serif;font-size:var(--ctc-title-size,19px);font-weight:var(--ctc-title-weight,700);color:#0a0a0a;margin-bottom:.55rem;line-height:1.2}
-.ctc-dur-pill{display:inline-flex;align-items:center;gap:6px;background:#FBF3E4;color:#8a6d3b;font-size:var(--ctc-dur-size,12px);font-weight:var(--ctc-dur-weight,600);padding:5px 11px;border-radius:8px;margin-bottom:.7rem}
-.ctc-dur-pill svg{width:14px;height:14px;flex-shrink:0}
-.ctc-price{font-family:'Poppins',sans-serif;font-size:var(--ctc-price-size,14px);font-weight:var(--ctc-price-weight,700);color:#FFA43B;margin-bottom:.85rem}
-.ctc-actions{display:flex;gap:8px}
-.ctc-call-icon{width:40px;height:40px;flex-shrink:0;border-radius:10px;border:1.5px solid #e5e7eb;display:flex;align-items:center;justify-content:center;color:#FFA43B;transition:background .2s;text-decoration:none}
+.ctc-title{font-family:'Apfel Grotezk','Poppins',sans-serif;font-size:var(--ctc-title-size,18px);font-weight:var(--ctc-title-weight,700);color:#0a0a0a;line-height:1.22;height:calc(1.22em * 2);flex-shrink:0;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;text-overflow:ellipsis}
+.ctc-foot{display:flex;align-items:flex-start;justify-content:space-between;gap:.5rem;margin-top:auto;flex-shrink:0}
+.ctc-foot-left{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.ctc-dur{font-family:'Outfit','Poppins',sans-serif;font-size:var(--ctc-dur-size,13px);font-weight:var(--ctc-dur-weight,700);color:#027A74;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ctc-route{font-family:'Poppins',sans-serif;font-size:var(--ctc-route-size,11px);font-weight:var(--ctc-route-weight,700);color:#8a8f8f;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ctc-foot-right{flex-shrink:0;text-align:end}
+.ctc-price-lbl{text-align:end;font-family:'Poppins',sans-serif;font-size:var(--ctc-pricelbl-size,10px);color:#454A4A;font-weight:600;text-transform:lowercase;letter-spacing:.3px}
+.ctc-price{text-align:end;font-family:'Outfit','Poppins',sans-serif;font-size:var(--ctc-price-size,17px);font-weight:var(--ctc-price-weight,700);color:#FFA43B;white-space:nowrap}
+.ctc-actions{display:flex;gap:8px;margin-top:.5rem;flex-shrink:0}
+.ctc-call-icon{width:38px;height:38px;flex-shrink:0;border-radius:10px;border:1.5px solid rgba(255,164,59,.55);display:flex;align-items:center;justify-content:center;color:#FFA43B;transition:background .2s;text-decoration:none}
 .ctc-call-icon:hover{background:#FFF7ED}
-.ctc-call-icon svg{width:17px;height:17px}
-.ctc-callback-btn{flex:1;background:#027A74;color:#fff;border:none;border-radius:10px;font-family:'Poppins',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:background .2s;padding:10px}
+.ctc-call-icon svg{width:16px;height:16px}
+.ctc-callback-btn{flex:1;background:#027A74;color:#fff;border:none;border-radius:10px;font-family:'Poppins',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:background .2s;padding:9px}
 .ctc-callback-btn:hover{background:#02A9A2}
 
 .tribe-arrow{
@@ -317,7 +319,7 @@ img{display:block;max-width:100%}
 .tribe-next{right:-8px}
 
 @media(max-width:640px){
-  .tribe-card{flex:0 0 78vw;height:400px}
+  .ctc-card{flex:0 0 78vw;height:400px}
   .tribe-arrow{display:none}
 }
 
@@ -708,6 +710,7 @@ img{display:block;max-width:100%}
 }
 </style>
 <script src="typography-engine.js"></script>
+<script src="custom-tour-card.js"></script>
 <link rel="stylesheet" href="mobile-header.css">
 <link rel="stylesheet" href="heading-spacing.css">
 </head>
@@ -793,7 +796,7 @@ img{display:block;max-width:100%}
 <!-- CHOOSE YOUR TRAVEL TRIBE -->
 <section class="tribe-sec" id="tribe">
   <div class="tribe-inner">
-    <div class="tribe-eyebrow" id="tribeEyebrow" data-ts="ba_tribe_eyebrow">Handpicked for you</div>
+    <div class="tribe-eyebrow" id="tribeEyebrow" data-ts="ba_tribe_eyebrow"></div>
     <h2 class="tribe-h2" id="tribeH2" data-ts="ba_tribe_heading"></h2>
     <div class="tribe-carousel">
       <button class="tribe-arrow tribe-prev" onclick="tribeNav(-1)" aria-label="Previous"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
@@ -816,8 +819,8 @@ img{display:block;max-width:100%}
 <!-- MORE TRIPS -->
 <section class="tribe-sec" id="moreTrips">
   <div class="tribe-inner">
-    <div class="tribe-eyebrow" id="moreTripsEyebrow" data-ts="ba_moretrips_eyebrow">Just for you</div>
-    <h2 class="tribe-h2" id="moreTripsH2" data-ts="ba_moretrips_heading">More trips you'll love</h2>
+    <div class="tribe-eyebrow" id="moreTripsEyebrow" data-ts="ba_moretrips_eyebrow"></div>
+    <h2 class="tribe-h2" id="moreTripsH2" data-ts="ba_moretrips_heading"></h2>
     <div class="tribe-carousel">
       <button class="tribe-arrow tribe-prev" onclick="moreTripsNav(-1)" aria-label="Previous"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
       <div class="tribe-track" id="moreTripsTrack"><!-- cards injected by JS --></div>
@@ -947,7 +950,7 @@ img{display:block;max-width:100%}
             <input class="pf-field" id="baFormDest" type="text" placeholder="Where would you like to go?">
           </div>
           <textarea class="pf-field" id="baFormMsg" rows="2" placeholder="Message" style="resize:vertical"></textarea>
-          <button type="submit" class="pf-submit" id="baFormBtn" data-ts="ba_form_btn_text">Send Message <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+          <button type="submit" class="pf-submit" id="baFormBtn" data-ts="ba_form_btn_text"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
         </form>
       </div>
     </div>
@@ -1017,7 +1020,7 @@ img{display:block;max-width:100%}
     <div class="footer-grid">
       <div>
         <img class="ft-logo-img" src="https://etrips.digitalgrowthtechnology.com/wp-content/uploads/2026/01/Eureka-Logo-1-02-scaled-e1769966688826.png" alt="Eureka Trips" onerror="this.style.display='none'">
-        <p class="ft-mission" id="ftMission" data-ts="ft_mission">Our mission is to inspire travel experiences that open your mind, ignite your curiosity, and broaden your horizons so you can discover your own &ldquo;Eureka moment&rdquo;</p>
+        <p class="ft-mission" id="ftMission" data-ts="ft_mission"></p>
         <div class="ft-social">
           <a href="https://www.instagram.com/eureka.trips" target="_blank" class="fsb" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
           <a href="https://www.google.com/search?q=Eureka+Trips" target="_blank" class="fsb" aria-label="Google"><svg viewBox="0 0 48 48"><path fill="currentColor" d="M43.6 20.1H42V20H24v8h11.3C33.6 32.8 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.1 8 2.9l5.7-5.7C34.1 6.8 29.3 5 24 5 13.5 5 5 13.5 5 24s8.5 19 19 19 19-8.5 19-19c0-1.3-.1-2.5-.4-3.9z"/></svg></a>
@@ -1025,7 +1028,7 @@ img{display:block;max-width:100%}
       </div>
 
       <div>
-                <div class="ft-col-h ft-col-h-toggle" onclick="toggleFooterCol(this)"><span id="ftCol1H" data-ts="ft_col1_heading">Company</span><svg class="ft-col-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>
+                <div class="ft-col-h ft-col-h-toggle" onclick="toggleFooterCol(this)"><span id="ftCol1H" data-ts="ft_col1_heading"></span><svg class="ft-col-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>
         <div class="ft-col-links">
           <a href="about-us.html" data-ts="ft_links">About Us</a>
           <a href="index.html#trips" data-ts="ft_links">Our Trips</a>
@@ -1037,7 +1040,7 @@ img{display:block;max-width:100%}
       </div>
 
       <div>
-                <div class="ft-col-h ft-col-h-toggle" onclick="toggleFooterCol(this)"><span id="ftCol2H" data-ts="ft_col2_heading">Explore</span><svg class="ft-col-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>
+                <div class="ft-col-h ft-col-h-toggle" onclick="toggleFooterCol(this)"><span id="ftCol2H" data-ts="ft_col2_heading"></span><svg class="ft-col-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>
         <div class="ft-col-links">
           <a href="contact-us.html" data-ts="ft_links">Contact Us</a>
           <a href="custom-trips.html" data-ts="ft_links">Adventure Planner</a>
@@ -1048,7 +1051,7 @@ img{display:block;max-width:100%}
       </div>
 
       <div>
-        <div class="ft-col-h"><span id="ftCol3H" data-ts="ft_col3_heading">Contact Information</span></div>
+        <div class="ft-col-h"><span id="ftCol3H" data-ts="ft_col3_heading"></span></div>
         <div class="ft-contact-item">
           <div class="ft-contact-icon"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg></div>
           <div><div class="ft-contact-lbl" data-ts="ft_contact_info">Phone Number</div><div class="ft-contact-val" data-ts="ft_contact_info">+91 9792496457</div></div>
@@ -1072,7 +1075,7 @@ img{display:block;max-width:100%}
     </div>
 
     <div class="footer-btm">
-      <span class="ft-copy" id="ftCopy" data-ts="ft_copyright">&copy; 2026 Eureka Trips. All rights reserved.</span>
+      <span class="ft-copy" id="ftCopy" data-ts="ft_copyright"></span>
             <div class="ft-legal"><a href="privacy-policy.html" data-ts="ft_legal_links">Privacy Policy</a><a href="terms-conditions.html" data-ts="ft_legal_links">Terms &amp; Conditions</a></div>
     </div>
   </footer>
@@ -1224,7 +1227,7 @@ function openWA(msg) { window.open('https://wa.me/919792496457?text=' + encodeUR
    Won't reappear if the person already saw it or submitted it this session
    (sessionStorage), so it doesn't nag someone who's kept the tab open. */
 (function(){
-  var POPUP_DELAY = 1000; // 1 second — testing value, change back to 60 * 60 * 1000 for the real 60-minute delay
+  var POPUP_DELAY = 55 * 1000; // 55 seconds
   if (sessionStorage.getItem('bookingPopupShown')) return;
   setTimeout(function(){
     if (sessionStorage.getItem('bookingPopupShown')) return; // could've been shown via another tab in the meantime
@@ -1258,69 +1261,36 @@ function tribeRender(){
   var track=document.getElementById('tribeTrack');
   if(!track) return;
   var list = TRIBE_TRIPS; /* country filtering dropped — custom_tour_cards has no country field */
-  var out='';
   if(!list.length){
-    out='<div style="padding:2rem;color:var(--body);font-family:\'Poppins\',sans-serif">No trips found yet — check back soon!</div>';
-    track.innerHTML=out;
+    track.innerHTML='<div style="padding:2rem;color:var(--body);font-family:\'Poppins\',sans-serif">No trips found yet — check back soon!</div>';
     return;
   }
-  for(var i=0;i<list.length;i++){
-    var t=list[i];
-    var tag=(t.tagEmoji?esc(t.tagEmoji)+' ':'')+esc(t.tagLabel||'');
-    var waMsg='Hi EUREKA Trips! I want to build a custom trip — "'+(t.title||'')+'". Can someone call me back?';
-    out+='<div class="tribe-card" onclick="window.location.href=\''+esc(t.page)+'\'">';
-    out+='<div class="ctc-img"><img width="800" height="600" src="'+esc(t.img)+'" alt="'+esc(t.title)+'" loading="lazy" decoding="async"></div>';
-    out+='<div class="ctc-panel">';
-    if(tag.trim()) out+='<div class="ctc-tags"><span class="ctc-tag">'+tag+'</span></div>';
-    out+='<div class="ctc-title">'+esc(t.title)+'</div>';
-    out+='<div class="ctc-dur-pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>'+esc(t.dur||'Flexible duration')+'</div>';
-    out+='<div class="ctc-price">'+esc(t.price)+'</div>';
-    out+='<div class="ctc-actions" onclick="event.stopPropagation()">';
-    out+='<a href="tel:+919792496457" class="ctc-call-icon" aria-label="Call us"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></a>';
-    out+='<button class="ctc-callback-btn" onclick="openWA(\''+waMsg.replace(/'/g,"&#39;")+'\')">Request Callback</button>';
-    out+='</div></div></div>';
-  }
-  track.innerHTML=out;
+  track.innerHTML = list.map(buildCustomTourCardHTML).join('');
   track.scrollLeft=0;
 }
 function tribeNav(dir){
   var track=document.getElementById('tribeTrack');
   if(!track) return;
-  var card=track.querySelector('.tribe-card');
+  var card=track.querySelector('.ctc-card');
   if(!card) return;
   var step=card.getBoundingClientRect().width + 24;
   track.scrollBy({left:dir*step*2, behavior:'smooth'});
 }
 /* tribeRender() called after Supabase data is applied — see bottom of script */
 
-/* MORE TRIPS (second row, below promo banner) — now uses the same "Build your own adventure" cards */
+/* MORE TRIPS (second row, below promo banner) — shares buildCustomTourCardHTML
+   above with "Choose Your Travel Tribe" and the home page's "Our featured
+   tours", so all three render an identical card from one place. */
 var MORE_TRIPS=[];
 function moreTripsRender(){
   var track=document.getElementById('moreTripsTrack');
   if(!track) return;
-  var out='';
-  for(var i=0;i<MORE_TRIPS.length;i++){
-    var t=MORE_TRIPS[i];
-    var tag=(t.tagEmoji?esc(t.tagEmoji)+' ':'')+esc(t.tagLabel||'');
-    var waMsg='Hi EUREKA Trips! I want to build a custom trip — "'+(t.title||'')+'". Can someone call me back?';
-    out+='<div class="tribe-card" onclick="window.location.href=\''+esc(t.page)+'\'">';
-    out+='<div class="ctc-img"><img width="800" height="600" src="'+esc(t.img)+'" alt="'+esc(t.title)+'" loading="lazy" decoding="async"></div>';
-    out+='<div class="ctc-panel">';
-    if(tag.trim()) out+='<div class="ctc-tags"><span class="ctc-tag">'+tag+'</span></div>';
-    out+='<div class="ctc-title">'+esc(t.title)+'</div>';
-    out+='<div class="ctc-dur-pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>'+esc(t.dur||'Flexible duration')+'</div>';
-    out+='<div class="ctc-price">'+esc(t.price)+'</div>';
-    out+='<div class="ctc-actions" onclick="event.stopPropagation()">';
-    out+='<a href="tel:+919792496457" class="ctc-call-icon" aria-label="Call us"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></a>';
-    out+='<button class="ctc-callback-btn" onclick="openWA(\''+waMsg.replace(/'/g,"&#39;")+'\')">Request Callback</button>';
-    out+='</div></div></div>';
-  }
-  track.innerHTML=out;
+  track.innerHTML = MORE_TRIPS.map(buildCustomTourCardHTML).join('');
 }
 function moreTripsNav(dir){
   var track=document.getElementById('moreTripsTrack');
   if(!track) return;
-  var card=track.querySelector('.tribe-card');
+  var card=track.querySelector('.ctc-card');
   if(!card) return;
   var step=card.getBoundingClientRect().width + 24;
   track.scrollBy({left:dir*step*2, behavior:'smooth'});
@@ -1328,15 +1298,11 @@ function moreTripsNav(dir){
 /* moreTripsRender() called after Supabase data is applied — see bottom of script */
 
 /* HEAR FROM OUR HAPPY TRAVELLERS */
-var TESTIMONIALS=[
-  {name:'Nikita & Rohan', img:'https://images.unsplash.com/photo-1518199266791-5375a83190b7?w=400&q=80&auto=format&fm=webp&fit=crop', quote:"Touchdown at Manila Airport and without wasting a second – head straight to your hotel in the heart of the traveller's district."},
-  {name:'Priya & Arjun', img:'https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=400&q=80&auto=format&fm=webp&fit=crop', quote:"Our trip leader made everything so easy. Every day felt planned but never rushed — genuinely the best group trip we've done."},
-  {name:'Sana & Vikram', img:'https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?w=400&q=80&auto=format&fm=webp&fit=crop', quote:"From the island hopping to the sunset dinners, every detail was thought through. We've already booked our next Eureka trip."},
-  {name:'Meera & Kabir', img:'https://images.unsplash.com/photo-1522010760282-70b17ded8f96?w=400&q=80&auto=format&fm=webp&fit=crop', quote:"Met some incredible people on this trip who we still talk to today. The itinerary struck the perfect balance of adventure and relaxation."},
-  {name:'Ananya & Dev', img:'https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=400&q=80&auto=format&fm=webp&fit=crop', quote:"Everything was handled — hotels, transport, activities. All we had to do was show up and enjoy the trip of a lifetime."},
-  {name:'Ritu & Sameer', img:'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=400&q=80&auto=format&fm=webp&fit=crop', quote:"This was our honeymoon and Eureka made it unforgettable. Every sunset, every meal, every stop felt curated just for us."},
-  {name:'Ishita & Farhan', img:'https://images.unsplash.com/photo-1543269865-cbf427effbad?w=400&q=80&auto=format&fm=webp&fit=crop', quote:"Solo travelled and joined this couple's trip community — left with a whole new set of friends and memories to last a lifetime."}
-];
+/* Starts empty; populated entirely from the real testimonials table once
+   loaded (see below) — no fake names/quotes/stock photos here, since showing
+   made-up customer testimonials, even briefly, isn't something to fall back
+   to. testiRender()/testiBuildDots() already handle an empty array safely. */
+var TESTIMONIALS=[];
 function testiRender(){
   var track=document.getElementById('testiTrack');
   if(!track) return;
@@ -1550,13 +1516,7 @@ async function applyBuildAdventureContent() {
   setText('moreTripsH2', s.ba_moretrips_heading);
   var tribeRows = await sbGet('custom_tour_cards', 'active=eq.true&order=sort_order.asc');
   if (tribeRows.length) {
-    TRIBE_TRIPS = tribeRows.map(function(t) {
-      return {
-        img: t.image_url, title: t.title, dur: t.duration_label, price: t.price_text,
-        tagEmoji: t.tag_emoji, tagLabel: t.tag_label,
-        page: 'trip-page.html?trip=' + (t.page_slug || t.id)
-      };
-    });
+    TRIBE_TRIPS = tribeRows;
   }
 
   /* ── STATS BAR ── */
@@ -1616,13 +1576,7 @@ async function applyBuildAdventureContent() {
   /* ── MORE TRIPS — also uses "Build your own adventure" cards ── */
   var moreTripsRows = await sbGet('custom_tour_cards', 'active=eq.true&order=sort_order.asc');
   if (moreTripsRows.length) {
-    MORE_TRIPS = moreTripsRows.map(function(t) {
-      return {
-        img: t.image_url, title: t.title, dur: t.duration_label, price: t.price_text,
-        tagEmoji: t.tag_emoji, tagLabel: t.tag_label,
-        page: 'trip-page.html?trip=' + (t.page_slug || t.id)
-      };
-    });
+    MORE_TRIPS = moreTripsRows;
   }
 
   /* ── PROMO BANNER CAROUSEL — same source as homepage (ad_banners) ── */

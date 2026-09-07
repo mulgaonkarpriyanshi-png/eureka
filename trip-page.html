@@ -53,6 +53,8 @@ img{display:block;max-width:100%}
   --teal:#02A9A2;
   --teal-d:#027A74;
   --teal-l:#e8f8f4;
+  --primary-hover:#027A74;
+  --heading:#3A3B3B;
   --dark:#3A3B3B;
   --body:#6B7575;
   --border:#e5e7eb;
@@ -553,45 +555,63 @@ img{display:block;max-width:100%}
 }
 .tribe-track::-webkit-scrollbar{display:none}
 
-/* Card — now matches the current homepage "Build your own adventure" ctc-card design */
-.tribe-card{
-  position:relative;background:#fff;border-radius:16px;overflow:hidden;
-  flex:0 0 300px;height:440px;scroll-snap-align:start;
-  box-shadow:0 0 0 1.5px rgba(15,75,65,.22),0 8px 24px rgba(15,75,65,.14);
-  cursor:pointer;display:flex;flex-direction:column;
+/* Card — genuinely shared with index.html's "Our featured tours" and
+   custom-trips.html's "Explore top destinations"/"More trips" (see
+   custom-tour-card.js). Kept byte-identical, not just similar, so this
+   page can't drift into its own separate copy again. */
+.ctc-card{
+  position:relative;background:#fff;border-radius:22px;
+  scroll-snap-align:start;overflow:hidden;
+  border:1.5px solid rgba(2,169,162,.45);
+  box-shadow:0 8px 20px rgba(15,75,65,.08);
+  cursor:pointer;flex-shrink:0;height:440px;width:300px;
+  display:flex;flex-direction:column;
   transition:transform .3s ease,box-shadow .3s;
 }
-.tribe-card:hover{transform:translateY(-5px);box-shadow:0 0 0 1px rgba(15,75,65,.22),0 16px 36px rgba(15,75,65,.18)}
-.ctc-img{position:relative;height:230px;flex-shrink:0;overflow:hidden}
+.ctc-card:hover{transform:translateY(-5px);box-shadow:0 16px 36px rgba(15,75,65,.16)}
+.ctc-img{position:relative;height:236px;flex-shrink:0;overflow:hidden;border-radius:0 0 20px 20px}
 .ctc-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s ease}
-.tribe-card:hover .ctc-img img{transform:scale(1.05)}
-.ctc-rating{
-  position:absolute;top:10px;right:10px;z-index:2;
-  display:flex;align-items:center;gap:4px;
-  background:rgba(255,255,255,.95);color:#3A3B3B;
-  font-family:'Poppins',sans-serif;font-size:12px;font-weight:700;
-  padding:5px 10px;border-radius:50px;box-shadow:0 2px 8px rgba(0,0,0,.18);
+.ctc-card:hover .ctc-img img{transform:scale(1.05)}
+.ctc-gal-arrow{
+  position:absolute;top:50%;transform:translateY(-50%);
+  width:28px;height:28px;border-radius:50%;
+  background:rgba(255,255,255,.9);border:none;
+  display:flex;align-items:center;justify-content:center;
+  color:#111;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.25);
+  opacity:0;transition:opacity .2s;z-index:2;
 }
-.ctc-rating svg{width:13px;height:13px;fill:#FFA43B;flex-shrink:0}
+.ctc-img:hover .ctc-gal-arrow{opacity:1}
+.ctc-gal-arrow svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2.6}
+.ctc-gal-prev{left:8px}
+.ctc-gal-next{right:8px}
+.ctc-gal-dots{position:absolute;bottom:10px;left:0;right:0;display:flex;align-items:center;justify-content:center;gap:6px;z-index:2}
+.ctc-gal-dot{width:7px;height:7px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:all .2s}
+.ctc-gal-dot.active{background:var(--primary-hover);width:10px;height:10px}
+.ctc-gal-dot:last-child:not(.active){width:5px;height:5px;opacity:.8}
+.ctc-toprow{display:flex;align-items:center;justify-content:flex-start;gap:8px;flex-shrink:0}
+.ctc-tag{display:inline-flex;align-items:center;gap:5px;padding:3px 10px 3px 3px;min-height:24px;box-sizing:border-box;border-radius:50px;font-size:var(--ctc-tag-size,11px);font-weight:var(--ctc-tag-weight,600);font-family:'Proxima Nova','Poppins',sans-serif;background:#e3f3f2;color:var(--primary-hover);white-space:nowrap}
+.ctc-tag-icon{display:flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:50%;background:var(--teal);color:#fff;font-size:10px;flex-shrink:0}
+.ctc-rating-inline{display:flex;align-items:center;gap:4px;color:var(--heading);font-family:'Poppins',sans-serif;font-size:12px;font-weight:700;flex-shrink:0}
+.ctc-rating-inline svg{width:13px;height:13px;fill:#FFA43B;flex-shrink:0}
 .ctc-panel{
-  flex:1;display:flex;flex-direction:column;gap:.4rem;
-  padding:.9rem 1.1rem 1rem;
+  flex:1;display:flex;flex-direction:column;gap:.3rem;
+  padding:.7rem 1.1rem .75rem;
   background:#fff;
   min-height:0;
 }
-.ctc-tags{display:flex;gap:6px;flex-wrap:nowrap}
-.ctc-tag{display:inline-flex;align-items:center;gap:3px;padding:5px 11px;border-radius:50px;font-size:12px;font-weight:600;font-family:'Proxima Nova','Poppins',sans-serif;background:#e3f3f2;color:var(--byline);border:1px solid rgba(2,169,162,.25);white-space:nowrap}
-.ctc-title{font-family:'Apfel Grotezk','Poppins',sans-serif;font-size:19px;font-weight:700;color:#0a0a0a;line-height:1.25;max-height:calc(1.25em * 2);overflow:hidden}
-.ctc-foot{display:flex;align-items:flex-start;justify-content:space-between;gap:.5rem}
-.ctc-dur{font-family:'Outfit','Poppins',sans-serif;font-size:13px;font-weight:600;color:#027A74;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.ctc-price-lbl{text-align:end;font-family:'Poppins',sans-serif;font-size:11px;color:#454A4A;font-weight:600;text-transform:uppercase;letter-spacing:.3px;flex-shrink:0}
-.ctc-price{text-align:end;font-family:'Outfit','Poppins',sans-serif;font-size:18px;font-weight:700;color:#FFA43B;white-space:nowrap;flex-shrink:0}
-.ctc-route{font-family:'Poppins',sans-serif;font-size:12px;font-weight:500;color:#8a8f8f;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.ctc-actions{display:flex;gap:8px;margin-top:auto}
-.ctc-call-icon{width:40px;height:40px;flex-shrink:0;border-radius:10px;border:1.5px solid #e5e7eb;display:flex;align-items:center;justify-content:center;color:#FFA43B;transition:background .2s;text-decoration:none}
+.ctc-title{font-family:'Apfel Grotezk','Poppins',sans-serif;font-size:var(--ctc-title-size,18px);font-weight:var(--ctc-title-weight,700);color:#0a0a0a;line-height:1.22;height:calc(1.22em * 2);flex-shrink:0;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;text-overflow:ellipsis}
+.ctc-foot{display:flex;align-items:flex-start;justify-content:space-between;gap:.5rem;margin-top:auto;flex-shrink:0}
+.ctc-foot-left{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.ctc-dur{font-family:'Outfit','Poppins',sans-serif;font-size:var(--ctc-dur-size,13px);font-weight:var(--ctc-dur-weight,700);color:#027A74;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ctc-route{font-family:'Poppins',sans-serif;font-size:var(--ctc-route-size,11px);font-weight:var(--ctc-route-weight,700);color:#8a8f8f;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ctc-foot-right{flex-shrink:0;text-align:end}
+.ctc-price-lbl{text-align:end;font-family:'Poppins',sans-serif;font-size:var(--ctc-pricelbl-size,10px);color:#454A4A;font-weight:600;text-transform:lowercase;letter-spacing:.3px}
+.ctc-price{text-align:end;font-family:'Outfit','Poppins',sans-serif;font-size:var(--ctc-price-size,17px);font-weight:var(--ctc-price-weight,700);color:#FFA43B;white-space:nowrap}
+.ctc-actions{display:flex;gap:8px;margin-top:.5rem;flex-shrink:0}
+.ctc-call-icon{width:38px;height:38px;flex-shrink:0;border-radius:10px;border:1.5px solid rgba(255,164,59,.55);display:flex;align-items:center;justify-content:center;color:#FFA43B;transition:background .2s;text-decoration:none}
 .ctc-call-icon:hover{background:#FFF7ED}
-.ctc-call-icon svg{width:17px;height:17px}
-.ctc-callback-btn{flex:1;background:#027A74;color:#fff;border:none;border-radius:10px;font-family:'Poppins',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:background .2s;padding:10px}
+.ctc-call-icon svg{width:16px;height:16px}
+.ctc-callback-btn{flex:1;background:#027A74;color:#fff;border:none;border-radius:10px;font-family:'Poppins',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:background .2s;padding:9px}
 .ctc-callback-btn:hover{background:#02A9A2}
 
 .tribe-arrow{
@@ -606,7 +626,7 @@ img{display:block;max-width:100%}
 .tribe-next{right:-8px}
 
 @media(max-width:640px){
-  .tribe-card{flex:0 0 78vw;height:400px}
+  .ctc-card{flex:0 0 78vw;height:400px}
   .tribe-arrow{display:none}
 }
 
@@ -797,6 +817,7 @@ img{display:block;max-width:100%}
 }
 </style>
 <script src="typography-engine.js"></script>
+<script src="custom-tour-card.js"></script>
 <link rel="stylesheet" href="mobile-header.css">
 <link rel="stylesheet" href="heading-spacing.css">
 </head>
@@ -847,11 +868,11 @@ img{display:block;max-width:100%}
 <!-- TRIP HERO -->
 <section class="trip-hero" id="tripHero">
   <div class="trip-hero-img">
-    <img fetchpriority="high" width="1920" height="1080" id="heroImgEl" src="https://images.unsplash.com/photo-1518509562904-e7ef99cdcc86?w=1920&q=85&auto=format&fm=webp&fit=crop" alt="El Nido Palawan Philippines aerial bay view">
+    <img fetchpriority="high" width="1920" height="1080" id="heroImgEl" src="" alt="El Nido Palawan Philippines aerial bay view">
   </div>
   <div class="trip-hero-ov"></div>
   <div class="trip-hero-content">
-    <h1 class="trip-hero-h1" id="heroTitleEl" data-ts="tp_title">Philippines Hop &amp; Chill</h1>
+    <h1 class="trip-hero-h1" id="heroTitleEl" data-ts="tp_title"></h1>
     <div class="trip-hero-route" id="heroRouteEl" data-ts="tp_route">
       <span>Manila</span><span class="sep">➾</span>
       <span>Cebu</span><span class="sep">➾</span>
@@ -866,7 +887,7 @@ img{display:block;max-width:100%}
 
   <!-- LEFT: MAIN CONTENT -->
   <div class="trip-main">
-    <h2 class="trip-title" id="subheroTitleEl" data-ts="tp_detail_title">Mezcal in Mexico City, Chichén Itzá at sunrise and a week on the Caribbean coast. 14 days through Mexico.</h2>
+    <h2 class="trip-title" id="subheroTitleEl" data-ts="tp_detail_title"></h2>
     <p class="trip-desc" id="subheroDescEl" data-ts="tp_detail_desc">Blissful white-sand beaches, palm-lined shores, and crystal-blue waters, the Philippines' absolute paradise. Picture yourself canyoning through jungle swimming holes, tackling natural rock slides and cliff jumps, snorkeling the rare sardine run, and chasing unforgettable sunset hikes. In Palawan, arguably the best spot in the Philippines (some say the world!) Hop into a colourful Filipino jeepney, chase hidden waterfalls, explore magical underground rivers, and sail off on dreamy island-hopping trips.</p>
 
     <!-- RATINGS -->
@@ -958,7 +979,7 @@ img{display:block;max-width:100%}
               </ul>
             </div>
             <div class="accom-gallery" id="accomGallery" onclick="openAccomLightbox()">
-              <img id="accomImg" src="https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?w=800&q=80&auto=format&fm=webp&fit=crop" alt="Accommodation photo" loading="lazy" decoding="async">
+              <img id="accomImg" src="" alt="Accommodation photo" loading="lazy" decoding="async">
               <button class="gal-arrow gal-prev" onclick="event.stopPropagation();accomNav(-1)" aria-label="Previous photo">‹</button>
               <button class="gal-arrow gal-next" onclick="event.stopPropagation();accomNav(1)" aria-label="Next photo">›</button>
               <span class="accom-expand-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 3H3v5M16 3h5v5M21 16v5h-5M3 16v5h5"/><path d="m3 8 6-6M21 8l-6-6M3 16l6 6M21 16l-6 6"/></svg></span>
@@ -1038,8 +1059,8 @@ img{display:block;max-width:100%}
 <!-- TRIP HIGHLIGHTS -->
 <section class="highlights-sec">
   <div class="highlights-inner">
-    <h2 class="highlights-h2" id="highlightsHEl" data-ts="tp_highlights_heading">Trip Highlights</h2>
-    <p class="highlights-sub" id="highlightsSubEl" data-ts="tp_highlights_sub">Visit iconic waterfalls, explore pristine beaches, snorkel in emerald green waters &amp; more! Let us introduce you to real travel.</p>
+    <h2 class="highlights-h2" id="highlightsHEl" data-ts="tp_highlights_heading"></h2>
+    <p class="highlights-sub" id="highlightsSubEl" data-ts="tp_highlights_sub"></p>
 
     <div class="day-tabs-wrap">
       <div class="day-tabs" id="dayTabs">
@@ -1116,7 +1137,7 @@ img{display:block;max-width:100%}
 <!-- CHOOSE YOUR TRAVEL TRIBE -->
 <section class="tribe-sec">
   <div class="tribe-inner">
-    <h2 class="tribe-h2" id="tpTribeH" data-ts="tp_tribe_heading">Choose Your Travel Tribe</h2>
+    <h2 class="tribe-h2" id="tpTribeH" data-ts="tp_tribe_heading"></h2>
     <div class="tribe-carousel">
       <button class="tribe-arrow tribe-prev" onclick="tribeNav(-1)" aria-label="Previous"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
       <div class="tribe-track" id="tribeTrack"><!-- cards injected by JS --></div>
@@ -1128,13 +1149,13 @@ img{display:block;max-width:100%}
 <!-- FINAL CTA -->
 <section class="final-cta-sec">
   <div class="final-cta-inner">
-    <h2 class="final-cta-h2" id="fctaHeadingEl" data-ts="tp_fcta_heading">Interested in learning more about our Philippines Hop &amp; Chill trip?</h2>
+    <h2 class="final-cta-h2" id="fctaHeadingEl" data-ts="tp_fcta_heading"></h2>
     <div class="final-cta-grid">
       <div class="final-cta-img">
-        <img id="fctaImgEl" src="https://images.unsplash.com/photo-1518509562904-e7ef99cdcc86?w=800&q=80&auto=format&fm=webp&fit=crop" alt="El Nido Palawan sunset" loading="lazy" decoding="async">
+        <img id="fctaImgEl" src="" alt="El Nido Palawan sunset" loading="lazy" decoding="async">
       </div>
       <div class="final-cta-form">
-        <p class="final-cta-lead" id="fctaLeadEl" data-ts="tp_fcta_lead">Get instant travel assistance, best prices &amp; expert planning.</p>
+        <p class="final-cta-lead" id="fctaLeadEl" data-ts="tp_fcta_lead"></p>
         <form onsubmit="event.preventDefault();alert('Thanks! We will get back to you shortly.')">
           <input class="fcta-field" type="text" id="fctaNameInput" placeholder="Your Name" required>
           <input class="fcta-field" type="email" id="fctaEmailInput" placeholder="Enter Your Email" required>
@@ -1182,7 +1203,7 @@ img{display:block;max-width:100%}
     <div class="footer-grid">
       <div>
         <img class="ft-logo-img" src="https://etrips.digitalgrowthtechnology.com/wp-content/uploads/2026/01/Eureka-Logo-1-02-scaled-e1769966688826.png" alt="Eureka Trips" onerror="this.style.display='none'">
-        <p class="ft-mission" id="ftMission" data-ts="ft_mission">Our mission is to inspire travel experiences that open your mind, ignite your curiosity, and broaden your horizons so you can discover your own &ldquo;Eureka moment&rdquo;</p>
+        <p class="ft-mission" id="ftMission" data-ts="ft_mission"></p>
         <div class="ft-social">
           <a href="https://www.instagram.com/eureka.trips" target="_blank" class="fsb" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
           <a href="https://www.google.com/search?q=Eureka+Trips" target="_blank" class="fsb" aria-label="Google"><svg viewBox="0 0 48 48"><path fill="currentColor" d="M43.6 20.1H42V20H24v8h11.3C33.6 32.8 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.1 8 2.9l5.7-5.7C34.1 6.8 29.3 5 24 5 13.5 5 5 13.5 5 24s8.5 19 19 19 19-8.5 19-19c0-1.3-.1-2.5-.4-3.9z"/></svg></a>
@@ -1237,7 +1258,7 @@ img{display:block;max-width:100%}
     </div>
 
     <div class="footer-btm">
-      <span class="ft-copy" id="ftCopy" data-ts="ft_copyright">&copy; 2026 Eureka Trips. All rights reserved.</span>
+      <span class="ft-copy" id="ftCopy" data-ts="ft_copyright"></span>
             <div class="ft-legal"><a href="privacy-policy.html" data-ts="ft_legal_links">Privacy Policy</a><a href="terms-conditions.html" data-ts="ft_legal_links">Terms &amp; Conditions</a></div>
     </div>
   </footer>
@@ -1420,15 +1441,14 @@ function setupMobileListReadMore(listId,hasNestedLists){
 setupMobileInclusionReadMore();
 window.addEventListener('resize',debounce(setupMobileInclusionReadMore,150));
 
-/* ACCOMMODATION IMAGE CAROUSEL */
-var ACCOM_IMGS=[
-  'https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?w=800&q=80&auto=format&fm=webp&fit=crop',
-  'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=800&q=80&auto=format&fm=webp&fit=crop',
-  'https://images.unsplash.com/photo-1573843981267-be1999ff37cd?w=800&q=80&auto=format&fm=webp&fit=crop',
-  'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=800&q=80&auto=format&fm=webp&fit=crop'
-];
+/* ACCOMMODATION IMAGE CAROUSEL — starts empty; populated entirely from
+   trip.gallery_images once the real trip data loads (see below). No stock
+   placeholder photos here, so nothing fake can ever show, including via
+   the prev/next arrows before real data has arrived. */
+var ACCOM_IMGS=[];
 var accomIdx=0;
 function accomNav(dir){
+  if(!ACCOM_IMGS.length) return;
   accomIdx=(accomIdx+dir+ACCOM_IMGS.length)%ACCOM_IMGS.length;
   var img=document.getElementById('accomImg');
   if(img) img.src=ACCOM_IMGS[accomIdx];
@@ -1438,6 +1458,7 @@ function accomNav(dir){
   }
 }
 function openAccomLightbox(){
+  if(!ACCOM_IMGS.length) return;
   document.getElementById('accomLbImg').src=ACCOM_IMGS[accomIdx];
   document.getElementById('accomLightbox').classList.add('open');
   document.body.style.overflow='hidden';
@@ -1754,7 +1775,7 @@ function openWA(msg) { window.open('https://wa.me/919792496457?text=' + encodeUR
 /* BOOKING FORM POPUP — appears once after the page has been open a while.
    Won't reappear if the person already saw it this session (sessionStorage). */
 (function(){
-  var POPUP_DELAY = 1000; // 1 second — testing value, change back to 60 * 60 * 1000 for a real 60-minute delay
+  var POPUP_DELAY = 55 * 1000; // 55 seconds
   if (sessionStorage.getItem('bookingPopupShownTP')) return;
   setTimeout(function(){
     if (sessionStorage.getItem('bookingPopupShownTP')) return; // could've been shown via another tab in the meantime
@@ -1806,36 +1827,12 @@ var TRIBE_TRIPS=[];
 function tribeRender(){
   var track=document.getElementById('tribeTrack');
   if(!track) return;
-  var out='';
-  for(var i=0;i<TRIBE_TRIPS.length;i++){
-    var t=TRIBE_TRIPS[i];
-    var tag=(t.tagEmoji?esc(t.tagEmoji)+' ':'')+esc(t.tagLabel||'');
-    var waMsg='Hi EUREKA Trips! I want to build a custom trip — "'+(t.title||'')+'". Can someone call me back?';
-    out+='<div class="tribe-card" onclick="window.location.href=\''+esc(t.page)+'\'">';
-    out+='<div class="ctc-img">';
-    if (t.rating) {
-      out+='<div class="ctc-rating"><svg viewBox="0 0 24 24"><path d="M12 2.5l2.9 6.3 6.9.7-5.2 4.7 1.5 6.8L12 17.8l-6.1 3.2 1.5-6.8-5.2-4.7 6.9-.7z"/></svg>'+esc(t.rating)+'</div>';
-    }
-    out+='<img width="800" height="600" src="'+esc(t.img)+'" alt="'+esc(t.title)+'" loading="lazy" decoding="async"></div>';
-    out+='<div class="ctc-panel">';
-    if(tag.trim()) out+='<div class="ctc-tags"><span class="ctc-tag">'+tag+'</span></div>';
-    out+='<div class="ctc-title">'+esc(t.title)+'</div>';
-    out+='<div class="ctc-foot">';
-    out+='<div class="ctc-dur" title="'+esc(t.dur||'Flexible duration')+'">'+esc(t.dur||'Flexible duration')+'</div>';
-    out+='<div><div class="ctc-price-lbl">for Adult/-</div><div class="ctc-price">'+esc(t.price)+'</div></div>';
-    out+='</div>';
-    if (t.location) out+='<div class="ctc-route" title="'+esc(t.location)+'">'+esc(t.location)+'</div>';
-    out+='<div class="ctc-actions" onclick="event.stopPropagation()">';
-    out+='<a href="tel:+919792496457" class="ctc-call-icon" aria-label="Call us"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></a>';
-    out+='<button class="ctc-callback-btn" onclick="openWA(\''+waMsg.replace(/'/g,"&#39;")+'\')">Request Callback</button>';
-    out+='</div></div></div>';
-  }
-  track.innerHTML=out;
+  track.innerHTML = TRIBE_TRIPS.map(buildCustomTourCardHTML).join('');
 }
 function tribeNav(dir){
   var track=document.getElementById('tribeTrack');
   if(!track) return;
-  var card=track.querySelector('.tribe-card');
+  var card=track.querySelector('.ctc-card');
   if(!card) return;
   var step=card.getBoundingClientRect().width + 24;
   track.scrollBy({left:dir*step*2, behavior:'smooth'});
@@ -2043,15 +2040,10 @@ async function loadTripFromSupabase() {
   }
 
   /* ── CHOOSE YOUR TRAVEL TRIBE — now uses the same source as homepage "Build your own adventure" ── */
+  setText('tpTribeH', CURRENT_SETTINGS.tp_tribe_heading);
   var tribeRows = await sbGet('custom_tour_cards', 'active=eq.true&order=sort_order.asc');
   if (tribeRows.length) {
-    TRIBE_TRIPS = tribeRows.map(function(t) {
-      return {
-        img: t.image_url, title: t.title, dur: t.duration_label, price: t.price_text,
-        tagEmoji: t.tag_emoji, tagLabel: t.tag_label, rating: t.rating, location: t.location_text,
-        page: 'trip-page.html?trip=' + (t.page_slug || t.id)
-      };
-    });
+    TRIBE_TRIPS = tribeRows;
   }
 
   /* ── Now that all content is finalized, initialize animations/renderers exactly once ── */
