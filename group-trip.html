@@ -1588,6 +1588,13 @@ function stripOuterParagraph(html) {
   var m = html.match(/^<p>([\s\S]*)<\/p>\s*$/i);
   return m ? m[1] : html;
 }
+function groupTripFaqOrderKey(tripId) { return 'gt_faq_order_' + encodeURIComponent(tripId || ''); }
+function parseFaqOrder(value) {
+  try {
+    var ids = JSON.parse(value || '[]');
+    return Array.isArray(ids) ? ids.map(function(id){ return String(id); }) : [];
+  } catch(e) { return []; }
+}
 function setText(id, val) { if (!val) return; var el = document.getElementById(id); if (el) { el.innerHTML = val; applyElementTypography(el); } }
 function setAttr(id, attr, val) { if (!val) return; var el = document.getElementById(id); if (el) el.setAttribute(attr, val); }
 
@@ -1988,6 +1995,8 @@ function initGtSlider(){
   var track=document.getElementById('gtSliderTrack');
   var outer=document.getElementById('gtSlider');
   if(!track||!outer) return;
+  var originalCount=track.children.length;
+  if(!originalCount) return;
   track.innerHTML += track.innerHTML;
 
   var paused=false;
@@ -1997,11 +2006,17 @@ function initGtSlider(){
   outer.addEventListener('touchend',function(){paused=false});
 
   var pos=0;
+
+  function itemWidth(){
+    var firstImg=track.children[0];
+    return firstImg ? firstImg.getBoundingClientRect().width + 12 : 0;
+  }
+
   function step(){
-    if(!paused){
+    if(!paused&&originalCount>1){
       var imgs=track.children;
-      var firstImg=imgs[0];
-      var w=firstImg.getBoundingClientRect().width + 12;
+      var w=itemWidth();
+      if(!w) return;
       pos -= w;
       track.style.transition='transform 1s ease';
       track.style.transform='translateX('+pos+'px)';
@@ -2085,7 +2100,6 @@ function buildDayCard(d, idx) {
     '<div class="gt-day-head" onclick="toggleDay(\'' + dayId + '\')"><div class="gt-day-head-txt"><span class="gt-day-num">Day ' + (idx+1) + '</span>' + (d.title ? '<span>' + esc(d.title) + '</span>' : '') + '</div><span class="chev">▾</span></div>' +
     '<div class="gt-day-body"><div class="gt-day-inner">' +
       '<div class="gt-day-text">' +
-        '<h3 class="gt-day-h3" data-ts="gt_day_title">' + esc(d.title) + '</h3>' +
         '<p class="gt-day-p" data-ts="gt_day_desc">' + stripOuterParagraph(d.description || '') + '</p>' +
         '<div class="gt-day-tags">' + tagsHtml + '</div>' +
       '</div>' +
@@ -2321,7 +2335,19 @@ async function loadGroupTripFromSupabase() {
   /* ── CARD TYPOGRAPHY (uses the settings already fetched above) ── */
   applyCardTypography(settingsMap);
 
-  var faqRows = await sbGet('faqs', 'page_scope=eq.group-trip&order=sort_order.asc');
+  var tripFaqScope = trip && trip.id ? 'group-trip:' + trip.id : '';
+  var faqOrderKey = trip && trip.id ? groupTripFaqOrderKey(trip.id) : '';
+  var hasAssignedFaqOrder = faqOrderKey && Object.prototype.hasOwnProperty.call(settingsMap, faqOrderKey);
+  var faqRows = [];
+  if (hasAssignedFaqOrder) {
+    var assignedFaqIds = parseFaqOrder(settingsMap[faqOrderKey]);
+    var allFaqRows = await sbGet('faqs', 'order=sort_order.asc');
+    var faqById = {};
+    allFaqRows.forEach(function(f){ faqById[String(f.id)] = f; });
+    faqRows = assignedFaqIds.map(function(id){ return faqById[String(id)]; }).filter(Boolean);
+  } else {
+    faqRows = tripFaqScope ? await sbGet('faqs', 'page_scope=eq.' + encodeURIComponent(tripFaqScope) + '&order=sort_order.asc') : [];
+  }
   if (faqRows.length) {
     document.getElementById('gtFaqListEl').innerHTML = faqRows.map(gtBuildFaqItem).join('');
   }

@@ -62,6 +62,10 @@
       .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
   }
 
+  function normStyleName(s) {
+    return String(s || '').replace(/[–—]/g, '-').replace(/\s+/g, ' ').trim().toLowerCase();
+  }
+
   // -------------------------------------------------------------------
   // 1. LOAD + CACHE typography_styles (shared by both features above)
   // -------------------------------------------------------------------
@@ -207,8 +211,13 @@
 
   // Builds the toolbar + editable box markup for one rich-text field.
   // `id` must be unique within whatever modal/page it's rendered into.
-  function richTextField(label, id, value, hint) {
+  function richTextField(label, id, value, hint, opts) {
+    opts = opts || {};
     var toolbarId = 'toolbar-' + id;
+    var defaultAttrs = '';
+    if (opts.defaultWholeField) defaultAttrs += ' data-default-whole-field="1"';
+    if (opts.defaultDesktopName) defaultAttrs += ' data-default-desktop-name="' + escHtml(opts.defaultDesktopName) + '"';
+    if (opts.defaultMobileName) defaultAttrs += ' data-default-mobile-name="' + escHtml(opts.defaultMobileName) + '"';
     var toolbarHtml =
       '<div class="rt-toolbar-row">' +
         '<div id="' + toolbarId + '">' +
@@ -221,9 +230,9 @@
         '<select class="ts-active-select" id="tsselM-' + id + '" onchange="TypographyEngine.applyPen(\'' + id + '\',\'mobile\',this.value)"><option value="">\uD83D\uDCF1 Mobile\u2026</option></select>' +
       '</div>';
     return '<div class="fg full"><label>' + escHtml(label) + '</label>' + toolbarHtml +
-      '<div class="rich-editor" data-richid="' + id + '" style="background:white">' + (value || '') + '</div>' +
+      '<div class="rich-editor" data-richid="' + id + '"' + defaultAttrs + ' style="background:white">' + (value || '') + '</div>' +
       (hint ? '<div class="hint">' + hint + '</div>' : '') +
-      '<div class="hint">Highlight text, then use the Desktop/Mobile dropdowns above to tint just that selection — the change appears live, right in this box. You still need to click this field\u2019s Save button below to persist it.</div></div>';
+      '<div class="hint">' + (opts.defaultWholeField ? 'This field starts with its default style. Use the Desktop/Mobile dropdowns to change the whole field, or highlight text first to style only that selection.' : 'Highlight text, then use the Desktop/Mobile dropdowns above to tint just that selection — the change appears live, right in this box. You still need to click this field\u2019s Save button below to persist it.') + '</div></div>';
   }
 
   // Wires up every not-yet-initialized .rich-editor box currently in the
@@ -251,6 +260,7 @@
 
         fillDropdown('tsselD-' + id, STYLES_LIST.desktop);
         fillDropdown('tsselM-' + id, STYLES_LIST.mobile);
+        applyDefaultWholeFieldStyles(id, q, el);
       });
     });
   }
@@ -273,8 +283,8 @@
   // you applied.
   function reflectActiveStyle(id, range) {
     var fmt = range ? richEditors[id].getFormat(range.index, range.length) : {};
-    setDropdownState('tsselD-' + id, fmt.tsstyled, STYLES_BY_ID.desktop);
-    setDropdownState('tsselM-' + id, fmt.tsstylem, STYLES_BY_ID.mobile);
+    setDropdownState('tsselD-' + id, fmt.tsstyled || defaultStyleIdForEditor(id, 'desktop'), STYLES_BY_ID.desktop);
+    setDropdownState('tsselM-' + id, fmt.tsstylem || defaultStyleIdForEditor(id, 'mobile'), STYLES_BY_ID.mobile);
   }
 
   function setDropdownState(selectId, styleId, byId) {
@@ -289,6 +299,47 @@
     sel.style.fontWeight = valid ? '700' : '';
   }
 
+  function styleIdByName(scope, name) {
+    var needle = normStyleName(name);
+    if (!needle) return '';
+    var list = STYLES_LIST[scope] || [];
+    for (var i = 0; i < list.length; i++) {
+      if (normStyleName(list[i].name) === needle) return String(list[i].id);
+    }
+    return '';
+  }
+
+  function defaultStyleIdForEditor(id, scope) {
+    var el = document.querySelector('.rich-editor[data-richid="' + id + '"]');
+    if (!el || el.getAttribute('data-default-whole-field') !== '1') return '';
+    var name = scope === 'desktop' ? el.getAttribute('data-default-desktop-name') : el.getAttribute('data-default-mobile-name');
+    return styleIdByName(scope, name);
+  }
+
+  function editorHasAnyFormat(q, formatName) {
+    var ops = q.getContents().ops || [];
+    for (var i = 0; i < ops.length; i++) {
+      if (ops[i].attributes && ops[i].attributes[formatName]) return true;
+    }
+    return false;
+  }
+
+  function applyWholeFieldStyle(q, formatName, styleId, source) {
+    var len = Math.max(0, q.getLength() - 1);
+    if (len > 0) q.formatText(0, len, formatName, styleId || false, source || 'silent');
+    q.format(formatName, styleId || false, source || 'silent');
+  }
+
+  function applyDefaultWholeFieldStyles(id, q, el) {
+    if (!el || el.getAttribute('data-default-whole-field') !== '1') return;
+    var dId = defaultStyleIdForEditor(id, 'desktop');
+    var mId = defaultStyleIdForEditor(id, 'mobile');
+    if (dId && !editorHasAnyFormat(q, 'tsstyled')) applyWholeFieldStyle(q, 'tsstyled', dId, 'silent');
+    if (mId && !editorHasAnyFormat(q, 'tsstylem')) applyWholeFieldStyle(q, 'tsstylem', mId, 'silent');
+    setDropdownState('tsselD-' + id, dId, STYLES_BY_ID.desktop);
+    setDropdownState('tsselM-' + id, mId, STYLES_BY_ID.mobile);
+  }
+
   // Applies (or clears, if styleId is '') a pen style to the last
   // highlighted selection in editor `id`. Called by the Desktop/Mobile
   // <select> onchange handlers built in richTextField() above.
@@ -298,6 +349,15 @@
 
     var range = lastSelection[id];
     if (!range || range.length === 0) {
+      var defaultWholeField = document.querySelector('.rich-editor[data-richid="' + id + '"][data-default-whole-field="1"]');
+      if (defaultWholeField) {
+        var wholeFormatName = scope === 'desktop' ? 'tsstyled' : 'tsstylem';
+        applyWholeFieldStyle(q, wholeFormatName, styleId, 'user');
+        reflectActiveStyle(id, q.getSelection());
+        flashEditor(id);
+        notify('Style applied to the whole field. Click Save to keep it.', 'success');
+        return;
+      }
       reflectActiveStyle(id, q.getSelection());
       notify('Nothing is highlighted in that box — click-drag over some text first, then pick a style.', 'error');
       return;
@@ -328,6 +388,12 @@
 
   // Reads the current HTML out of an editor (what a Save button should send).
   function valueOf(id) {
+    if (richEditors[id]) {
+      var dId = defaultStyleIdForEditor(id, 'desktop');
+      var mId = defaultStyleIdForEditor(id, 'mobile');
+      if (dId && !editorHasAnyFormat(richEditors[id], 'tsstyled')) applyWholeFieldStyle(richEditors[id], 'tsstyled', dId, 'silent');
+      if (mId && !editorHasAnyFormat(richEditors[id], 'tsstylem')) applyWholeFieldStyle(richEditors[id], 'tsstylem', mId, 'silent');
+    }
     if (richEditors[id]) return richEditors[id].root.innerHTML;
     var el = document.querySelector('.rich-editor[data-richid="' + id + '"]');
     return el ? el.innerHTML : '';

@@ -185,6 +185,12 @@ tr:hover td{background:var(--cream)}
 .nrow-label{font-size:10px;color:var(--body);text-transform:uppercase;letter-spacing:1.5px;font-weight:600}
 .nrow input,.nrow textarea,.nrow select{padding:8px 12px;border:1px solid var(--border2);border-radius:6px;font-size:12.5px;width:100%;background:white;margin-bottom:6px}
 
+/* -- GROUP TRIP FAQ ASSIGNMENTS -- */
+.faq-trip-checks{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:8px;margin-top:6px}
+.faq-trip-check{display:flex;align-items:center;gap:8px;padding:10px 12px;border:1px solid var(--border);border-radius:8px;background:var(--cream);font-size:12.5px;color:var(--dark)}
+.faq-trip-check input{width:auto;margin:0;accent-color:var(--teal)}
+.faq-trip-check span{line-height:1.35}
+
 /* ── QUICK TOGGLE LIST (Featured Tribe Trips) ── */
 .qt-row{display:flex;align-items:center;gap:12px;padding:10px 14px;border-bottom:1px solid var(--border)}
 .qt-row:last-child{border-bottom:none}
@@ -257,6 +263,12 @@ var SB_URL = 'https://caigrloiymgfxubzprbg.supabase.co/rest/v1';
 var SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNhaWdybG9peW1nZnh1YnpwcmJnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODMzOTM1MjksImV4cCI6MjA5ODk2OTUyOX0.zA5Q1kAAk66fgX_Ertnrbb4TJmM5yPE71zy-alK-yqE';
 var STORAGE_URL = 'https://caigrloiymgfxubzprbg.supabase.co/storage/v1';
 var BUCKET = 'eureka-images';
+var GT_FAQ_SELECTED_TRIP = '';
+var GT_FAQ_TRIP_OPTIONS_HTML = '';
+var GT_FAQ_LIBRARY = [];
+var GT_FAQ_SELECTED_IDS = [];
+var GT_FAQ_TRIPS = [];
+var GT_FAQ_ORDER_BY_TRIP = {};
 
 // ── API HELPERS ───────────────────────────────────────────────
 async function sbFetch(table, params) {
@@ -458,6 +470,16 @@ function fileField(label, inputId, currentUrl) {
 function setLoading() { document.getElementById('mainContent').innerHTML = '<div class="loading"><div class="spinner"></div> Loading...</div>'; }
 function val(id) { var el = document.getElementById(id); return el ? el.value.trim() : ''; }
 function esc(str) { if (!str && str !== 0) return ''; return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function jsStr(str) { return String(str || '').replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/\r?\n/g,' '); }
+function groupTripFaqScope(tripId) { return tripId ? 'group-trip:' + tripId : 'group-trip'; }
+function groupTripFaqOrderKey(tripId) { return 'gt_faq_order_' + encodeURIComponent(tripId || ''); }
+function groupTripIdFromFaqScope(scope) { return String(scope || '').indexOf('group-trip:') === 0 ? String(scope).slice(11) : ''; }
+function isGroupTripFaqScope(scope) { return scope === 'group-trip' || String(scope || '').indexOf('group-trip:') === 0; }
+function stripOuterParagraph(html) {
+  html = String(html || '');
+  var m = html.match(/^<p>([\s\S]*)<\/p>\s*$/i);
+  return m ? m[1] : html;
+}
 function cleanSubscribeCopy(str) {
   if (!str) return str;
   var text = String(str)
@@ -611,7 +633,7 @@ var ASIA_HEADING_SNAPSHOT = { heading: '', eyebrow: '' }; // set by loadAsiaCard
 // worked correctly. These are thin compatibility wrappers so every
 // existing rta(...) / rval(...) / initRichEditors() call site below
 // keeps working unchanged.
-function rta(label, id, value, hint) { return TypographyEngine.richTextField(label, id, value, hint); }
+function rta(label, id, value, hint, opts) { return TypographyEngine.richTextField(label, id, value, hint, opts); }
 function rval(id) { return TypographyEngine.valueOf(id); }
 async function initRichEditors() { return TypographyEngine.initEditors(); }
 // ── SLUG HELPERS — auto-generate a clean, URL-safe ID from the Title as the admin types ──
@@ -838,7 +860,7 @@ var TAB_CONFIG = {
   'gt-datecard-settings': { crumb:'Group Trip Page', title:'Date Card Settings', add:false, load: function(){ renderSettingsGroup('gtdatecard'); } },
   'gt-typography': { crumb:'Group Trip Page', title:'Static Section Text', add:false, load: function(){ renderSettingsGroup('grouptriptext'); } },
   'gt-testimonials':  { crumb:'Group Trip Page', title:'Testimonials', add:true, load: function(){ loadReviews('group-trip'); }, addFn: function(){ openReviewModal(null,'group-trip'); } },
-  'gt-faqs':          { crumb:'Group Trip Page', title:'FAQs', add:true, load: function(){ loadFaqs('group-trip'); }, addFn: function(){ openFaqModal(null,'group-trip'); } },
+  'gt-faqs':          { crumb:'Group Trip Page', title:'FAQs', add:true, load: function(){ loadGroupTripFaqs(); }, addFn: function(){ openFaqModal(null, groupTripFaqScope(GT_FAQ_SELECTED_TRIP)); } },
 
   'dest-settings':    { crumb:'Destinations Page', title:'Destination Hero Settings', add:false, load: function(){ renderSettingsGroup('destinations'); } },
   'dest-herophotos':  { crumb:'Destinations Page', title:'Hero Photos', add:true, load: function(){ loadHeroPhotos('destinations'); }, addFn: function(){ openHeroPhotoModal(null,'destinations'); } },
@@ -3304,6 +3326,204 @@ async function saveTestimonial(id, scope) {
 /* =====================================================================
    FAQS (page-scoped: destinations, about, ...)
 ===================================================================== */
+async function loadGroupTripFaqs(selectedTripId) {
+  setLoading();
+  var results = await Promise.all([
+    sbFetch('group_trips', 'order=sort_order.asc'),
+    sbFetch('faqs', 'order=sort_order.asc'),
+    sbFetch('settings', 'key=like.gt_faq_order_*')
+  ]);
+  var trips = results[0];
+  var faqRows = results[1];
+  var settingRows = results[2];
+  if (!Array.isArray(trips)) trips = [];
+  if (!Array.isArray(faqRows)) faqRows = [];
+  if (!Array.isArray(settingRows)) settingRows = [];
+  GT_FAQ_TRIPS = trips;
+  GT_FAQ_ORDER_BY_TRIP = {};
+  settingRows.forEach(function(row) {
+    var tripId = String(row.key || '').replace(/^gt_faq_order_/, '');
+    try {
+      GT_FAQ_ORDER_BY_TRIP[decodeURIComponent(tripId)] = JSON.parse(row.value || '[]').map(function(id){ return String(id); });
+    } catch(e) {
+      GT_FAQ_ORDER_BY_TRIP[decodeURIComponent(tripId)] = [];
+    }
+  });
+  var currentTripId = arguments.length ? selectedTripId : (GT_FAQ_SELECTED_TRIP || (trips[0] ? trips[0].id : ''));
+  GT_FAQ_SELECTED_TRIP = currentTripId;
+  GT_FAQ_LIBRARY = faqRows.filter(function(f){ return isGroupTripFaqScope(f.page_scope); });
+  GT_FAQ_TRIP_OPTIONS_HTML = trips.map(function(t) {
+    return '<option value="' + esc(t.id) + '">' + esc(t.title || t.id) + ' (' + esc(t.id) + ')</option>';
+  }).join('');
+  var hasSavedOrder = currentTripId && Object.prototype.hasOwnProperty.call(GT_FAQ_ORDER_BY_TRIP, String(currentTripId));
+  var savedIds = [];
+  if (hasSavedOrder) {
+    savedIds = GT_FAQ_ORDER_BY_TRIP[String(currentTripId)] || [];
+  } else {
+    var tripScope = groupTripFaqScope(currentTripId);
+    savedIds = GT_FAQ_LIBRARY
+      .filter(function(f){ return f.page_scope === tripScope; })
+      .map(function(f){ return String(f.id); });
+  }
+  var seenFaqIds = {};
+  GT_FAQ_SELECTED_IDS = savedIds.map(function(id){ return String(id); }).filter(function(id){
+    if (seenFaqIds[id]) return false;
+    seenFaqIds[id] = true;
+    return GT_FAQ_LIBRARY.some(function(f){ return String(f.id) === id; });
+  });
+  if (currentTripId) GT_FAQ_ORDER_BY_TRIP[String(currentTripId)] = GT_FAQ_SELECTED_IDS.slice();
+
+  var tripOptions = trips.map(function(t) {
+    return '<option value="' + esc(t.id) + '"' + (String(t.id) === String(currentTripId) ? ' selected' : '') + '>' + esc(t.title || t.id) + ' (' + esc(t.id) + ')</option>';
+  }).join('');
+
+  var html = pageHint('Select a group trip, choose FAQs from the library, and arrange them in the exact order they should appear on that trip page. The same FAQ can be used on more than one trip. This stores the selected order in existing settings, so no database schema change is needed.') +
+    '<div class="card"><div class="card-body"><div class="form-grid">' +
+      '<div class="fg"><label>Group Trip</label><select id="gtFaqTripSelect" onchange="loadGroupTripFaqs(this.value)">' + tripOptions + '</select><div class="hint">The list below controls only this selected trip.</div></div>' +
+    '</div><div class="form-actions"><button class="btn-save" onclick="saveGroupTripFaqAssignments()">Save FAQ Order for This Trip</button><button class="btn-sm btn-edit" onclick="openFaqModal(null,\'group-trip\')">+ Add FAQ to Library</button></div></div></div>';
+
+  if (!trips.length) {
+    html += '<div class="card"><div class="card-body"><div class="empty"><div class="empty-icon">❓</div><div class="empty-text">Create a group trip first, then assign FAQs.</div></div></div></div>';
+  } else {
+    html += '<div class="card"><div class="card-body"><div class="card-title">FAQs on this trip</div><div id="gtFaqAssignedList"></div></div></div>' +
+      '<div class="card"><div class="card-body"><div class="card-title">FAQ Library</div><div class="hint" style="margin-bottom:12px">Use Add to include a FAQ on this trip. Editing the text updates that FAQ wherever it is assigned.</div><div id="gtFaqLibraryList"></div></div></div>';
+  }
+  document.getElementById('mainContent').innerHTML = html;
+  gtRenderFaqAssignmentLists();
+}
+
+function gtFaqById(id) {
+  return GT_FAQ_LIBRARY.find(function(f){ return String(f.id) === String(id); });
+}
+
+function gtFaqAssignedTripIds(faq) {
+  var faqId = faq && faq.id ? String(faq.id) : '';
+  if (!faqId) return GT_FAQ_SELECTED_TRIP ? [String(GT_FAQ_SELECTED_TRIP)] : [];
+  var assigned = [];
+  GT_FAQ_TRIPS.forEach(function(t) {
+    var tripId = String(t.id);
+    var order = (GT_FAQ_ORDER_BY_TRIP[tripId] || []).map(function(id){ return String(id); });
+    if (order.indexOf(faqId) !== -1 || (faq && faq.page_scope === groupTripFaqScope(tripId))) assigned.push(tripId);
+  });
+  return assigned;
+}
+
+function gtFaqAssignmentField(faq) {
+  if (!GT_FAQ_TRIPS.length) return '';
+  var assigned = {};
+  gtFaqAssignedTripIds(faq).forEach(function(id){ assigned[String(id)] = true; });
+  var items = GT_FAQ_TRIPS.map(function(t) {
+    var tripId = String(t.id);
+    return '<label class="faq-trip-check">' +
+      '<input type="checkbox" name="fq_assign_trip" value="' + esc(tripId) + '"' + (assigned[tripId] ? ' checked' : '') + '>' +
+      '<span>' + esc(t.title || tripId) + '</span>' +
+    '</label>';
+  }).join('');
+  return '<div class="fg full"><label>Assign to Group Trips</label>' +
+    '<div class="hint">Select every group trip page where this FAQ should appear. Use the Up/Down buttons on the selected trip screen to arrange that trip&apos;s order.</div>' +
+    '<div class="faq-trip-checks">' + items + '</div>' +
+  '</div>';
+}
+
+function gtRenderFaqMiniRow(f, actionsHtml) {
+  return '<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid var(--border)">' +
+    '<div><strong>' + stripOuterParagraph(f.question || '') + '</strong><div class="hint" style="margin-top:4px">Library ID: ' + esc(f.id) + '</div></div>' +
+    '<div style="display:flex;gap:6px;flex-shrink:0;flex-wrap:wrap;justify-content:flex-end">' + actionsHtml + '</div>' +
+  '</div>';
+}
+
+function gtSyncCurrentFaqOrder() {
+  if (GT_FAQ_SELECTED_TRIP) GT_FAQ_ORDER_BY_TRIP[String(GT_FAQ_SELECTED_TRIP)] = GT_FAQ_SELECTED_IDS.slice();
+}
+
+function gtRenderFaqAssignmentLists() {
+  var assigned = document.getElementById('gtFaqAssignedList');
+  var library = document.getElementById('gtFaqLibraryList');
+  if (!assigned || !library) return;
+  var selectedSet = {};
+  GT_FAQ_SELECTED_IDS.forEach(function(id){ selectedSet[String(id)] = true; });
+  var selectedRows = GT_FAQ_SELECTED_IDS.map(gtFaqById).filter(Boolean);
+  if (!selectedRows.length) {
+    assigned.innerHTML = '<div class="empty"><div class="empty-icon">❓</div><div class="empty-text">No FAQs selected for this trip yet.</div></div>';
+  } else {
+    assigned.innerHTML = selectedRows.map(function(f, i) {
+      return gtRenderFaqMiniRow(f,
+        '<button class="btn-sm btn-edit" onclick="gtMoveAssignedFaq(\'' + jsStr(f.id) + '\',-1)"' + (i===0?' disabled':'') + '>Up</button>' +
+        '<button class="btn-sm btn-edit" onclick="gtMoveAssignedFaq(\'' + jsStr(f.id) + '\',1)"' + (i===selectedRows.length-1?' disabled':'') + '>Down</button>' +
+        '<button class="btn-sm btn-edit" onclick="editFaq(\'' + jsStr(f.id) + '\',\'group-trip\')">Edit</button>' +
+        '<button class="btn-sm btn-del" onclick="gtRemoveAssignedFaq(\'' + jsStr(f.id) + '\')">Remove</button>'
+      );
+    }).join('');
+  }
+
+  var availableRows = GT_FAQ_LIBRARY.filter(function(f){ return !selectedSet[String(f.id)]; });
+  if (!availableRows.length) {
+    library.innerHTML = '<div class="empty"><div class="empty-icon">✅</div><div class="empty-text">Every library FAQ is already selected for this trip.</div></div>';
+  } else {
+    library.innerHTML = availableRows.map(function(f) {
+      return gtRenderFaqMiniRow(f,
+        '<button class="btn-sm btn-edit" onclick="gtAddAssignedFaq(\'' + jsStr(f.id) + '\')">Add</button>' +
+        '<button class="btn-sm btn-edit" onclick="editFaq(\'' + jsStr(f.id) + '\',\'group-trip\')">Edit</button>' +
+        '<button class="btn-sm btn-del" onclick="deleteItem(\'faqs\',\'' + jsStr(f.id) + '\',function(){loadGroupTripFaqs(\'' + jsStr(GT_FAQ_SELECTED_TRIP) + '\')})">Delete</button>'
+      );
+    }).join('');
+  }
+}
+
+function gtAddAssignedFaq(id) {
+  id = String(id);
+  if (GT_FAQ_SELECTED_IDS.indexOf(id) === -1) GT_FAQ_SELECTED_IDS.push(id);
+  gtSyncCurrentFaqOrder();
+  gtRenderFaqAssignmentLists();
+}
+
+function gtRemoveAssignedFaq(id) {
+  id = String(id);
+  GT_FAQ_SELECTED_IDS = GT_FAQ_SELECTED_IDS.filter(function(x){ return String(x) !== id; });
+  gtSyncCurrentFaqOrder();
+  gtRenderFaqAssignmentLists();
+}
+
+function gtMoveAssignedFaq(id, dir) {
+  id = String(id);
+  var from = GT_FAQ_SELECTED_IDS.indexOf(id);
+  var to = from + dir;
+  if (from < 0 || to < 0 || to >= GT_FAQ_SELECTED_IDS.length) return;
+  var tmp = GT_FAQ_SELECTED_IDS[from];
+  GT_FAQ_SELECTED_IDS[from] = GT_FAQ_SELECTED_IDS[to];
+  GT_FAQ_SELECTED_IDS[to] = tmp;
+  gtSyncCurrentFaqOrder();
+  gtRenderFaqAssignmentLists();
+}
+
+async function saveGroupTripFaqAssignments() {
+  if (!GT_FAQ_SELECTED_TRIP) { toast('Choose a group trip first', 'error'); return; }
+  try {
+    await sbUpsert('settings', { key: groupTripFaqOrderKey(GT_FAQ_SELECTED_TRIP), value: JSON.stringify(GT_FAQ_SELECTED_IDS) }, 'key');
+    GT_FAQ_ORDER_BY_TRIP[String(GT_FAQ_SELECTED_TRIP)] = GT_FAQ_SELECTED_IDS.slice();
+    toast('FAQ order saved!', 'success');
+  } catch(e) { toast('Error saving FAQ order', 'error'); }
+}
+
+async function saveFaqTripAssignments(faqId) {
+  faqId = String(faqId || '');
+  if (!faqId) return;
+  var selected = {};
+  document.querySelectorAll('input[name="fq_assign_trip"]:checked').forEach(function(el){ selected[String(el.value)] = true; });
+  var saves = GT_FAQ_TRIPS.map(function(t) {
+    var tripId = String(t.id);
+    var hadOrder = Object.prototype.hasOwnProperty.call(GT_FAQ_ORDER_BY_TRIP, tripId);
+    var order = (GT_FAQ_ORDER_BY_TRIP[tripId] || []).map(function(id){ return String(id); });
+    var hasFaq = order.indexOf(faqId) !== -1;
+    if (selected[tripId] && !hasFaq) order.push(faqId);
+    if (!selected[tripId] && hasFaq) order = order.filter(function(id){ return id !== faqId; });
+    GT_FAQ_ORDER_BY_TRIP[tripId] = order;
+    if (!hadOrder && !selected[tripId] && !hasFaq) return Promise.resolve();
+    return sbUpsert('settings', { key: groupTripFaqOrderKey(tripId), value: JSON.stringify(order) }, 'key');
+  });
+  await Promise.all(saves);
+}
+
 async function loadFaqs(scope) {
   setLoading();
   var rows = await sbFetch('faqs', 'page_scope=eq.' + scope + '&order=sort_order.asc');
@@ -3449,11 +3669,15 @@ async function editFaq(id, scope) {
   openFaqModal(rows[0], scope);
 }
 function openFaqModal(r, scope) {
+  var isGroupTripFaq = isGroupTripFaqScope(scope);
+  var questionStyleDefaults = isGroupTripFaq ? { defaultWholeField: true, defaultDesktopName: 'FAQ - Question', defaultMobileName: 'FAQ - Question' } : null;
+  var answerStyleDefaults = isGroupTripFaq ? { defaultWholeField: true, defaultDesktopName: 'FAQ - Answer', defaultMobileName: 'FAQ - Answer' } : null;
   var html = '<div class="form-grid">' +
-    fg('Sort Order', 'number', 'fq_sort', r?r.sort_order:0, '', '') +
+    (isGroupTripFaq ? '<input type="hidden" id="fq_sort" value="' + esc(r?r.sort_order:0) + '">' : fg('Sort Order', 'number', 'fq_sort', r?r.sort_order:0, '', '')) +
+    (isGroupTripFaq ? gtFaqAssignmentField(r) : '') +
     '</div>' +
-    rta('Question', 'fq_q', r?r.question:'') +
-    rta('Answer', 'fq_a', r?r.answer:'') +
+    rta('Question', 'fq_q', r?r.question:'', '', questionStyleDefaults) +
+    rta('Answer', 'fq_a', r?r.answer:'', '', answerStyleDefaults) +
     '<div class="form-actions">' +
       '<button class="btn-save" onclick="saveFaq(\'' + (r?r.id:'') + '\',\''+scope+'\')">Save FAQ</button>' +
       '<button class="btn-cancel" onclick="closeModal()">Cancel</button>' +
@@ -3462,10 +3686,15 @@ function openFaqModal(r, scope) {
   setTimeout(initRichEditors, 60);
 }
 async function saveFaq(id, scope) {
-  var data = { sort_order: Number(val('fq_sort'))||0, question: rval('fq_q'), answer: rval('fq_a'), page_scope: scope };
+  var saveScope = isGroupTripFaqScope(scope) ? 'group-trip' : scope;
+  var data = { sort_order: Number(val('fq_sort'))||0, question: rval('fq_q'), answer: rval('fq_a'), page_scope: saveScope };
   try {
-    if (id) await sbUpdate('faqs', id, data); else await sbInsert('faqs', data);
-    toast('FAQ saved!', 'success'); closeModal(); loadFaqs(scope);
+    var savedRows = id ? await sbUpdate('faqs', id, data) : await sbInsert('faqs', data);
+    var savedId = id || (Array.isArray(savedRows) && savedRows[0] ? savedRows[0].id : '');
+    if (isGroupTripFaqScope(saveScope)) await saveFaqTripAssignments(savedId);
+    toast('FAQ saved!', 'success'); closeModal();
+    if (isGroupTripFaqScope(saveScope)) loadGroupTripFaqs(GT_FAQ_SELECTED_TRIP);
+    else loadFaqs(saveScope);
   } catch(e) { toast('Error saving FAQ', 'error'); }
 }
 
