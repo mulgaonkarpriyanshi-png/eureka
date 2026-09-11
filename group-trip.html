@@ -1158,7 +1158,7 @@ img{display:block;max-width:100%}
     <div class="gt-gallery" id="gtGallery">
       <div class="gt-video-tile" onclick="gtOpenLightbox(0)">
         <video id="gtVideoEl" autoplay muted loop playsinline poster="">
-          <source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4" type="video/mp4">
+          <source src="" type="video/mp4">
         </video>
         <div class="gt-video-ov"></div>
         <div class="gt-reel-badge"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>Reel</div>
@@ -2183,8 +2183,22 @@ async function loadGroupTripFromSupabase() {
     setText('gtBtn2El', trip.btn2_text);
 
     /* ── GALLERY ── */
-    if (trip.gallery_video_url) { var v = document.getElementById('gtVideoEl'); if (v) v.querySelector('source').src = trip.gallery_video_url; }
-    setAttr('gtVideoEl', 'poster', trip.gallery_video_poster);
+    var v = document.getElementById('gtVideoEl');
+    if (v) {
+      var vSource = v.querySelector('source');
+      if (trip.gallery_video_poster) v.setAttribute('poster', trip.gallery_video_poster);
+      else v.removeAttribute('poster');
+
+      if (trip.gallery_video_url && vSource) {
+        vSource.setAttribute('src', trip.gallery_video_url);
+        v.load();
+        var playPromise = v.play();
+        if (playPromise && playPromise.catch) playPromise.catch(function(){});
+      } else {
+        if (vSource) vSource.removeAttribute('src');
+        v.load();
+      }
+    }
     setText('gtVideoCapEl', trip.gallery_video_caption);
     var gp = trip.gallery_photos || [];
     [1,2,3,4,5].forEach(function(n){ if (gp[n-1]) setAttr('gtPhoto'+n, 'src', gp[n-1]); });
