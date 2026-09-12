@@ -189,8 +189,8 @@ img{display:block;max-width:100%}
 ───────────────────────────────────────── */
 .tsta-sec{padding:4rem 0 5rem;background:#fff}
 .tsta-inner{max-width:1400px;margin:0 auto;padding:0 clamp(1.5rem,4vw,4rem)}
-.tsta-eyebrow{font-family:'Poppins',sans-serif;font-size:13px;font-weight:700;color:#02A9A2;letter-spacing:.4px;margin-bottom:var(--custom-title-byline-gap)}
-.tsta-h2{font-family:'IT ApfelGrotezk-Regular','Poppins',sans-serif;font-size:42px;font-weight:600;font-style:normal;letter-spacing:0.2px;color:#303535;margin-bottom:2rem}
+.tsta-eyebrow{font-family:'Poppins',sans-serif;font-size:14px;font-weight:700;color:#02A9A2;letter-spacing:.3px;line-height:1.2;margin-bottom:.6rem}
+.tsta-h2{font-family:'Apfel Grotezk','Poppins',sans-serif;font-size:42px;font-weight:700;font-style:normal;letter-spacing:-1px;color:#3A3B3B;line-height:1.15;margin:0 0 2rem}
 .tsta-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.75rem 1.5rem}
 .tsta-card{
   position:relative;border-radius:16px;overflow:hidden;height:230px;
@@ -203,8 +203,9 @@ img{display:block;max-width:100%}
 .tsta-label{
   position:absolute;left:10px;right:10px;bottom:10px;
   background:rgba(255,255,255,.95);border-radius:12px;
-  padding:14px 16px;text-align:center;
+  padding:9px 14px;text-align:center;
   font-family:'Proxima Nova Light','Poppins',sans-serif;font-size:23px;font-weight:600;font-style:normal;color:#000000;
+  line-height:1.08;
   box-shadow:0 2px 10px rgba(0,0,0,.1);
 }
 .tsta-dots{display:none}
@@ -441,13 +442,13 @@ img{display:block;max-width:100%}
 .group-banner-inner{max-width:1400px;margin:0 auto;padding:0 clamp(1.5rem,4vw,4rem)}
 .group-banner{
   position:relative;border-radius:24px;overflow:hidden;
-  height:280px;display:flex;align-items:center;
+  height:330px;display:flex;align-items:center;
 }
 .group-banner img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
 .group-banner-ov{position:absolute;inset:0;background:linear-gradient(to right,rgba(0,0,0,.6) 0%,rgba(0,0,0,.35) 42%,rgba(0,0,0,0) 68%)}
-.group-banner-content{position:relative;z-index:2;padding:0 clamp(1.5rem,3vw,3rem);max-width:min(900px,70vw)}
-.group-banner-h3{font-family:'Proxima Nova Light','Poppins',sans-serif;font-size:23px;font-weight:700;font-style:normal;color:#FFFFFF;line-height:1.3;margin-bottom:var(--custom-title-byline-gap);text-shadow:0 2px 10px rgba(0,0,0,.3);white-space:nowrap}
-.group-banner-p{font-family:'Proxima Nova Light','Poppins',sans-serif;font-size:18px;font-weight:500;line-height:1.2;letter-spacing:0.2px;color:#FFFFFF;margin-bottom:1.1rem;text-shadow:0 2px 8px rgba(0,0,0,.4);white-space:nowrap}
+.group-banner-content{position:relative;z-index:2;padding:0 clamp(1.5rem,3vw,3rem);max-width:min(760px,58vw)}
+.group-banner-h3{font-family:'Proxima Nova Light','Poppins',sans-serif;font-size:23px;font-weight:700;font-style:normal;color:#FFFFFF;line-height:1.3;margin-bottom:.65rem;text-shadow:0 2px 10px rgba(0,0,0,.3);white-space:nowrap}
+.group-banner-p{font-family:'Proxima Nova Light','Poppins',sans-serif;font-size:18px;font-weight:500;line-height:1.38;letter-spacing:0.2px;color:#FFFFFF;margin-bottom:1.35rem;text-shadow:0 2px 8px rgba(0,0,0,.4);white-space:normal;max-width:740px}
 .group-banner-btn{
   display:inline-block;background:#FFFFFF;color:#000000;fill:#000000;
   padding:15px 20px;border-radius:50px;font-family:'Proxima Nova Light','Poppins',sans-serif;font-weight:600;font-size:16px;line-height:1;
@@ -466,22 +467,25 @@ img{display:block;max-width:100%}
    HOW TO BUILD YOUR ADVENTURE
 ───────────────────────────────────────── */
 .htb-sec{background:#fff;padding:clamp(2.5rem,5vw,4rem) clamp(1.25rem,4vw,3rem);text-align:center}
-.htb-sec .sec-h{font-family:'Poppins',sans-serif;font-size:42px;font-weight:600;color:#3A3B3B;letter-spacing:-1px;line-height:1.15;margin-bottom:clamp(2rem,4vw,3rem)}
-.choose-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;max-width:1200px;margin:0 auto}
-.ch{display:flex;flex-direction:column;align-items:center;text-align:center;padding:0 1.75rem;border-left:1px solid var(--border);gap:0}
+.htb-sec .sec-h{font-family:'Poppins',sans-serif;font-size:42px;font-weight:600;color:#3A3B3B;letter-spacing:-1px;line-height:1.15;margin-bottom:.35rem}
+.htb-byline{font-family:'Poppins',sans-serif;font-size:16px;line-height:1.5;letter-spacing:-0.2px;color:#000;margin:0 auto clamp(2rem,4vw,3rem);max-width:780px}
+.choose-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:0;max-width:1200px;margin:0 auto}
+.ch{display:flex;flex-direction:column;align-items:flex-start;text-align:left;padding:0 1.75rem;border-left:1px solid var(--border);gap:0}
 .ch:first-child{border-left:none}
-.ch-icon{width:44px;height:44px;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem}
+.ch-icon{width:44px;height:44px;display:flex;align-items:center;justify-content:center;margin:0 0 1rem}
 .ch-icon svg{width:44px;height:44px}
 .ch-icon svg [stroke]{stroke:#02A9A2}
 .ch-icon svg [fill="#FFA43B"]{fill:#02A9A2}
 .ch-step-lbl{font-family:'Poppins',sans-serif;font-size:12px;font-weight:600;color:#02A9A2;letter-spacing:1px;margin-bottom:.4rem}
-.ch-ttl{font-family:'Outfit','Poppins',sans-serif;font-size:20px;font-weight:500;color:#027A74;line-height:1.12;letter-spacing:normal;max-width:260px;margin:0 auto}
-.ch-desc{font-family:'Poppins',sans-serif;font-size:15px;color:#454A4A;line-height:1.5;letter-spacing:-0.2px;font-weight:400;max-width:280px;margin:.15rem auto 0}
-.ch-desc b{font-weight:700;color:#0a0a0a}
+.ch-ttl{font-family:'Outfit','Poppins',sans-serif;font-size:20px;font-weight:500;color:#000!important;line-height:1.12;letter-spacing:normal;max-width:260px;margin:0}
+.ch-desc{font-family:'Poppins',sans-serif;font-size:15px;color:#000!important;line-height:1.5;letter-spacing:-0.2px;font-weight:400;max-width:280px;margin:.15rem 0 0}
+.ch-ttl,.ch-ttl *,.ch-desc,.ch-desc *{color:#000!important}
+.ch-ttl p,.ch-desc p,.ch-desc div{margin:0!important;padding:0!important;line-height:inherit!important}
+.ch-desc b{font-weight:700;color:#000}
 @media(max-width:768px){
   .choose-grid{grid-template-columns:repeat(2,1fr);row-gap:2rem}
   .ch{padding:0 1.5rem}
-  .ch:nth-child(3){border-left:none}
+  .ch:nth-child(odd){border-left:none}
 }
 @media(max-width:480px){
   .choose-grid{grid-template-columns:1fr;row-gap:2rem}
@@ -531,6 +535,30 @@ img{display:block;max-width:100%}
   display:flex;align-items:center;justify-content:center;gap:8px;
 }
 .passport-form-card .pf-submit:hover{background:#e5904a;transform:translateY(-1px)}
+
+/* ─────────────────────────────────────────
+   EUREKA SELECT FAQ
+───────────────────────────────────────── */
+.ba-faq-sec{background:#fff;padding:clamp(2.75rem,5vw,4.5rem) clamp(1.25rem,4vw,3rem)}
+.ba-faq-inner{max-width:1400px;margin:0 auto}
+.ba-faq-row{display:grid;grid-template-columns:.85fr 1.15fr;gap:clamp(2.5rem,5vw,4rem);align-items:start}
+.ba-faq-copy h2{font-family:'Poppins',sans-serif;font-size:42px;font-weight:600;color:#3A3B3B;letter-spacing:-1px;line-height:1.15;margin:0 0 .9rem}
+.ba-faq-copy p{font-family:'Poppins',sans-serif;font-size:15px;color:#454A4A;line-height:1.5;letter-spacing:-0.1px;font-weight:400;max-width:420px;margin:0}
+.ba-faq-list{display:flex;flex-direction:column;gap:.9rem}
+.ba-faq-item{background:transparent}
+.ba-faq-q{background:#F1F9F9;border-radius:50px;display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:1.1rem 1.75rem;cursor:pointer;font-family:'Outfit','Poppins',sans-serif;font-size:15px;font-weight:600;color:var(--dark)}
+.ba-faq-icon{width:22px;height:22px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:18px;font-weight:400;color:var(--dark)}
+.ba-faq-a{max-height:0;overflow:hidden;transition:max-height .35s ease}
+.ba-faq-a-in{padding:.85rem 1.75rem 0;font-family:'Poppins',sans-serif;font-size:15px;color:#454A4A;line-height:1.55;letter-spacing:-0.2px;font-weight:400}
+.ba-faq-a-in a{color:#02A9A2;font-weight:700;text-decoration:none;border-bottom:1px solid rgba(2,169,162,.35)}
+.ba-faq-a-in a:hover{color:#027A74;border-bottom-color:#027A74}
+@media(max-width:768px){
+  .ba-faq-row{grid-template-columns:1fr;gap:1.75rem}
+  .ba-faq-copy h2{font-size:32px;line-height:35px}
+  .ba-faq-copy p{font-size:15px;line-height:23px}
+  .ba-faq-q{font-size:18px;line-height:23px;border-radius:28px}
+  .ba-faq-a-in{font-size:15px;line-height:23px}
+}
 
 /* Booking form popup — appears 60 minutes after the page loads */
 .booking-popup-overlay{
@@ -896,6 +924,7 @@ img{display:block;max-width:100%}
 <!-- HOW TO BUILD YOUR ADVENTURE -->
 <section class="htb-sec">
   <h2 class="sec-h" style="font-style:normal" id="htbHeadingEl" data-ts="ba_htb_heading"></h2>
+  <p class="htb-byline" id="htbBylineEl" data-ts="ba_htb_byline">Tell us what you have in mind, and we'll shape the route, stays and experiences around you.</p>
   <div class="choose-grid">
     <div class="ch">
       <div class="ch-icon" id="htbIcon1"><svg viewBox="0 0 80 80" fill="none" stroke="#FFA43B" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="40" cy="20" r="10"/><path d="M20 60c0-11.046 8.954-20 20-20s20 8.954 20 20"/><circle cx="20" cy="24" r="8"/><path d="M4 60c0-8.837 7.163-16 16-16"/><circle cx="60" cy="24" r="8"/><path d="M76 60c0-8.837-7.163-16-16-16"/></svg></div>
@@ -931,6 +960,12 @@ img{display:block;max-width:100%}
       <div class="ch-ttl" id="htbTtl4" data-ts="ba_step4_title"></div>
       <div class="ch-desc" id="htbDesc4" data-ts="ba_step4_desc"></div>
     </div>
+    <div class="ch">
+      <div class="ch-icon" id="htbIcon5"><svg viewBox="0 0 80 80" fill="none" stroke="#FFA43B" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 18h40a8 8 0 0 1 8 8v26a8 8 0 0 1-8 8H20a8 8 0 0 1-8-8V26a8 8 0 0 1 8-8z"/><path d="M26 18v-6h28v6"/><path d="M24 38h32"/><path d="M24 48h22"/><path d="M56 44l6 6 10-12"/></svg></div>
+      <div class="ch-step-lbl">STEP 5</div>
+      <div class="ch-ttl" id="htbTtl5" data-ts="ba_step5_title">Travel Your Way</div>
+      <div class="ch-desc" id="htbDesc5" data-ts="ba_step5_desc">We handle the details while you enjoy a trip shaped around your pace, people and style.</div>
+    </div>
   </div>
 </section>
 
@@ -942,14 +977,17 @@ img{display:block;max-width:100%}
         <h2 class="passport-h2" id="passportHeadingEl" data-ts="ba_passport_heading"></h2>
         <form onsubmit="event.preventDefault();alert('Thanks! We will get back to you shortly.')">
           <div class="pf-row2">
-            <input class="pf-field" id="baFormName" type="text" placeholder="Full Name*" required>
-            <input class="pf-field" id="baFormEmail" type="email" placeholder="Email*" required>
+            <input class="pf-field" id="baFormName" type="text" placeholder="*Your Name" required>
+            <input class="pf-field" id="baFormEmail" type="email" placeholder="*Your Email" required>
           </div>
           <div class="pf-row2">
-            <input class="pf-field" id="baFormPhone" type="tel" placeholder="Phone*" required>
-            <input class="pf-field" id="baFormDest" type="text" placeholder="Where would you like to go?">
+            <input class="pf-field" id="baFormPhone" type="tel" placeholder="*Contact" required>
+            <input class="pf-field" id="baFormMsgInline" type="text" placeholder="Message">
           </div>
-          <textarea class="pf-field" id="baFormMsg" rows="2" placeholder="Message" style="resize:vertical"></textarea>
+          <div class="pf-row2">
+            <input class="pf-field" id="baFormDest" type="text" placeholder="Where would you like to go">
+            <input class="pf-field" id="baFormDates" type="text" placeholder="Dates chart" aria-label="Dates chart" title="Dates chart" onfocus="this.type='date'; if(this.showPicker)this.showPicker()" onblur="if(!this.value)this.type='text'">
+          </div>
           <button type="submit" class="pf-submit" id="baFormBtn" data-ts="ba_form_btn_text"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
         </form>
       </div>
@@ -987,6 +1025,52 @@ img{display:block;max-width:100%}
   </div>
 </section>
 
+<!-- EUREKA SELECT FAQ -->
+<section class="ba-faq-sec" id="select-faqs">
+  <div class="ba-faq-inner">
+    <div class="ba-faq-row">
+      <div class="ba-faq-copy">
+        <h2 id="baFaqHeading" data-ts="ba_faq_heading">Frequently asked questions</h2>
+        <p id="baFaqIntro" data-ts="ba_faq_intro">Everything you may want to know before we build your Eureka Select journey.</p>
+      </div>
+      <div class="ba-faq-list">
+        <div class="ba-faq-item open">
+          <div class="ba-faq-q" onclick="toggleBaFaq(this)"><span id="baFaqQ1" data-ts="ba_faq1_q">How personalised is a Eureka Select?</span><span class="ba-faq-icon">-</span></div>
+          <div class="ba-faq-a" style="max-height:600px"><div class="ba-faq-a-in" id="baFaqA1" data-ts="ba_faq1_a">We start with your dates, budget, travel style and who you're travelling with - not a ready-made package. From the route and stays to experiences and pace, we build the tour around what works for you. Have saved reels, a hotel you love or a restaurant you absolutely want to try? Send them our way.</div></div>
+        </div>
+        <div class="ba-faq-item">
+          <div class="ba-faq-q" onclick="toggleBaFaq(this)"><span id="baFaqQ2" data-ts="ba_faq2_q">What do we take care of?</span><span class="ba-faq-icon">+</span></div>
+          <div class="ba-faq-a"><div class="ba-faq-a-in" id="baFaqA2" data-ts="ba_faq2_a">Almost everything. We can arrange stays, transfers, experiences, sightseeing and local guides, along with pre-departure and on-ground support. What's included will always be clearly mentioned in your final proposal, so you know exactly what's sorted before you go.</div></div>
+        </div>
+        <div class="ba-faq-item">
+          <div class="ba-faq-q" onclick="toggleBaFaq(this)"><span id="baFaqQ3" data-ts="ba_faq3_q">Flights, visa &amp; travel insurance?</span><span class="ba-faq-icon">+</span></div>
+          <div class="ba-faq-a"><div class="ba-faq-a-in" id="baFaqA3" data-ts="ba_faq3_a">Yes. We can help you find and book the right flights, or you're welcome to book them yourself. We'll also guide you through the visa, entry requirements and assist with the visa process where needed.</div></div>
+        </div>
+        <div class="ba-faq-item">
+          <div class="ba-faq-q" onclick="toggleBaFaq(this)"><span id="baFaqQ4" data-ts="ba_faq4_q">Can you plan honeymoons, families and bigger groups?</span><span class="ba-faq-icon">+</span></div>
+          <div class="ba-faq-a"><div class="ba-faq-a-in" id="baFaqA4" data-ts="ba_faq4_a">Absolutely. We plan tours for couples, honeymoons, families, friends, celebrations and private groups - because a honeymoon for two and a holiday for twenty definitely shouldn't look the same. Travelling with a bigger group? We can arrange group-friendly stays, transport and experiences, with special group rates where available.<br><br><a href="destination-guide.html">See how we've done it before &rarr;</a></div></div>
+        </div>
+        <div class="ba-faq-item">
+          <div class="ba-faq-q" onclick="toggleBaFaq(this)"><span id="baFaqQ5" data-ts="ba_faq5_q">Can you arrange something special during the tour?</span><span class="ba-faq-icon">+</span></div>
+          <div class="ba-faq-a"><div class="ba-faq-a-in" id="baFaqA5" data-ts="ba_faq5_a">Absolutely. Birthdays, anniversaries, proposals, private dinners, surprises or that place you've had saved on Instagram for six months - tell us what you have in mind. If we can make it happen, we'll find a way to work it in.<br><br><a href="destination-guide.html">See what we've created before &rarr;</a></div></div>
+        </div>
+        <div class="ba-faq-item">
+          <div class="ba-faq-q" onclick="toggleBaFaq(this)"><span id="baFaqQ6" data-ts="ba_faq6_q">Can I pay in instalments or EMI?</span><span class="ba-faq-icon">+</span></div>
+          <div class="ba-faq-a"><div class="ba-faq-a-in" id="baFaqA6" data-ts="ba_faq6_a">Yes. You don't always have to pay for the entire tour at once. Flexible payment options and EMI may be available, depending on your tour and booking value. We'll share the available options before you confirm.</div></div>
+        </div>
+        <div class="ba-faq-item">
+          <div class="ba-faq-q" onclick="toggleBaFaq(this)"><span id="baFaqQ7" data-ts="ba_faq7_q">What happens once I confirm my tour?</span><span class="ba-faq-icon">+</span></div>
+          <div class="ba-faq-a"><div class="ba-faq-a-in" id="baFaqA7" data-ts="ba_faq7_a">Once you're happy with the itinerary, we'll take care of the bookings, confirmations and coordination. You'll receive your travel details and vouchers before departure, while we keep track of everything behind the scenes. You pack. We'll handle the rest.</div></div>
+        </div>
+        <div class="ba-faq-item">
+          <div class="ba-faq-q" onclick="toggleBaFaq(this)"><span id="baFaqQ8" data-ts="ba_faq8_q">What if I need help while I'm travelling?</span><span class="ba-faq-icon">+</span></div>
+          <div class="ba-faq-a"><div class="ba-faq-a-in" id="baFaqA8" data-ts="ba_faq8_a">You won't be left figuring things out alone. Our team and on-ground partners stay connected throughout your tour to help with your arrangements and step in if something needs attention.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- FOOTER -->
 <!-- BOOKING FORM POPUP — appears automatically 60 minutes after the page loads -->
 <div class="booking-popup-overlay" id="bookingPopupOverlay" onclick="if(event.target===this)closeBookingPopup()">
@@ -998,14 +1082,17 @@ img{display:block;max-width:100%}
     <p class="booking-popup-sub">Leave your details and we'll help you build the perfect adventure.</p>
     <form onsubmit="return submitBookingPopup(event)">
       <div class="pf-row2">
-        <input class="pf-field" id="bpName" type="text" placeholder="Full Name*" required>
-        <input class="pf-field" id="bpEmail" type="email" placeholder="Email*" required>
+        <input class="pf-field" id="bpName" type="text" placeholder="*Your Name" required>
+        <input class="pf-field" id="bpEmail" type="email" placeholder="*Your Email" required>
       </div>
       <div class="pf-row2">
-        <input class="pf-field" id="bpPhone" type="tel" placeholder="Phone*" required>
-        <input class="pf-field" id="bpDest" type="text" placeholder="Where would you like to go?">
+        <input class="pf-field" id="bpPhone" type="tel" placeholder="*Contact" required>
+        <input class="pf-field" id="bpMsg" type="text" placeholder="Message">
       </div>
-      <textarea class="pf-field" id="bpMsg" rows="2" placeholder="Message" style="resize:vertical"></textarea>
+      <div class="pf-row2">
+        <input class="pf-field" id="bpDest" type="text" placeholder="Where would you like to go">
+        <input class="pf-field" id="bpDates" type="text" placeholder="Dates chart" aria-label="Dates chart" title="Dates chart" onfocus="this.type='date'; if(this.showPicker)this.showPicker()" onblur="if(!this.value)this.type='text'">
+      </div>
       <button type="submit" class="pf-submit">Send Message</button>
     </form>
   </div>
@@ -1142,6 +1229,22 @@ function toggleFooterCol(el) {
   var links = el.nextElementSibling;
   if (links) links.classList.toggle('open');
 }
+function toggleBaFaq(q) {
+  var item = q.parentElement;
+  var ans = item.querySelector('.ba-faq-a');
+  var icon = q.querySelector('.ba-faq-icon');
+  var wasOpen = item.classList.contains('open');
+  document.querySelectorAll('.ba-faq-item.open').forEach(function(it) {
+    it.classList.remove('open');
+    it.querySelector('.ba-faq-a').style.maxHeight = null;
+    it.querySelector('.ba-faq-icon').textContent = '+';
+  });
+  if (!wasOpen) {
+    item.classList.add('open');
+    ans.style.maxHeight = ans.scrollHeight + 'px';
+    icon.textContent = '-';
+  }
+}
 function isMobileViewport() { return TypographyEngine.isMobileViewport(); }
 function applyElementTypography(el) {
   TypographyEngine.setCurrentSettings(CURRENT_SETTINGS);
@@ -1197,6 +1300,15 @@ function setAdminPlaceholder(id, key, settings) {
   if (settings && settings[key]) setAttr(id, 'placeholder', settings[key]);
   applyPlaceholderTypography(id, key);
 }
+function setFormPlaceholder(id, key, settings, fallback, legacyValues) {
+  var el = document.getElementById(id);
+  if (!el) return;
+  var saved = settings && settings[key] ? String(settings[key]).trim() : '';
+  var legacy = (legacyValues || []).map(function(v) { return String(v).trim().toLowerCase(); });
+  var useSaved = saved && legacy.indexOf(saved.toLowerCase()) === -1;
+  el.setAttribute('placeholder', useSaved ? saved : fallback);
+  applyPlaceholderTypography(id, key);
+}
 function ensurePassportButtonArrow() {
   var btn = document.getElementById('baFormBtn');
   if (!btn || btn.querySelector('svg')) return;
@@ -1250,9 +1362,10 @@ function submitBookingPopup(e){
   var email = document.getElementById('bpEmail').value.trim();
   var phone = document.getElementById('bpPhone').value.trim();
   var dest = document.getElementById('bpDest').value.trim();
+  var dates = document.getElementById('bpDates').value.trim();
   var msg = document.getElementById('bpMsg').value.trim();
   var waMsg = 'Hi EUREKA Trips! I want to plan a trip.\nName: ' + name + '\nEmail: ' + email + '\nPhone: ' + phone +
-    (dest ? '\nDestination: ' + dest : '') + (msg ? '\nMessage: ' + msg : '');
+    (dest ? '\nDestination: ' + dest : '') + (dates ? '\nDates: ' + dates : '') + (msg ? '\nMessage: ' + msg : '');
   openWA(waMsg);
   closeBookingPopup();
   return false;
@@ -1542,20 +1655,38 @@ async function applyBuildAdventureContent() {
 
   /* ── HOW TO BUILD YOUR ADVENTURE ── */
   setText('htbHeadingEl', s.ba_htb_heading);
-  [1,2,3,4].forEach(function(n) {
+  setText('htbBylineEl', s.ba_htb_byline);
+  [1,2,3,4,5].forEach(function(n) {
     var icon = s['ba_step'+n+'_icon'], title = s['ba_step'+n+'_title'], desc = s['ba_step'+n+'_desc'];
     if (icon) { var iconEl = document.getElementById('htbIcon'+n); if (iconEl) iconEl.innerHTML = '<img src="'+esc(icon)+'" alt="" style="width:44px;height:44px;object-fit:contain" loading="lazy" decoding="async">'; }
     setText('htbTtl'+n, title);
     setText('htbDesc'+n, desc);
   });
 
+  /* ── EUREKA SELECT FAQ ── */
+  setText('baFaqHeading', s.ba_faq_heading);
+  setText('baFaqIntro', s.ba_faq_intro);
+  [1,2,3,4,5,6,7,8].forEach(function(n) {
+    setText('baFaqQ' + n, s['ba_faq' + n + '_q']);
+    setText('baFaqA' + n, s['ba_faq' + n + '_a']);
+  });
+  var openBaFaq = document.querySelector('.ba-faq-item.open .ba-faq-a');
+  if (openBaFaq) openBaFaq.style.maxHeight = openBaFaq.scrollHeight + 'px';
+
   /* ── YOUR PASSPORT TO GOOD STUFF ── */
   setText('passportHeadingEl', s.ba_passport_heading);
-  setAdminPlaceholder('baFormName', 'ba_form_name_placeholder', s);
-  setAdminPlaceholder('baFormEmail', 'ba_form_email_placeholder', s);
-  setAdminPlaceholder('baFormPhone', 'ba_form_phone_placeholder', s);
-  setAdminPlaceholder('baFormDest', 'ba_form_dest_placeholder', s);
-  setAdminPlaceholder('baFormMsg', 'ba_form_msg_placeholder', s);
+  setFormPlaceholder('baFormName', 'ba_form_name_placeholder', s, '*Your Name', ['Full Name*', 'Your name', 'Your Name']);
+  setFormPlaceholder('baFormEmail', 'ba_form_email_placeholder', s, '*Your Email', ['Email*', 'Your email', 'Your Email']);
+  setFormPlaceholder('baFormPhone', 'ba_form_phone_placeholder', s, '*Contact', ['Phone*', '+91 00000-00000', 'Contact']);
+  setFormPlaceholder('baFormMsgInline', 'ba_form_msg_placeholder', s, 'Message', ['Msg', 'We love a good yap.. or just say Hi!', 'We love a good yap... or just say Hi!']);
+  setFormPlaceholder('baFormDest', 'ba_form_dest_placeholder', s, 'Where would you like to go', ['Where would you like to go?']);
+  setFormPlaceholder('baFormDates', 'ba_form_dates_placeholder', s, 'Dates chart', []);
+  setFormPlaceholder('bpName', 'ba_form_name_placeholder', s, '*Your Name', ['Full Name*', 'Your name', 'Your Name']);
+  setFormPlaceholder('bpEmail', 'ba_form_email_placeholder', s, '*Your Email', ['Email*', 'Your email', 'Your Email']);
+  setFormPlaceholder('bpPhone', 'ba_form_phone_placeholder', s, '*Contact', ['Phone*', '+91 00000-00000', 'Contact']);
+  setFormPlaceholder('bpMsg', 'ba_form_msg_placeholder', s, 'Message', ['Msg', 'We love a good yap.. or just say Hi!', 'We love a good yap... or just say Hi!']);
+  setFormPlaceholder('bpDest', 'ba_form_dest_placeholder', s, 'Where would you like to go', ['Where would you like to go?']);
+  setFormPlaceholder('bpDates', 'ba_form_dates_placeholder', s, 'Dates chart', []);
   setText('baFormBtn', s.ba_form_btn_text);
   ensurePassportButtonArrow();
   var passportRows = await sbGet('passport_photos', 'active=eq.true&order=sort_order.asc');

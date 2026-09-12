@@ -380,7 +380,8 @@ img{display:block;max-width:100%}
 .gt-panel.active{display:block}
 .gt-panel-heading{font-family:'Poppins',sans-serif;font-size:26px;font-weight:500;color:#3A3B3B;letter-spacing:-1px;line-height:1.15;margin-bottom:.85rem}
 .gt-map-card{border-radius:14px;overflow:hidden;box-shadow:0 4px 16px rgba(0,0,0,.1);margin-bottom:1.25rem}
-.gt-map-hdr{background:var(--teal);color:#fff;font-family:'Poppins',sans-serif;font-size:13px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:.85rem 1.25rem}
+.gt-map-hdr{background:var(--teal);color:#fff;font-family:'Poppins',sans-serif;font-size:13px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:.85rem 1.25rem;display:flex;align-items:center;justify-content:space-between;gap:1rem}
+.gt-map-minus{font-size:18px;font-weight:400;line-height:1;opacity:.85}
 .gt-map-card img{width:100%;height:auto;max-height:480px;object-fit:cover;display:block}
 .gt-detail-card{background:#fff;border-radius:16px;padding:clamp(1rem,2vw,1.4rem);border:2px solid #d1d5db;box-shadow:none}
 .gt-detail-card #gtDetailP2El:empty,.gt-detail-card #gtDetailP2El:has(> p:only-child > br:only-child){display:none}
@@ -460,6 +461,7 @@ img{display:block;max-width:100%}
    ITINERARY — day accordion
 ───────────────────────────────────────── */
 .gt-itin-sec{background:transparent}
+.gt-itin-map{margin-bottom:2rem}
 .gt-itin-title{font-family:'Poppins',sans-serif;font-size:42px;font-weight:600;color:#3A3B3B;letter-spacing:-1px;line-height:1.15;margin-bottom:.6rem;position:relative;display:inline-block;padding-bottom:.5rem}
 .gt-itin-title::after{content:'';position:absolute;left:0;bottom:0;width:64px;height:3px;background:var(--teal);border-radius:2px}
 .gt-itin-sub{font-family:'Poppins',sans-serif;font-size:15px;color:#3A3B3B;letter-spacing:-0.2px;margin-bottom:1.75rem;line-height:1.5;margin-top:.75rem}
@@ -1203,7 +1205,6 @@ img{display:block;max-width:100%}
         <button class="gt-tab" data-panel="inclusions" onclick="gtSelectTab(this)">Inclusions</button>
         <button class="gt-tab" data-panel="accommodation" onclick="gtSelectTab(this)">Accommodation</button>
         <button class="gt-tab" data-panel="exclusions" onclick="gtSelectTab(this)">Exclusions</button>
-        <button class="gt-tab" data-panel="map" onclick="gtSelectTab(this)">Map</button>
         <button class="gt-tab active" data-panel="itinerary" onclick="gtSelectTab(this)">Itinerary</button>
       </div>
       <button class="gt-tabs-scroll-arrow" id="gtTabsScrollArrow" onclick="gtScrollTabs()" aria-label="See more tabs"><svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></button>
@@ -1250,19 +1251,16 @@ img{display:block;max-width:100%}
         <div class="gt-inc-grid" id="gtExclusionsListEl"></div>
       </div>
 
-      <!-- MAP PANEL -->
-      <div class="gt-panel" id="gt-panel-map" data-panel="map">
-        <h3 class="gt-panel-heading" id="gtPanelMap" data-ts="gt_panel_label_map"></h3>
-        <div class="gt-map-card">
-          <div class="gt-map-hdr">Where We Go</div>
-          <img id="gtMapImageEl" src="" alt="Trip route map" loading="lazy" decoding="async">
-        </div>
-        <p class="gt-detail-p" id="gtMapNoteEl" data-ts="gt_map_note"></p>
-      </div>
-
       <!-- ITINERARY PANEL -->
       <div class="gt-panel active" id="gt-panel-itinerary" data-panel="itinerary">
         <div class="gt-itin-sec">
+          <div class="gt-itin-map">
+            <div class="gt-map-card">
+              <div class="gt-map-hdr"><span>Where We Go</span><span class="gt-map-minus">-</span></div>
+              <img id="gtMapImageEl" src="" alt="Trip route map" loading="lazy" decoding="async">
+            </div>
+            <p class="gt-detail-p" id="gtMapNoteEl" data-ts="gt_map_note"></p>
+          </div>
           <h2 class="gt-itin-title" id="gtItinTitleEl" data-ts="gt_itin_title"></h2>
           <p class="gt-itin-sub" id="gtItinSubEl" data-ts="gt_itin_sub"></p>
 
