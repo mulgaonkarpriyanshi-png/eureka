@@ -14,7 +14,7 @@
 <style>
   @import url('https://fonts.cdnfonts.com/css/apfel-grotesk');
   @import url('https://fonts.cdnfonts.com/css/proxima-nova-2');
-  @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&display=swap');
   @font-face{font-family:'Apfel Grotesk';font-weight:400;font-style:normal;font-display:swap}
   @font-face{font-family:'Apfel Grotesk';font-weight:500;font-style:normal;font-display:swap}
 /* ── MOBILE FOOTER ACCORDION — Company & Explore collapse to tap-to-expand ──
@@ -300,21 +300,39 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
 .wv-head{display:flex;align-items:center;justify-content:flex-start;gap:.6rem;margin-bottom:1rem}
 .wv-head svg{width:24px;height:24px;stroke:#fff;fill:none;stroke-width:1.6;flex-shrink:0}
 .wv-ttl{font-family:'Outfit','Poppins',sans-serif;font-size:26px;font-weight:600;color:#fff;letter-spacing:normal}
-.wv-desc{font-family:'Poppins',sans-serif;font-size:15px;line-height:1.5;letter-spacing:-0.2px;color:#FFFFFF;font-weight:400;max-width:260px}
+.wv-desc{font-family:'Poppins',sans-serif;font-size:15px;line-height:1.5;letter-spacing:-0.2px;color:#FFFFFF;font-weight:400;width:100%;max-width:none}
 
 /* ─────────────────────────────────────────
    OUR STORY
 ───────────────────────────────────────── */
-.ab-story{background:#E8F8F8;padding:clamp(1.5rem,3vw,2.5rem) clamp(1.25rem,4vw,3rem)}
-.story-grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:clamp(1.5rem,3.5vw,3rem);align-items:center}
-.story-img{border-radius:var(--r3);overflow:hidden;aspect-ratio:5/4.5;box-shadow:var(--sh2)}
+.ab-story{background:#fff;padding:clamp(2rem,4vw,3.75rem) clamp(1.25rem,4vw,3rem)}
+.story-grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(360px,.9fr);grid-template-areas:"text image";gap:clamp(2rem,4vw,4rem);align-items:stretch;max-width:1280px;margin:0 auto;padding:clamp(1.75rem,3vw,2.75rem);background:#E8F8F8;border:1.5px solid rgba(2,122,116,.42);border-radius:22px;box-shadow:0 20px 55px rgba(2,122,116,.12)}
+.story-img{grid-area:image;border-radius:18px;overflow:hidden;aspect-ratio:1/1;box-shadow:none;align-self:center}
 .story-img img{width:100%;height:100%;object-fit:cover}
-.story-txt h2{margin-bottom:.5rem}
-.story-h-line1{display:block;font-family:'Proxima Nova','Poppins',sans-serif;font-size:28px;font-weight:700;font-style:normal;color:#3A3B3B;line-height:2}
-.story-h-line2{display:block;font-family:'Holiday','Caveat',cursive;font-size:47.3px;font-weight:400;color:#00897B;line-height:1.1}
-.story-txt p{text-align:start;font-family:'Proxima Nova','Poppins',sans-serif;font-size:16px;color:#3A3B3B;line-height:1.5;letter-spacing:-0.2px;font-weight:400;margin-bottom:.6rem}
-#abStoryBody p:nth-child(1),#abStoryBody p:nth-child(2){font-family:'Proxima Nova','Poppins',sans-serif;font-size:11.5px;font-weight:700;line-height:1.4}
-.story-signature{font-family:'Holiday','Caveat',cursive;font-size:32.7px;color:#00897B;display:inline-block;transform:rotate(-6deg);margin-top:.45rem}
+.story-txt{grid-area:text;display:flex;flex-direction:column;justify-content:center;min-width:0}
+.story-txt h2{order:1;margin:0 0 1.25rem;font-family:'Poppins',sans-serif;font-size:clamp(30px,2.25vw,38px);font-weight:600;color:#3A3B3B;letter-spacing:-1px;line-height:1.15}
+.story-h-line1{display:block;font:inherit;color:inherit;letter-spacing:inherit;max-width:none;white-space:nowrap}
+.story-h-line2{display:block;font-family:'Holiday','Caveat',cursive;font-size:1.05em;font-weight:400;color:#00897B;line-height:1.05;margin-top:.45rem}
+.story-body-wrap{order:2;max-width:680px}
+.story-txt p{text-align:start;font-family:'Poppins',sans-serif!important;font-size:16px!important;color:#202B2B!important;line-height:1.55!important;letter-spacing:0!important;font-weight:400!important;margin-bottom:.85rem}
+.story-body-wrap > span,.story-body-wrap p{font-weight:400!important}
+.story-body-wrap strong,.story-body-wrap strong *{font-weight:700!important}
+.story-body-wrap em{font-style:italic!important}
+.story-care-card{order:3;display:grid;grid-template-columns:48px 1px 1fr;align-items:center;gap:.9rem;width:min(100%,640px);background:#FBF4E9;border:1.5px solid rgba(2,122,116,.46);border-radius:18px;padding:.82rem 1rem;margin-top:.45rem;color:#202B2B}
+.story-care-icon{width:48px;height:48px;border-radius:0;background:transparent;display:flex;align-items:center;justify-content:center;color:#F39F8C}
+.story-care-icon svg{width:31px;height:31px;stroke:currentColor;fill:none;stroke-width:1.65}
+.story-care-divider{width:1px;height:45px;background:rgba(21,25,26,.48)}
+.story-care-copy{font-family:'Poppins',sans-serif;font-size:16px;line-height:1.28;color:#202B2B}
+.story-care-copy strong{display:block;font-family:'Outfit','Poppins',sans-serif;font-size:26px;line-height:1.05;color:#15191A}
+.story-notes{order:5;display:flex;align-items:center;gap:1.35rem;margin-top:1.05rem;padding-top:0}
+.story-note{display:flex;gap:.65rem;align-items:flex-start}
+.story-note svg{width:26px;height:26px;flex-shrink:0;stroke:#15191A;fill:none;stroke-width:1.6}
+.story-note strong{display:block;font-family:'Outfit','Poppins',sans-serif;font-size:16px;line-height:1.15;color:#15191A}
+.story-note span{display:block;font-family:'Poppins',sans-serif;font-size:10px;line-height:1.35;color:#4B5757;margin-top:.25rem}
+.story-note + .story-note{border-left:1px solid rgba(21,25,26,.28);padding-left:1.35rem}
+.story-signature-wrap{order:4;width:min(100%,640px);display:flex;align-items:center;justify-content:center;position:relative;margin-top:.95rem;padding:.05rem 1rem .5rem}
+.story-signature-wrap::after{content:"";position:absolute;left:27%;right:27%;bottom:0;height:1px;background:rgba(21,25,26,.46)}
+.story-signature{font-family:'Caveat','Holiday',cursive!important;font-size:24px!important;font-weight:400!important;color:#15191A!important;display:block;line-height:.95!important;letter-spacing:0!important;text-align:center;white-space:nowrap;transform:rotate(-2deg)}
 
 /* ─────────────────────────────────────────
    FAQ ACCORDION
@@ -334,6 +352,8 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
 .faq-icon{width:22px;height:22px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:18px;font-weight:400;color:var(--dark)}
 .faq-a{max-height:0;overflow:hidden;transition:max-height .35s ease}
 .faq-a-in{padding:.85rem 1.75rem 0;font-family:'Poppins',sans-serif;font-size:15px;color:#454A4A;line-height:1.5;letter-spacing:-0.2px;font-weight:400}
+.faq-a-in a{color:#02A9A2;font-weight:700;text-decoration:none;border-bottom:1px solid rgba(2,169,162,.35)}
+.faq-a-in a:hover{color:#027A74;border-bottom-color:#027A74}
 .faq-more{text-align:center;margin-top:2rem}
 .faq-more a{display:inline-flex;align-items:center;gap:8px;color:var(--teal-d);font-weight:600;font-size:14px;border-bottom:1.5px solid var(--teal);padding-bottom:2px}
 
@@ -384,6 +404,7 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
   .ab-icon-grid,.why-grid{grid-template-columns:repeat(2,1fr)}
   .why-row{grid-template-columns:1fr}
   .faq-row{grid-template-columns:1fr}
+  .story-h-line1{white-space:normal}
   .gal-drag-wrap{height:clamp(320px,60vw,420px)}
   .footer-grid{grid-template-columns:1fr 1fr}
   .nav-pill,.nav-soc{display:none}
@@ -393,7 +414,30 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
 }
 @media(max-width:768px){
   .ma-grid{grid-template-columns:1fr}
-  .story-grid{grid-template-columns:1fr}
+  .ab-story{padding:clamp(2.25rem,9vw,4rem) clamp(1rem,4vw,1.5rem)}
+  .story-grid{grid-template-columns:1fr;grid-template-areas:"heading" "image" "body" "care" "notes" "signature";gap:0;max-width:650px;padding:clamp(1.25rem,5vw,2rem);border-radius:16px;box-shadow:none}
+  .story-txt{display:contents}
+  .story-txt h2{grid-area:heading;margin:0 0 1.15rem}
+  .story-h-line1{font-size:clamp(25px,6.35vw,34px);line-height:1.08;white-space:normal}
+  .story-h-line2{display:none}
+  .story-img{grid-area:image;aspect-ratio:1.42/1;margin-bottom:1.35rem;border-radius:14px;align-self:stretch}
+  .story-body-wrap{grid-area:body;max-width:none}
+  .story-txt p{font-size:15px;line-height:1.4;margin-bottom:.8rem}
+  .story-care-card{grid-area:care;grid-template-columns:42px 1px 1fr;gap:.65rem;width:100%;margin:.45rem 0 1.15rem;padding:.58rem .75rem;border-radius:14px}
+  .story-care-icon{width:42px;height:42px;border-radius:12px}
+  .story-care-icon svg{width:28px;height:28px}
+  .story-care-divider{height:44px}
+  .story-care-copy{font-size:14px;line-height:1.25}
+  .story-care-copy strong{font-size:23px}
+  .story-notes{grid-area:notes;display:flex!important;visibility:visible!important;opacity:1!important;flex-direction:column;align-items:flex-start;gap:1.05rem;margin-top:.35rem;padding-top:0;width:100%}
+  .story-note{gap:.75rem}
+  .story-note svg{width:30px;height:30px}
+  .story-note strong{font-size:17px}
+  .story-note span{font-size:9.5px;margin-top:.12rem}
+  .story-note + .story-note{border-left:none;padding-left:0}
+  .story-signature-wrap{grid-area:signature;width:100%;justify-content:flex-end;margin-top:.75rem;padding:.05rem clamp(.25rem,7vw,3.5rem) .4rem 1rem}
+  .story-signature-wrap::after{left:auto;right:clamp(.25rem,7vw,3.5rem);width:min(210px,46vw)}
+  .story-signature{white-space:nowrap;font-size:18px!important}
   .ab-hero-h1{font-size:clamp(30px,8vw,44px)}
   .ab-belief-row{grid-template-columns:1fr;gap:2.5rem}
   .wv-desc{width:100%;max-width:none}
@@ -748,11 +792,30 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
 <section class="ab-story" id="our-story">
   <div class="container">
     <div class="story-grid">
-      <div class="story-img fu"><img id="abStoryImg" src="" alt="Group of friends on an off-road adventure jeep"></div>
+      <div class="story-img fu"><img id="abStoryImg" src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=900&q=85&auto=format&fm=webp&fit=crop" alt="Group of friends on an off-road adventure jeep"></div>
       <div class="story-txt fu d1">
         <h2 id="abStoryHeading"><span class="story-h-line1" id="abStoryH1" data-ts="about_story_heading"></span><span class="story-h-line2" id="abStoryH2" data-ts="about_story_heading"></span></h2>
-        <div id="abStoryBody" data-ts="about_story_body"></div>
-        <!-- <div class="story-signature" id="abStorySignature" data-ts="about_story_signature">Eureka</div> -->
+        <div class="story-body-wrap" id="abStoryBody" data-ts="about_story_body">
+          <p>Somewhere along the way, it became too planned, too predictable and a little too much like everyone was taking the same trip. Eureka was born from a love of travel and a desire to shake things up.</p>
+          <p><strong><em>Great places, local experiences, the right people and enough room for the unexpected.</em></strong></p>
+          <p>About every itinerary, every destination, every traveller and every Trip Leader. We're a small team, and we stay closely involved in every trip that carries the Eureka name.</p>
+        </div>
+        <div class="story-care-card">
+          <div class="story-care-icon" aria-hidden="true"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5s-7.2-4.5-9.4-9.1A5.1 5.1 0 0112 6.6a5.1 5.1 0 019.4 4.8C19.2 16 12 20.5 12 20.5z"/></svg></div>
+          <div class="story-care-divider" aria-hidden="true"></div>
+          <div class="story-care-copy">Because what sets Eureka apart is simple,<strong>We care.</strong></div>
+        </div>
+        <div class="story-notes" aria-label="Eureka story prompts">
+          <div class="story-note">
+            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7.5 18-7.5-4-7.5 4L12 3z"/><path d="M12 3v14"/></svg>
+            <div><strong>Already travelled with us?</strong><span>Thanks for being part of it.</span></div>
+          </div>
+          <div class="story-note">
+            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M8.5 12.5l2.2 2.2 4.9-5.4"/><path d="M12 3.5v2M12 18.5v2M3.5 12h2M18.5 12h2"/></svg>
+            <div><strong>Thinking about your first Eureka?</strong><span>Come see what all the fuss is about.</span></div>
+          </div>
+        </div>
+        <div class="story-signature-wrap"><div class="story-signature" id="abStorySignature">Curated by the founders. Approved by the community.</div></div>
       </div>
     </div>
   </div>
@@ -773,20 +836,40 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
 
       <div class="faq-list fu d1" id="abFaqList">
         <div class="faq-item open">
-          <div class="faq-q" onclick="toggleFaq(this)">Who can join this trip?<span class="faq-icon">−</span></div>
-          <div class="faq-a" style="max-height:200px"><div class="faq-a-in">Anyone aged between 21-39 can join this trip. You can join solo, with a friend/partner or in a group. Regardless of your preference, our trips allow you to have an unforgettable experience with young travellers like you.</div></div>
+          <div class="faq-q" onclick="toggleFaq(this)">What does Eureka mean?<span class="faq-icon">−</span></div>
+          <div class="faq-a" style="max-height:600px"><div class="faq-a-in">"Eureka" is that moment when you feel like shouting, "I found it!" - when something suddenly clicks. We think travel is full of them: discovering a place you didn't expect to love, seeing something differently or meeting someone who changes the trip completely. We call those Eureka moments.</div></div>
         </div>
         <div class="faq-item">
-          <div class="faq-q" onclick="toggleFaq(this)">Who can join this trip?<span class="faq-icon">+</span></div>
-          <div class="faq-a"><div class="faq-a-in">Anyone aged between 21-39 can join this trip. You can join solo, with a friend/partner or in a group. Regardless of your preference, our trips allow you to have an unforgettable experience with young travellers like you.</div></div>
+          <div class="faq-q" onclick="toggleFaq(this)">What exactly do we do?<span class="faq-icon">+</span></div>
+          <div class="faq-a"><div class="faq-a-in">Eureka creates social group trips for like-minded travellers. We sort the stays, transport and experiences, bring together a great crew and have an awesome Trip Leader along for the ride. You just show up ready to explore.<br><br>Want something more personal? We also create custom journeys through <a href="custom-trips.html">Eureka Select</a>.</div></div>
         </div>
         <div class="faq-item">
-          <div class="faq-q" onclick="toggleFaq(this)">Who can join this trip?<span class="faq-icon">+</span></div>
-          <div class="faq-a"><div class="faq-a-in">Anyone aged between 21-39 can join this trip. You can join solo, with a friend/partner or in a group. Regardless of your preference, our trips allow you to have an unforgettable experience with young travellers like you.</div></div>
+          <div class="faq-q" onclick="toggleFaq(this)">Who joins our group trips?<span class="faq-icon">+</span></div>
+          <div class="faq-a"><div class="faq-a-in">Curious travellers in their 20s and 30s who want more than the usual group trip. Different cities, careers and backgrounds. Some come for the adventure, some for the culture, some for the people - most want a bit of everything.<br><br>You don't need to be an experienced traveller. You just need to be up for it.</div></div>
         </div>
         <div class="faq-item">
-          <div class="faq-q" onclick="toggleFaq(this)">Who can join this trip?<span class="faq-icon">+</span></div>
-          <div class="faq-a"><div class="faq-a-in">Anyone aged between 21-39 can join this trip. You can join solo, with a friend/partner or in a group. Regardless of your preference, our trips allow you to have an unforgettable experience with young travellers like you.</div></div>
+          <div class="faq-q" onclick="toggleFaq(this)">Can I join a Eureka trip solo?<span class="faq-icon">+</span></div>
+          <div class="faq-a"><div class="faq-a-in">Absolutely. Around 70% of our travellers join solo, so showing up without knowing anyone is completely normal here. Your Trip Leader knows exactly what they've signed up for - breaking the ice is part of the job.</div></div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">Can I join with a friend or partner?<span class="faq-icon">+</span></div>
+          <div class="faq-a"><div class="faq-a-in">Of course. Bring your best friend, sibling or partner. We usually keep friend groups to 3-4 people max, so the trip stays social and everyone mixes in.</div></div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">Why only ages 21-39?<span class="faq-icon">+</span></div>
+          <div class="faq-a"><div class="faq-a-in">Because who you travel with can change the whole trip. Keeping everyone within a similar age group helps us get the pace, experiences, free time and nights out right. If you've travelled with us before, you probably already get it.</div></div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">I'm over 39. Can I still travel with Eureka?<span class="faq-icon">+</span></div>
+          <div class="faq-a"><div class="faq-a-in">Absolutely. The 21-39 age limit only applies to our social group trips. With <a href="custom-trips.html">Eureka Select</a>, we create custom journeys around your dates, destination, travel style and who you're travelling with - with no group-trip age limit.</div></div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">What is Eureka Select?<span class="faq-icon">+</span></div>
+          <div class="faq-a"><div class="faq-a-in"><a href="custom-trips.html">Eureka Select</a> is our personalised side of travel. It's for couples, honeymoons, families, friends and private groups who want something made for them. No fixed dates. No fixed itineraries. Just your trip, your way.</div></div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">Where does Eureka travel?<span class="faq-icon">+</span></div>
+          <div class="faq-a"><div class="faq-a-in">Across India and around the world. From island hopping in the Philippines and Full Moon nights in Thailand to Nile cruises in Egypt, cafe-hopping through Europe and chasing the Northern Lights in the Arctic - we've been there, planned it and probably have a story from it. Take your pick, or let us <a href="destination-guide.html">inspire you</a>.</div></div>
         </div>
       </div>
     </div>
@@ -961,6 +1044,26 @@ function stripTrailingEmptyBlocks(html) {
 }
 function setText(id, val) { if (!val) return; var el = document.getElementById(id); if (el) { el.innerHTML = stripOuterParagraph(val); applyElementTypography(el); } }
 function setAttr(id, attr, val) { if (!val) return; var el = document.getElementById(id); if (el) el.setAttribute(attr, val); }
+function refineAboutStoryBody(hasSignatureSetting) {
+  var body = document.getElementById('abStoryBody');
+  var signature = document.getElementById('abStorySignature');
+  if (!body) return;
+  var signatureText = '';
+  Array.from(body.childNodes).forEach(function(node) {
+    var text = (node.textContent || '').replace(/\s+/g, ' ').trim();
+    if (!text) { node.remove(); return; }
+    if (/Curated by the founders/i.test(text)) { signatureText = text; node.remove(); return; }
+    if (/What sets Eureka apart/i.test(text)) { node.remove(); return; }
+    if (/Already travelled with us/i.test(text)) { node.remove(); return; }
+    if (/Thinking about your first Eureka/i.test(text)) { node.remove(); }
+  });
+  body.querySelectorAll('strong,b').forEach(function(node) {
+    var text = (node.textContent || '').replace(/\s+/g, ' ').trim();
+    if (/Great places|local experiences|unexpected/i.test(text)) return;
+    node.replaceWith(document.createTextNode(node.textContent || ''));
+  });
+  if (signature && !hasSignatureSetting) signature.textContent = signatureText || 'Curated by the founders. Approved by the community.';
+}
 
 function openWA(msg){window.open('https://wa.me/919792496457?text='+encodeURIComponent(msg),'_blank');}
 
@@ -1256,7 +1359,8 @@ async function loadAboutUsPageData() {
     }
   })();
   setText('abStoryBody', stripTrailingEmptyBlocks(s.about_story_body));
-  // setText('abStorySignature', s.about_story_signature);
+  setText('abStorySignature', s.about_story_signature);
+  refineAboutStoryBody(((s.about_story_signature || '').replace(/[.\s]/g, '')).length > 2);
 
   /* ── FAQ ── */
   setText('abFaqHeading', s.about_faq_heading);

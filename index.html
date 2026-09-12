@@ -636,20 +636,24 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
 .rev-dots{display:flex;justify-content:center;gap:6px;margin-top:.6rem}
 
 /* Book with confidence sub-section — compact */
-.reviews-confidence{text-align:center;margin-top:.75rem}
+.reviews-confidence{text-align:center;margin-top:.75rem;overflow:hidden}
 .reviews-confidence h3{
   font-family:'Apfel Grotezk','Poppins',sans-serif;
   font-size:42px;font-weight:700;color:#3A3B3B;
   margin-bottom:.6rem;letter-spacing:.2px;
 }
-.confidence-badges{display:flex;align-items:center;justify-content:center;gap:1.5rem;flex-wrap:wrap}
-.cb-google{display:flex;flex-direction:column;align-items:center;gap:3px}
-.cb-google img{height:22px;display:block}
-.cb-google-rating{display:flex;align-items:center;gap:5px;font-size:12px;font-weight:700;color:#111}
-.cb-google-rating .rc-stars{font-size:12px}
-.cb-tripadvisor{display:flex;align-items:center;gap:8px}
-.cb-ta-icon{width:30px;height:30px;border-radius:50%;background:#34e0a1;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.cb-ta-text{font-size:16px;font-weight:700;color:#111;letter-spacing:-.3px}
+.confidence-marquee{position:relative;max-width:760px;margin:0 auto;padding:.15rem 0;overflow:hidden}
+.confidence-marquee::before,.confidence-marquee::after{content:"";position:absolute;top:0;bottom:0;width:64px;z-index:2;pointer-events:none}
+.confidence-marquee::before{left:0;background:linear-gradient(90deg,#EAF8F8 0%,rgba(234,248,248,0) 100%)}
+.confidence-marquee::after{right:0;background:linear-gradient(270deg,#EAF8F8 0%,rgba(234,248,248,0) 100%)}
+.confidence-track{display:flex;width:max-content;animation:confidence-scroll 34s linear infinite}
+.confidence-marquee:hover .confidence-track{animation-play-state:paused}
+.confidence-set{display:flex;align-items:center;gap:clamp(1.5rem,3vw,2.25rem);padding:0 clamp(.75rem,2vw,1.25rem)}
+.confidence-logo{height:clamp(42px,5vw,62px);width:auto;max-width:160px;object-fit:contain;display:block;filter:drop-shadow(0 4px 8px rgba(0,0,0,.04))}
+.confidence-logo.logo-wide{max-width:190px}
+.confidence-logo.logo-tall{height:clamp(50px,5.8vw,70px)}
+@keyframes confidence-scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@media(prefers-reduced-motion:reduce){.confidence-track{animation:none;transform:none}}
 
 /* ══════════════════════════════════════
    WHY TRAVEL — wide rectangle cards
@@ -1108,6 +1112,12 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
   .rc-q{line-height:1.55;-webkit-line-clamp:4}
   .rev-dots{margin-top:1.25rem}
   .reviews-confidence{margin-top:2rem}
+  .confidence-marquee{max-width:100%;padding:.1rem 0}
+  .confidence-marquee::before,.confidence-marquee::after{width:34px}
+  .confidence-set{gap:1.15rem;padding:0 .55rem}
+  .confidence-logo{height:42px;max-width:128px}
+  .confidence-logo.logo-wide{max-width:150px}
+  .confidence-logo.logo-tall{height:50px}
 
   /* Stats bento */
   .stats-bento{padding:2.5rem 1.25rem}
@@ -1922,16 +1932,42 @@ body{font-display:swap}
 
     <div class="reviews-confidence fu">
       <h3 id="confidenceH" data-ts="confidence_heading">Book with confidence</h3>
-      <div class="confidence-badges">
-        <div class="cb-google">
-          <svg width="100" height="34" viewBox="0 0 272 92" xmlns="http://www.w3.org/2000/svg"><path fill="#EA4335" d="M115.75 47.18c0 12.77-9.99 22.18-22.25 22.18s-22.25-9.41-22.25-22.18C71.25 34.32 81.24 25 93.5 25s22.25 9.32 22.25 22.18zm-9.74 0c0-7.98-5.79-13.44-12.51-13.44S80.99 39.2 80.99 47.18c0 7.9 5.79 13.44 12.51 13.44s12.51-5.55 12.51-13.44z"/><path fill="#FBBC05" d="M163.75 47.18c0 12.77-9.99 22.18-22.25 22.18s-22.25-9.41-22.25-22.18c0-12.85 9.99-22.18 22.25-22.18s22.25 9.32 22.25 22.18zm-9.74 0c0-7.98-5.79-13.44-12.51-13.44s-12.51 5.46-12.51 13.44c0 7.9 5.79 13.44 12.51 13.44s12.51-5.55 12.51-13.44z"/><path fill="#4285F4" d="M209.75 26.34v39.82c0 16.38-9.66 23.07-21.08 23.07-10.75 0-17.22-7.19-19.66-13.07l8.48-3.53c1.51 3.61 5.21 7.87 11.17 7.87 7.31 0 11.84-4.51 11.84-13v-3.19h-.34c-2.18 2.69-6.38 5.04-11.68 5.04-11.09 0-21.25-9.66-21.25-22.09 0-12.52 10.16-22.26 21.25-22.26 5.29 0 9.49 2.35 11.68 4.96h.34v-3.61h9.25zm-8.56 20.92c0-7.81-5.21-13.52-11.84-13.52-6.72 0-12.35 5.71-12.35 13.52 0 7.73 5.63 13.36 12.35 13.36 6.63 0 11.84-5.63 11.84-13.36z"/><path fill="#34A853" d="M225 3v65h-9.5V3h9.5z"/><path fill="#EA4335" d="M262.02 54.48l7.56 5.04c-2.44 3.61-8.32 9.83-18.48 9.83-12.6 0-22.01-9.74-22.01-22.18 0-13.19 9.49-22.18 20.92-22.18 11.51 0 17.14 9.16 18.98 14.11l1.01 2.52-29.65 12.28c2.27 4.45 5.8 6.72 10.75 6.72 4.96 0 8.4-2.44 10.92-6.14zm-23.27-7.98l19.82-8.23c-1.09-2.77-4.37-4.7-8.23-4.7-4.95 0-11.84 4.37-11.59 12.93z"/><path fill="#4285F4" d="M35.29 41.41V32H67c.31 1.64.47 3.58.47 5.68 0 7.06-1.93 15.79-8.15 22.01-6.05 6.3-13.78 9.66-24.02 9.66C16.32 69.35.36 53.89.36 34.91.36 15.93 16.32.47 35.3.47c10.5 0 17.98 4.12 23.6 9.49l-6.64 6.64c-4.03-3.78-9.49-6.72-16.97-6.72-13.86 0-24.7 11.17-24.7 25.03 0 13.86 10.84 25.03 24.7 25.03 8.99 0 14.11-3.61 17.39-6.89 2.66-2.66 4.41-6.46 5.1-11.65l-22.49.01z"/></svg>
-          <div class="cb-google-rating" id="googleRatingEl" data-ts="google_rating">4.9 <span class="rc-stars">★★★★★</span></div>
-        </div>
-        <div class="cb-tripadvisor">
-          <div class="cb-ta-icon">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0a0a0a" stroke-width="1.6"><circle cx="7" cy="13" r="3.4"/><circle cx="17" cy="13" r="3.4"/><circle cx="7" cy="13" r="1.2" fill="#0a0a0a" stroke="none"/><circle cx="17" cy="13" r="1.2" fill="#0a0a0a" stroke="none"/><path d="M12 9.2c1-1.4 2.7-2.4 5-2.4 1.6 0 2.9.4 3.8 1M12 9.2c-1-1.4-2.7-2.4-5-2.4-1.6 0-2.9.4-3.8 1" stroke-linecap="round"/></svg>
+      <div class="confidence-marquee" aria-label="Trusted travel and review logos">
+        <div class="confidence-track">
+          <div class="confidence-set">
+            <img class="confidence-logo logo-wide" src="assets/images/book-confidence/clean/google-reviews.png" alt="Google Reviews">
+            <img class="confidence-logo" src="assets/images/book-confidence/clean/tripadvisor.png" alt="Tripadvisor">
+            <img class="confidence-logo" src="assets/images/book-confidence/clean/ministry-tourism-india.png" alt="Ministry of Tourism">
+            <img class="confidence-logo" src="assets/images/book-confidence/clean/incredible-india.png" alt="Incredible India">
+            <img class="confidence-logo" src="assets/images/book-confidence/clean/iata.png" alt="IATA">
+            <img class="confidence-logo" src="assets/images/book-confidence/clean/dubai.png" alt="Dubai">
+            <img class="confidence-logo" src="assets/images/book-confidence/clean/germany.png" alt="Germany Simply Inspiring">
+            <img class="confidence-logo" src="assets/images/book-confidence/clean/visit-indonesia.png" alt="Visit Indonesia">
+            <img class="confidence-logo" src="assets/images/book-confidence/clean/vietnam.png" alt="Vietnam">
+            <img class="confidence-logo" src="assets/images/book-confidence/clean/jnto.png" alt="JNTO">
+            <img class="confidence-logo" src="assets/images/book-confidence/clean/love-philippines.png" alt="Love The Philippines">
+            <img class="confidence-logo" src="assets/images/book-confidence/clean/sri-lanka.png" alt="Sri Lanka">
+            <img class="confidence-logo" src="assets/images/book-confidence/clean/egypt.png" alt="Egypt">
+            <img class="confidence-logo logo-tall" src="assets/images/book-confidence/clean/espana.png" alt="Espana">
+            <img class="confidence-logo" src="assets/images/book-confidence/clean/russia.png" alt="Russia">
           </div>
-          <span class="cb-ta-text">Tripadvisor</span>
+          <div class="confidence-set" aria-hidden="true">
+            <img class="confidence-logo logo-wide" src="assets/images/book-confidence/clean/google-reviews.png" alt="">
+            <img class="confidence-logo" src="assets/images/book-confidence/clean/tripadvisor.png" alt="">
+            <img class="confidence-logo" src="assets/images/book-confidence/clean/ministry-tourism-india.png" alt="">
+            <img class="confidence-logo" src="assets/images/book-confidence/clean/incredible-india.png" alt="">
+            <img class="confidence-logo" src="assets/images/book-confidence/clean/iata.png" alt="">
+            <img class="confidence-logo" src="assets/images/book-confidence/clean/dubai.png" alt="">
+            <img class="confidence-logo" src="assets/images/book-confidence/clean/germany.png" alt="">
+            <img class="confidence-logo" src="assets/images/book-confidence/clean/visit-indonesia.png" alt="">
+            <img class="confidence-logo" src="assets/images/book-confidence/clean/vietnam.png" alt="">
+            <img class="confidence-logo" src="assets/images/book-confidence/clean/jnto.png" alt="">
+            <img class="confidence-logo" src="assets/images/book-confidence/clean/love-philippines.png" alt="">
+            <img class="confidence-logo" src="assets/images/book-confidence/clean/sri-lanka.png" alt="">
+            <img class="confidence-logo" src="assets/images/book-confidence/clean/egypt.png" alt="">
+            <img class="confidence-logo logo-tall" src="assets/images/book-confidence/clean/espana.png" alt="">
+            <img class="confidence-logo" src="assets/images/book-confidence/clean/russia.png" alt="">
+          </div>
         </div>
       </div>
     </div>

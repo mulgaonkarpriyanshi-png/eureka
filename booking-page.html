@@ -184,13 +184,17 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
 
 .bp-intro{background:#fff;padding:clamp(2.5rem,5vw,3.5rem) clamp(1.25rem,4vw,3rem);text-align:center}
 .bp-intro-txt{font-family:'Poppins',sans-serif;font-size:42px;font-weight:600;color:#3A3B3B;letter-spacing:-1px;line-height:1.15;margin-bottom:clamp(2.5rem,5vw,3.5rem)}
-.choose-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2.5rem 2rem;max-width:1100px;margin:2rem auto 0}
-.ch{display:flex;flex-direction:column;align-items:center;text-align:center;gap:1.125rem}
-.ch-icon{width:80px;height:80px;display:flex;align-items:center;justify-content:center;margin-bottom:.25rem}
-.ch-icon svg{width:70px;height:70px;stroke-width:1.4}
-.ch-ttl{font-family:'Proxima Nova Light','Poppins',sans-serif;font-size:18px;font-weight:600;font-style:normal;color:rgb(6,141,135);line-height:22px}
-.ch-desc{font-family:'Proxima Nova Regular','Poppins',sans-serif;font-size:16px;font-weight:400;font-style:normal;color:rgb(46,59,66);line-height:22px}
-.ch-desc b{font-weight:700;color:#0a0a0a}
+.bp-hiw-title{font-family:'Poppins',sans-serif;font-size:42px;font-weight:600;color:#3A3B3B;letter-spacing:-1px;line-height:1.15;margin-bottom:.35rem}
+.bp-hiw-sub{font-family:'Poppins',sans-serif;font-size:16px;line-height:1.5;letter-spacing:-0.2px;color:#454A4A;margin:0 auto clamp(2rem,4vw,3rem);max-width:900px}
+.bp-hiw-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;max-width:1200px;margin:0 auto}
+.bp-hiw-step{padding:0 1.75rem;border-left:1px solid var(--border);text-align:center}
+.bp-hiw-step:first-child{border-left:none}
+.bp-hiw-icon{width:44px;height:44px;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;color:#02A9A2}
+.bp-hiw-icon svg{width:44px;height:44px;display:block}
+.bp-hiw-emoji{font-size:34px;line-height:1}
+.bp-hiw-step-lbl{font-family:'Poppins',sans-serif;font-size:12px;font-weight:600;color:#02A9A2;letter-spacing:1px;margin-bottom:.4rem}
+.bp-hiw-step-ttl{font-family:'Outfit','Poppins',sans-serif;font-size:20px;font-weight:500;font-style:normal;color:#3A3B3B;margin:0 auto;line-height:1.12;max-width:260px}
+.bp-hiw-step-desc{font-family:'Poppins',sans-serif;font-size:15px;line-height:1.5;letter-spacing:-0.2px;color:#454A4A;margin:.45rem auto 0;max-width:280px}
 
 /* ─────────────────────────────────────────
    TRAVELLER INFORMATION
@@ -248,12 +252,14 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
   .bp-form-row{grid-template-columns:1fr}
 }
 @media(max-width:768px){
-  .choose-grid{grid-template-columns:repeat(2,1fr);gap:2.5rem 1.5rem}
+  .bp-intro-txt,.bp-hiw-title{font-size:clamp(30px,8vw,42px)}
+  .bp-hiw-grid{grid-template-columns:repeat(2,1fr);row-gap:2rem}
+  .bp-hiw-step{padding:0 1.5rem}
+  .bp-hiw-step:nth-child(3){border-left:none}
 }
 @media(max-width:480px){
-  .choose-grid{grid-template-columns:1fr;gap:2rem}
-  .ch-icon svg{width:56px;height:56px}
-  .ch-ttl{font-size:18px}
+  .bp-hiw-grid{grid-template-columns:1fr;row-gap:2rem}
+  .bp-hiw-step{border-left:none;padding:0 .5rem}
 }
 
 /* ─────────────────────────────────────────
@@ -292,22 +298,31 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
 .cu-form-urgent strong{color:#FF8A66}
 
 /* ─────────────────────────────────────────
-   BOOK WITH CONFIDENCE — trust badges
+   BOOK WITH CONFIDENCE — homepage logo carousel
 ───────────────────────────────────────── */
-.cu-trust-sec{background:#fff;padding:clamp(2.5rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem);text-align:center}
-.cu-trust-h{font-family:'Poppins',sans-serif;font-size:42px;font-weight:600;color:#3A3B3B;letter-spacing:-1px;line-height:1.15;margin-bottom:clamp(1.75rem,3vw,2.5rem)}
-.cu-trust-logos{display:flex;align-items:center;justify-content:center;gap:clamp(2.5rem,6vw,5rem);flex-wrap:wrap}
-.cu-trust-item{display:flex;flex-direction:column;align-items:center;gap:.35rem}
-.cu-google-word{font-family:Arial,'Poppins',sans-serif;font-size:34px;font-weight:700;letter-spacing:.5px}
-.cu-google-word .g1{color:#4285F4}
-.cu-google-word .r1{color:#EA4335}
-.cu-google-word .y1{color:#FBBC05}
-.cu-google-word .g2{color:#4285F4}
-.cu-google-word .l1{color:#34A853}
-.cu-google-word .r2{color:#EA4335}
-.cu-google-rating{display:flex;align-items:center;gap:6px;font-size:14px;color:#3A3B3B;font-weight:600}
-.cu-stars{color:#FBBC05;font-size:14px;letter-spacing:1px}
-.cu-trust-item img{height:38px;width:auto;display:block}
+.cu-trust-sec{background:#EAF8F8;padding:clamp(2.5rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem);text-align:center;overflow:hidden}
+.cu-trust-h{font-family:'Apfel Grotezk','Poppins',sans-serif;font-size:42px;font-weight:700;color:#3A3B3B;letter-spacing:.2px;line-height:1.15;margin-bottom:.6rem}
+.confidence-marquee{position:relative;max-width:760px;margin:0 auto;padding:.15rem 0;overflow:hidden}
+.confidence-marquee::before,.confidence-marquee::after{content:"";position:absolute;top:0;bottom:0;width:64px;z-index:2;pointer-events:none}
+.confidence-marquee::before{left:0;background:linear-gradient(90deg,#EAF8F8 0%,rgba(234,248,248,0) 100%)}
+.confidence-marquee::after{right:0;background:linear-gradient(270deg,#EAF8F8 0%,rgba(234,248,248,0) 100%)}
+.confidence-track{display:flex;width:max-content;animation:confidence-scroll 34s linear infinite}
+.confidence-marquee:hover .confidence-track{animation-play-state:paused}
+.confidence-set{display:flex;align-items:center;gap:clamp(1.5rem,3vw,2.25rem);padding:0 clamp(.75rem,2vw,1.25rem)}
+.confidence-logo{height:clamp(42px,5vw,62px);width:auto;max-width:160px;object-fit:contain;display:block;filter:drop-shadow(0 4px 8px rgba(0,0,0,.04))}
+.confidence-logo.logo-wide{max-width:190px}
+.confidence-logo.logo-tall{height:clamp(50px,5.8vw,70px)}
+@keyframes confidence-scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@media(prefers-reduced-motion:reduce){.confidence-track{animation:none;transform:none}}
+@media(max-width:768px){
+  .cu-trust-h{font-size:clamp(30px,9vw,38px)}
+  .confidence-marquee{max-width:100%;padding:.1rem 0}
+  .confidence-marquee::before,.confidence-marquee::after{width:34px}
+  .confidence-set{gap:1.15rem;padding:0 .55rem}
+  .confidence-logo{height:42px;max-width:128px}
+  .confidence-logo.logo-wide{max-width:150px}
+  .confidence-logo.logo-tall{height:50px}
+}
 .cu-cards{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:clamp(1.5rem,3vw,2rem)}
 .cu-card{background:var(--off2);border-radius:20px;padding:clamp(2rem,3vw,2.5rem) clamp(1.5rem,2.5vw,2rem);text-align:center;display:flex;flex-direction:column;align-items:center}
 .cu-card-icon{width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,#FFC07A,#FF8A4C);display:flex;align-items:center;justify-content:center;font-size:28px;margin-bottom:1.25rem}
@@ -578,38 +593,32 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
 
 <!-- BOOKING INTRO -->
 <section class="bp-intro">
-  <div class="container" style="max-width:960px">
+  <div class="container" style="max-width:1240px">
     <p class="bp-intro-txt">Yay! We're thrilled you'll be joining us on one of our epic trips!<br>Now let's get you booked.</p>
-    <div class="choose-grid">
-      <div class="ch fu">
-        <div class="ch-icon"><svg viewBox="0 0 80 80" fill="none" stroke="#FFA43B" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="40" cy="20" r="10"/><path d="M20 60c0-11.046 8.954-20 20-20s20 8.954 20 20"/><circle cx="20" cy="24" r="8"/><path d="M4 60c0-8.837 7.163-16 16-16"/><circle cx="60" cy="24" r="8"/><path d="M76 60c0-8.837-7.163-16-16-16"/></svg></div>
-        <div class="ch-ttl">Solo Travellers of Your Age</div>
-        <div class="ch-desc">Everyone on our trips <b>is aged 21&ndash;39 and 70% sign up alone</b>, meaning you'll be exploring with a crew around your age.</div>
+    <div class="bp-hiw-grid">
+      <div class="bp-hiw-step">
+        <div class="bp-hiw-icon bp-hiw-emoji" aria-hidden="true">🌳</div>
+        <div class="bp-hiw-step-lbl">STEP 1</div>
+        <div class="bp-hiw-step-ttl">Find Your Trip</div>
+        <div class="bp-hiw-step-desc">Choosing where to go is the hard part. Booking it is easy. Find a trip you love, pick the departure that works for you, and you're one step closer to going.</div>
       </div>
-      <div class="ch fu d1">
-        <div class="ch-icon"><svg viewBox="0 0 80 80" fill="none" stroke="#FFA43B" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M18 30l22-12 22 10 6 34-24-6-26 8z"/>
-          <path d="M40 18l4 44"/>
-          <path d="M22 34l16-6M23 42l16-5M24 50l16-5M48 30l16 6M49 38l16 6M50 46l16 6"/>
-          <g>
-            <path d="M26 4c7.2 0 13 5.7 13 12.8 0 9.6-13 20.7-13 20.7S13 26.4 13 16.8C13 9.7 18.8 4 26 4z" fill="#fff"/>
-            <path d="M26 4c7.2 0 13 5.7 13 12.8 0 9.6-13 20.7-13 20.7S13 26.4 13 16.8C13 9.7 18.8 4 26 4z"/>
-            <circle cx="26" cy="16" r="3.6"/>
-          </g>
-          <path d="M58 12l3 3M65 16l3 3M62 6l2 4" stroke-width="2"/>
-        </svg></div>
-        <div class="ch-ttl">No Planning Required</div>
-        <div class="ch-desc">We've done all the logistics planning and legwork. <b>Get yourself there and we take care of the rest.</b></div>
+      <div class="bp-hiw-step">
+        <div class="bp-hiw-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="#02A9A2" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4L3 6.5v14L9 18l6 2.5 6-2.5v-14L15 6.5 9 4z"/><path d="M9 4v14M15 6.5v14"/></svg></div>
+        <div class="bp-hiw-step-lbl">STEP 2</div>
+        <div class="bp-hiw-step-ttl">Planning</div>
+        <div class="bp-hiw-step-desc">Wait! Leave it on us</div>
       </div>
-      <div class="ch fu d2">
-        <div class="ch-icon"><svg viewBox="0 0 80 80" fill="none" stroke="#FFA43B" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="36" y1="6" x2="36" y2="56"/><path d="M36 10L20 50h16z"/><path d="M36 16l18 34H36z"/><path d="M14 56h54"/><path d="M14 62h54"/></svg></div>
-        <div class="ch-ttl">Balanced Adventure</div>
-        <div class="ch-desc"><b>Jumping off the boats by day,</b> delicious dinners and clean, comfortable, centrally-located hotels by night.</div>
+      <div class="bp-hiw-step">
+        <div class="bp-hiw-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="#02A9A2" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="8" width="16" height="12" rx="2"/><path d="M9 8V6a2 2 0 012-2h2a2 2 0 012 2v2"/><path d="M4 13h16"/></svg></div>
+        <div class="bp-hiw-step-lbl">STEP 3</div>
+        <div class="bp-hiw-step-ttl">We'll Get You Ready</div>
+        <div class="bp-hiw-step-desc">Flights, visa, packing, meeting the crew &ndash; we'll help you through it. You'll also get your Travel Dossier and join the trip WhatsApp group before departure.</div>
       </div>
-      <div class="ch fu d3">
-        <div class="ch-icon"><svg viewBox="0 0 80 80" fill="none" stroke="#FFA43B" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="42" cy="46" r="24"/><path d="M18 46h48"/><path d="M42 22c-7.5 5.5-12 14.5-12 24s4.5 18.5 12 24"/><path d="M42 22c7.5 5.5 12 14.5 12 24s-4.5 18.5-12 24"/><path d="M28 28c4 5 11 6 18 3M28 64c4-5 11-6 18-3"/><path d="M10 22c0-7 6-13 14-13 0 9-6 15-14 13z" fill="#FFA43B" stroke="none"/><path d="M10 22c0-7 6-13 14-13 0 9-6 15-14 13z"/></svg></div>
-        <div class="ch-ttl">Live Local "Make a Difference"</div>
-        <div class="ch-desc">We do our part to travel sustainably and <b>support the local economy.</b></div>
+      <div class="bp-hiw-step">
+        <div class="bp-hiw-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="#02A9A2" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8.5 10h.01M15.5 10h.01"/><path d="M8 15c1 1.2 2.4 1.8 4 1.8s3-.6 4-1.8"/></svg></div>
+        <div class="bp-hiw-step-lbl">STEP 4</div>
+        <div class="bp-hiw-step-ttl">Show up &amp; Go</div>
+        <div class="bp-hiw-step-desc">Land, meet your Trip Leader and the squad you'll be travelling with. Stays, transfers and included experiences? Already sorted. Now comes the good part.</div>
       </div>
     </div>
   </div>
@@ -648,13 +657,42 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
 <!-- BOOK WITH CONFIDENCE -->
 <section class="cu-trust-sec">
   <h2 class="cu-trust-h">Book with confidence</h2>
-  <div class="cu-trust-logos">
-    <div class="cu-trust-item">
-      <div class="cu-google-word"><span class="g1">G</span><span class="r1">o</span><span class="y1">o</span><span class="g2">g</span><span class="l1">l</span><span class="r2">e</span></div>
-      <div class="cu-google-rating">4.9 <span class="cu-stars">★★★★★</span></div>
-    </div>
-    <div class="cu-trust-item">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Tripadvisor_Logo_circle-green_vertical-lockup_registered_RGB.svg/200px-Tripadvisor_Logo_circle-green_vertical-lockup_registered_RGB.svg.png" alt="Tripadvisor" loading="lazy">
+  <div class="confidence-marquee" aria-label="Trusted travel and review logos">
+    <div class="confidence-track">
+      <div class="confidence-set">
+        <img class="confidence-logo logo-wide" src="assets/images/book-confidence/clean/google-reviews.png" alt="Google Reviews">
+        <img class="confidence-logo" src="assets/images/book-confidence/clean/tripadvisor.png" alt="Tripadvisor">
+        <img class="confidence-logo" src="assets/images/book-confidence/clean/ministry-tourism-india.png" alt="Ministry of Tourism">
+        <img class="confidence-logo" src="assets/images/book-confidence/clean/incredible-india.png" alt="Incredible India">
+        <img class="confidence-logo" src="assets/images/book-confidence/clean/iata.png" alt="IATA">
+        <img class="confidence-logo" src="assets/images/book-confidence/clean/dubai.png" alt="Dubai">
+        <img class="confidence-logo" src="assets/images/book-confidence/clean/germany.png" alt="Germany Simply Inspiring">
+        <img class="confidence-logo" src="assets/images/book-confidence/clean/visit-indonesia.png" alt="Visit Indonesia">
+        <img class="confidence-logo" src="assets/images/book-confidence/clean/vietnam.png" alt="Vietnam">
+        <img class="confidence-logo" src="assets/images/book-confidence/clean/jnto.png" alt="JNTO">
+        <img class="confidence-logo" src="assets/images/book-confidence/clean/love-philippines.png" alt="Love The Philippines">
+        <img class="confidence-logo" src="assets/images/book-confidence/clean/sri-lanka.png" alt="Sri Lanka">
+        <img class="confidence-logo" src="assets/images/book-confidence/clean/egypt.png" alt="Egypt">
+        <img class="confidence-logo logo-tall" src="assets/images/book-confidence/clean/espana.png" alt="Espana">
+        <img class="confidence-logo" src="assets/images/book-confidence/clean/russia.png" alt="Russia">
+      </div>
+      <div class="confidence-set" aria-hidden="true">
+        <img class="confidence-logo logo-wide" src="assets/images/book-confidence/clean/google-reviews.png" alt="">
+        <img class="confidence-logo" src="assets/images/book-confidence/clean/tripadvisor.png" alt="">
+        <img class="confidence-logo" src="assets/images/book-confidence/clean/ministry-tourism-india.png" alt="">
+        <img class="confidence-logo" src="assets/images/book-confidence/clean/incredible-india.png" alt="">
+        <img class="confidence-logo" src="assets/images/book-confidence/clean/iata.png" alt="">
+        <img class="confidence-logo" src="assets/images/book-confidence/clean/dubai.png" alt="">
+        <img class="confidence-logo" src="assets/images/book-confidence/clean/germany.png" alt="">
+        <img class="confidence-logo" src="assets/images/book-confidence/clean/visit-indonesia.png" alt="">
+        <img class="confidence-logo" src="assets/images/book-confidence/clean/vietnam.png" alt="">
+        <img class="confidence-logo" src="assets/images/book-confidence/clean/jnto.png" alt="">
+        <img class="confidence-logo" src="assets/images/book-confidence/clean/love-philippines.png" alt="">
+        <img class="confidence-logo" src="assets/images/book-confidence/clean/sri-lanka.png" alt="">
+        <img class="confidence-logo" src="assets/images/book-confidence/clean/egypt.png" alt="">
+        <img class="confidence-logo logo-tall" src="assets/images/book-confidence/clean/espana.png" alt="">
+        <img class="confidence-logo" src="assets/images/book-confidence/clean/russia.png" alt="">
+      </div>
     </div>
   </div>
 </section>
