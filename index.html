@@ -11,7 +11,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://images.unsplash.com">
-<link rel="dns-prefetch" href="https://www.youtube.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <style>
   /* Apfel Grotezk — this page's own hardcoded headings use this exact spelling/source
@@ -128,8 +127,8 @@ img{display:block;max-width:100%}
 }
 /* Logo */
 .nav-logo{flex-shrink:0;text-decoration:none}
-.nav-logo-img{height:64px;width:auto;object-fit:contain;flex-shrink:0;display:block;transition:height .3s}
-.navbar.solid .nav-logo-img{height:50px}
+.nav-logo-img{height:72px;width:auto;object-fit:contain;flex-shrink:0;display:block;transition:height .3s}
+.navbar.solid .nav-logo-img{height:58px}
 
 /* Center search bar */
 .nav-search{
@@ -451,6 +450,7 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
   line-height:1.15em;
   color:#3A3B3B;letter-spacing:-1px;margin-bottom:clamp(2.5rem,5vw,3.5rem);
 }
+.cta-title:empty{display:none;margin:0}
 .cta-inner{
   display:grid;grid-template-columns:1fr 460px;gap:clamp(1.5rem,3vw,3rem);
   align-items:stretch;max-width:1280px;margin:0 auto;
@@ -613,7 +613,7 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
   border:1px solid #e5e7eb;
   flex-shrink:0;
   width:300px;
-  height:200px;
+  height:226px;
   overflow:hidden;
   transition:transform .3s ease,box-shadow .3s;
   cursor:default;
@@ -628,9 +628,29 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
 .rc-stars-row{display:flex;align-items:center;gap:5px}
 .rc-stars{color:#f5b400;font-size:15px;letter-spacing:1px;line-height:1}
 .rc-verified{width:16px;height:16px;flex-shrink:0;display:flex;align-items:center}
-.rc-q{font-size:12px;color:#111;line-height:1.45;font-weight:500;flex:1;overflow:hidden;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical}
+.rc-q{font-size:12px;color:#111;line-height:1.45;font-weight:500;flex:0 0 auto;overflow:visible;display:block}
 .rc-more{font-size:11px;color:#027A74;font-weight:600;cursor:pointer;text-decoration:none;margin-top:auto}
 .rc-more:hover{color:#02A9A2;text-decoration:underline}
+@media(min-width:769px){
+  .reviews-sec .rc{
+    height:auto!important;
+    min-height:226px;
+    gap:.45rem;
+  }
+  .reviews-sec .rc-q{
+    flex:0 0 auto;
+    height:auto;
+    line-height:1.45!important;
+    max-height:none;
+    overflow:visible;
+    display:block;
+  }
+  .reviews-sec .rc-more{
+    flex-shrink:0;
+    line-height:1.25;
+    margin-top:.05rem;
+  }
+}
 
 /* Dots for reviews */
 .rev-dots{display:flex;justify-content:center;gap:6px;margin-top:.6rem}
@@ -846,9 +866,10 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
 .mob-drawer.open{right:0;display:flex}
 .mob-drawer-head{
   padding:1.25rem 1.5rem;border-bottom:1px solid rgba(255,255,255,.2);
-  display:flex;align-items:center;justify-content:flex-end;
+  display:flex;align-items:center;justify-content:space-between;
   flex-shrink:0;
 }
+.mob-logo-img{height:66px;width:auto;max-width:150px;object-fit:contain;display:block}
 .mob-close{font-size:22px;color:#fff;cursor:pointer;background:none;border:none;line-height:1;padding:4px}
 .mob-links{padding:1rem 0;flex:1;overflow-y:auto}
 .mob-links a{
@@ -1054,7 +1075,7 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
 
   /* Navbar */
   .navbar{height:84px;padding:0 1rem}
-  .nav-logo-img{height:76px}
+  .nav-logo-img{height:82px}
   .btn-cta{padding:8px 16px;font-size:12px}
   .cat-bar-wrap{margin-top:84px}
 
@@ -1098,10 +1119,6 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
   /* Dots */
   .carousel-dots{margin-top:1rem}
 
-  /* Video */
-  .video-sec{padding:2.5rem 1.25rem}
-  .video-title{font-size:clamp(18px,5vw,26px)}
-
   /* Reviews */
   .reviews-sec{padding:1.5rem 1.25rem}
   .reviews-card-outer{border-radius:20px;padding:1.25rem 1.25rem 1.5rem}
@@ -1109,7 +1126,7 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
   .reviews-hdr h2{font-size:clamp(22px,5.5vw,28px)}
   .reviews-carousel-outer{overflow:hidden;padding:0 8px;margin-bottom:.5rem}
   .rc{width:calc(100vw - 66px);height:auto;min-height:220px;padding:1rem 1.1rem;gap:.6rem}
-  .rc-q{line-height:1.55;-webkit-line-clamp:4}
+  .rc-q{line-height:1.55}
   .rev-dots{margin-top:1.25rem}
   .reviews-confidence{margin-top:2rem}
   .confidence-marquee{max-width:100%;padding:.1rem 0}
@@ -1160,7 +1177,7 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
 @media(max-width:480px){
   /* Navbar — tighten so logo + search + menu all fit without crowding */
   .navbar{gap:.6rem;padding:0 .875rem}
-  .nav-logo-img{height:76px}
+  .nav-logo-img{height:82px}
   .nav-search{padding:.45rem .45rem .45rem 1rem}
   .nav-search input{font-size:13px}
   .nav-search button{width:30px;height:30px}
@@ -1264,12 +1281,15 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
   .why-card-ttl{font-size:20px;max-width:none;margin-bottom:.5rem}
   .why-card-desc{font-size:14px;line-height:1.75;max-width:none}
   .why-card-img::before{display:none}
-  .why-pad{height:1rem}
+  .why-card:last-child{margin-bottom:0 !important}
+  .why-pad{height:0}
+  .why-sec + .cta-sec{padding-top:.875rem}
 }
 @media(max-width:480px){
   .why-card-img{height:180px}
   .why-card-ttl{font-size:18px}
   .why-card-desc{font-size:13.5px}
+  .why-sec + .cta-sec{padding-top:.25rem}
 }
 
 
@@ -1534,58 +1554,28 @@ body{font-display:swap}
   .arr-next{right:-2px}
   .carousel-track{padding:8px 0 16px}
 }
+@media(max-width:900px){
+  .trips-sec .tc2-gal-arrow{
+    display:flex!important;
+    opacity:1!important;
+    width:42px;
+    height:42px;
+    background:rgba(255,255,255,.92);
+    color:#3A3B3B;
+    box-shadow:0 6px 18px rgba(15,75,65,.22);
+  }
+  .trips-sec .tc2-gal-arrow svg{
+    width:20px;
+    height:20px;
+    stroke-width:3;
+  }
+  .trips-sec .tc2-gal-prev{left:14px}
+  .trips-sec .tc2-gal-next{right:14px}
+}
 @media(max-width:768px){
   .trips-hdr2{flex-direction:column;align-items:center;gap:1rem}
 }
 .carousel-outer,.reviews-carousel-outer{touch-action:pan-y}.carousel-track,.reviews-track{will-change:scroll-position}
-
-
-/* ══════════════════════════════════════
-   VIDEO SECTION
-══════════════════════════════════════ */
-.video-sec{
-  background:#fff;
-  padding:clamp(1.2rem,2.4vw,1.8rem) clamp(1.25rem,4vw,3rem) clamp(2rem,4vw,3rem);
-  text-align:center;
-}
-.video-inner{max-width:960px;margin:0 auto}
-.video-title{
-  font-family:'ITApfelGrotezk-Regular','Apfel Grotesk','Poppins',sans-serif;
-  font-size:42px;font-weight:600;letter-spacing:-1px;
-  color:#3A3B3B;margin-bottom:1.75rem;line-height:1.15;font-style:normal;
-}
-/* 16:9 wrapper */
-.video-wrap{
-  position:relative;
-  width:100%;
-  padding-bottom:56.25%;
-  height:0;
-  border-radius:20px;
-  overflow:hidden;
-  box-shadow:0 0 0 1px rgba(15,75,65,.12),0 20px 50px rgba(0,0,0,.18);
-  background:#000;
-}
-.video-wrap iframe{
-  position:absolute;
-  top:0;left:0;
-  width:100%;height:100%;
-  border:none;
-  border-radius:20px;
-}
-/* Muted badge */
-.video-mute-badge{
-  position:absolute;bottom:1rem;right:1rem;
-  background:rgba(0,0,0,.6);backdrop-filter:blur(8px);
-  color:rgba(255,255,255,.7);font-size:11px;font-weight:500;
-  padding:5px 12px;border-radius:20px;letter-spacing:.5px;
-  z-index:5;pointer-events:none;
-  opacity:0;transition:opacity .4s;
-}
-.video-wrap.playing .video-mute-badge{opacity:1}
-@media(max-width:768px){
-  .video-sec{padding:2.5rem 1.25rem}
-  .video-wrap{border-radius:14px}
-}
 
 
 .why-subtitle{font-size:14px;color:var(--byline);line-height:1.85;font-weight:400;text-align:center;max-width:560px;margin:0 auto clamp(2rem,4vw,3.5rem)}
@@ -1698,7 +1688,7 @@ body{font-display:swap}
 <!-- NAVBAR -->
 <nav class="navbar" id="navbar">
   <a href="#" class="nav-logo" style="display:flex;align-items:center;text-decoration:none">
-    <img class="nav-logo-img" id="navLogoImg" src="https://etrips.digitalgrowthtechnology.com/wp-content/uploads/2026/01/Eureka-Logo-1-02-scaled-e1769966688826.png" alt="Eureka Trips" onerror="this.style.display='none'">
+    <img class="nav-logo-img" id="navLogoImg" src="assets/images/brand/eureka-logo.png" alt="Eureka Trips" onerror="this.onerror=null;this.src='assets/images/brand/eureka-logo.png';this.style.display='block'">
   </a>
   <div class="nav-pill">
     <a href="about-us.html">About Us</a>
@@ -1722,6 +1712,7 @@ body{font-display:swap}
 <div class="mob-overlay" id="mobOverlay" onclick="closeDrawer()"></div>
 <div class="mob-drawer" id="mobDrawer">
   <div class="mob-drawer-head">
+    <img class="mob-logo-img" src="assets/images/brand/eureka-logo.png" alt="Eureka Trips">
     <button class="mob-close" onclick="closeDrawer()">✕</button>
   </div>
   <nav class="mob-links">
@@ -2023,23 +2014,6 @@ body{font-display:swap}
   </div>
 </section>
 
-<!-- VIDEO SECTION -->
-<section class="video-sec" id="video">
-  <div class="video-inner fu">
-    <h2 class="video-title" id="videoTitleEl" data-ts="video_title"></h2>
-    <div class="video-wrap" id="videoWrap">
-      <iframe
-        id="ytPlayer"
-        src=""
-        title="Eureka Trips — We do fun stuff"
-        allow="autoplay; encrypted-media; picture-in-picture"
-        allowfullscreen>
-      </iframe>
-
-    </div>
-  </div>
-</section>
-
 <!-- FOOTER WRAP — full-bleed photo + mission quote + footer -->
 <div class="footer-wrap">
 
@@ -2048,7 +2022,7 @@ body{font-display:swap}
   <footer class="footer">
     <div class="footer-grid">
       <div>
-        <img class="ft-logo-img" src="https://etrips.digitalgrowthtechnology.com/wp-content/uploads/2026/01/Eureka-Logo-1-02-scaled-e1769966688826.png" alt="Eureka Trips" onerror="this.style.display='none'">
+        <img class="ft-logo-img" src="assets/images/brand/eureka-logo.png" alt="Eureka Trips" onerror="this.onerror=null;this.src='assets/images/brand/eureka-logo.png';this.style.display='block'">
         <p class="ft-mission" id="ftMission" data-ts="ft_mission"></p>
         <div class="ft-social">
           <a href="https://www.instagram.com/eureka.trips" target="_blank" class="fsb" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
@@ -2195,6 +2169,23 @@ var TRIPS=[
   {id:7,name:"Andamans Explored",route:"Port Blair \u2022 Havelock \u2022 Neil Island",dur:"6 NIGHTS / 7 DAYS",price:36000,dates:["21 Mar"],tags:["beach","nature"],hot:false,type:"domestic",img:"https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=800&q=80&auto=format&fm=webp&fit=crop"},
   {id:8,name:"Meghalaya Explorers",route:"Cherrapunji \u2022 Shnongpdeng \u2022 Shillong",dur:"6 NIGHTS / 7 DAYS",price:26000,dates:["21 Dec"],tags:["nature","adventure"],hot:false,type:"domestic",img:"https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=800&q=80&auto=format&fm=webp&fit=crop"}
 ];
+var HOME_TRIP_ORDER = ['philippines', 'egypt', 'lanka', 'meghalaya', 'thailand'];
+function homeTripKey(trip) {
+  var haystack = ((trip && trip.name) || '') + ' ' + ((trip && trip.route) || '') + ' ' + ((trip && trip.location) || '');
+  haystack = haystack.toLowerCase();
+  for (var i = 0; i < HOME_TRIP_ORDER.length; i++) {
+    if (haystack.indexOf(HOME_TRIP_ORDER[i]) >= 0) return HOME_TRIP_ORDER[i];
+  }
+  return '';
+}
+function onlyHomeFeaturedTrips(list) {
+  return (list || [])
+    .filter(function(trip) { return !!homeTripKey(trip); })
+    .sort(function(a, b) {
+      return HOME_TRIP_ORDER.indexOf(homeTripKey(a)) - HOME_TRIP_ORDER.indexOf(homeTripKey(b));
+    });
+}
+TRIPS = onlyHomeFeaturedTrips(TRIPS);
 
 /* ── RENDER TRIPS ──
    TAG_EMOJI, BL, tc2GalNav, tc2ToggleTags, and the card template itself
@@ -2459,11 +2450,52 @@ function ctcCarouselPrev() { ctcCarousel.prev(); }
 function ctcSetWidths(total) { ctcCarousel.setWidths(total); }
 function ctcInit(total) { ctcCarousel.init(total); }
 
+var HOME_CUSTOM_TOUR_ORDER = [
+  {aliases:["Gili Island Hopping: Indonesia's Tropical Escape"], tokens:['gili','island','hopping','indonesia']},
+  {aliases:['Dubai Couples Gateway','Dubai Couples Getaway'], tokens:['dubai','couples']},
+  {aliases:["Colombo to Mirissa : Sri Lanka's South Coast Escape","Colombo to Mirissa: Sri Lanka's South Coast Escape"], tokens:['colombo','mirissa','sri','lanka','south','coast']},
+  {aliases:['Spectacular Singapore & Luxury Ocean Cruise','Spectacular Singapore and Luxury Ocean Cruise'], tokens:['spectacular','singapore','luxury','ocean','cruise']},
+  {aliases:['Best of Malaysia: Cities & Island Escape'], tokens:['best','malaysia','cities','island']},
+  {aliases:['Vietnam Intro: From Hanoi to Saigon'], tokens:['vietnam','intro','hanoi','saigon']},
+  {aliases:['The Philippine Fling - Manila to El Nido','The Philippine Fling: Manila to El Nido'], tokens:['philippine','fling','manila','el','nido']},
+  {aliases:['From City Lights to Island Nights: Bangkok, Phuket & Krabi','From City Lights to Island Nights: Bangkok, Phuket and Krabi'], tokens:['city','lights','island','nights','bangkok','phuket','krabi']}
+];
+function normalizeTourTitle(value) {
+  return String(value || '').toLowerCase()
+    .replace(/&/g, ' and ')
+    .replace(/['’]/g, '')
+    .replace(/[^a-z0-9]+/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+function homeCustomTourIndex(row) {
+  var title = normalizeTourTitle(row && row.title);
+  if (!title) return -1;
+  for (var i = 0; i < HOME_CUSTOM_TOUR_ORDER.length; i++) {
+    var item = HOME_CUSTOM_TOUR_ORDER[i];
+    for (var a = 0; a < item.aliases.length; a++) {
+      var alias = normalizeTourTitle(item.aliases[a]);
+      if (title === alias || title.indexOf(alias) >= 0 || alias.indexOf(title) >= 0) return i;
+    }
+    if (item.tokens.every(function(token) { return title.indexOf(token) >= 0; })) return i;
+  }
+  return -1;
+}
+function onlyHomeCustomTours(rows) {
+  var picked = {};
+  (rows || []).forEach(function(row) {
+    var index = homeCustomTourIndex(row);
+    if (index >= 0 && !picked[index]) picked[index] = row;
+  });
+  return HOME_CUSTOM_TOUR_ORDER.map(function(_, index) { return picked[index]; }).filter(Boolean);
+}
 
 async function applyCustomTourCards() {
   var rows = await sbGet('custom_tour_cards', 'active=eq.true&order=sort_order.asc');
   var track = document.getElementById('customToursGrid');
   if (!track || !rows.length) return;
+  rows = onlyHomeCustomTours(rows);
+  if (!rows.length) return;
   track.innerHTML = rows.map(buildCustomTourCardHTML).join('');
   applyAllTaggedTypography();
   initObs(); /* re-scan for the new .fu cards so they actually get revealed — this line was missing, which is what caused the intermittent invisible cards */
@@ -2572,6 +2604,14 @@ function rStopAuto() { clearInterval(rAutoTimer); }
 function renderReviews() {
   var track=document.getElementById('revTrack');
   if(!track) return;
+  function reviewPreview(value) {
+    var text = stripOuterParagraph(value || '').replace(/<[^>]*>/g, '').replace(/\s+/g, ' ').trim();
+    var isLong = text.length > 250;
+    return {
+      text: isLong ? esc(text.slice(0, 250).trim().replace(/[.,;:!?-]+$/,'')) : esc(text),
+      isLong: isLong
+    };
+  }
   var gIcon='<svg viewBox="0 0 24 24" width="18" height="18"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>';
   var verifyIcon='<svg viewBox="0 0 24 24" width="14" height="14" fill="#1d9bf0"><path d="M12 2L9.5 4.5 6 4l-.5 3.5L2 9l1.5 3.5L2 16l3.5 1.5L6 21l3.5-.5L12 23l2.5-2.5 3.5.5.5-3.5L22 16l-1.5-3.5L22 9l-3.5-1.5L18 4l-3.5.5L12 2z"/><path fill="#fff" d="M9.5 12.5l1.8 1.8 3.7-4.1" stroke="#fff" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>';
   var out='';
@@ -2579,6 +2619,7 @@ function renderReviews() {
     var r=REVIEWS[i];
     var stars='';
     for(var s=1;s<=5;s++) stars += (s<=r.stars ? '★' : '☆');
+    var preview = reviewPreview(r.q||'');
     out+='<div class="rc">';
     var avatarHtml = r.photo
       ? '<img class="rc-av" src="'+esc(r.photo)+'" alt="'+esc(r.name)+'" loading="lazy">'
@@ -2589,8 +2630,8 @@ function renderReviews() {
     out+='<div class="rc-gicon">'+gIcon+'</div>';
     out+='</div>';
     out+='<div class="rc-stars-row"><div class="rc-stars">'+stars+'</div>'+(r.verified?'<div class="rc-verified">'+verifyIcon+'</div>':'')+'</div>';
-    out+='<div class="rc-q">'+stripOuterParagraph(r.q||'')+'</div>';
-    out+='<a href="https://www.google.com/maps" target="_blank" class="rc-more">Read more</a>';
+    out+='<div class="rc-q">'+preview.text+'</div>';
+    if(preview.isLong) out+='<a href="https://www.google.com/maps" target="_blank" class="rc-more">Read more</a>';
     out+='</div>';
   }
   track.innerHTML=out;
@@ -2631,106 +2672,6 @@ setTimeout(function() {
 
 /* ── RESIZE ── */
 ;
-
-
-
-
-
-/* ── VIDEO ── */
-function startVid() {
-  var v   = document.getElementById('heroVideo');
-  var ov  = document.getElementById('vidOverlay');
-  var btn = document.getElementById('vidMuteBtn');
-  if (!v) return;
-  ov.style.display = 'none';
-  btn.style.display = 'flex';
-  v.muted = true;
-  v.play();
-}
-function toggleVidMute() {
-  var v   = document.getElementById('heroVideo');
-  var btn = document.getElementById('vidMuteBtn');
-  if (!v) return;
-  v.muted = !v.muted;
-  btn.textContent = v.muted ? '🔇 Tap to unmute' : '🔊 Mute';
-}
-/* Auto-attempt muted play when in view */
-(function(){
-  var sec = document.getElementById('videoSec');
-  if (!sec || !window.IntersectionObserver) return;
-  var tried = false;
-  new IntersectionObserver(function(en) {
-    if (en[0].isIntersecting && !tried) {
-      tried = true;
-      var v  = document.getElementById('heroVideo');
-      var ov = document.getElementById('vidOverlay');
-      var btn= document.getElementById('vidMuteBtn');
-      if (!v) return;
-      v.muted = true;
-      v.play().then(function() {
-        ov.style.display = 'none';
-        btn.style.display = 'flex';
-      }).catch(function(){
-        /* autoplay blocked - overlay stays, user clicks */
-      });
-    }
-  }, {threshold:0.3}).observe(sec);
-})();
-
-
-/* ── VIDEO — scroll-triggered autoplay, muted ── */
-var videoLoaded = false;
-
-function initVideoObserver() {
-  var wrap = document.getElementById('videoWrap');
-  if (!wrap) return;
-
-  var observer = new IntersectionObserver(function(entries) {
-    entries.forEach(function(entry) {
-      if (entry.isIntersecting && !videoLoaded) {
-        videoLoaded = true;
-        loadVideo(true); /* autoplay muted */
-        observer.unobserve(wrap);
-      }
-    });
-  }, { threshold: 0.5 }); /* triggers when 50% visible */
-
-  observer.observe(wrap);
-}
-
-var EUREKA_YT_ID = 'ScMzIvxBSi4';
-function loadVideo(autoplay) {
-  var iframe = document.getElementById('ytPlayer');
-  var wrap   = document.getElementById('videoWrap');
-  if (!iframe) return;
-
-  /* Replace VIDEO_ID with actual Eureka Trips YouTube video ID */
-  var videoId = EUREKA_YT_ID;
-
-  /* controls=0 hides entire control bar (removes share/watch-later buttons + mute toast)
-     modestbranding=1 hides channel name top-left
-     iv_load_policy=3 hides annotations
-     disablekb=1 disables keyboard controls */
-  var params = 'rel=0&modestbranding=1&playsinline=1&enablejsapi=1&controls=0&iv_load_policy=3&disablekb=1&fs=0';
-  if (autoplay) {
-    params += '&autoplay=1&mute=1';
-    if (wrap) wrap.classList.add('playing');
-  }
-  iframe.src = 'https://www.youtube.com/embed/' + videoId + '?' + params;
-}
-
-/* Click on video wrap to unmute */
-document.addEventListener('DOMContentLoaded', function() {
-  var wrap = document.getElementById('videoWrap');
-  if (wrap) {
-    wrap.addEventListener('click', function() {
-      /* Reload without mute for user interaction */
-      loadVideo(false);
-      wrap.classList.remove('playing');
-    });
-  }
-  initVideoObserver();
-});
 
 /* ── BLOG PREVIEW ── */
 var blogPreviewPosts=[
@@ -2816,23 +2757,6 @@ function applyMiniCard(n, s) {
   }
   setText('ch'+n+'Ttl', title);
   setText('ch'+n+'Desc', desc);
-}
-
-function ytIdFromUrl(u) {
-  if (!u) return '';
-  if (/^[a-zA-Z0-9_-]{11}$/.test(u)) return u;
-  var m = u.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/))([a-zA-Z0-9_-]{11})/);
-  return m ? m[1] : u;
-}
-function applyVideo(s) {
-  if (s.video_uploaded_url) {
-    var wrap = document.getElementById('videoWrap');
-    if (wrap) {
-      wrap.innerHTML = '<video src="'+s.video_uploaded_url+'" controls playsinline style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:20px"></video>';
-    }
-  } else if (s.video_youtube_url) {
-    EUREKA_YT_ID = ytIdFromUrl(s.video_youtube_url);
-  }
 }
 
 /* Hero word rotator: Adventure / Trip / Holiday — typewriter effect (same as Destinations page) */
@@ -2975,7 +2899,7 @@ async function applySettings() {
 
   applyCardTypography(s);
   applyCustomTourCardTypography(s);
-  if (s.logo_url) { var logoEl = document.getElementById('navLogoImg'); if (logoEl) logoEl.src = s.logo_url; }
+  
 
   if (s.hero_heading && s.hero_heading.indexOf('{rotator}') !== -1) {
     var heroParts = s.hero_heading.split('{rotator}');
@@ -3012,9 +2936,6 @@ async function applySettings() {
 
   setText('upcomingH', s.ut_heading);
   setText('upcomingByline', s.ut_byline);
-
-  setText('videoTitleEl', s.video_title);
-  applyVideo(s);
 
   colorizeReviewsHeading(s.reviews_heading);
   setText('reviewsSub', s.reviews_subtitle);
@@ -3070,7 +2991,7 @@ async function applyCategoryBar() {
 async function applyTrips() {
   var rows = await sbGet('group_trips', 'active=eq.true&order=sort_order.asc');
   if (!rows.length) return;
-  TRIPS = rows.map(function(r) {
+  TRIPS = onlyHomeFeaturedTrips(rows.map(function(r) {
     var gallery = (r.card_gallery_images && r.card_gallery_images.length) ? r.card_gallery_images : (r.card_image_url ? [r.card_image_url] : []);
     return {
       id: r.id, name: r.title, route: r.route, dur: r.duration_label, price: r.price || 0,
@@ -3078,7 +2999,7 @@ async function applyTrips() {
       page: 'group-trip.html?trip=' + r.id,
       img: r.card_image_url, gallery: gallery, location: r.card_location
     };
-  });
+  }));
   renderTrips(TRIPS);
 }
 
@@ -3127,6 +3048,33 @@ async function applyPaymentLogos() {
   }).join('');
 }
 
+function shuffleConfidenceLogos() {
+  document.querySelectorAll('.confidence-track').forEach(function(track) {
+    if (track.dataset.shuffled === 'true') return;
+    var sets = track.querySelectorAll('.confidence-set');
+    if (!sets.length) return;
+    var logos = Array.prototype.slice.call(sets[0].querySelectorAll('img.confidence-logo'));
+    if (logos.length < 2) return;
+    for (var i = logos.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var tmp = logos[i];
+      logos[i] = logos[j];
+      logos[j] = tmp;
+    }
+    sets[0].innerHTML = '';
+    logos.forEach(function(logo) { sets[0].appendChild(logo); });
+    for (var s = 1; s < sets.length; s++) {
+      sets[s].innerHTML = '';
+      logos.forEach(function(logo) {
+        var clone = logo.cloneNode(true);
+        clone.alt = '';
+        sets[s].appendChild(clone);
+      });
+    }
+    track.dataset.shuffled = 'true';
+  });
+}
+
 async function applyHeroStats() {
   var rows = await sbGet('hero_stats', 'active=eq.true&order=sort_order.asc');
   rows = rows.filter(function(r) { return r.label; });
@@ -3151,9 +3099,22 @@ async function applyTrustBadges() {
 }
 
 var AD_BANNER_ROWS = [];
+var HOME_FEATURED_AD_BANNER = {
+  image_url: 'assets/images/ad-banners/egypt-nile-banner.jpg',
+  image_url_mobile: 'assets/images/ad-banners/egypt-nile-banner.jpg',
+  image_position: 'center',
+  title: '',
+  subtitle: '',
+  link: 'group-trip.html?trip=egypt'
+};
 async function applyAdBanners() {
   var rows = await sbGet('ad_banners', 'active=eq.true&order=sort_order.asc');
   rows = rows.filter(function(r) { return r.image_url; });
+  if (rows.length) {
+    rows[0] = Object.assign({}, rows[0], HOME_FEATURED_AD_BANNER);
+  } else {
+    rows = [HOME_FEATURED_AD_BANNER];
+  }
   AD_BANNER_ROWS = rows;
   renderAdBanners();
 }
@@ -3316,6 +3277,7 @@ async function initSupabaseContent() {
     applyStatsBento(),
     applyWhyCards()
   ]);
+  shuffleConfidenceLogos();
   // The safety net inside applySettings() fires concurrently with the functions above,
   // not after them — so anything they insert (Hero Stats, Featured Trips, Reviews, Stats
   // Grid, Why Cards) can land in the DOM too late to be caught by it. This second pass,

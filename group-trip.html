@@ -84,8 +84,8 @@ img{display:block;max-width:100%}
   box-shadow:0 1px 12px rgba(0,0,0,.06);
 }
 .nav-logo{flex-shrink:0;text-decoration:none;display:flex;align-items:center}
-.nav-logo-img{height:76px;width:auto;object-fit:contain;flex-shrink:0;display:block;transition:height .3s}
-.navbar.solid .nav-logo-img{height:60px}
+.nav-logo-img{height:82px;width:auto;object-fit:contain;flex-shrink:0;display:block;transition:height .3s}
+.navbar.solid .nav-logo-img{height:66px}
 
 .nav-pill{display:flex;align-items:center;justify-content:center;gap:clamp(1.1rem,1.8vw,2.15rem);position:absolute;left:50%;transform:translateX(-50%);width:fit-content;min-width:0;flex:none;background:linear-gradient(90deg,rgba(114,106,94,.62),rgba(76,88,101,.62));backdrop-filter:blur(18px) saturate(120%);-webkit-backdrop-filter:blur(18px) saturate(120%);border:1px solid rgba(255,255,255,.28);box-shadow:inset 0 1px 0 rgba(255,255,255,.22),0 8px 28px rgba(0,0,0,.18);border-radius:50px;padding:.72rem clamp(1.8rem,2.8vw,3rem);max-width:calc(100vw - 520px);margin:0;transition:background .3s,border-color .3s,backdrop-filter .3s,box-shadow .3s}
 .navbar.solid .nav-pill{background:transparent;border-color:transparent;backdrop-filter:none;-webkit-backdrop-filter:none;box-shadow:none;padding:.5rem 0}
@@ -342,7 +342,19 @@ img{display:block;max-width:100%}
 }
 
 @media(max-width:640px){
-  .gt-gallery{grid-template-rows:200px 120px;height:330px}
+  .gt-gallery{
+    grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+    grid-template-rows:repeat(2,minmax(0,1fr));
+    gap:10px;
+    height:330px;
+  }
+  .gt-video-tile{grid-column:1;grid-row:1 / 3}
+  .gt-video-tile video{object-fit:cover}
+  .gt-video-caption{display:none}
+  .gt-reel-badge{top:10px;right:10px;padding:5px 10px;font-size:10px}
+  .gt-p1{grid-column:2;grid-row:1}
+  .gt-p2{grid-column:2;grid-row:2}
+  .gt-p3,.gt-p4,.gt-p5{display:none}
   .gt-lb-content{margin-right:52px}
 }
 
@@ -564,6 +576,7 @@ img{display:block;max-width:100%}
 .date-card-date{text-align:center;min-width:100px;flex-shrink:0}
 .date-card-date .day{font-family:'Outfit','Poppins',sans-serif;font-size:24px;font-weight:600;font-style:normal;letter-spacing:0.2px;color:#027A74;line-height:1}
 .date-card-date .month{font-family:'Outfit','Poppins',sans-serif;font-size:24px;font-weight:600;font-style:normal;letter-spacing:0.2px;color:#027A74;text-transform:uppercase}
+.date-card-date .month-short{display:none}
 .date-card-date .dur{font-family:'Poppins',sans-serif;font-size:14px;color:#027A74;font-weight:600;line-height:1.5;margin-top:.25rem}
 
 .date-card-days{display:flex;flex-direction:column;gap:.65rem;font-family:'Poppins',sans-serif}
@@ -619,26 +632,28 @@ img{display:block;max-width:100%}
 }
 
 @media(max-width:768px){
+  .gt-dates-sec{padding:1.5rem 0 .65rem}
   .gt-dates-inner{padding:0 .7rem}
   .date-card-main{
-    display:grid;grid-template-columns:42px minmax(0,1fr) max-content max-content;
+    display:grid;grid-template-columns:50px minmax(72px,1fr) 62px max-content;
     grid-template-areas:'date dates spots price';
-    align-items:center;column-gap:.7rem;padding:.55rem .8rem;
+    align-items:center;column-gap:.55rem;padding:.55rem .72rem;
   }
   .date-card{border-color:#087c76;border-radius:16px;margin-bottom:1.1rem}
   .date-card-date{grid-area:date;text-align:left;min-width:0;align-self:center}
   .date-card-date .day,.date-card-date .month{font-size:14px;line-height:1.05}
-  .date-card-date .month{margin-top:.3rem}
+  .date-card-date .month-full{display:none}
+  .date-card-date .month-short{display:block;margin-top:.3rem}
   .date-card-date .dur{font-size:9.5px;margin-top:3px}
-  .date-card-days{grid-area:dates;gap:.25rem;min-width:0;width:auto;align-self:center;padding-left:.15rem}
+  .date-card-days{grid-area:dates;gap:.25rem;min-width:0;width:auto;align-self:center;padding-left:.35rem;justify-self:start}
   .date-card-day-row .lbl{display:none}
   .date-card-day-row br{display:none}
   .date-card-day-row{line-height:1}
   .date-card-day-row .val{font-size:10px;white-space:nowrap;line-height:1.2}
-  .date-card-spots{grid-area:spots;font-size:10px;text-align:center;width:auto;min-width:0;line-height:1.3;padding:0;white-space:nowrap;justify-self:center}
+  .date-card-spots{grid-area:spots;font-size:10px;text-align:left;width:auto;min-width:0;line-height:1.3;padding:0;white-space:nowrap;justify-self:start;transform:translateX(-4px)}
   .date-card-right{grid-area:price;align-self:center;text-align:right;width:auto;min-width:0;display:flex;flex-direction:column;align-items:flex-end;gap:.25rem}
   .date-card-call{font-size:10px}
-  .date-card-price{font-size:15px;margin-top:0;white-space:nowrap}
+  .date-card-price{font-size:13.5px;margin-top:0;white-space:nowrap}
   .date-card-more{padding:.35rem;font-size:13px;background:#edf9f8;border-top-color:#087c76}
   .date-more.open{max-height:2000px;overflow:visible;margin:1.5rem 0 1.25rem;border:2px solid #087c76;border-radius:16px;background:#fff}
   .date-more-grid{gap:1.5rem;padding:1.5rem 1rem 1rem}
@@ -653,7 +668,9 @@ img{display:block;max-width:100%}
 }
 
 @media(max-width:390px){
-  .date-card-main{grid-template-columns:37px minmax(0,1fr) max-content max-content;column-gap:.45rem;padding:.5rem .6rem}
+  .date-card-main{grid-template-columns:45px minmax(68px,1fr) 56px max-content;column-gap:.35rem;padding:.5rem .55rem}
+  .date-card-days{padding-left:.25rem}
+  .date-card-spots{transform:translateX(-6px)}
 }
 
 /* ─────────────────────────────────────────
@@ -680,10 +697,11 @@ img{display:block;max-width:100%}
 .gt-banner-l2{font-size:13.5px;font-weight:500;opacity:.95}
 
 .gt-social-bottom{display:flex;justify-content:space-between;align-items:flex-start;gap:1.5rem;flex-wrap:wrap}
-.gt-social-heading h3{font-family:'Apfel Grotesk','Poppins',sans-serif;font-size:24px;font-weight:800;color:var(--dark);margin-bottom:.15rem}
-.gt-social-heading .sub{font-family:'Poppins',sans-serif;font-size:14px;font-weight:700;color:var(--dark);margin-bottom:1rem}
-.gt-checklist{display:flex;flex-direction:column;gap:.55rem}
-.gt-check-item{display:flex;align-items:center;gap:8px;font-family:'Poppins',sans-serif;font-size:13.5px;color:var(--dark)}
+.gt-social-heading{width:100%}
+.gt-social-heading h3{font-family:'Apfel Grotesk','Poppins',sans-serif;font-size:24px;font-weight:800;color:var(--dark);margin-bottom:.2rem;line-height:1.18}
+.gt-social-heading .sub{font-family:'Poppins',sans-serif;font-size:14px;font-weight:700;color:var(--dark);margin-bottom:.95rem;line-height:1.35}
+.gt-checklist{display:flex;flex-direction:column;gap:.48rem}
+.gt-check-item{display:flex;align-items:center;gap:8px;font-family:'Poppins',sans-serif;font-size:13.5px;line-height:1.25;color:var(--dark)}
 .gt-check-item svg{width:17px;height:17px;flex-shrink:0;stroke:var(--teal-d);fill:none;stroke-width:2}
 .gt-doodle{width:90px;height:90px;flex-shrink:0;color:#888}
 .gt-doodle svg{width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round}
@@ -693,11 +711,30 @@ img{display:block;max-width:100%}
   .gt-right-block{grid-column:1 / 3}
 }
 @media(max-width:640px){
-  .gt-social-grid{grid-template-columns:1fr}
-  .gt-right-block{grid-column:1}
-  .gt-right-photos{flex-direction:column}
-  .gt-waterfall-wrap img{height:200px}
-  .gt-social-bottom{flex-direction:column}
+  .gt-social-sec{padding-top:0}
+  .gt-social-inner{padding:0 1rem}
+  .gt-social-grid{grid-template-columns:1fr 1fr;gap:10px}
+  .gt-stack{gap:10px}
+  .gt-stack img{border-radius:12px}
+  .gt-stack #gtSocP1{height:86px!important}
+  .gt-stack #gtSocP2{height:150px!important}
+  .gt-stack #gtSocP3{height:86px!important}
+  .gt-stack #gtSocP4{height:160px!important}
+  .gt-stack #gtSocP5{height:172px!important}
+  .gt-right-block{grid-column:1 / 3;gap:10px}
+  .gt-right-photos{flex-direction:row;gap:10px}
+  .gt-waterfall-wrap img{height:140px}
+  .gt-beach-wrap{gap:.35rem}
+  .gt-beach-wrap img{height:104px}
+  .gt-beach-cap{font-size:12px;text-align:left}
+  .gt-banner{border-radius:12px;padding:1rem .9rem}
+  .gt-banner-l1{font-size:18px;line-height:1.25;margin-bottom:.3rem}
+  .gt-banner-l2{font-size:13px;line-height:1.35}
+  .gt-social-bottom{flex-direction:column;gap:.75rem}
+  .gt-social-heading h3{font-size:22px;line-height:1.18}
+  .gt-social-heading .sub{font-size:15px;line-height:1.3;margin-bottom:.85rem}
+  .gt-checklist{gap:.5rem}
+  .gt-check-item{font-size:14px;line-height:1.25}
   .gt-doodle{display:none}
 }
 
@@ -748,7 +785,7 @@ img{display:block;max-width:100%}
   background:#fff;border-radius:12px;border:1px solid #e5e7eb;
   padding:.75rem .9rem;scroll-snap-align:start;
   display:flex;flex-direction:column;gap:.4rem;
-  flex-shrink:0;width:300px;height:200px;overflow:hidden;
+  flex-shrink:0;width:300px;height:226px;overflow:hidden;
   transition:transform .3s ease,box-shadow .3s;
 }
 .gt-rc:hover{transform:translateY(-3px);box-shadow:0 6px 20px rgba(0,0,0,.08)}
@@ -761,9 +798,29 @@ img{display:block;max-width:100%}
 .gt-rc-stars-row{display:flex;align-items:center;gap:5px}
 .gt-rc-stars{color:#f5b400;font-size:15px;letter-spacing:1px;line-height:1}
 .gt-rc-verified{width:16px;height:16px;flex-shrink:0;display:flex;align-items:center}
-.gt-rc-q{font-family:'Poppins',sans-serif;font-size:12px;color:#111;line-height:1.45;font-weight:500;flex:1;overflow:hidden;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical}
+.gt-rc-q{font-family:'Poppins',sans-serif;font-size:12px;color:#111;line-height:1.45;font-weight:500;flex:0 0 auto;overflow:visible;display:block}
 .gt-rc-more{font-family:'Poppins',sans-serif;font-size:11px;color:#027A74;font-weight:600;cursor:pointer;text-decoration:none;margin-top:auto}
 .gt-rc-more:hover{color:#02A9A2;text-decoration:underline}
+@media(min-width:769px){
+  .gt-reviews-sec .gt-rc{
+    height:auto!important;
+    min-height:226px;
+    gap:.45rem;
+  }
+  .gt-reviews-sec .gt-rc-q{
+    flex:0 0 auto;
+    height:auto;
+    line-height:1.45!important;
+    max-height:none;
+    overflow:visible;
+    display:block;
+  }
+  .gt-reviews-sec .gt-rc-more{
+    flex-shrink:0;
+    line-height:1.25;
+    margin-top:.05rem;
+  }
+}
 .gt-rev-dots{display:flex;justify-content:center;gap:6px;margin-top:.6rem}
 .gt-rev-dot{width:8px;height:8px;border-radius:50%;background:#d1d5db;border:none;cursor:pointer;padding:0;transition:all .28s}
 .gt-rev-dot.active{background:#02A9A2;width:24px;border-radius:4px}
@@ -776,7 +833,7 @@ img{display:block;max-width:100%}
   .gt-rev-carousel{padding:0 8px;margin-bottom:.5rem}
   .gt-rc-arrow{display:none}
   .gt-rc{width:calc(100vw - 66px);height:auto;min-height:220px;padding:1rem 1.1rem;gap:.6rem}
-  .gt-rc-q{line-height:1.55;-webkit-line-clamp:4}
+  .gt-rc-q{line-height:1.55}
   .gt-rev-dots{margin-top:1.25rem}
 }
 
@@ -1065,7 +1122,7 @@ img{display:block;max-width:100%}
 <!-- NAVBAR -->
 <nav class="navbar" id="navbar">
   <a href="index.html" class="nav-logo">
-    <img class="nav-logo-img" id="navLogoImg" src="https://etrips.digitalgrowthtechnology.com/wp-content/uploads/2026/01/Eureka-Logo-1-02-scaled-e1769966688826.png" alt="Eureka Trips" onerror="this.style.display='none'">
+    <img class="nav-logo-img" id="navLogoImg" src="assets/images/brand/eureka-logo.png" alt="Eureka Trips" onerror="this.onerror=null;this.src='assets/images/brand/eureka-logo.png';this.style.display='block'">
   </a>
     <div class="nav-pill">
     <a href="about-us.html">About Us</a>
@@ -1086,7 +1143,7 @@ img{display:block;max-width:100%}
 <div class="mob-overlay" id="mobOverlay" onclick="closeDrawer()"></div>
 <div class="mob-drawer" id="mobDrawer">
   <div class="mob-drawer-head">
-    <span style="font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:#111">eureka! <em style="color:#02A9A2;font-style:italic">trips</em></span>
+    <img class="mob-logo-img" src="assets/images/brand/eureka-logo.png" alt="Eureka Trips">
     <button class="mob-close" onclick="closeDrawer()">✕</button>
   </div>
     <nav class="mob-links">
@@ -1431,7 +1488,7 @@ img{display:block;max-width:100%}
   <footer class="footer">
     <div class="footer-grid">
       <div>
-        <img class="ft-logo-img" src="https://etrips.digitalgrowthtechnology.com/wp-content/uploads/2026/01/Eureka-Logo-1-02-scaled-e1769966688826.png" alt="Eureka Trips" onerror="this.style.display='none'">
+        <img class="ft-logo-img" src="assets/images/brand/eureka-logo.png" alt="Eureka Trips" onerror="this.onerror=null;this.src='assets/images/brand/eureka-logo.png';this.style.display='block'">
         <p class="ft-mission" id="ftMission" data-ts="ft_mission"></p>
         <div class="ft-social">
           <a href="https://www.instagram.com/eureka.trips" target="_blank" class="fsb" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
@@ -1806,11 +1863,20 @@ function gtRenderReviews(){
   if(!track) return;
   var gIcon='<svg viewBox="0 0 24 24" width="18" height="18"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>';
   var verifyIcon='<svg viewBox="0 0 24 24" width="14" height="14" fill="#1d9bf0"><path d="M12 2L9.5 4.5 6 4l-.5 3.5L2 9l1.5 3.5L2 16l3.5 1.5L6 21l3.5-.5L12 23l2.5-2.5 3.5.5.5-3.5L22 16l-1.5-3.5L22 9l-3.5-1.5L18 4l-3.5.5L12 2z"/><path fill="#fff" d="M9.5 12.5l1.8 1.8 3.7-4.1" stroke="#fff" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  function reviewPreview(value) {
+    var text = stripOuterParagraph(value || '').replace(/<[^>]*>/g, '').replace(/\s+/g, ' ').trim();
+    var isLong = text.length > 250;
+    return {
+      text: isLong ? esc(text.slice(0, 250).trim().replace(/[.,;:!?-]+$/,'')) : esc(text),
+      isLong: isLong
+    };
+  }
   var out='';
   for(var i=0;i<GT_REVIEWS.length;i++){
     var r=GT_REVIEWS[i];
     var stars='';
     for(var s=1;s<=5;s++) stars += (s<=r.stars ? '★' : '☆');
+    var preview = reviewPreview(r.q||'');
     out+='<div class="gt-rc">';
     out+='<div class="gt-rc-top">';
     out+=(r.photo?'<img class="gt-rc-av" src="'+esc(r.photo)+'" alt="'+esc(r.name||'')+'" loading="lazy">':'<div class="gt-rc-av" style="background:'+r.color+'">'+esc(r.init||'')+'</div>');
@@ -1818,8 +1884,8 @@ function gtRenderReviews(){
     out+='<div class="gt-rc-gicon">'+gIcon+'</div>';
     out+='</div>';
     out+='<div class="gt-rc-stars-row"><div class="gt-rc-stars">'+stars+'</div>'+(r.verified?'<div class="gt-rc-verified">'+verifyIcon+'</div>':'')+'</div>';
-    out+='<div class="gt-rc-q">'+stripOuterParagraph(r.q||'')+'</div>';
-    out+='<a href="https://www.google.com/maps" target="_blank" class="gt-rc-more">Read more</a>';
+    out+='<div class="gt-rc-q">'+preview.text+'</div>';
+    if(preview.isLong) out+='<a href="https://www.google.com/maps" target="_blank" class="gt-rc-more">Read more</a>';
     out+='</div>';
   }
   track.innerHTML=out;
@@ -2045,10 +2111,12 @@ function buildDateCard(d) {
   var icEnd = window.GT_ICON_TRIP_END ? '<img src="' + esc(window.GT_ICON_TRIP_END) + '" alt="">' : '🏁';
   var icFlight = window.GT_ICON_FLIGHT ? '<img src="' + esc(window.GT_ICON_FLIGHT) + '" alt="">' : '✈️';
   var cancelId = 'cancelPolicy' + d.id;
+  var monthFull = String(d.date_month || '');
+  var monthShort = monthFull.slice(0, 3);
   return '' +
   '<div class="date-card">' +
     '<div class="date-card-main">' +
-      '<div class="date-card-date" data-ts="gt_dc_date"><div class="day">' + esc(d.date_day) + '</div><div class="month">' + esc(d.date_month) + '</div><div class="dur">' + esc(d.duration_label) + '</div></div>' +
+      '<div class="date-card-date" data-ts="gt_dc_date"><div class="day">' + esc(d.date_day) + '</div><div class="month month-full">' + esc(monthFull) + '</div><div class="month month-short">' + esc(monthShort) + '</div><div class="dur">' + esc(d.duration_label) + '</div></div>' +
       '<div class="date-card-days" data-ts="gt_dc_date">' +
         '<div class="date-card-day-row"><span class="lbl">' + esc(d.start_day_label) + '</span><br><span class="val">' + esc(d.start_date_label) + '</span></div>' +
         '<div class="date-card-day-row"><span class="lbl">' + esc(d.end_day_label) + '</span><br><span class="val">' + esc(d.end_date_label) + '</span></div>' +
@@ -2136,7 +2204,7 @@ async function loadGroupTripFromSupabase() {
   window.GT_ICON_TRIP_START = settingsMap.gt_icon_trip_start || '';
   window.GT_ICON_TRIP_END = settingsMap.gt_icon_trip_end || '';
   window.GT_ICON_FLIGHT = settingsMap.gt_icon_flight || '';
-  if (settingsMap.logo_url) { var logoEl = document.getElementById('navLogoImg'); if (logoEl) logoEl.src = settingsMap.logo_url; }
+  
   CURRENT_SETTINGS = settingsMap;
   await loadTypographyStylesFrontend();
   applyPaymentLogos();

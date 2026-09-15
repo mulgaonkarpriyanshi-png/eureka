@@ -1,4 +1,12 @@
 /* Mobile header shared with the home page. */
+.mob-logo-img {
+  height: 66px;
+  width: auto;
+  max-width: 174px;
+  object-fit: contain;
+  display: block;
+}
+
 @media (max-width: 640px) {
   .navbar,
   .navbar.solid {
@@ -8,7 +16,19 @@
 
   .nav-logo-img,
   .navbar.solid .nav-logo-img {
-    height: 76px !important;
+    height: 82px !important;
+  }
+
+  .nav-logo-fallback {
+    align-items: flex-end !important;
+  }
+
+  .nav-logo-fallback strong {
+    font-size: 28px !important;
+  }
+
+  .nav-logo-fallback span {
+    font-size: 11px !important;
   }
 
   .hbg {

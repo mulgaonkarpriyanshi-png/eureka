@@ -85,8 +85,8 @@ img{display:block;max-width:100%}
   box-shadow:0 1px 12px rgba(0,0,0,.06);
 }
 .nav-logo{flex-shrink:0;text-decoration:none;display:flex;align-items:center}
-.nav-logo-img{height:76px;width:auto;object-fit:contain;flex-shrink:0;display:block;transition:height .3s}
-.navbar.solid .nav-logo-img{height:60px}
+.nav-logo-img{height:82px;width:auto;object-fit:contain;flex-shrink:0;display:block;transition:height .3s}
+.navbar.solid .nav-logo-img{height:66px}
 
 .nav-pill{display:flex;align-items:center;justify-content:center;gap:clamp(1.1rem,1.8vw,2.15rem);position:absolute;left:50%;transform:translateX(-50%);width:fit-content;min-width:0;flex:none;background:linear-gradient(90deg,rgba(114,106,94,.62),rgba(76,88,101,.62));backdrop-filter:blur(18px) saturate(120%);-webkit-backdrop-filter:blur(18px) saturate(120%);border:1px solid rgba(255,255,255,.28);box-shadow:inset 0 1px 0 rgba(255,255,255,.22),0 8px 28px rgba(0,0,0,.18);border-radius:50px;padding:.72rem clamp(1.8rem,2.8vw,3rem);max-width:calc(100vw - 520px);margin:0;transition:background .3s,border-color .3s,backdrop-filter .3s,box-shadow .3s}
 .navbar.solid .nav-pill{background:transparent;border-color:transparent;backdrop-filter:none;-webkit-backdrop-filter:none;box-shadow:none;padding:.5rem 0}
@@ -471,7 +471,7 @@ img{display:block;max-width:100%}
   border:1px solid #e5e7eb;
   flex-shrink:0;
   width:300px;
-  height:200px;
+  height:226px;
   overflow:hidden;
   transition:transform .3s ease,box-shadow .3s;
   cursor:default;
@@ -486,9 +486,29 @@ img{display:block;max-width:100%}
 .rc-stars-row{display:flex;align-items:center;gap:5px}
 .rc-stars{color:#f5b400;font-size:15px;letter-spacing:1px;line-height:1}
 .rc-verified{width:16px;height:16px;flex-shrink:0;display:flex;align-items:center}
-.rc-q{font-family:'Poppins',sans-serif;font-size:12px;color:#111;line-height:1.45;font-weight:500;flex:1;overflow:hidden;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical}
+.rc-q{font-family:'Poppins',sans-serif;font-size:12px;color:#111;line-height:1.45;font-weight:500;flex:0 0 auto;overflow:visible;display:block}
 .rc-more{font-family:'Poppins',sans-serif;font-size:11px;color:#027A74;font-weight:600;cursor:pointer;text-decoration:none;margin-top:auto}
 .rc-more:hover{color:#02A9A2;text-decoration:underline}
+@media(min-width:769px){
+  .trip-reviews-sec .rc{
+    height:auto!important;
+    min-height:226px;
+    gap:.45rem;
+  }
+  .trip-reviews-sec .rc-q{
+    flex:0 0 auto;
+    height:auto;
+    line-height:1.45!important;
+    max-height:none;
+    overflow:visible;
+    display:block;
+  }
+  .trip-reviews-sec .rc-more{
+    flex-shrink:0;
+    line-height:1.25;
+    margin-top:.05rem;
+  }
+}
 
 @media(max-width:768px){
   .trip-reviews-sec{padding:1.5rem 1.25rem}
@@ -498,7 +518,7 @@ img{display:block;max-width:100%}
   .trip-rev-carousel{padding:0 8px;margin-bottom:.5rem}
   .trc-arrow{display:none}
   .rc{width:calc(100vw - 66px);height:auto;min-height:220px;padding:1rem 1.1rem;gap:.6rem}
-  .rc-q{line-height:1.55;-webkit-line-clamp:4}
+  .rc-q{line-height:1.55}
   .trip-rev-dots{margin-top:1.25rem}
 }
 
@@ -826,7 +846,7 @@ img{display:block;max-width:100%}
 <!-- NAVBAR -->
 <nav class="navbar" id="navbar">
   <a href="index.html" class="nav-logo">
-    <img class="nav-logo-img" id="navLogoImg" src="https://etrips.digitalgrowthtechnology.com/wp-content/uploads/2026/01/Eureka-Logo-1-02-scaled-e1769966688826.png" alt="Eureka Trips" onerror="this.style.display='none'">
+    <img class="nav-logo-img" id="navLogoImg" src="assets/images/brand/eureka-logo.png" alt="Eureka Trips" onerror="this.onerror=null;this.src='assets/images/brand/eureka-logo.png';this.style.display='block'">
   </a>
     <div class="nav-pill">
     <a href="about-us.html">About Us</a>
@@ -847,7 +867,7 @@ img{display:block;max-width:100%}
 <div class="mob-overlay" id="mobOverlay" onclick="closeDrawer()"></div>
 <div class="mob-drawer" id="mobDrawer">
   <div class="mob-drawer-head">
-    <span style="font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:#111">eureka! <em style="color:#02A9A2;font-style:italic">trips</em></span>
+    <img class="mob-logo-img" src="assets/images/brand/eureka-logo.png" alt="Eureka Trips">
     <button class="mob-close" onclick="closeDrawer()">✕</button>
   </div>
     <nav class="mob-links">
@@ -1202,7 +1222,7 @@ img{display:block;max-width:100%}
   <footer class="footer">
     <div class="footer-grid">
       <div>
-        <img class="ft-logo-img" src="https://etrips.digitalgrowthtechnology.com/wp-content/uploads/2026/01/Eureka-Logo-1-02-scaled-e1769966688826.png" alt="Eureka Trips" onerror="this.style.display='none'">
+        <img class="ft-logo-img" src="assets/images/brand/eureka-logo.png" alt="Eureka Trips" onerror="this.onerror=null;this.src='assets/images/brand/eureka-logo.png';this.style.display='block'">
         <p class="ft-mission" id="ftMission" data-ts="ft_mission"></p>
         <div class="ft-social">
           <a href="https://www.instagram.com/eureka.trips" target="_blank" class="fsb" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
@@ -1709,11 +1729,20 @@ function tripRenderReviews(){
   document.getElementById('trcNext').style.display='';
   var gIcon='<svg viewBox="0 0 24 24" width="18" height="18"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>';
   var verifyIcon='<svg viewBox="0 0 24 24" width="14" height="14" fill="#1d9bf0"><path d="M12 2L9.5 4.5 6 4l-.5 3.5L2 9l1.5 3.5L2 16l3.5 1.5L6 21l3.5-.5L12 23l2.5-2.5 3.5.5.5-3.5L22 16l-1.5-3.5L22 9l-3.5-1.5L18 4l-3.5.5L12 2z"/><path fill="#fff" d="M9.5 12.5l1.8 1.8 3.7-4.1" stroke="#fff" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  function reviewPreview(value) {
+    var text = stripOuterParagraph(value || '').replace(/<[^>]*>/g, '').replace(/\s+/g, ' ').trim();
+    var isLong = text.length > 250;
+    return {
+      text: isLong ? esc(text.slice(0, 250).trim().replace(/[.,;:!?-]+$/,'')) : esc(text),
+      isLong: isLong
+    };
+  }
   var out='';
   for(var i=0;i<TRIP_REVIEWS.length;i++){
     var r=TRIP_REVIEWS[i];
     var stars='';
     for(var s=1;s<=5;s++) stars += (s<=r.stars ? '★' : '☆');
+    var preview = reviewPreview(r.q||'');
     var avatarHtml = r.photo
       ? '<img class="rc-av" src="'+esc(r.photo)+'" alt="'+esc(stripOuterParagraph(r.name||'').replace(/<[^>]*>/g,''))+'" loading="lazy" decoding="async">'
       : '<div class="rc-av" style="background:'+r.color+';display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:14px">'+r.init+'</div>';
@@ -1724,8 +1753,8 @@ function tripRenderReviews(){
     out+='<div class="rc-gicon">'+gIcon+'</div>';
     out+='</div>';
     out+='<div class="rc-stars-row"><div class="rc-stars">'+stars+'</div>'+(r.verified?'<div class="rc-verified">'+verifyIcon+'</div>':'')+'</div>';
-    out+='<div class="rc-q">'+stripOuterParagraph(r.q||'')+'</div>';
-    out+='<a href="https://www.google.com/maps" target="_blank" class="rc-more">Read more</a>';
+    out+='<div class="rc-q">'+preview.text+'</div>';
+    if(preview.isLong) out+='<a href="https://www.google.com/maps" target="_blank" class="rc-more">Read more</a>';
     out+='</div>';
   }
   track.innerHTML=out;
@@ -1892,10 +1921,7 @@ async function loadTripFromSupabase() {
   var siteSettingsRows = await sbGet('settings', '');
   CURRENT_SETTINGS = {};
   siteSettingsRows.forEach(function(r) { CURRENT_SETTINGS[r.key] = r.value; });
-  if (CURRENT_SETTINGS.logo_url) {
-    var logoEl = document.getElementById('navLogoImg');
-    if (logoEl) logoEl.src = CURRENT_SETTINGS.logo_url;
-  }
+  
   await loadTypographyStylesFrontend();
   applyPaymentLogos();
   applyTrustBadges();

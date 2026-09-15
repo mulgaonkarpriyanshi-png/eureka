@@ -86,8 +86,8 @@ img{display:block;max-width:100%}
   background:#fff;height:70px;border-bottom:1px solid #e5e7eb;box-shadow:0 1px 12px rgba(0,0,0,.06);
 }
 .nav-logo{flex-shrink:0;text-decoration:none}
-.nav-logo-img{height:76px;width:auto;object-fit:contain;flex-shrink:0;display:block;transition:height .3s}
-.navbar.solid .nav-logo-img{height:60px}
+.nav-logo-img{height:82px;width:auto;object-fit:contain;flex-shrink:0;display:block;transition:height .3s}
+.navbar.solid .nav-logo-img{height:66px}
 .nav-pill{display:flex;align-items:center;justify-content:center;gap:clamp(1.1rem,1.8vw,2.15rem);position:absolute;left:50%;transform:translateX(-50%);width:fit-content;min-width:0;flex:none;background:linear-gradient(90deg,rgba(114,106,94,.62),rgba(76,88,101,.62));backdrop-filter:blur(18px) saturate(120%);-webkit-backdrop-filter:blur(18px) saturate(120%);border:1px solid rgba(255,255,255,.28);box-shadow:inset 0 1px 0 rgba(255,255,255,.22),0 8px 28px rgba(0,0,0,.18);border-radius:50px;padding:.72rem clamp(1.8rem,2.8vw,3rem);max-width:calc(100vw - 520px);margin:0;transition:background .3s,border-color .3s,backdrop-filter .3s,box-shadow .3s}
 .navbar.solid .nav-pill{background:transparent;border-color:transparent;backdrop-filter:none;-webkit-backdrop-filter:none;box-shadow:none;padding:.5rem 0}
 .nav-pill a{font-size:14px;font-weight:600;color:#fff;white-space:nowrap;text-decoration:none;position:relative;padding:.25rem 0;transition:opacity .2s;letter-spacing:.1px;display:flex;align-items:center;gap:4px}
@@ -214,6 +214,7 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
 .ic-card:hover{transform:translateY(-8px);box-shadow:0 22px 44px rgba(2,122,116,.4)}
 .ic-badge{width:56px;height:56px;display:flex;align-items:center;justify-content:flex-start;margin-bottom:.25rem}
 .ic-badge svg{width:100%;height:100%;stroke:#fff;fill:none;stroke-width:1.4}
+.ic-badge img{width:56px;height:56px;object-fit:contain;display:block}
 .ic-ttl{font-family:'Outfit','Poppins',sans-serif;font-size:24px;font-weight:600;color:#fff;line-height:1.2;letter-spacing:normal}
 .ic-desc{text-align:left;font-family:'Poppins',sans-serif;font-size:15px;color:#FFFFFF;line-height:1.5;letter-spacing:-0.2px;font-weight:400}
 
@@ -276,7 +277,7 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
 .ab-gallery{background:var(--white)}
 .gal-scrolldrive{position:relative}
 .gal-drag-wrap{position:relative;height:clamp(420px,55vw,620px);overflow:hidden;border-radius:var(--r3);background:#F1F9F9}
-.gal-canvas{position:absolute;top:0;left:0;width:1600px;height:900px;will-change:transform}
+.gal-canvas{position:absolute;top:0;left:0;width:1880px;height:900px;will-change:transform}
 .gal-photo{position:absolute;border-radius:16px;overflow:hidden;box-shadow:0 12px 30px rgba(0,0,0,.16);pointer-events:none}
 .gal-photo img{width:100%;height:100%;object-fit:cover;display:block}
 .gal-hint{position:absolute;bottom:1.25rem;left:50%;transform:translateX(-50%);z-index:5;display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.9);backdrop-filter:blur(6px);padding:.6rem 1.1rem;border-radius:50px;font-family:'Poppins',sans-serif;font-size:12.5px;font-weight:600;color:var(--dark);box-shadow:var(--sh2);pointer-events:none;opacity:1;transition:opacity .5s}
@@ -299,6 +300,7 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
 .wv-card:hover{transform:translateY(-5px);box-shadow:0 16px 34px rgba(2,122,116,.35)}
 .wv-head{display:flex;align-items:center;justify-content:flex-start;gap:.6rem;margin-bottom:1rem}
 .wv-head svg{width:24px;height:24px;stroke:#fff;fill:none;stroke-width:1.6;flex-shrink:0}
+.wv-head img{width:34px;height:34px;object-fit:contain;display:block;flex-shrink:0}
 .wv-ttl{font-family:'Outfit','Poppins',sans-serif;font-size:26px;font-weight:600;color:#fff;letter-spacing:normal}
 .wv-desc{font-family:'Poppins',sans-serif;font-size:15px;line-height:1.5;letter-spacing:-0.2px;color:#FFFFFF;font-weight:400;width:100%;max-width:none}
 
@@ -414,30 +416,30 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
 }
 @media(max-width:768px){
   .ma-grid{grid-template-columns:1fr}
-  .ab-story{padding:clamp(2.25rem,9vw,4rem) clamp(1rem,4vw,1.5rem)}
-  .story-grid{grid-template-columns:1fr;grid-template-areas:"heading" "image" "body" "care" "notes" "signature";gap:0;max-width:650px;padding:clamp(1.25rem,5vw,2rem);border-radius:16px;box-shadow:none}
+  .ab-story{padding:clamp(2rem,7vw,3rem) clamp(1rem,4vw,1.5rem)}
+  .story-grid{grid-template-columns:1fr;grid-template-areas:"heading" "image" "body" "care" "notes" "signature";gap:0;max-width:620px;padding:1.25rem 1.15rem 1.35rem;border-radius:16px;box-shadow:none}
   .story-txt{display:contents}
-  .story-txt h2{grid-area:heading;margin:0 0 1.15rem}
-  .story-h-line1{font-size:clamp(25px,6.35vw,34px);line-height:1.08;white-space:normal}
+  .story-txt h2{grid-area:heading;margin:0 0 .95rem}
+  .story-h-line1{font-size:clamp(22px,5.8vw,28px);line-height:1.12;white-space:normal}
   .story-h-line2{display:none}
-  .story-img{grid-area:image;aspect-ratio:1.42/1;margin-bottom:1.35rem;border-radius:14px;align-self:stretch}
+  .story-img{grid-area:image;aspect-ratio:1.42/1;margin-bottom:1.05rem;border-radius:14px;align-self:stretch}
   .story-body-wrap{grid-area:body;max-width:none}
-  .story-txt p{font-size:15px;line-height:1.4;margin-bottom:.8rem}
-  .story-care-card{grid-area:care;grid-template-columns:42px 1px 1fr;gap:.65rem;width:100%;margin:.45rem 0 1.15rem;padding:.58rem .75rem;border-radius:14px}
-  .story-care-icon{width:42px;height:42px;border-radius:12px}
-  .story-care-icon svg{width:28px;height:28px}
-  .story-care-divider{height:44px}
-  .story-care-copy{font-size:14px;line-height:1.25}
-  .story-care-copy strong{font-size:23px}
-  .story-notes{grid-area:notes;display:flex!important;visibility:visible!important;opacity:1!important;flex-direction:column;align-items:flex-start;gap:1.05rem;margin-top:.35rem;padding-top:0;width:100%}
-  .story-note{gap:.75rem}
-  .story-note svg{width:30px;height:30px}
-  .story-note strong{font-size:17px}
-  .story-note span{font-size:9.5px;margin-top:.12rem}
+  .story-txt p,.story-body-wrap p,.story-body-wrap div,.story-body-wrap span{font-size:13px!important;line-height:1.45!important;margin-bottom:.65rem!important}
+  .story-care-card{grid-area:care;grid-template-columns:34px 1px 1fr;gap:.55rem;width:100%;margin:.35rem 0 .85rem;padding:.5rem .65rem;border-radius:12px}
+  .story-care-icon{width:34px;height:34px;border-radius:10px}
+  .story-care-icon svg{width:24px;height:24px}
+  .story-care-divider{height:34px}
+  .story-care-copy{font-size:12.5px;line-height:1.22}
+  .story-care-copy strong{font-size:18px}
+  .story-notes{grid-area:notes;display:flex!important;visibility:visible!important;opacity:1!important;flex-direction:column;align-items:flex-start;gap:.75rem;margin-top:.15rem;padding-top:0;width:100%}
+  .story-note{gap:.55rem}
+  .story-note svg{width:24px;height:24px}
+  .story-note strong{font-size:14px;line-height:1.12}
+  .story-note span{font-size:8.5px;line-height:1.25;margin-top:.08rem}
   .story-note + .story-note{border-left:none;padding-left:0}
-  .story-signature-wrap{grid-area:signature;width:100%;justify-content:flex-end;margin-top:.75rem;padding:.05rem clamp(.25rem,7vw,3.5rem) .4rem 1rem}
-  .story-signature-wrap::after{left:auto;right:clamp(.25rem,7vw,3.5rem);width:min(210px,46vw)}
-  .story-signature{white-space:nowrap;font-size:18px!important}
+  .story-signature-wrap{grid-area:signature;width:100%;justify-content:flex-end;margin-top:.45rem;padding:.05rem clamp(.25rem,7vw,3.5rem) .35rem 1rem}
+  .story-signature-wrap::after{left:auto;right:clamp(.25rem,7vw,3.5rem);width:min(160px,42vw)}
+  .story-signature{white-space:nowrap;font-size:14px!important;line-height:1!important}
   .ab-hero-h1{font-size:clamp(30px,8vw,44px)}
   .ab-belief-row{grid-template-columns:1fr;gap:2.5rem}
   .wv-desc{width:100%;max-width:none}
@@ -530,8 +532,8 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
   .wv-desc{font-size:14px;line-height:22px}
 
   /* 10. Our Story */
-  .story-h-line1{font-size:32px;line-height:35px}
-  .story-txt p{font-size:15px;line-height:22px}
+  .story-h-line1{font-size:clamp(22px,5.8vw,28px)!important;line-height:1.12!important}
+  .story-txt p,.story-body-wrap p,.story-body-wrap div,.story-body-wrap span{font-size:13px!important;line-height:1.45!important}
 
   /* 11. FAQ */
   .faq-txt h2{font-size:32px;line-height:35px}
@@ -558,7 +560,7 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
 <!-- NAVBAR -->
 <nav class="navbar" id="navbar">
   <a href="index.html" class="nav-logo">
-    <img class="nav-logo-img" id="navLogoImg" src="https://etrips.digitalgrowthtechnology.com/wp-content/uploads/2026/01/Eureka-Logo-1-02-scaled-e1769966688826.png" alt="Eureka Trips" onerror="this.style.display='none'">
+    <img class="nav-logo-img" id="navLogoImg" src="assets/images/brand/eureka-logo.png" alt="Eureka Trips" onerror="this.onerror=null;this.src='assets/images/brand/eureka-logo.png';this.style.display='block'">
   </a>
     <div class="nav-pill">
     <a href="about-us.html" class="active">About Us</a>
@@ -579,7 +581,7 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
 <div class="mob-overlay" id="mobOverlay" onclick="closeDrawer()"></div>
 <div class="mob-drawer" id="mobDrawer">
   <div class="mob-drawer-head">
-    <span style="font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:#111">eureka! <em style="color:#02A9A2;font-style:italic">trips</em></span>
+    <img class="mob-logo-img" src="assets/images/brand/eureka-logo.png" alt="Eureka Trips">
     <button class="mob-close" onclick="closeDrawer()">✕</button>
   </div>
     <nav class="mob-links">
@@ -643,22 +645,22 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
 
     <div class="ab-icon-grid">
       <div class="ic-card fu">
-        <div class="ic-badge"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M8 10a4 4 0 118 0c0 2-2 2.5-2.5 4"/><circle cx="13.5" cy="17" r=".6" fill="#fff" stroke="none"/><circle cx="6" cy="7" r="1.4"/><circle cx="18.5" cy="8" r="1.1"/><circle cx="17" cy="4.5" r=".7"/></svg></div>
+        <div class="ic-badge"><img src="assets/images/about-icons/about-icon-1-transparent.png" alt="" loading="lazy" decoding="async"></div>
         <div class="ic-ttl" id="abIcon1Ttl" data-ts="about_icon1_title"></div>
         <div class="ic-desc" id="abIcon1Desc" data-ts="about_icon1_desc"></div>
       </div>
       <div class="ic-card fu d1">
-        <div class="ic-badge"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M8 10a4 4 0 118 0c0 2-2 2.5-2.5 4"/><circle cx="13.5" cy="17" r=".6" fill="#fff" stroke="none"/><circle cx="6" cy="7" r="1.4"/><circle cx="18.5" cy="8" r="1.1"/><circle cx="17" cy="4.5" r=".7"/></svg></div>
+        <div class="ic-badge"><img src="assets/images/about-icons/about-icon-2-transparent.png" alt="" loading="lazy" decoding="async"></div>
         <div class="ic-ttl" id="abIcon2Ttl" data-ts="about_icon2_title"></div>
         <div class="ic-desc" id="abIcon2Desc" data-ts="about_icon2_desc"></div>
       </div>
       <div class="ic-card fu d2">
-        <div class="ic-badge"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="3"/><circle cx="16" cy="8" r="3"/><path d="M2 20c0-3 2.5-5 6-5s6 2 6 5"/><path d="M12 20c0-3 2.5-5 6-5s4 2 4 5"/></svg></div>
+        <div class="ic-badge"><img src="assets/images/about-icons/about-icon-3-transparent.png" alt="" loading="lazy" decoding="async"></div>
         <div class="ic-ttl" id="abIcon3Ttl" data-ts="about_icon3_title"></div>
         <div class="ic-desc" id="abIcon3Desc" data-ts="about_icon3_desc"></div>
       </div>
       <div class="ic-card fu d3">
-        <div class="ic-badge"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 3.5v2M12 18.5v2M3.5 12h2M18.5 12h2M6 6l1.4 1.4M16.6 16.6L18 18M18 6l-1.4 1.4M7.4 16.6L6 18"/></svg></div>
+        <div class="ic-badge"><img src="assets/images/about-icons/about-icon-4-transparent.png" alt="" loading="lazy" decoding="async"></div>
         <div class="ic-ttl" id="abIcon4Ttl" data-ts="about_icon4_title"></div>
         <div class="ic-desc" id="abIcon4Desc" data-ts="about_icon4_desc"></div>
       </div>
@@ -710,14 +712,16 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
     <div class="gal-scrolldrive" id="galScrollDrive">
     <div class="gal-drag-wrap fu" id="galDragWrap">
       <div class="gal-canvas" id="galCanvas">
-        <div class="gal-photo" style="top:20px;left:20px;width:280px;height:340px"><img id="galPhoto1" src="https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=500&q=80&auto=format&fm=webp&fit=crop" alt="Gallery photo 1" loading="lazy"></div>
-        <div class="gal-photo" style="top:60px;left:330px;width:300px;height:220px"><img id="galPhoto2" src="https://images.unsplash.com/photo-1533105079780-92b9be482077?w=500&q=80&auto=format&fm=webp&fit=crop" alt="Gallery photo 2" loading="lazy"></div>
-        <div class="gal-photo" style="top:300px;left:330px;width:300px;height:260px"><img id="galPhoto3" src="https://images.unsplash.com/photo-1541849546-216549ae216d?w=500&q=80&auto=format&fm=webp&fit=crop" alt="Gallery photo 3" loading="lazy"></div>
-        <div class="gal-photo" style="top:20px;left:660px;width:260px;height:520px"><img id="galPhoto4" src="https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=500&q=90&auto=format&fm=webp&fit=crop" alt="Gallery photo 4" loading="lazy"></div>
-        <div class="gal-photo" style="top:60px;left:950px;width:260px;height:250px"><img id="galPhoto5" src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=500&q=80&auto=format&fm=webp&fit=crop" alt="Gallery photo 5" loading="lazy"></div>
-        <div class="gal-photo" style="top:330px;left:950px;width:260px;height:230px"><img id="galPhoto6" src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=500&q=80&auto=format&fm=webp&fit=crop" alt="Gallery photo 6" loading="lazy"></div>
-        <div class="gal-photo" style="top:20px;left:1240px;width:280px;height:300px"><img id="galPhoto7" src="https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=500&q=80&auto=format&fm=webp&fit=crop" alt="Gallery photo 7" loading="lazy"></div>
-        <div class="gal-photo" style="top:350px;left:1240px;width:280px;height:220px"><img id="galPhoto8" src="https://images.unsplash.com/photo-1502680390469-be75c86b636f?w=500&q=80&auto=format&fm=webp&fit=crop" alt="Gallery photo 8" loading="lazy"></div>
+        <div class="gal-photo" style="top:20px;left:20px;width:280px;height:340px"><img id="galPhoto1" src="assets/images/about-wild/wild-01-fort-group.jpg" alt="Eureka travellers exploring a historic fort" loading="lazy"></div>
+        <div class="gal-photo" style="top:60px;left:330px;width:300px;height:220px"><img id="galPhoto2" src="assets/images/about-wild/wild-02-waterfall-yoga.jpg" alt="Waterfall adventure with Eureka Trips" loading="lazy"></div>
+        <div class="gal-photo" style="top:300px;left:330px;width:300px;height:260px"><img id="galPhoto3" src="assets/images/about-wild/wild-03-temple-pool.jpg" alt="Cultural stop on a Eureka trip" loading="lazy"></div>
+        <div class="gal-photo" style="top:20px;left:660px;width:260px;height:520px"><img id="galPhoto4" src="assets/images/about-wild/wild-04-airport-smiles.jpg" alt="Travellers smiling before a flight" loading="lazy"></div>
+        <div class="gal-photo" style="top:60px;left:950px;width:260px;height:250px"><img id="galPhoto5" src="assets/images/about-wild/wild-07-dive-pool.jpg" alt="Dive pool moment on a Eureka trip" loading="lazy"></div>
+        <div class="gal-photo" style="top:330px;left:950px;width:260px;height:230px"><img id="galPhoto6" src="assets/images/about-wild/wild-08-scuba.jpg" alt="Underwater adventure moment" loading="lazy"></div>
+        <div class="gal-photo" style="top:20px;left:1240px;width:280px;height:300px"><img id="galPhoto7" src="assets/images/about-wild/wild-09-pyramids.jpg" alt="Eureka traveller visiting the pyramids" loading="lazy"></div>
+        <div class="gal-photo" style="top:350px;left:1240px;width:280px;height:220px"><img id="galPhoto8" src="assets/images/about-wild/wild-10-overlook.jpg" alt="Viewpoint moment on a Eureka trip" loading="lazy"></div>
+        <div class="gal-photo" style="top:60px;left:1550px;width:300px;height:220px"><img id="galPhoto9" src="assets/images/about-wild/wild-05-beach-ride.jpg" alt="Beach ride adventure" loading="lazy"></div>
+        <div class="gal-photo" style="top:300px;left:1550px;width:300px;height:260px"><img id="galPhoto10" src="assets/images/about-wild/wild-06-waterfall-swim.jpg" alt="Waterfall swim on a group trip" loading="lazy"></div>
       </div>
       <div class="gal-hint" id="galHint"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg><span id="galHintText" data-ts="about_gallery_hint"></span></div>
     </div>
@@ -763,19 +767,19 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
 
       <div class="why-grid">
         <div class="wv-card fu why-active" data-why-idx="0">
-          <div class="wv-head"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M8 12V6a1.5 1.5 0 013 0v5M11 11V4.5a1.5 1.5 0 013 0V11M14 11.5V6a1.5 1.5 0 013 0v7M8 12l-1.5-1.3a1.4 1.4 0 00-2 2L8 16.5C9 19 10.5 20 13 20c3.5 0 6-2.5 6-6.5V9"/></svg><span class="wv-ttl" id="abWhy1Ttl" data-ts="about_why1_title"></span></div>
+          <div class="wv-head"><img src="assets/images/eureka-way-icons/eureka-way-1-transparent.png" alt="" loading="lazy" decoding="async"><span class="wv-ttl" id="abWhy1Ttl" data-ts="about_why1_title"></span></div>
           <div class="wv-desc" id="abWhy1Desc" data-ts="about_why1_desc"></div>
         </div>
         <div class="wv-card fu d1" data-why-idx="1">
-          <div class="wv-head"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 015 .5c0 1.5-2.5 2-2.5 3.5"/><circle cx="12" cy="16.5" r=".5" fill="#fff" stroke="none"/></svg><span class="wv-ttl" id="abWhy2Ttl" data-ts="about_why2_title"></span></div>
+          <div class="wv-head"><img src="assets/images/eureka-way-icons/eureka-way-2-transparent.png" alt="" loading="lazy" decoding="async"><span class="wv-ttl" id="abWhy2Ttl" data-ts="about_why2_title"></span></div>
           <div class="wv-desc" id="abWhy2Desc" data-ts="about_why2_desc"></div>
         </div>
         <div class="wv-card fu d2" data-why-idx="2">
-          <div class="wv-head"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c2.2 2 2.2 15 0 17M12 3.5c-2.2 2-2.2 15 0 17"/></svg><span class="wv-ttl" id="abWhy3Ttl" data-ts="about_why3_title"></span></div>
+          <div class="wv-head"><img src="assets/images/eureka-way-icons/eureka-way-3-transparent.png" alt="" loading="lazy" decoding="async"><span class="wv-ttl" id="abWhy3Ttl" data-ts="about_why3_title"></span></div>
           <div class="wv-desc" id="abWhy3Desc" data-ts="about_why3_desc"></div>
         </div>
         <div class="wv-card fu d3" data-why-idx="3">
-          <div class="wv-head"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5s-7-4.4-9.5-9A5 5 0 0112 6.5 5 5 0 0121.5 11.5c-2.5 4.6-9.5 9-9.5 9z"/></svg><span class="wv-ttl" id="abWhy4Ttl" data-ts="about_why4_title">Share the Love</span></div>
+          <div class="wv-head"><img src="assets/images/eureka-way-icons/eureka-way-4-transparent.png" alt="" loading="lazy" decoding="async"><span class="wv-ttl" id="abWhy4Ttl" data-ts="about_why4_title">Share the Love</span></div>
           <div class="wv-desc" id="abWhy4Desc" data-ts="about_why4_desc">Travel experience that exceeds expectations, crafting each moment to inspire and create lifelong memories.</div>
         </div>
       </div>
@@ -885,7 +889,7 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
   <footer class="footer">
     <div class="footer-grid">
       <div>
-        <img class="ft-logo-img" src="https://etrips.digitalgrowthtechnology.com/wp-content/uploads/2026/01/Eureka-Logo-1-02-scaled-e1769966688826.png" alt="Eureka Trips" onerror="this.style.display='none'">
+        <img class="ft-logo-img" src="assets/images/brand/eureka-logo.png" alt="Eureka Trips" onerror="this.onerror=null;this.src='assets/images/brand/eureka-logo.png';this.style.display='block'">
         <p class="ft-mission" id="ftMission" data-ts="ft_mission"></p>
         <div class="ft-social">
           <a href="https://www.instagram.com/eureka.trips" target="_blank" class="fsb" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
@@ -1138,18 +1142,54 @@ initObs();
   var whyCards = document.querySelectorAll('.wv-card[data-why-idx]');
   var whyIndex = 0;
   var dotsEl = document.getElementById('whyDots');
+  var arrowsEl = document.getElementById('whyArrows');
+  var autoTimer = null;
+  var resumeTimer = null;
   if (!whyCards.length || !dotsEl) return;
   dotsEl.innerHTML = Array.prototype.map.call(whyCards, function() { return '<span class="why-dot"></span>'; }).join('');
   var dots = dotsEl.querySelectorAll('.why-dot');
+  var mobileMq = window.matchMedia('(max-width:768px)');
+  var reduceMotionMq = window.matchMedia('(prefers-reduced-motion: reduce)');
   function render() {
     whyCards.forEach(function(c, i) { c.classList.toggle('why-active', i === whyIndex); });
     dots.forEach(function(d, i) { d.classList.toggle('why-active', i === whyIndex); });
   }
-  window.whyCarouselGo = function(dir) {
+  function go(dir) {
     whyIndex = (whyIndex + dir + whyCards.length) % whyCards.length;
     render();
+  }
+  function stopAuto() {
+    if (autoTimer) clearInterval(autoTimer);
+    autoTimer = null;
+  }
+  function startAuto() {
+    stopAuto();
+    if (!mobileMq.matches || reduceMotionMq.matches || whyCards.length < 2) return;
+    autoTimer = setInterval(function() {
+      if (!document.hidden && mobileMq.matches) go(1);
+    }, 3200);
+  }
+  function pauseThenResume() {
+    stopAuto();
+    if (resumeTimer) clearTimeout(resumeTimer);
+    resumeTimer = setTimeout(startAuto, 4500);
+  }
+  window.whyCarouselGo = function(dir) {
+    go(dir);
+    pauseThenResume();
   };
+  [document.querySelector('.why-grid'), arrowsEl].forEach(function(el) {
+    if (!el) return;
+    el.addEventListener('touchstart', pauseThenResume, {passive:true});
+    el.addEventListener('pointerdown', pauseThenResume);
+  });
+  mobileMq.addEventListener ? mobileMq.addEventListener('change', startAuto) : mobileMq.addListener(startAuto);
+  document.addEventListener('visibilitychange', function() {
+    if (document.hidden) stopAuto();
+    else startAuto();
+  });
   render();
+  startAuto();
 })();
 
 function toggleFaq(q){
@@ -1212,7 +1252,7 @@ async function loadAboutUsPageData() {
   applyPaymentLogos();
   applyTrustBadges();
 
-  if (s.logo_url) { var logoEl = document.getElementById('navLogoImg'); if (logoEl) logoEl.src = s.logo_url; }
+  
 
   /* ── HERO ── */
   setAttr('abHeroImg', 'src', s.about_hero_image);
@@ -1313,10 +1353,18 @@ async function loadAboutUsPageData() {
   setText('abGalHeading', s.about_gallery_heading);
   setText('abGalSub', s.about_gallery_subtitle);
   setText('galHintText', s.about_gallery_hint);
-  var galRows = await sbGet('page_galleries', 'page_key=eq.about&order=sort_order.asc');
-  if (galRows.length) {
-    galRows.slice(0, 8).forEach(function(g, i){ setAttr('galPhoto'+(i+1), 'src', g.image_url); });
-  }
+  [
+    'assets/images/about-wild/wild-01-fort-group.jpg',
+    'assets/images/about-wild/wild-02-waterfall-yoga.jpg',
+    'assets/images/about-wild/wild-03-temple-pool.jpg',
+    'assets/images/about-wild/wild-04-airport-smiles.jpg',
+    'assets/images/about-wild/wild-07-dive-pool.jpg',
+    'assets/images/about-wild/wild-08-scuba.jpg',
+    'assets/images/about-wild/wild-09-pyramids.jpg',
+    'assets/images/about-wild/wild-10-overlook.jpg',
+    'assets/images/about-wild/wild-05-beach-ride.jpg',
+    'assets/images/about-wild/wild-06-waterfall-swim.jpg'
+  ].forEach(function(src, i){ setAttr('galPhoto'+(i+1), 'src', src); });
 
   /* ── WHAT WE DO GALLERY ── */
   setText('wwdTitle', s.wwd_heading);

@@ -61,9 +61,12 @@ img{display:block;max-width:100%}
 .navbar{position:absolute;top:0;left:0;right:0;z-index:1000;height:84px;background:transparent;display:flex;align-items:center;padding:0 clamp(1.25rem,4vw,3rem);gap:1.5rem;transition:transform .35s cubic-bezier(.4,0,.2,1),background .3s,box-shadow .3s,height .3s}
 .navbar.hide{transform:translateY(-100%)}
 .navbar.solid{background:#fff;height:70px;border-bottom:1px solid #e5e7eb;box-shadow:0 1px 12px rgba(0,0,0,.06)}
-.nav-logo{flex-shrink:0;text-decoration:none}
-.nav-logo-img{height:76px;width:auto;object-fit:contain;flex-shrink:0;display:block;transition:height .3s}
-.navbar.solid .nav-logo-img{height:60px}
+.nav-logo{flex-shrink:0;text-decoration:none;display:flex;align-items:center}
+.nav-logo-img{height:82px;width:auto;object-fit:contain;flex-shrink:0;display:block;transition:height .3s}
+.nav-logo-fallback{display:none;align-items:flex-end;gap:3px;font-family:'Poppins',sans-serif;font-weight:800;color:#027A74;line-height:1;text-decoration:none;letter-spacing:-.5px}
+.nav-logo-fallback strong{font-size:30px}
+.nav-logo-fallback span{font-size:12px;text-transform:uppercase;letter-spacing:.6px;margin-bottom:2px}
+.navbar.solid .nav-logo-img{height:66px}
 .nav-pill{display:flex;align-items:center;justify-content:center;gap:clamp(1.1rem,1.8vw,2.15rem);position:absolute;left:50%;transform:translateX(-50%);width:fit-content;min-width:0;flex:none;background:linear-gradient(90deg,rgba(114,106,94,.62),rgba(76,88,101,.62));backdrop-filter:blur(18px) saturate(120%);-webkit-backdrop-filter:blur(18px) saturate(120%);border:1px solid rgba(255,255,255,.28);box-shadow:inset 0 1px 0 rgba(255,255,255,.22),0 8px 28px rgba(0,0,0,.18);border-radius:50px;padding:.72rem clamp(1.8rem,2.8vw,3rem);max-width:calc(100vw - 520px);margin:0;transition:background .3s,border-color .3s,backdrop-filter .3s,box-shadow .3s}
 .navbar.solid .nav-pill{background:transparent;border-color:transparent;backdrop-filter:none;-webkit-backdrop-filter:none;box-shadow:none;padding:.5rem 0}
 .nav-pill a{font-size:14px;font-weight:600;color:#fff;white-space:nowrap;text-decoration:none;position:relative;padding:.25rem 0;transition:opacity .2s;letter-spacing:.1px;display:flex;align-items:center;gap:4px}
@@ -184,7 +187,7 @@ img{display:block;max-width:100%}
   .dest-hero-top{
     width:calc(100% + 2*clamp(0.7rem,2.1vw,1.4rem));
     margin:calc(-1*clamp(1.75rem,3.5vw,2.8rem)) calc(-1*clamp(0.7rem,2.1vw,1.4rem)) 0;
-    padding:clamp(4.5rem,9vh,5.5rem) clamp(0.7rem,2.1vw,1.4rem) 9rem;
+    padding:clamp(4.5rem,9vh,5.5rem) clamp(0.7rem,2.1vw,1.4rem) 11rem;
   }
 }
 .dest-hero-bg{position:absolute;inset:0;z-index:0;background-image:url('assets/images/destination-hero-eurekaselect-reference.webp');background-size:cover;background-position:center}
@@ -224,6 +227,9 @@ section{padding:clamp(1.25rem,2.5vw,2rem) clamp(1.25rem,4vw,3rem)}
 .dest-grid-hdr{text-align:center;padding-bottom:0;margin-bottom:clamp(1rem,2vw,1.5rem);border-bottom:none}
 .dest-grid-hdr h2{font-family:'Poppins',sans-serif;font-size:clamp(22px,3vw,30px);font-weight:600;color:#3A3B3B;letter-spacing:-.3px}
 .dest-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,300px));justify-content:center;gap:1.5rem}
+.dest-carousel-dots{display:none;justify-content:center;gap:6px;margin-top:.75rem;padding:0 1rem}
+.cdot{width:8px;height:8px;border-radius:50%;background:#d1d5db;border:none;cursor:pointer;padding:0;transition:all .28s}
+.cdot.active{background:#02A9A2;width:24px;border-radius:4px}
 .dc2-empty{grid-column:1/-1;text-align:center;padding:3rem 1rem;font-family:'Poppins',sans-serif;font-size:15px;color:var(--body)}
 .tc2{position:relative;background:#fff;border-radius:22px;scroll-snap-align:start;overflow:hidden;border:1.5px solid rgba(2,169,162,.45);box-shadow:0 8px 20px rgba(15,75,65,.08);cursor:pointer;flex-shrink:0;height:470px;width:300px;max-width:100%;display:flex;flex-direction:column;transition:transform .3s ease,box-shadow .3s}
 .tc2:hover{transform:translateY(-5px);box-shadow:0 16px 36px rgba(15,75,65,.16)}
@@ -334,27 +340,35 @@ section{padding:clamp(1.25rem,2.5vw,2rem) clamp(1.25rem,4vw,3rem)}
   .faq-row{grid-template-columns:1fr}
 }
 @media(max-width:560px){
+  .dest-hero-wrap{padding:92px 14px 0}
+  .dest-hero{min-height:520px;border-radius:24px}
+  .dest-hero-top{padding:4.85rem 1rem 12.25rem}
+  .dest-hero-content{padding:0 .6rem}
+  .dest-hero-h1{font-size:clamp(34px,10.5vw,42px)!important;line-height:1.12!important;letter-spacing:0!important;margin-bottom:.85rem!important}
+  .dest-hero-sub{font-size:17px!important;line-height:1.42!important;max-width:315px!important;white-space:normal!important;padding:0!important}
   .dest-grid{grid-template-columns:minmax(0,300px)}
   .footer-grid{grid-template-columns:1fr}
   .dest-hero-ctas{flex-direction:row;flex-wrap:nowrap;gap:8px;width:100%;padding-top:1.65rem}
   .dest-hero-ctas a{flex:1 1 0;min-width:0;padding:12px 6px;font-size:12px;text-align:center;white-space:nowrap}
   .marquee-track{gap:25px}
-  .dest-hero .marquee-track{bottom:2.75rem}
+  .dest-hero .marquee-track{bottom:2.2rem}
+  .dest-hero .marquee-item{width:210px;height:136px;border-radius:14px}
 }
 @media(max-width:580px){.tc2{height:470px}}
 .hiw-sec{text-align:center;padding:clamp(2.5rem,5vw,4rem) clamp(1.25rem,4vw,3rem)}
-.hiw-title{font-family:'Poppins',sans-serif;font-size:42px;font-weight:600;color:#3A3B3B;letter-spacing:-1px;line-height:1.15;margin-bottom:.35rem}
-.hiw-sub{font-family:'Poppins',sans-serif;font-size:16px;line-height:1.5;letter-spacing:-0.2px;color:#454A4A;margin-bottom:clamp(2rem,4vw,3rem)}
+.hiw-title{font-family:'Poppins',sans-serif;font-size:42px;font-weight:600;color:#3a3b3b!important;letter-spacing:-1px;line-height:1.15;margin-bottom:.35rem}
+.hiw-sub{font-family:'Poppins',sans-serif;font-size:16px;line-height:1.5;letter-spacing:-0.2px;color:#464a4b!important;margin-bottom:clamp(2rem,4vw,3rem)}
 .hiw-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;max-width:1200px;margin:0 auto}
 .hiw-step{display:flex;flex-direction:column;align-items:flex-start;text-align:left;padding:0 1.75rem;border-left:1px solid var(--border)}
 .hiw-step:first-child{border-left:none}
 .hiw-step svg{width:44px;height:44px;margin:0 0 1rem}
-.hiw-icon{width:44px;height:44px;margin:0 0 1rem;display:flex;align-items:center;justify-content:center}
-.hiw-icon img{width:100%;height:100%;object-fit:contain}
+.hiw-icon{width:min(100%,220px);aspect-ratio:3/2;margin:0 0 1.1rem;display:flex;align-items:center;justify-content:center;overflow:hidden;border-radius:14px;background:#eaf8f8;box-shadow:0 6px 18px rgba(0,0,0,.08)}
+.hiw-icon img{width:100%;height:100%;object-fit:cover;display:block}
 .hiw-step-lbl{font-family:'Poppins',sans-serif;font-size:12px;font-weight:600;color:#02A9A2;letter-spacing:1px;margin-bottom:.4rem}
 .hiw-step-ttl{font-family:'Outfit','Poppins',sans-serif;font-size:20px;font-weight:500;font-style:normal;color:#000!important;margin:0!important;line-height:1.12!important;max-width:260px;padding:0!important;min-height:0!important}
 .hiw-step-desc{font-family:'Poppins',sans-serif;font-size:15px;line-height:1.5!important;letter-spacing:-0.2px;color:#000!important;margin:.15rem 0 0!important;max-width:280px;padding:0!important;min-height:0!important}
 .hiw-step-ttl,.hiw-step-ttl *,.hiw-step-desc,.hiw-step-desc *{color:#000!important}
+.hiw-step-lbl,.hiw-step-ttl,.hiw-step-ttl *,.hiw-step-desc,.hiw-step-desc *{text-align:left!important}
 .hiw-step-desc,.hiw-step-desc *{line-height:1.5!important}
 .hiw-step-ttl p,.hiw-step-desc p,.hiw-step-desc div{margin:0!important;padding:0!important;line-height:inherit!important}
 .hiw-step-ttl br:first-child,.hiw-step-desc br:first-child{display:none}
@@ -364,8 +378,11 @@ section{padding:clamp(1.25rem,2.5vw,2rem) clamp(1.25rem,4vw,3rem)}
   .hiw-step:nth-child(odd){border-left:none}
 }
 @media(max-width:560px){
+  .hiw-sec{padding-left:1rem;padding-right:1rem}
   .hiw-grid{grid-template-columns:1fr;row-gap:2rem}
-  .hiw-step{border-left:none;padding:0 .5rem}
+  .hiw-step{border-left:none;padding:0;align-items:stretch;width:100%}
+  .hiw-icon{width:100%;max-width:none}
+  .hiw-step-lbl,.hiw-step-ttl,.hiw-step-desc{max-width:none;width:100%}
 }
 
 /* ─────────────────────────────────────────
@@ -374,12 +391,34 @@ section{padding:clamp(1.25rem,2.5vw,2rem) clamp(1.25rem,4vw,3rem)}
 ───────────────────────────────────────── */
 @media(max-width:768px){
   /* 3. Hero */
-  .dest-hero-h1{font-size:30px;line-height:75px}
+  .dest-hero-h1{font-size:30px;line-height:1.14}
   .dest-hero-sub{font-size:18px;line-height:25px;max-width:560px;white-space:normal}
   .btn-hero-primary,.btn-hero-outline{font-size:16px;line-height:16px}
 
   /* 5. Trip Grid — keep the same card typography as Home page's "Upcoming trips" cards. */
   .dest-grid-hdr h2{font-size:32px;line-height:35px}
+  .dest-grid{
+    display:flex;
+    grid-template-columns:none;
+    justify-content:flex-start;
+    gap:1rem;
+    overflow-x:auto;
+    overflow-y:visible;
+    scroll-snap-type:x mandatory;
+    scroll-padding:0 1.25rem;
+    -webkit-overflow-scrolling:touch;
+    padding:0 1.25rem .75rem;
+    margin:0 -1.25rem;
+    scrollbar-width:none;
+  }
+  .dest-grid::-webkit-scrollbar{display:none}
+  .dest-grid .tc2{
+    flex:0 0 min(82vw,300px);
+    width:min(82vw,300px);
+    max-width:none;
+    scroll-snap-align:center;
+  }
+  .dest-carousel-dots{display:flex}
 
   /* 7. FAQ — matched to About Us page's mobile FAQ values, per CR note */
   .faq-txt h2{font-size:32px;line-height:35px}
@@ -406,7 +445,8 @@ section{padding:clamp(1.25rem,2.5vw,2rem) clamp(1.25rem,4vw,3rem)}
 <!-- NAVBAR -->
 <nav class="navbar" id="navbar">
   <a href="index.html" class="nav-logo">
-    <img class="nav-logo-img" id="navLogoImg" src="https://etrips.digitalgrowthtechnology.com/wp-content/uploads/2026/01/Eureka-Logo-1-02-scaled-e1769966688826.png" alt="Eureka Trips" onerror="this.style.display='none'">
+    <img class="nav-logo-img" id="navLogoImg" src="assets/images/brand/eureka-logo.png" alt="Eureka Trips" onload="this.style.display='block';if(this.nextElementSibling)this.nextElementSibling.style.display='none'" onerror="this.onerror=null;this.src='assets/images/brand/eureka-logo.png';this.style.display='block';if(this.nextElementSibling)this.nextElementSibling.style.display='none'">
+    <span class="nav-logo-fallback" aria-hidden="true"><strong>eureka</strong><span>Trips</span></span>
   </a>
     <div class="nav-pill">
     <a href="about-us.html">About Us</a>
@@ -427,7 +467,7 @@ section{padding:clamp(1.25rem,2.5vw,2rem) clamp(1.25rem,4vw,3rem)}
 <div class="mob-overlay" id="mobOverlay" onclick="closeDrawer()"></div>
 <div class="mob-drawer" id="mobDrawer">
   <div class="mob-drawer-head">
-    <span style="font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:#111">eureka! <em style="color:#02A9A2;font-style:italic">trips</em></span>
+    <img class="mob-logo-img" src="assets/images/brand/eureka-logo.png" alt="Eureka Trips">
     <button class="mob-close" onclick="closeDrawer()">✕</button>
   </div>
     <nav class="mob-links">
@@ -507,6 +547,7 @@ section{padding:clamp(1.25rem,2.5vw,2rem) clamp(1.25rem,4vw,3rem)}
       <h2 id="destGridTitle" data-ts="dest_grid_title"></h2>
     </div>
     <div class="dest-grid" id="destTripsGrid"></div>
+    <div class="dest-carousel-dots" id="destCarouselDots" aria-label="Destination trip cards"></div>
   </div>
 </section>
 
@@ -626,7 +667,7 @@ section{padding:clamp(1.25rem,2.5vw,2rem) clamp(1.25rem,4vw,3rem)}
   <footer class="footer">
     <div class="footer-grid">
       <div>
-        <img class="ft-logo-img" src="https://etrips.digitalgrowthtechnology.com/wp-content/uploads/2026/01/Eureka-Logo-1-02-scaled-e1769966688826.png" alt="Eureka Trips" onerror="this.style.display='none'">
+        <img class="ft-logo-img" src="assets/images/brand/eureka-logo.png" alt="Eureka Trips" onerror="this.onerror=null;this.src='assets/images/brand/eureka-logo.png';this.style.display='block'">
         <p class="ft-mission" id="ftMission" data-ts="ft_mission"></p>
         <div class="ft-social">
           <a href="https://www.instagram.com/eureka.trips" target="_blank" class="fsb" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
@@ -867,6 +908,12 @@ var currentRegionFilter='All Trips';
 var AVAILABLE_GUIDES=['bali'];
 var TRIPS=[];
 var DEST_HERO_REFERENCE_BG = 'assets/images/destination-hero-eurekaselect-reference.webp';
+var DEST_HIW_IMAGE_ICONS = {
+  1: 'assets/images/how-it-works/destination-step-1.png',
+  2: 'assets/images/how-it-works/destination-step-2.png',
+  3: 'assets/images/how-it-works/destination-step-3.png',
+  4: 'assets/images/how-it-works/destination-step-4.png'
+};
 // Backup saved locally for reverting this hero image:
 // assets/images/destination-hero-before-20260830.jpg
 
@@ -899,10 +946,12 @@ function tc2ToggleTags(el) {
 function renderDestGrid(){
   var g=document.getElementById('destTripsGrid');
   if(!g) return;
+  var dotsWrap=document.getElementById('destCarouselDots');
   var list = TRIPS;
 
   if(!list.length){
     g.innerHTML='<div class="dc2-empty">No trips found yet — check back soon!</div>';
+    if(dotsWrap) dotsWrap.innerHTML='';
     return;
   }
 
@@ -951,7 +1000,58 @@ function renderDestGrid(){
     out+='</div></div></div>';
   }
   g.innerHTML=out;
+  initDestCarouselDots();
   initObs();
+}
+
+function initDestCarouselDots(){
+  var track=document.getElementById('destTripsGrid');
+  var dotsWrap=document.getElementById('destCarouselDots');
+  if(!track || !dotsWrap) return;
+  var cards=track.querySelectorAll('.tc2');
+  dotsWrap.innerHTML='';
+  if(cards.length < 2) return;
+  for(var i=0;i<cards.length;i++){
+    var dot=document.createElement('button');
+    dot.type='button';
+    dot.className='cdot'+(i===0?' active':'');
+    dot.setAttribute('aria-label','Go to destination trip card '+(i+1));
+    (function(index){
+      dot.addEventListener('click',function(){
+        var card=cards[index];
+        if(!card) return;
+        var left=card.offsetLeft-(track.clientWidth-card.clientWidth)/2;
+        track.scrollTo({left:left,behavior:'smooth'});
+      });
+    })(i);
+    dotsWrap.appendChild(dot);
+  }
+
+  if(track._destCarouselDotScroll) track.removeEventListener('scroll',track._destCarouselDotScroll);
+  var ticking=false;
+  function update(){
+    ticking=false;
+    var center=track.scrollLeft+(track.clientWidth/2);
+    var active=0;
+    var closest=Infinity;
+    for(var j=0;j<cards.length;j++){
+      var cardCenter=cards[j].offsetLeft+(cards[j].offsetWidth/2);
+      var dist=Math.abs(cardCenter-center);
+      if(dist<closest){
+        closest=dist;
+        active=j;
+      }
+    }
+    var dots=dotsWrap.querySelectorAll('.cdot');
+    for(var k=0;k<dots.length;k++) dots[k].classList.toggle('active',k===active);
+  }
+  track._destCarouselDotScroll=function(){
+    if(ticking) return;
+    ticking=true;
+    requestAnimationFrame(update);
+  };
+  track.addEventListener('scroll',track._destCarouselDotScroll,{passive:true});
+  update();
 }
 
 document.addEventListener('click',function(e){
@@ -1007,7 +1107,7 @@ async function loadDestinationsPageData() {
   applyTrustBadges();
   applyCardTypography(s);
 
-  if (s.logo_url) { var logoEl = document.getElementById('navLogoImg'); if (logoEl) logoEl.src = s.logo_url; }
+  
 
   /* ── HERO ── */
   setText('heroH1', s.dest_hero_heading);
@@ -1020,7 +1120,7 @@ async function loadDestinationsPageData() {
     setText('hiwDesc'+n, s['dest_hiw'+n+'_desc']);
   });
   [1,2,3,4].forEach(function(n){
-    var hiwIconUrl = s['dest_hiw'+n+'_icon'];
+    var hiwIconUrl = DEST_HIW_IMAGE_ICONS[n] || s['dest_hiw'+n+'_icon'];
     if (hiwIconUrl) {
       var hiwIconEl = document.getElementById('hiwIcon'+n);
       if (hiwIconEl) hiwIconEl.innerHTML = '<img src="' + esc(hiwIconUrl) + '" alt="">';
