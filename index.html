@@ -1449,7 +1449,7 @@ body{font-display:swap}
 
 .trips-more2{text-align:center;margin-top:2rem;padding:0 1rem}
 .promo-banner-sec{padding:clamp(1.5rem,3vw,2.5rem) clamp(1.25rem,4vw,3rem)}
-.promo-banner-outer{max-width:1320px;margin:0 auto}
+.promo-banner-outer{max-width:1320px;margin:0 auto;position:relative}
 .promo-banner-track{
   position:relative;display:flex;
   border-radius:18px;
@@ -1473,6 +1473,7 @@ body{font-display:swap}
 .promo-banner-dots{display:flex;justify-content:center;gap:8px;margin-top:1rem}
 .promo-banner-dot{width:8px;height:8px;border-radius:50%;background:#d1d5db;cursor:pointer;transition:all .25s;border:none;padding:0}
 .promo-banner-dot.active{background:var(--teal);width:22px;border-radius:5px}
+.promo-banner-track.is-dragging{cursor:grabbing;scroll-snap-type:none}
 .ct-cards-sec{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
 .ct-cards-eyebrow{font-family:'Poppins',sans-serif;font-size:13px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--teal)}
 .ct-cards-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;max-width:1320px;margin:2.5rem auto 0}
@@ -1931,37 +1932,25 @@ body{font-display:swap}
         <div class="confidence-track">
           <div class="confidence-set">
             <img class="confidence-logo logo-wide" src="assets/images/book-confidence/clean/google-reviews.png" alt="Google Reviews">
-            <img class="confidence-logo" src="assets/images/book-confidence/clean/tripadvisor.png" alt="Tripadvisor">
-            <img class="confidence-logo" src="assets/images/book-confidence/clean/ministry-tourism-india.png" alt="Ministry of Tourism">
+            <img class="confidence-logo" src="assets/images/book-confidence/clean/jnto.png" alt="JNTO">
             <img class="confidence-logo" src="assets/images/book-confidence/clean/incredible-india.png" alt="Incredible India">
             <img class="confidence-logo" src="assets/images/book-confidence/clean/iata.png" alt="IATA">
-            <img class="confidence-logo" src="assets/images/book-confidence/clean/dubai.png" alt="Dubai">
-            <img class="confidence-logo" src="assets/images/book-confidence/clean/germany.png" alt="Germany Simply Inspiring">
             <img class="confidence-logo" src="assets/images/book-confidence/clean/visit-indonesia.png" alt="Visit Indonesia">
-            <img class="confidence-logo" src="assets/images/book-confidence/clean/vietnam.png" alt="Vietnam">
-            <img class="confidence-logo" src="assets/images/book-confidence/clean/jnto.png" alt="JNTO">
-            <img class="confidence-logo" src="assets/images/book-confidence/clean/love-philippines.png" alt="Love The Philippines">
-            <img class="confidence-logo" src="assets/images/book-confidence/clean/sri-lanka.png" alt="Sri Lanka">
+            <img class="confidence-logo" src="assets/images/book-confidence/clean/tripadvisor.png" alt="Tripadvisor">
             <img class="confidence-logo" src="assets/images/book-confidence/clean/egypt.png" alt="Egypt">
-            <img class="confidence-logo logo-tall" src="assets/images/book-confidence/clean/espana.png" alt="Espana">
-            <img class="confidence-logo" src="assets/images/book-confidence/clean/russia.png" alt="Russia">
+            <img class="confidence-logo" src="assets/images/book-confidence/clean/love-philippines.png" alt="Love The Philippines">
+            <img class="confidence-logo" src="assets/images/book-confidence/clean/ministry-tourism-india.png" alt="Ministry of Tourism">
           </div>
           <div class="confidence-set" aria-hidden="true">
             <img class="confidence-logo logo-wide" src="assets/images/book-confidence/clean/google-reviews.png" alt="">
-            <img class="confidence-logo" src="assets/images/book-confidence/clean/tripadvisor.png" alt="">
-            <img class="confidence-logo" src="assets/images/book-confidence/clean/ministry-tourism-india.png" alt="">
+            <img class="confidence-logo" src="assets/images/book-confidence/clean/jnto.png" alt="">
             <img class="confidence-logo" src="assets/images/book-confidence/clean/incredible-india.png" alt="">
             <img class="confidence-logo" src="assets/images/book-confidence/clean/iata.png" alt="">
-            <img class="confidence-logo" src="assets/images/book-confidence/clean/dubai.png" alt="">
-            <img class="confidence-logo" src="assets/images/book-confidence/clean/germany.png" alt="">
             <img class="confidence-logo" src="assets/images/book-confidence/clean/visit-indonesia.png" alt="">
-            <img class="confidence-logo" src="assets/images/book-confidence/clean/vietnam.png" alt="">
-            <img class="confidence-logo" src="assets/images/book-confidence/clean/jnto.png" alt="">
-            <img class="confidence-logo" src="assets/images/book-confidence/clean/love-philippines.png" alt="">
-            <img class="confidence-logo" src="assets/images/book-confidence/clean/sri-lanka.png" alt="">
+            <img class="confidence-logo" src="assets/images/book-confidence/clean/tripadvisor.png" alt="">
             <img class="confidence-logo" src="assets/images/book-confidence/clean/egypt.png" alt="">
-            <img class="confidence-logo logo-tall" src="assets/images/book-confidence/clean/espana.png" alt="">
-            <img class="confidence-logo" src="assets/images/book-confidence/clean/russia.png" alt="">
+            <img class="confidence-logo" src="assets/images/book-confidence/clean/love-philippines.png" alt="">
+            <img class="confidence-logo" src="assets/images/book-confidence/clean/ministry-tourism-india.png" alt="">
           </div>
         </div>
       </div>
@@ -3059,14 +3048,6 @@ function shuffleConfidenceLogos() {
     if (!sets.length) return;
     var logos = Array.prototype.slice.call(sets[0].querySelectorAll('img.confidence-logo'));
     if (logos.length < 2) return;
-    for (var i = logos.length - 1; i > 0; i--) {
-      var j = Math.floor(Math.random() * (i + 1));
-      var tmp = logos[i];
-      logos[i] = logos[j];
-      logos[j] = tmp;
-    }
-    sets[0].innerHTML = '';
-    logos.forEach(function(logo) { sets[0].appendChild(logo); });
     for (var s = 1; s < sets.length; s++) {
       sets[s].innerHTML = '';
       logos.forEach(function(logo) {
@@ -3103,22 +3084,36 @@ async function applyTrustBadges() {
 }
 
 var AD_BANNER_ROWS = [];
-var HOME_FEATURED_AD_BANNER = {
-  image_url: 'assets/images/ad-banners/egypt-nile-banner.jpg',
-  image_url_mobile: 'assets/images/ad-banners/egypt-nile-banner.jpg',
-  image_position: 'center',
-  title: '',
-  subtitle: '',
-  link: 'group-trip.html?trip=egypt'
-};
+var HOME_FEATURED_AD_BANNERS = [
+  {
+    image_url: 'assets/images/ad-banners/egypt-nile-banner.jpg',
+    image_url_mobile: 'assets/images/ad-banners/egypt-nile-banner.jpg',
+    image_position: 'center',
+    title: '',
+    subtitle: '',
+    link: 'group-trip.html?trip=egypt'
+  },
+  {
+    image_url: 'assets/images/ad-banners/philippines-hop-chill-banner.jpg',
+    image_url_mobile: 'assets/images/ad-banners/philippines-hop-chill-banner.jpg',
+    image_position: 'center',
+    title: '',
+    subtitle: '',
+    link: 'group-trip.html?trip=philippines'
+  },
+  {
+    image_url: 'assets/images/ad-banners/thailand-full-moon-banner.jpg',
+    image_url_mobile: 'assets/images/ad-banners/thailand-full-moon-banner.jpg',
+    image_position: 'center',
+    title: '',
+    subtitle: '',
+    link: 'group-trip.html?trip=thailand'
+  }
+];
 async function applyAdBanners() {
   var rows = await sbGet('ad_banners', 'active=eq.true&order=sort_order.asc');
   rows = rows.filter(function(r) { return r.image_url; });
-  if (rows.length) {
-    rows[0] = Object.assign({}, rows[0], HOME_FEATURED_AD_BANNER);
-  } else {
-    rows = [HOME_FEATURED_AD_BANNER];
-  }
+  rows = HOME_FEATURED_AD_BANNERS.concat(rows.slice(1));
   AD_BANNER_ROWS = rows;
   renderAdBanners();
 }
@@ -3297,7 +3292,7 @@ function initPromoBannerCarousel(){
   var slides=track.querySelectorAll('.promo-banner-slide');
   var n=slides.length;
   if(n<=1) return;
-  var idx=0, timer=null, syncing=false;
+  var idx=0, timer=null, syncing=false, dragging=false, didDrag=false, suppressClick=false, startX=0, startLeft=0;
 
   for(var i=0;i<n;i++){
     var dot=document.createElement('button');
@@ -3318,12 +3313,60 @@ function initPromoBannerCarousel(){
     setTimeout(function(){ syncing=false; }, 700);
   }
   function next(){ goTo(idx+1); }
+  function prev(){ goTo(idx-1); }
   function resetTimer(){
     if(timer) clearInterval(timer);
     timer=setInterval(next, 2000); /* advance every 2 seconds */
   }
+  var wheelLock=false;
+  track.addEventListener('wheel',function(e){
+    if(Math.abs(e.deltaX)<=Math.abs(e.deltaY)) return;
+    e.preventDefault();
+    if(wheelLock) return;
+    wheelLock=true;
+    if(e.deltaX>0) next(); else prev();
+    resetTimer();
+    setTimeout(function(){ wheelLock=false; },650);
+  },{passive:false});
+  track.addEventListener('pointerdown',function(e){
+    if(e.pointerType && e.pointerType!=='mouse') return;
+    dragging=true;
+    didDrag=false;
+    startX=e.clientX;
+    startLeft=track.scrollLeft;
+    track.classList.add('is-dragging');
+    if(track.setPointerCapture) track.setPointerCapture(e.pointerId);
+    if(timer) clearInterval(timer);
+  });
+  track.addEventListener('pointermove',function(e){
+    if(!dragging) return;
+    var delta=e.clientX-startX;
+    if(Math.abs(delta)>6) didDrag=true;
+    track.scrollLeft=startLeft-delta;
+    e.preventDefault();
+  });
+  function endDrag(e){
+    if(!dragging) return;
+    dragging=false;
+    track.classList.remove('is-dragging');
+    if(track.releasePointerCapture && e && e.pointerId!=null) track.releasePointerCapture(e.pointerId);
+    if(didDrag){
+      suppressClick=true;
+      var w=track.clientWidth;
+      goTo(w ? Math.round(track.scrollLeft/w) : idx);
+      setTimeout(function(){ suppressClick=false; },80);
+    }
+    resetTimer();
+  }
+  track.addEventListener('pointerup',endDrag);
+  track.addEventListener('pointercancel',endDrag);
+  track.addEventListener('click',function(e){
+    if(!suppressClick) return;
+    e.preventDefault();
+    e.stopPropagation();
+  },true);
   track.addEventListener('mouseenter',function(){ if(timer) clearInterval(timer); });
-  track.addEventListener('mouseleave',resetTimer);
+  track.addEventListener('mouseleave',function(){ if(!dragging) resetTimer(); });
 
   /* If the visitor manually swipes/drags, keep the dots in sync without
      fighting their scroll position. */
@@ -3355,6 +3398,6 @@ function toggleFooterCol(el) {
   if (links) links.classList.toggle('open');
 }
 </script>
-  <script src="footer-enhancements.js?v=20260903-8" defer></script>
+  <script src="footer-enhancements.js?v=20260916-3" defer></script>
 </body>
 </html>
