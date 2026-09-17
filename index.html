@@ -841,6 +841,12 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
 /* Spacer after last card so it fully exits sticky */
 .why-pad{height:clamp(1.5rem,3vw,2.5rem)}
 
+@media(min-width:769px){
+  .why-sec{padding-bottom:1rem}
+  .why-pad{height:0}
+  .why-sec + .cta-sec{padding-top:1rem}
+}
+
 /* Hide all ticker/marquee bars */
 .topbar,.mq-bar,.mq-strip,.dest-mq,.ticker{display:none!important}
 
@@ -3398,6 +3404,6 @@ function toggleFooterCol(el) {
   if (links) links.classList.toggle('open');
 }
 </script>
-  <script src="footer-enhancements.js?v=20260916-3" defer></script>
+  <script src="footer-enhancements.js?v=20260917-1" defer></script>
 </body>
 </html>

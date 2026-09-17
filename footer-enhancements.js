@@ -9,6 +9,51 @@
     Facebook: '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M22.68 0H1.32C.59 0 0 .59 0 1.32v21.36C0 23.41.59 24 1.32 24h11.5v-9.29H9.69v-3.62h3.13V8.41c0-3.1 1.89-4.79 4.66-4.79 1.33 0 2.47.1 2.8.14v3.25h-1.92c-1.51 0-1.8.72-1.8 1.77v2.31h3.59l-.47 3.62h-3.12V24h6.12c.73 0 1.32-.59 1.32-1.32V1.32C24 .59 23.41 0 22.68 0Z"/></svg>'
   };
   var siteFavicon = 'https://static.wixstatic.com/media/2efa41_f5b76adb62a34d9bb01837838dd6064c~mv2.png/v1/fill/w_192,h_192,lg_1,usm_0.66_1.00_0.01/2efa41_f5b76adb62a34d9bb01837838dd6064c~mv2.png';
+  var mobileMenuGroups = [
+    {
+      heading: 'Explore',
+      links: [
+        { label: 'Home', href: 'index.html' },
+        { label: 'About Us', href: 'about-us.html' },
+        { label: 'Instagram', href: 'https://www.instagram.com/eureka.trips', external: true },
+        { label: 'What we do', href: 'whats-included.html' },
+        { label: 'Testimonials', href: 'index.html#reviews' },
+        { label: 'Capture on Eureka', href: 'about-us.html#gallery' }
+      ]
+    },
+    {
+      heading: 'For You',
+      links: [
+        { label: 'Explore All Trips', href: 'destinations.html' },
+        { label: 'Build Your Own Adventure', href: 'custom-trips.html' },
+        { label: 'Destination Guides', href: 'destination-guide.html' },
+        { label: 'Event & Corporate', href: 'contact-us.html' }
+      ]
+    },
+    {
+      heading: 'International Tours',
+      links: [
+        { label: 'Indonesia', href: 'destinations.html?q=Indonesia' },
+        { label: 'Philippines', href: 'destinations.html?q=Philippines' },
+        { label: 'Egypt', href: 'destinations.html?q=Egypt' },
+        { label: 'Spain', href: 'destinations.html?q=Spain' },
+        { label: 'Maldives', href: 'destinations.html?q=Maldives' },
+        { label: 'Sri Lanka', href: 'destinations.html?q=Sri%20Lanka' }
+      ]
+    },
+    {
+      heading: 'More',
+      links: [
+        { label: 'Linktree', href: 'https://linktr.ee/eurekatrips', external: true },
+        { label: 'Get Inspired', href: 'blog.html' },
+        { label: 'Contact Us', href: 'contact-us.html' },
+        { label: 'Creators Hub', href: 'contact-us.html' },
+        { label: 'Payment Policy', href: 'terms-conditions.html' },
+        { label: 'Terms & Conditions', href: 'terms-conditions.html' },
+        { label: 'Privacy Policy', href: 'privacy-policy.html' }
+      ]
+    }
+  ];
 
   function installFavicon() {
     var favicon = document.querySelector('link[rel~="icon"]') || document.createElement('link');
@@ -31,6 +76,7 @@
       whatsapp.innerHTML = whatsappIcon;
       document.body.appendChild(whatsapp);
     }
+    installMobileDrawerMenu();
 
     if (!footer || footer.dataset.footerEnhanced === 'true') return;
     footer.dataset.footerEnhanced = 'true';
@@ -86,6 +132,30 @@
     });
   }
 
+  function installMobileDrawerMenu() {
+    var drawer = document.querySelector('.mob-drawer');
+    var linksWrap = drawer && drawer.querySelector('.mob-links');
+    if (!drawer || !linksWrap || drawer.dataset.menuUpdated === 'true') return;
+    drawer.dataset.menuUpdated = 'true';
+    drawer.classList.add('mob-menu-updated');
+
+    linksWrap.innerHTML = mobileMenuGroups.map(function (group, index) {
+      var items = group.links.map(function (link) {
+        var target = link.external ? ' target="_blank" rel="noopener"' : '';
+        return '<a href="' + link.href + '"' + target + ' onclick="closeDrawer()">' + link.label + '</a>';
+      }).join('');
+      return '<div class="mob-links-more' + (index === 0 ? ' mob-links-first' : '') + '">' + group.heading + '</div>' + items;
+    }).join('');
+
+    var foot = drawer.querySelector('.mob-foot');
+    if (!foot) {
+      foot = document.createElement('div');
+      foot.className = 'mob-foot';
+      drawer.appendChild(foot);
+    }
+    foot.innerHTML = '<button class="mob-cta-btn" type="button" onclick="if(window.openWA){openWA(\'Hi Eureka Trips! I want to chat with you.\')}else{window.open(\'https://wa.me/919792496457\',\'_blank\')}closeDrawer()">Chat with Us</button>';
+  }
+
   var style = document.createElement('style');
   style.textContent = [
     '.footer .footer-grid{max-width:1280px!important;width:100%;grid-template-columns:1.6fr 1fr 1fr 1fr!important;gap:2.5rem!important;margin:0 auto 2.5rem!important;padding-bottom:0!important;border-bottom:0!important}',
@@ -120,6 +190,8 @@
     '.site-scroll-top{display:none;border:1px solid rgba(255,255,255,.38);width:44px;height:44px;border-radius:50%;align-items:center;justify-content:center;background:#075c57;color:#fff;cursor:pointer;box-shadow:0 8px 20px rgba(0,0,0,.2);transition:opacity .2s,transform .2s,background .2s}',
     '.site-scroll-top:hover{background:#0a7770}',
     '.site-scroll-top svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2.3;stroke-linecap:round;stroke-linejoin:round}',
+    '@media(max-width:768px){.mob-drawer.mob-menu-updated:not(.open):not(.show){right:-100vw!important;transform:translateX(100%)!important;visibility:hidden!important;pointer-events:none!important}.mob-drawer.mob-menu-updated.open,.mob-drawer.mob-menu-updated.show{right:0!important;transform:translateX(0)!important;visibility:visible!important;pointer-events:auto!important}}',
+    '@media(max-width:768px){.mob-drawer.mob-menu-updated{background:#02A9A2!important;color:#fff!important;max-width:360px!important;width:min(360px,88vw)!important}.mob-drawer.mob-menu-updated .mob-drawer-head{border-bottom:1px solid rgba(255,255,255,.16)!important}.mob-drawer.mob-menu-updated .mob-close{color:#fff!important}.mob-drawer.mob-menu-updated .mob-links{padding:1rem 0!important;gap:0!important;overflow-y:auto!important}.mob-drawer.mob-menu-updated .mob-links-more{display:block!important;padding:16px 1.5rem 8px!important;border-top:1px solid rgba(255,255,255,.16)!important;margin:6px 0 0!important;font-family:"Poppins",sans-serif!important;font-size:11px!important;font-weight:800!important;letter-spacing:1.4px!important;line-height:1.2!important;color:rgba(255,255,255,.72)!important;text-transform:uppercase!important}.mob-drawer.mob-menu-updated .mob-links-first{border-top:0!important;margin-top:0!important}.mob-drawer.mob-menu-updated .mob-links a{display:block!important;padding:12px 1.5rem!important;border-top:1px solid rgba(255,255,255,.12)!important;font-family:"Apfel Grotezk","Poppins",sans-serif!important;font-size:15px!important;font-weight:700!important;line-height:1.25!important;color:#fff!important}.mob-drawer.mob-menu-updated .mob-links-more+a{border-top:0!important}.mob-drawer.mob-menu-updated .mob-foot{padding:1rem 1.5rem 1.5rem!important;margin-top:auto!important;background:linear-gradient(180deg,rgba(2,169,162,0),#02A9A2 26%)!important}.mob-drawer.mob-menu-updated .mob-cta-btn{background:#FFA43B!important;color:#fff!important;border-radius:10px!important;padding:14px!important;width:100%!important;font-size:14px!important;font-weight:800!important;box-shadow:0 10px 18px rgba(0,0,0,.12)!important}}',
     '@media(max-width:1100px){.footer .footer-grid{grid-template-columns:1fr 1fr!important;gap:2rem!important}}',
     '@media(max-width:768px){.footer-wrap{width:100vw!important;max-width:100vw!important;margin-left:calc(50% - 50vw)!important;margin-right:calc(50% - 50vw)!important}.footer{width:100%!important;max-width:none!important;box-sizing:border-box!important;padding:2.5rem 1.25rem 1.5rem!important}.footer .footer-grid{display:grid!important;grid-template-columns:1fr!important;gap:1.5rem!important;width:100%!important;max-width:none!important;margin:0!important;padding-bottom:0!important;border-bottom:0!important}.footer .footer-grid>div:first-child{justify-self:start!important;width:100%!important;max-width:none!important}.footer .ft-mission{width:100%!important;max-width:none!important}.footer .ft-social{gap:10px!important}.footer .fsb{width:34px!important;height:34px!important;flex-basis:34px!important}.footer .fsb svg{width:15px!important;height:15px!important}.footer .ft-col-h{font-size:16px!important;line-height:20px!important;margin-bottom:.6rem!important}.footer .ft-col-h-toggle{display:flex!important;align-items:center!important;justify-content:space-between!important}.footer .ft-col-links{gap:.35rem!important}.footer .ft-col-links a{font-size:13px!important;line-height:1.28!important}.footer .ft-contact-item{gap:.5rem!important;margin-bottom:.8rem!important}.footer .ft-contact-lbl{font-size:13px!important}.footer .ft-contact-val{font-size:12px!important}.footer .ft-bottom-row{width:100%!important;display:flex!important;flex-direction:column!important;align-items:flex-start!important;justify-content:flex-start!important;gap:1rem!important;margin:1.25rem 0 0!important;padding-top:1.25rem!important}.footer .ft-pay-row,.footer .ft-badges{width:100%!important;max-width:100%!important}.footer .ft-pay-row #ftPayLogos{gap:1rem!important;flex-wrap:wrap!important}.footer .ft-pay-row #ftPayLogos img,.footer .ft-pay{height:20px!important;max-height:20px!important;max-width:120px!important}.footer .ft-badges{gap:1.25rem!important;flex-wrap:wrap!important}.footer .ft-badge{height:38px!important;max-width:140px!important}.footer .footer-btm{width:100%!important;margin:1rem 0 0!important;flex-direction:column!important;align-items:flex-start!important;gap:.75rem!important}.footer .ft-legal{gap:1rem!important;flex-wrap:wrap!important}.site-whatsapp-float{right:14px;bottom:calc(72px + env(safe-area-inset-bottom,0px));width:56px;height:56px}.site-whatsapp-float svg{width:32px;height:32px}.site-scroll-top{display:flex;position:fixed;right:20px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:1200;opacity:0;pointer-events:none;transform:translateY(8px)}.site-scroll-top.is-visible{opacity:1;pointer-events:auto;transform:translateY(0)}}'
   ].join('');
