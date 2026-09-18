@@ -209,22 +209,27 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
 .cu-form-urgent strong{color:#FF8A66}
 
 /* ─────────────────────────────────────────
-   BOOK WITH CONFIDENCE — trust badges
+   BOOK WITH CONFIDENCE — same marquee as Home
 ───────────────────────────────────────── */
-.cu-trust-sec{background:#fff;padding:clamp(2.5rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem);text-align:center}
-.cu-trust-h{font-family:'Poppins',sans-serif;font-size:42px;font-weight:600;color:#3A3B3B;letter-spacing:-1px;line-height:1.15;margin-bottom:clamp(1.75rem,3vw,2.5rem)}
-.cu-trust-logos{display:flex;align-items:center;justify-content:center;gap:clamp(2.5rem,6vw,5rem);flex-wrap:wrap}
-.cu-trust-item{display:flex;flex-direction:column;align-items:center;gap:.35rem}
-.cu-google-word{font-family:Arial,'Poppins',sans-serif;font-size:34px;font-weight:700;letter-spacing:.5px}
-.cu-google-word .g1{color:#4285F4}
-.cu-google-word .r1{color:#EA4335}
-.cu-google-word .y1{color:#FBBC05}
-.cu-google-word .g2{color:#4285F4}
-.cu-google-word .l1{color:#34A853}
-.cu-google-word .r2{color:#EA4335}
-.cu-google-rating{display:flex;align-items:center;gap:6px;font-size:14px;color:#3A3B3B;font-weight:600}
-.cu-stars{color:#FBBC05;font-size:14px;letter-spacing:1px}
-.cu-trust-item img{height:38px;width:auto;display:block}
+.cu-trust-sec{background:#fff;padding:clamp(2.5rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem);text-align:center;overflow:hidden}
+.reviews-confidence{text-align:center;margin:0 auto;overflow:hidden}
+.reviews-confidence h3{
+  font-family:'Apfel Grotezk','Poppins',sans-serif;
+  font-size:42px;font-weight:700;color:#3A3B3B;
+  margin-bottom:.6rem;letter-spacing:.2px;
+}
+.confidence-marquee{position:relative;max-width:760px;margin:0 auto;padding:.15rem 0;overflow:hidden}
+.confidence-marquee::before,.confidence-marquee::after{content:"";position:absolute;top:0;bottom:0;width:64px;z-index:2;pointer-events:none}
+.confidence-marquee::before{left:0;background:linear-gradient(90deg,#fff 0%,rgba(255,255,255,0) 100%)}
+.confidence-marquee::after{right:0;background:linear-gradient(270deg,#fff 0%,rgba(255,255,255,0) 100%)}
+.confidence-track{display:flex;width:max-content;animation:confidence-scroll 34s linear infinite}
+.confidence-marquee:hover .confidence-track{animation-play-state:paused}
+.confidence-set{display:flex;align-items:center;gap:clamp(1.5rem,3vw,2.25rem);padding:0 clamp(.75rem,2vw,1.25rem)}
+.confidence-logo{height:clamp(42px,5vw,62px);width:auto;max-width:160px;object-fit:contain;display:block;filter:drop-shadow(0 4px 8px rgba(0,0,0,.04))}
+.confidence-logo.logo-wide{max-width:190px}
+.confidence-logo.logo-tall{height:clamp(50px,5.8vw,70px)}
+@keyframes confidence-scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@media(prefers-reduced-motion:reduce){.confidence-track{animation:none;transform:none}}
 .cu-cards{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:clamp(1.5rem,3vw,2rem)}
 .cu-card{background:#F1F9F9;border-radius:20px;padding:clamp(2rem,3vw,2.5rem) clamp(1.5rem,2.5vw,2rem);text-align:center;display:flex;flex-direction:column;align-items:center}
 .cu-card-icon{width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,#FFC07A,#FF8A4C);display:flex;align-items:center;justify-content:center;font-size:28px;margin-bottom:1.25rem}
@@ -429,6 +434,13 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
   .cu-form-row{grid-template-columns:1fr}
   .ab-belief-row{grid-template-columns:1fr;gap:2.5rem}
   .ab-photo-grid{margin:0 auto;max-width:420px;height:clamp(320px,90vw,420px)}
+  .reviews-confidence{margin-top:0}
+  .confidence-marquee{max-width:100%;padding:.1rem 0}
+  .confidence-marquee::before,.confidence-marquee::after{width:34px}
+  .confidence-set{gap:1.15rem;padding:0 .55rem}
+  .confidence-logo{height:42px;max-width:128px}
+  .confidence-logo.logo-wide{max-width:150px}
+  .confidence-logo.logo-tall{height:50px}
 }
 @media(max-width:560px){
   .gal-drag-wrap{height:300px;border-radius:16px}
@@ -461,10 +473,10 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
   </a>
     <div class="nav-pill">
     <a href="about-us.html">About Us</a>
-    <a href="destinations.html">Destinations</a>
-    <a href="group-trip.html">Group Trip</a>
-    <a href="custom-trips.html">Build Your Adventure</a>
+    <a href="destinations.html">Explore All Trips</a>
+    <a href="custom-trips.html">Tours</a>
     <a href="blog.html">Blog</a>
+    <a href="index.html#reviews">Reviews</a>
     <a href="contact-us.html" class="active">Contact Us</a>
   </div>
 <div class="nav-right">
@@ -581,14 +593,33 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
 
 <!-- BOOK WITH CONFIDENCE -->
 <section class="cu-trust-sec">
-  <h2 class="cu-trust-h" id="cuTrustHeading" data-ts="contact_trust_heading"></h2>
-  <div class="cu-trust-logos">
-    <div class="cu-trust-item">
-      <div class="cu-google-word"><span class="g1">G</span><span class="r1">o</span><span class="y1">o</span><span class="g2">g</span><span class="l1">l</span><span class="r2">e</span></div>
-      <div class="cu-google-rating" id="cuGoogleRating">4.9 <span class="cu-stars">★★★★★</span></div>
-    </div>
-    <div class="cu-trust-item">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Tripadvisor_Logo_circle-green_vertical-lockup_registered_RGB.svg/200px-Tripadvisor_Logo_circle-green_vertical-lockup_registered_RGB.svg.png" alt="Tripadvisor" loading="lazy">
+  <div class="reviews-confidence">
+    <h3 id="cuTrustHeading" data-ts="contact_trust_heading">Book with confidence</h3>
+    <div class="confidence-marquee" aria-label="Trusted travel and review logos">
+      <div class="confidence-track">
+        <div class="confidence-set">
+          <img class="confidence-logo logo-wide" src="assets/images/book-confidence/clean/google-reviews.png" alt="Google Reviews">
+          <img class="confidence-logo" src="assets/images/book-confidence/clean/jnto.png" alt="JNTO">
+          <img class="confidence-logo" src="assets/images/book-confidence/clean/incredible-india.png" alt="Incredible India">
+          <img class="confidence-logo" src="assets/images/book-confidence/clean/iata.png" alt="IATA">
+          <img class="confidence-logo" src="assets/images/book-confidence/clean/visit-indonesia.png" alt="Visit Indonesia">
+          <img class="confidence-logo" src="assets/images/book-confidence/clean/tripadvisor.png" alt="Tripadvisor">
+          <img class="confidence-logo" src="assets/images/book-confidence/clean/egypt.png" alt="Egypt">
+          <img class="confidence-logo" src="assets/images/book-confidence/clean/love-philippines.png" alt="Love The Philippines">
+          <img class="confidence-logo" src="assets/images/book-confidence/clean/ministry-tourism-india.png" alt="Ministry of Tourism">
+        </div>
+        <div class="confidence-set" aria-hidden="true">
+          <img class="confidence-logo logo-wide" src="assets/images/book-confidence/clean/google-reviews.png" alt="">
+          <img class="confidence-logo" src="assets/images/book-confidence/clean/jnto.png" alt="">
+          <img class="confidence-logo" src="assets/images/book-confidence/clean/incredible-india.png" alt="">
+          <img class="confidence-logo" src="assets/images/book-confidence/clean/iata.png" alt="">
+          <img class="confidence-logo" src="assets/images/book-confidence/clean/visit-indonesia.png" alt="">
+          <img class="confidence-logo" src="assets/images/book-confidence/clean/tripadvisor.png" alt="">
+          <img class="confidence-logo" src="assets/images/book-confidence/clean/egypt.png" alt="">
+          <img class="confidence-logo" src="assets/images/book-confidence/clean/love-philippines.png" alt="">
+          <img class="confidence-logo" src="assets/images/book-confidence/clean/ministry-tourism-india.png" alt="">
+        </div>
+      </div>
     </div>
   </div>
 </section>

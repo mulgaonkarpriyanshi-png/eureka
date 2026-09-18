@@ -440,9 +440,13 @@ img{display:block;max-width:100%}
 
 .gt-slider{position:relative;overflow:hidden;border-radius:12px}
 .gt-slider-track{display:flex;gap:12px;will-change:transform}
-.gt-slider-track img{height:308px;width:220px;object-fit:cover;border-radius:12px;flex-shrink:0;display:block}
+.gt-slider-track img{height:308px;width:220px;object-fit:cover;border-radius:12px;flex-shrink:0;display:block;transition:transform .28s ease,box-shadow .28s ease,border-color .28s ease,opacity .28s ease}
 @media(max-width:640px){
-  .gt-slider-track img{height:220px;width:190px}
+  .gt-slider{overflow-x:auto;overflow-y:visible;border-radius:14px;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:5px 0 12px}
+  .gt-slider::-webkit-scrollbar{display:none}
+  .gt-slider-track{will-change:scroll-position}
+  .gt-slider-track img{height:286px;width:210px;scroll-snap-align:center;border:2px solid rgba(2,169,162,.18);box-shadow:0 4px 14px rgba(15,75,65,.08);opacity:.78;transform:scale(.94)}
+  .gt-slider-track img.is-active{border-color:var(--teal);box-shadow:0 12px 28px rgba(15,75,65,.2);opacity:1;transform:scale(1)}
 }
 
 /* Inclusions panel */
@@ -575,19 +579,20 @@ img{display:block;max-width:100%}
 }
 .date-card-date{text-align:center;min-width:100px;flex-shrink:0}
 .date-card-date .day{font-family:'Outfit','Poppins',sans-serif;font-size:24px;font-weight:600;font-style:normal;letter-spacing:0.2px;color:#027A74;line-height:1}
-.date-card-date .month{font-family:'Outfit','Poppins',sans-serif;font-size:24px;font-weight:600;font-style:normal;letter-spacing:0.2px;color:#027A74;text-transform:uppercase}
+.date-card-date .month{font-family:'Outfit','Poppins',sans-serif;font-size:24px;font-weight:600;font-style:normal;letter-spacing:0.2px;color:#027A74;text-transform:uppercase;line-height:1.05}
 .date-card-date .month-short{display:none}
-.date-card-date .dur{font-family:'Poppins',sans-serif;font-size:14px;color:#027A74;font-weight:600;line-height:1.5;margin-top:.25rem}
+.date-card-date .dur{font-family:'Poppins',sans-serif;font-size:14px;color:#027A74;font-weight:600;line-height:1.15;margin-top:.15rem}
 
-.date-card-days{display:flex;flex-direction:column;gap:.65rem;font-family:'Poppins',sans-serif}
+.date-card-days{display:flex;flex-direction:column;gap:.45rem;font-family:'Poppins',sans-serif}
+.date-card-day-row{line-height:1.15}
 .date-card-day-row .lbl{font-weight:700;font-size:15px;color:#3A3B3B}
 .date-card-day-row .val{font-weight:400;font-size:15px;color:#3A3B3B}
 
 .date-card-spots{font-family:'Poppins',sans-serif;font-size:16px;color:#3A3B3B;font-weight:500;line-height:1.5;text-align:center;flex:1;min-width:120px}
 
 .date-card-right{text-align:right;flex-shrink:0}
-.date-card-call{color:#027A74;text-decoration:underline;font-weight:600;font-size:16px;font-family:'Poppins',sans-serif}
-.date-card-price{font-family:'Outfit','Poppins',sans-serif;font-size:30px;font-weight:700;font-style:normal;letter-spacing:0.2px;color:#3A3B3B;margin-top:.35rem}
+.date-card-call{color:#027A74;text-decoration:underline;font-weight:600;font-size:16px;font-family:'Poppins',sans-serif;line-height:1.15;display:inline-block}
+.date-card-price{font-family:'Outfit','Poppins',sans-serif;font-size:30px;font-weight:700;font-style:normal;letter-spacing:0.2px;color:#3A3B3B;margin-top:.2rem;line-height:1.05}
 
 .date-card-more{
   border-top:1px solid var(--border);text-align:center;padding:.9rem;
@@ -608,7 +613,8 @@ img{display:block;max-width:100%}
 .dm-flight{margin:1.75rem 0 1.1rem}
 .dm-flight-h{display:flex;align-items:center;gap:.5rem;font-family:'Poppins',sans-serif;font-weight:700;font-size:13.5px;color:var(--dark);margin-bottom:.4rem}
 .dm-flight p{font-family:'Poppins',sans-serif;font-size:13px;color:var(--body);line-height:1.7}
-.dm-confidence{color:var(--teal-d);text-decoration:underline;font-weight:700;font-size:13px;font-family:'Poppins',sans-serif}
+.dm-confidence,.dm-confidence:visited{color:var(--teal)!important;text-decoration:underline;font-weight:700;font-size:13px;font-family:'Poppins',sans-serif}
+.dm-confidence:hover{color:var(--teal-d)!important}
 
 .dm-right{background:var(--teal-l);border-radius:12px;padding:1.25rem 1.5rem}
 .dm-right-h{font-family:'Apfel Grotesk','Poppins',sans-serif;font-size:17px;font-weight:700;color:var(--dark);margin-bottom:.35rem}
@@ -1130,10 +1136,10 @@ img{display:block;max-width:100%}
   </a>
     <div class="nav-pill">
     <a href="about-us.html">About Us</a>
-    <a href="destinations.html">Destinations</a>
-    <a href="group-trip.html" class="active">Group Trip</a>
-    <a href="custom-trips.html">Build Your Adventure</a>
+    <a href="destinations.html">Explore All Trips</a>
+    <a href="custom-trips.html">Tours</a>
     <a href="blog.html">Blog</a>
+    <a href="index.html#reviews">Reviews</a>
     <a href="contact-us.html">Contact Us</a>
   </div>
 <div class="nav-right">
@@ -2063,8 +2069,14 @@ function initGtSlider(){
   var track=document.getElementById('gtSliderTrack');
   var outer=document.getElementById('gtSlider');
   if(!track||!outer) return;
+  if (outer.dataset.gtSliderInit === '1') return;
+  outer.dataset.gtSliderInit = '1';
   var originalCount=track.children.length;
   if(!originalCount) return;
+  if (window.matchMedia && window.matchMedia('(max-width: 640px)').matches) {
+    initGtMobileSlider(track, outer);
+    return;
+  }
   track.innerHTML += track.innerHTML;
 
   var paused=false;
@@ -2101,10 +2113,113 @@ function initGtSlider(){
   }
   setInterval(step,2200);
 }
+function initGtMobileSlider(track, outer){
+  var paused=false;
+  var scrollTimer=null;
+
+  function images(){
+    return Array.prototype.slice.call(track.querySelectorAll('img'));
+  }
+  function itemStep(){
+    var firstImg=track.querySelector('img');
+    if(!firstImg) return 0;
+    var gap=parseFloat(getComputedStyle(track).gap)||12;
+    return firstImg.getBoundingClientRect().width + gap;
+  }
+  function updateActive(){
+    var imgs=images();
+    if(!imgs.length) return;
+    var center=outer.scrollLeft + outer.clientWidth/2;
+    var best=imgs[0], bestDistance=Infinity;
+    imgs.forEach(function(img){
+      var imgCenter=img.offsetLeft + img.offsetWidth/2;
+      var distance=Math.abs(imgCenter-center);
+      if(distance<bestDistance){bestDistance=distance;best=img;}
+    });
+    imgs.forEach(function(img){ img.classList.toggle('is-active', img===best); });
+  }
+  function queueActiveUpdate(){
+    if(scrollTimer) cancelAnimationFrame(scrollTimer);
+    scrollTimer=requestAnimationFrame(updateActive);
+  }
+  function step(){
+    if(paused || !outer.offsetParent) return;
+    var w=itemStep();
+    if(!w) return;
+    var atEnd=outer.scrollLeft + outer.clientWidth >= outer.scrollWidth - w*.6;
+    outer.scrollTo({left:atEnd ? 0 : outer.scrollLeft + w, behavior:'smooth'});
+    setTimeout(updateActive, 420);
+  }
+
+  outer.addEventListener('scroll', queueActiveUpdate, {passive:true});
+  outer.addEventListener('touchstart',function(){paused=true},{passive:true});
+  outer.addEventListener('touchend',function(){setTimeout(function(){paused=false;updateActive();},900)},{passive:true});
+  outer.addEventListener('mouseenter',function(){paused=true});
+  outer.addEventListener('mouseleave',function(){paused=false});
+  window.addEventListener('resize', updateActive);
+  updateActive();
+  setInterval(step,2600);
+}
 
 /* ═════════════════════════════════════════════════════════════
    LOAD & APPLY GROUP TRIP DATA FROM SUPABASE
 ═════════════════════════════════════════════════════════════ */
+var GT_MONTH_ORDER = {
+  jan:0,january:0,
+  feb:1,february:1,
+  mar:2,march:2,
+  apr:3,april:3,
+  may:4,
+  jun:5,june:5,
+  jul:6,july:6,
+  aug:7,august:7,
+  sep:8,sept:8,september:8,
+  oct:9,october:9,
+  nov:10,november:10,
+  dec:11,december:11
+};
+function getGroupTripDateSortValue(d) {
+  var label = [d.start_date_label, d.date_day, d.date_month].filter(Boolean).join(' ');
+  var monthMatch = label.match(/\b(jan(?:uary)?|feb(?:ruary)?|mar(?:ch)?|apr(?:il)?|may|jun(?:e)?|jul(?:y)?|aug(?:ust)?|sep(?:t|tember)?|oct(?:ober)?|nov(?:ember)?|dec(?:ember)?)\b/i);
+  if (!monthMatch) return Number.POSITIVE_INFINITY;
+  var month = GT_MONTH_ORDER[monthMatch[1].toLowerCase()];
+  var dayMatch = label.match(/\b(\d{1,2})(?:st|nd|rd|th)?\b/);
+  var day = dayMatch ? Number(dayMatch[1]) : 1;
+  var yearMatch = label.match(/\b(20\d{2}|19\d{2})\b/);
+  var today = new Date();
+  var year = yearMatch ? Number(yearMatch[1]) : today.getFullYear();
+  if (!yearMatch && month < today.getMonth()) year += 1;
+  return new Date(year, month, day, 12).getTime();
+}
+function sortGroupTripDatesByCalendar(a, b) {
+  var diff = getGroupTripDateSortValue(a) - getGroupTripDateSortValue(b);
+  if (diff) return diff;
+  return Number(a.sort_order || 0) - Number(b.sort_order || 0);
+}
+function getGroupTripMapImage(trip, slug) {
+  if (trip && trip.map_image) return trip.map_image;
+  var haystack = [
+    slug,
+    trip && trip.id,
+    trip && trip.title,
+    trip && trip.route,
+    trip && Array.isArray(trip.waypoints) ? trip.waypoints.join(' ') : ''
+  ].filter(Boolean).join(' ').toLowerCase();
+  var maps = [
+    { keys:['vietnam','hanoi','hoi an','hcmc'], src:'assets/images/group-trip-maps/vietnam.jpg' },
+    { keys:['thailand','phuket','koh samui','krabi','full moon'], src:'assets/images/group-trip-maps/thailand.jpg' },
+    { keys:['sri lanka','srilanka','negombo','sigiriya','kandy','mirissa','colombo'], src:'assets/images/group-trip-maps/sri-lanka.jpg' },
+    { keys:['philippines','philippine','manila','cebu','el nido','puerto princesa'], src:'assets/images/group-trip-maps/philippines.jpg' },
+    { keys:['meghalaya','guwahati','shillong','cherrapunji','shnongpdeng'], src:'assets/images/group-trip-maps/meghalaya.jpg' },
+    { keys:['egypt','cairo','aswan','luxor','hurghada','nile'], src:'assets/images/group-trip-maps/egypt.jpg' },
+    { keys:['bali','gili','ubud','seminyak','nusa penida'], src:'assets/images/group-trip-maps/bali.jpg' },
+    { keys:['andaman','andamans','port blair','havelock','neil island'], src:'assets/images/group-trip-maps/andaman.jpg' }
+  ];
+  var match = maps.find(function(item) {
+    return item.keys.some(function(key) { return haystack.indexOf(key) !== -1; });
+  });
+  return match ? match.src : '';
+}
 function buildDateCard(d) {
   var tiers = (d.price_tiers || []).map(function(t) {
     var parts = String(t).split('|');
@@ -2342,7 +2457,8 @@ async function loadGroupTripFromSupabase() {
 
     /* ── MAP NOTE ── */
     setText('gtMapNoteEl', trip.map_note);
-    if (trip.map_image) document.getElementById('gtMapImageEl').src = trip.map_image;
+    var routeMapImage = getGroupTripMapImage(trip, slug);
+    if (routeMapImage) document.getElementById('gtMapImageEl').src = routeMapImage;
 
     /* ── ITINERARY ── */
     setText('gtItinTitleEl', trip.itinerary_heading);
@@ -2355,7 +2471,7 @@ async function loadGroupTripFromSupabase() {
     /* ── AVAILABLE START DATES ── */
     var dateRows = await sbGet('group_trip_dates', 'group_trip_id=eq.' + encodeURIComponent(trip.id) + '&order=sort_order.asc');
     if (dateRows.length) {
-      document.getElementById('gtDatesContainer').innerHTML = dateRows.map(buildDateCard).join('');
+      document.getElementById('gtDatesContainer').innerHTML = dateRows.sort(sortGroupTripDatesByCalendar).map(buildDateCard).join('');
     }
 
     /* ── SOCIAL PROOF ── */
