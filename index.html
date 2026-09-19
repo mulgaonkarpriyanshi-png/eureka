@@ -2987,6 +2987,26 @@ async function applyCategoryBar() {
   applyAllTaggedTypography();
 }
 
+var GROUP_TRIP_PUBLIC_PATHS = {
+  Philippines: 'philippines-hop-and-chill.html',
+  philippines: 'philippines-hop-and-chill.html',
+  egypt: 'egypt-and-the-nile.html',
+  'Sri Lanka': 'sri-lanka-uncovered.html',
+  lanka: 'sri-lanka-uncovered.html',
+  achhe: 'bali-and-gili-experience.html',
+  bali: 'bali-and-gili-experience.html',
+  'domestic-india': 'andamans-explored.html',
+  andaman: 'andamans-explored.html',
+  vietnam: 'vietnam-intro.html',
+  a: 'sailing-thailand-and-fullmoon-party.html',
+  thailand: 'sailing-thailand-and-fullmoon-party.html',
+  'india-domestic': 'meghalaya-explorers.html',
+  meghalaya: 'meghalaya-explorers.html'
+};
+function groupTripPublicPath(id) {
+  return GROUP_TRIP_PUBLIC_PATHS[id] || GROUP_TRIP_PUBLIC_PATHS[String(id || '').toLowerCase()] || ('group-trip.html?trip=' + encodeURIComponent(id || ''));
+}
+
 async function applyTrips() {
   var rows = await sbGet('group_trips', 'active=eq.true&order=sort_order.asc');
   if (!rows.length) return;
@@ -2995,7 +3015,7 @@ async function applyTrips() {
     return {
       id: r.id, name: r.title, route: r.route, dur: r.duration_label, price: r.price || 0,
       dates: r.card_dates ? [r.card_dates] : [], tags: r.tags || [], hot: r.hot, trending: r.trending,
-      page: 'group-trip.html?trip=' + r.id,
+      page: groupTripPublicPath(r.id),
       img: r.card_image_url, gallery: gallery, location: r.card_location
     };
   }));
@@ -3097,7 +3117,7 @@ var HOME_FEATURED_AD_BANNERS = [
     image_position: 'center',
     title: '',
     subtitle: '',
-    link: 'group-trip.html?trip=egypt'
+    link: 'egypt-and-the-nile.html'
   },
   {
     image_url: 'assets/images/ad-banners/philippines-hop-chill-banner.jpg',
@@ -3105,7 +3125,7 @@ var HOME_FEATURED_AD_BANNERS = [
     image_position: 'center',
     title: '',
     subtitle: '',
-    link: 'group-trip.html?trip=philippines'
+    link: 'philippines-hop-and-chill.html'
   },
   {
     image_url: 'assets/images/ad-banners/thailand-full-moon-banner.jpg',
@@ -3113,7 +3133,7 @@ var HOME_FEATURED_AD_BANNERS = [
     image_position: 'center',
     title: '',
     subtitle: '',
-    link: 'group-trip.html?trip=thailand'
+    link: 'sailing-thailand-and-fullmoon-party.html'
   }
 ];
 async function applyAdBanners() {

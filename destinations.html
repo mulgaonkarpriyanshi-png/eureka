@@ -226,12 +226,13 @@ section{padding:clamp(1.25rem,2.5vw,2rem) clamp(1.25rem,4vw,3rem)}
 
 .dest-grid-hdr{text-align:center;padding-bottom:0;margin-bottom:clamp(1rem,2vw,1.5rem);border-bottom:none}
 .dest-grid-hdr h2{font-family:'Poppins',sans-serif;font-size:clamp(22px,3vw,30px);font-weight:600;color:#3A3B3B;letter-spacing:-.3px}
-.dest-grid{display:grid;grid-template-columns:repeat(3,minmax(280px,300px));justify-content:center;gap:1.5rem}
+.dest-grid{display:grid;grid-template-columns:repeat(3,minmax(320px,340px));justify-content:center;gap:1.75rem}
 .dest-carousel-dots{display:none;justify-content:center;gap:6px;margin-top:.75rem;padding:0 1rem}
 .cdot{width:8px;height:8px;border-radius:50%;background:#d1d5db;border:none;cursor:pointer;padding:0;transition:all .28s}
 .cdot.active{background:#02A9A2;width:24px;border-radius:4px}
 .dc2-empty{grid-column:1/-1;text-align:center;padding:3rem 1rem;font-family:'Poppins',sans-serif;font-size:15px;color:var(--body)}
 .tc2{position:relative;background:#fff;border-radius:22px;scroll-snap-align:start;overflow:hidden;border:1.5px solid rgba(2,169,162,.45);box-shadow:0 8px 20px rgba(15,75,65,.08);cursor:pointer;flex-shrink:0;height:470px;width:300px;max-width:100%;display:flex;flex-direction:column;transition:transform .3s ease,box-shadow .3s}
+.dest-grid .tc2{width:100%}
 .tc2:hover{transform:translateY(-5px);box-shadow:0 16px 36px rgba(15,75,65,.16)}
 .tc2-img{position:relative;flex:1 1 0;min-height:180px;overflow:hidden;border-radius:0 0 20px 20px}
 .tc2-gal-arrow{position:absolute;top:50%;transform:translateY(-50%);width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.9);border:none;display:flex;align-items:center;justify-content:center;color:#111;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.25);opacity:0;transition:opacity .2s;z-index:2}
@@ -332,7 +333,7 @@ section{padding:clamp(1.25rem,2.5vw,2rem) clamp(1.25rem,4vw,3rem)}
 @media(max-width:1024px){
   .nav-pill,.nav-soc{display:none}
   .hbg{display:flex}
-  .dest-grid{grid-template-columns:repeat(2,minmax(280px,300px))}
+  .dest-grid{grid-template-columns:repeat(2,minmax(320px,340px))}
   .footer-grid{grid-template-columns:1fr 1fr}
 }
 @media(max-width:900px){.tc2{height:490px}}
@@ -413,12 +414,12 @@ section{padding:clamp(1.25rem,2.5vw,2rem) clamp(1.25rem,4vw,3rem)}
   }
   .dest-grid::-webkit-scrollbar{display:none}
   .dest-grid .tc2{
-    flex:0 0 min(82vw,300px);
-    width:min(82vw,300px);
+    flex:0 0 calc((100vw - 2.5rem) * .92);
+    width:calc((100vw - 2.5rem) * .92);
     max-width:none;
-    scroll-snap-align:center;
+    scroll-snap-align:start;
   }
-  .dest-carousel-dots{display:flex}
+  .dest-carousel-dots{display:flex;margin-top:1.25rem}
 
   /* 7. FAQ — matched to About Us page's mobile FAQ values, per CR note */
   .faq-txt h2{font-size:32px;line-height:35px}

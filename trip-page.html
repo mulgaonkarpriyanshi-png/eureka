@@ -422,7 +422,21 @@ img{display:block;max-width:100%}
   .day-photos{min-height:280px}
 }
 @media(max-width:560px){
-  .day-photos{grid-template-columns:1fr 1fr;grid-template-rows:192px 192px}
+  .day-photos{
+    grid-template-columns:1fr 1fr;
+    grid-template-rows:none;
+    min-height:0;
+  }
+  .day-photos img{
+    height:auto;
+    aspect-ratio:1/1;
+    object-fit:cover;
+    object-position:center;
+  }
+  .dp-tall,.dp-a,.dp-b{
+    grid-row:auto;
+    grid-column:auto;
+  }
 }
 
 /* ─────────────────────────────────────────

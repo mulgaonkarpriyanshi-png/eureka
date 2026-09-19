@@ -1,4 +1,14 @@
 {
+  "rewrites": [
+    { "source": "/philippines-hop-and-chill", "destination": "/philippines-hop-and-chill.html" },
+    { "source": "/egypt-and-the-nile", "destination": "/egypt-and-the-nile.html" },
+    { "source": "/sri-lanka-uncovered", "destination": "/sri-lanka-uncovered.html" },
+    { "source": "/bali-and-gili-experience", "destination": "/bali-and-gili-experience.html" },
+    { "source": "/andamans-explored", "destination": "/andamans-explored.html" },
+    { "source": "/vietnam-intro", "destination": "/vietnam-intro.html" },
+    { "source": "/sailing-thailand-and-fullmoon-party", "destination": "/sailing-thailand-and-fullmoon-party.html" },
+    { "source": "/meghalaya-explorers", "destination": "/meghalaya-explorers.html" }
+  ],
   "headers": [
     {
       "source": "/admin.html",

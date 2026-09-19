@@ -5,19 +5,19 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <meta name="theme-color" content="#02A9A2">
 <meta name="color-scheme" content="light">
-<title>Epic Philippines | Eureka Trips</title>
-<meta name="description" content="Epic Philippines with Eureka Trips — Seminyak, Nusa Penida, Gili Islands, and Ubud.">
+<title>Sailing Thailand &amp; Fullmoon Party || Eureka Trips</title>
+<meta name="description" content="Celebrate this New Year on the top party Islands located in the South East of Thailand with an amazing squad of like-minded people. Experience top activities like Fullmoon Party, Kayaking, Snorkelling, Island Hopping and so much more. Join solo or bring in your friends.">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Eureka Trips">
-<meta property="og:title" content="Epic Philippines | Eureka Trips">
-<meta property="og:description" content="Epic Philippines with Eureka Trips — Seminyak, Nusa Penida, Gili Islands, and Ubud.">
-<meta property="og:image" content="https://eurekatrips.com/assets/images/brand/eureka-logo.png">
-<meta property="og:url" content="https://eurekatrips.com/group-trip.html">
+<meta property="og:title" content="Sailing Thailand &amp; Fullmoon Party || Eureka Trips">
+<meta property="og:description" content="Celebrate this New Year on the top party Islands located in the South East of Thailand with an amazing squad of like-minded people. Experience top activities like Fullmoon Party, Kayaking, Snorkelling, Island Hopping and so much more. Join solo or bring in your friends.">
+<meta property="og:image" content="https://caigrloiymgfxubzprbg.supabase.co/storage/v1/object/public/eureka-images/1784272899155-cl4a8c.jpg">
+<meta property="og:url" content="https://eurekatrips.com/sailing-thailand-and-fullmoon-party">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Epic Philippines | Eureka Trips">
-<meta name="twitter:description" content="Epic Philippines with Eureka Trips — Seminyak, Nusa Penida, Gili Islands, and Ubud.">
-<meta name="twitter:image" content="https://eurekatrips.com/assets/images/brand/eureka-logo.png">
-<link rel="canonical" href="https://eurekatrips.com/group-trip.html">
+<meta name="twitter:title" content="Sailing Thailand &amp; Fullmoon Party || Eureka Trips">
+<meta name="twitter:description" content="Celebrate this New Year on the top party Islands located in the South East of Thailand with an amazing squad of like-minded people. Experience top activities like Fullmoon Party, Kayaking, Snorkelling, Island Hopping and so much more. Join solo or bring in your friends.">
+<meta name="twitter:image" content="https://caigrloiymgfxubzprbg.supabase.co/storage/v1/object/public/eureka-images/1784272899155-cl4a8c.jpg">
+<link rel="canonical" href="https://eurekatrips.com/sailing-thailand-and-fullmoon-party">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://images.unsplash.com">
@@ -433,11 +433,6 @@ img{display:block;max-width:100%}
 @media(max-width:640px){
   .gt-detail-card,.gt-tabs-wrap{width:100%;max-width:100%}
   .gt-tabs-wrap{position:sticky;top:10px;gap:0;margin-bottom:.75rem;min-width:0;overflow:hidden;border-radius:999px;isolation:isolate}
-  .gt-tabs-placeholder.active{display:block}
-  .gt-tabs-wrap.gt-tabs-fixed{
-    position:fixed;top:10px;z-index:950;margin-bottom:0;
-    box-shadow:0 8px 24px rgba(15,75,65,.14);
-  }
   .gt-tabs{
     flex:1 1 auto;min-width:0;max-width:100%;gap:2px;padding:5px 26px 5px 5px;border:1px solid #e2e8e7;border-radius:999px;
     background:#fff;
@@ -885,9 +880,9 @@ img{display:block;max-width:100%}
 
 .gt-tribe-carousel{position:relative;overflow:hidden;padding:0 56px}
 .gt-tribe-track{
-  display:flex;gap:20px;overflow-x:auto;scroll-snap-type:x mandatory;
+  display:flex;gap:24px;overflow-x:auto;scroll-snap-type:x mandatory;
   -webkit-overflow-scrolling:touch;scrollbar-width:none;scroll-behavior:smooth;
-  padding:8px 0 16px;
+  padding:4px 4px 12px;
 }
 .gt-tribe-track::-webkit-scrollbar{display:none}
 
@@ -2228,48 +2223,13 @@ function gtUpdateTabsOverflow(){
   var atEnd = tabs.scrollLeft + tabs.clientWidth >= tabs.scrollWidth - 4;
   wrap.classList.toggle('has-overflow', overflowing && !atEnd);
 }
-function gtUpdateMobileTabsFixed(){
-  var wrap = document.getElementById('gtTabsWrap');
-  var section = document.querySelector('.gt-tabs-section');
-  var placeholder = document.getElementById('gtTabsPlaceholder');
-  if (!wrap || !section || !placeholder) return;
-  if (window.innerWidth > 640) {
-    wrap.classList.remove('gt-tabs-fixed');
-    wrap.style.left = '';
-    wrap.style.width = '';
-    placeholder.classList.remove('active');
-    placeholder.style.height = '';
-    return;
-  }
-  var topGap = 10;
-  var sectionRect = section.getBoundingClientRect();
-  var sectionTop = window.scrollY + sectionRect.top;
-  var sectionBottom = sectionTop + section.offsetHeight;
-  var wrapH = wrap.offsetHeight;
-  var y = window.scrollY + topGap;
-  var shouldFix = y > sectionTop && y < (sectionBottom - wrapH);
-  wrap.classList.toggle('gt-tabs-fixed', shouldFix);
-  placeholder.classList.toggle('active', shouldFix);
-  if (shouldFix) {
-    var rect = section.getBoundingClientRect();
-    wrap.style.left = Math.max(0, rect.left) + 'px';
-    wrap.style.width = rect.width + 'px';
-    placeholder.style.height = (wrapH + 12) + 'px';
-  } else {
-    wrap.style.left = '';
-    wrap.style.width = '';
-    placeholder.style.height = '';
-  }
-}
 (function(){
   var tabs = document.getElementById('gtTabs');
   if (!tabs) return;
   tabs.addEventListener('scroll', gtUpdateTabsOverflow, { passive: true });
-  window.addEventListener('scroll', gtUpdateMobileTabsFixed, { passive: true });
-  window.addEventListener('resize', function(){ gtUpdateTabsOverflow(); gtUpdateMobileTabsFixed(); });
-  window.addEventListener('load', function(){ gtUpdateTabsOverflow(); gtUpdateMobileTabsFixed(); });
+  window.addEventListener('resize', gtUpdateTabsOverflow);
+  window.addEventListener('load', gtUpdateTabsOverflow);
   gtUpdateTabsOverflow();
-  gtUpdateMobileTabsFixed();
 })();
 
 /* ─────────────────────────────────────────
@@ -2884,3 +2844,4 @@ loadGroupTripFromSupabase();
   <script src="footer-enhancements.js?v=20260917-1" defer></script>
 </body>
 </html>
+
