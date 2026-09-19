@@ -501,7 +501,8 @@ img{display:block;max-width:100%}
 .gt-day-p{font-family:'Poppins',sans-serif;font-size:14px;color:#3A3B3B;line-height:1.5;margin-bottom:1.1rem}
 .gt-day-tags{display:flex;flex-direction:column;gap:.6rem;padding-left:1.25rem}
 .gt-day-tag{display:flex;align-items:center;gap:9px;font-family:'Poppins',sans-serif;font-size:15px;color:var(--dark);font-weight:500}
-.gt-day-img{border-radius:12px;overflow:hidden;height:100%}
+.gt-day-img{position:relative;border-radius:12px;overflow:hidden;height:100%}
+.gt-day-img.tc2-img{border-radius:12px}
 .gt-day-img img{width:100%;height:100%;min-height:230px;object-fit:cover;display:block}
 
 @media(max-width:700px){
@@ -2254,8 +2255,8 @@ function buildDateCard(d) {
           '<a href="contact-us.html" class="dm-confidence" data-ts="gt_dc_labels">Book with confidence</a>' +
         '</div>' +
         '<div class="dm-right">' +
-          '<div class="dm-right-h" data-ts="gt_dc_content">' + esc(d.deposit_heading) + '</div>' +
-          '<p class="dm-right-sub" data-ts="gt_dc_content">' + esc(d.deposit_subtext) + '</p>' +
+          '<div class="dm-right-h" data-ts="gt_dc_content">' + stripOuterParagraph(d.deposit_heading || '') + '</div>' +
+          '<p class="dm-right-sub" data-ts="gt_dc_content">' + stripOuterParagraph(d.deposit_subtext || '') + '</p>' +
           '<div class="dm-price-head" data-ts="gt_dc_labels"><span>Book Before</span><span>Price (pp)</span></div>' +
           tiers +
           '<div class="dm-cancel" data-ts="gt_dc_labels" onclick="toggleCancelPolicy(\'' + cancelId + '\',this)">Cancellation Policy <span class="chev">▾</span></div>' +
@@ -2288,9 +2289,30 @@ function buildDayCard(d, idx) {
         '<p class="gt-day-p" data-ts="gt_day_desc">' + stripOuterParagraph(d.description || '') + '</p>' +
         '<div class="gt-day-tags">' + tagsHtml + '</div>' +
       '</div>' +
-      '<div class="gt-day-img"><img src="' + esc(d.image_url||'') + '" alt="' + esc(d.title) + '" loading="lazy" decoding="async"></div>' +
+      buildDayImageHTML(d) +
     '</div></div>' +
   '</div>';
+}
+// A day with only its one cover photo (image_url) renders as before. If
+// gallery_images has more photos too, this becomes a small swipeable
+// gallery instead — reusing the exact same prev/next-arrow mechanism
+// (tc2GalNav) and CSS classes already shared via group-trip-card.js,
+// rather than building a second, separate gallery implementation.
+function buildDayImageHTML(d) {
+  var gallery = (d.gallery_images && d.gallery_images.length) ? [d.image_url].concat(d.gallery_images).filter(Boolean) : (d.image_url ? [d.image_url] : []);
+  if (!gallery.length) return '<div class="gt-day-img"><img src="" alt="' + esc(d.title||'') + '" loading="lazy" decoding="async"></div>';
+  var galJson = esc(JSON.stringify(gallery));
+  var out = '<div class="gt-day-img tc2-img" data-gallery=\'' + galJson + '\' data-idx="0">';
+  out += '<img src="' + esc(gallery[0]) + '" alt="' + esc(d.title||'') + '" loading="lazy" decoding="async">';
+  if (gallery.length > 1) {
+    out += '<button type="button" class="tc2-gal-arrow tc2-gal-prev" aria-label="Previous photo" onclick="event.stopPropagation();tc2GalNav(this,-1)"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>';
+    out += '<button type="button" class="tc2-gal-arrow tc2-gal-next" aria-label="Next photo" onclick="event.stopPropagation();tc2GalNav(this,1)"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></button>';
+    out += '<div class="tc2-gal-dots">';
+    for (var k = 0; k < gallery.length; k++) out += '<span class="tc2-gal-dot' + (k === 0 ? ' active' : '') + '"></span>';
+    out += '</div>';
+  }
+  out += '</div>';
+  return out;
 }
 
 function applyCardTypography(s) {

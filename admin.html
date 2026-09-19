@@ -1761,7 +1761,7 @@ function renderGroupTripEditorPage(r, itin, dates, settingsMap) {
     gtTsStatus('gt_price') +
     fg('Duration Label', 'text', 'gt_duration', r?r.duration_label:'', '', 'e.g. 18 days') +
     gtTsStatus('gt_duration') +
-    fg('Meta Location', 'text', 'gt_route', r?r.route:'', '', 'e.g. Bangkok - Chiang Mai') +
+    fg('Route (shown on Trip Cards)', 'text', 'gt_route', r?r.route:'', '', 'e.g. Bangkok - Chiang Mai', '', 'Short route shown on the homepage/listing cards — different from "Waypoints Breadcrumb" above, which is the full stop-by-stop line shown at the top of this trip\'s own page.') +
     gtTsStatus('gt_meta_location') +
     fg('Age Label', 'text', 'gt_age', r?r.age_label:'', '', 'e.g. Ages 18 to 40s') +
     gtTsStatus('gt_age') +
@@ -1877,12 +1877,13 @@ function renderGroupTripEditorPage(r, itin, dates, settingsMap) {
     '<div style="margin-top:1.25rem;padding-top:1.25rem;border-top:1px solid var(--border)">' +
       '<div class="nrow-label" style="margin-bottom:0.75rem">Add New Day</div>' +
       '<div class="nrow">' +
-        '<input type="number" id="gtitin_new_num" placeholder="Day number, e.g. 1">' +
+        '<input type="number" id="gtitin_new_num" placeholder="Sort order, e.g. 1, 2, 3...">' +
         '<input type="text" id="gtitin_new_title" placeholder="Title, e.g. Arrive in Manila">' +
         rta('Description', 'gtitin_new_desc', '') +
         '<input type="text" id="gtitin_new_meals" placeholder="Meals tag, e.g. Meals: Filipino Welcome Dinner">' +
         '<input type="text" id="gtitin_new_included" placeholder="Included tag, e.g. Included Today: Meetup & Manila Nightlife">' +
         imageField('Photo (optional)', 'gtitin_new_img', 'gtitin_new_imgprev', '', 'Landscape, e.g. 900×600px') +
+        renderDayImageList('day_new', [], 'Add more photos to turn this day into a small swipeable gallery on the page, instead of just the one cover photo above.') +
         '<button class="btn-sm btn-edit" onclick="addGtItineraryDay(\''+esc(r?r.id:'')+'\')">+ Add Day</button>' +
       '</div>' +
     '</div>';
@@ -1940,9 +1941,51 @@ function renderGroupTripEditorPage(r, itin, dates, settingsMap) {
   restoreLastActiveSubTab();
   setTimeout(initRichEditors, 60);
 }
+var dayImageListCounters = {};
+function renderDayImageList(rowKey, jsonOrArray, hint) {
+  var urls = [];
+  try { urls = typeof jsonOrArray === 'string' ? JSON.parse(jsonOrArray || '[]') : (jsonOrArray || []); } catch(e) { urls = []; }
+  if (!Array.isArray(urls)) urls = [];
+  dayImageListCounters[rowKey] = urls.length;
+  var itemsHtml = urls.map(function(url, i) { return renderDayImageListItem(rowKey, url, i); }).join('');
+  return '<div class="fg full">' +
+    '<label>More Photos (optional)</label>' +
+    (hint ? '<div class="hint">' + hint + '</div>' : '') +
+    '<div id="dayimglist_' + rowKey + '">' + itemsHtml + '</div>' +
+    '<button type="button" class="btn-sm btn-edit" onclick="addDayImageListSlot(\'' + rowKey + '\')">+ Add Another Photo</button>' +
+  '</div>';
+}
+function renderDayImageListItem(rowKey, url, idx) {
+  var boxId = 'dayimg_' + rowKey + '_' + idx;
+  return '<div class="nrow" id="' + boxId + '_wrap">' +
+    imageField('Photo ' + (idx+2), boxId, boxId+'prev', url||'', 'Landscape, e.g. 900×600px') +
+    '<button type="button" class="btn-sm btn-del" onclick="document.getElementById(\'' + boxId + '_wrap\').remove()">Remove This Photo</button>' +
+  '</div>';
+}
+function addDayImageListSlot(rowKey) {
+  var container = document.getElementById('dayimglist_' + rowKey);
+  var idx = dayImageListCounters[rowKey] || 0;
+  container.insertAdjacentHTML('beforeend', renderDayImageListItem(rowKey, '', idx));
+  dayImageListCounters[rowKey] = idx + 1;
+}
+// Reads every currently-present photo-slot input for a given day back into
+// an array, in slot order — used when saving so newly-added and removed
+// slots are both picked up correctly. Iterates explicit IDs rather than a
+// CSS attribute selector, since a loose prefix match would also catch each
+// slot's hidden file-upload <input>, not just its URL text field.
+function collectDayImageList(rowKey) {
+  var urls = [];
+  var count = dayImageListCounters[rowKey] || 0;
+  for (var i = 0; i < count; i++) {
+    var el = document.getElementById('dayimg_' + rowKey + '_' + i);
+    if (el && el.value && el.value.trim()) urls.push(el.value.trim());
+  }
+  return urls;
+}
 function nrowGtItinerary(d) {
   return '<div class="nrow" id="gtitinrow_'+d.id+'">' +
-    '<input type="number" id="gtitinnum_'+d.id+'" value="'+d.day_number+'" placeholder="Day number">' +
+    '<input type="number" id="gtitinnum_'+d.id+'" value="'+d.day_number+'" placeholder="Sort order, e.g. 1, 2, 3...">' +
+    '<div class="hint">This is just the sort order — determines which day shows first, second, third, etc. The "Day 1", "Day 2" label shown on the actual page is generated automatically based on that order; you don\'t type the word "Day" anywhere.</div>' +
     '<input type="text" id="gtitintitle_'+d.id+'" value="'+esc(d.title||'')+'" placeholder="Title">' +
     gtTsStatus('gt_day_title') +
     rta('Description', 'gtitindesc_'+d.id, d.description||'') +
@@ -1951,6 +1994,7 @@ function nrowGtItinerary(d) {
     '<input type="text" id="gtitinincluded_'+d.id+'" value="'+esc(d.included_tag||'')+'" placeholder="Included tag">' +
     gtTsStatus('gt_day_included') +
     imageField('Photo (optional)', 'gtitinimg_'+d.id, 'gtitinimg_'+d.id+'prev', d.image_url||'', 'Landscape, e.g. 900×600px') +
+    renderDayImageList('day_'+d.id, d.gallery_images||[], 'Add more photos to turn this day into a small swipeable gallery on the page, instead of just the one cover photo above.') +
     '<div style="display:flex;gap:6px">' +
       '<button class="btn-sm btn-edit" onclick="saveGtItineraryDay(\''+d.id+'\')">Save</button>' +
       '<button class="btn-sm btn-del" onclick="deleteItem(\'group_trip_itinerary\',\''+d.id+'\',function(){editGroupTrip(\''+d.group_trip_id+'\')})">Delete</button>' +
@@ -1972,10 +2016,12 @@ function nrowGtDateFields(d, idSuffix) {
     '<input type="text" id="gtdate_startloc_'+idSuffix+'" value="'+esc(d.trip_start_location||'')+'" placeholder="Trip start location, e.g. Seminyak, 12:00 (Local Time)">' +
     '<input type="text" id="gtdate_endloc_'+idSuffix+'" value="'+esc(d.trip_end_location||'')+'" placeholder="Trip end location, e.g. Ubud, 12:00 (Local Time)">' +
     '<textarea id="gtdate_flight_'+idSuffix+'" rows="2" placeholder="Flight info paragraph">'+esc(d.flight_info||'')+'</textarea>' +
-    '<input type="text" id="gtdate_deph_'+idSuffix+'" value="'+esc(d.deposit_heading||'')+'" placeholder="Deposit heading, e.g. Book now by paying just 15k">' +
-    '<input type="text" id="gtdate_deps_'+idSuffix+'" value="'+esc(d.deposit_subtext||'')+'" placeholder="Deposit subtext">' +
-    '<textarea id="gtdate_tiers_'+idSuffix+'" rows="3" placeholder="Price tiers — one per line as: Book Before Label | Price&#10;e.g. 1st May, 2026 | 54000">'+esc(tiers)+'</textarea>' +
-    '<input type="text" id="gtdate_wa_'+idSuffix+'" value="'+esc(d.whatsapp_message||'')+'" placeholder="WhatsApp booking message, e.g. Hi EUREKA Trips! I want to book the 28 June departure.">' +
+    rta('Deposit Heading', 'gtdate_deph_'+idSuffix, d.deposit_heading||'', 'e.g. Book now by paying just 15k. Highlight any part of the text (like "15k") to give it its own color, weight, or size — different from the rest of the sentence.') +
+    rta('Deposit Subtext', 'gtdate_deps_'+idSuffix, d.deposit_subtext||'', 'e.g. And the balance amount can be paid until 30 days before departure. Same per-word styling applies here too.') +
+    '<textarea id="gtdate_tiers_'+idSuffix+'" rows="5" placeholder="Price tiers — one per line as: Book Before Label | Price&#10;e.g. 1st May, 2026 | 54000">'+esc(tiers)+'</textarea>' +
+    '<div class="hint">One row per line, kept as plain text (not rich text) since this is parsed into the price table shown on the page — any styling typed in here wouldn\'t survive that. Style the whole table\'s look instead via "Date Card — Price Typography" further down.</div>' +
+    '<textarea id="gtdate_wa_'+idSuffix+'" rows="3" placeholder="WhatsApp booking message, e.g. Hi EUREKA Trips! I want to book the 28 June departure.">'+esc(d.whatsapp_message||'')+'</textarea>' +
+    '<div class="hint">Also kept as plain text — this gets sent as a WhatsApp message, and WhatsApp itself can\'t display bold text, colors, or any other styling, so a pen tool here wouldn\'t have anything to actually apply to on the receiving end.</div>' +
     '<div style="grid-column:1/-1;display:flex;flex-direction:column;gap:4px;margin-top:4px">' +
       gtTsStatus('gt_dc_date') + gtTsStatus('gt_dc_price') + gtTsStatus('gt_dc_content') +
     '</div>' +
@@ -1998,7 +2044,7 @@ function gtDateFieldsFromForm(idSuffix) {
     end_day_label: val('gtdate_endday_'+idSuffix), end_date_label: val('gtdate_enddate_'+idSuffix),
     spots_label: val('gtdate_spots_'+idSuffix), price: Number(val('gtdate_price_'+idSuffix))||0,
     trip_start_location: val('gtdate_startloc_'+idSuffix), trip_end_location: val('gtdate_endloc_'+idSuffix),
-    flight_info: val('gtdate_flight_'+idSuffix), deposit_heading: val('gtdate_deph_'+idSuffix), deposit_subtext: val('gtdate_deps_'+idSuffix),
+    flight_info: val('gtdate_flight_'+idSuffix), deposit_heading: rval('gtdate_deph_'+idSuffix), deposit_subtext: rval('gtdate_deps_'+idSuffix),
     price_tiers: tiers, whatsapp_message: val('gtdate_wa_'+idSuffix)
   };
 }
@@ -2138,7 +2184,7 @@ async function saveGroupTripItinHeader(id) {
   } catch(e) { toast('Error saving', 'error'); }
 }
 async function addGtItineraryDay(tripId) {
-  var data = { group_trip_id: tripId, day_number: Number(val('gtitin_new_num'))||0, title: val('gtitin_new_title'), description: rval('gtitin_new_desc'), meals_tag: val('gtitin_new_meals'), included_tag: val('gtitin_new_included'), image_url: val('gtitin_new_img') };
+  var data = { group_trip_id: tripId, day_number: Number(val('gtitin_new_num'))||0, title: val('gtitin_new_title'), description: rval('gtitin_new_desc'), meals_tag: val('gtitin_new_meals'), included_tag: val('gtitin_new_included'), image_url: val('gtitin_new_img'), gallery_images: collectDayImageList('day_new') };
   try {
     await sbInsert('group_trip_itinerary', data); toast('Day added!', 'success');
     stampSharedTypography('gt_day_title', data.title, '');
@@ -2149,7 +2195,7 @@ async function addGtItineraryDay(tripId) {
   } catch(e) { toast('Error adding day', 'error'); }
 }
 async function saveGtItineraryDay(id) {
-  var data = { day_number: Number(val('gtitinnum_'+id))||0, title: val('gtitintitle_'+id), description: rval('gtitindesc_'+id), meals_tag: val('gtitinmeals_'+id), included_tag: val('gtitinincluded_'+id), image_url: val('gtitinimg_'+id) };
+  var data = { day_number: Number(val('gtitinnum_'+id))||0, title: val('gtitintitle_'+id), description: rval('gtitindesc_'+id), meals_tag: val('gtitinmeals_'+id), included_tag: val('gtitinincluded_'+id), image_url: val('gtitinimg_'+id), gallery_images: collectDayImageList('day_'+id) };
   var before = GT_DAY_SNAPSHOTS[id] || {};
   try {
     await sbUpdate('group_trip_itinerary', id, data); toast('Day saved!', 'success');
