@@ -2223,8 +2223,16 @@ function getGroupTripMapImage(trip, slug) {
 }
 function buildDateCard(d) {
   var tiers = (d.price_tiers || []).map(function(t) {
-    var parts = String(t).split('|');
-    return '<div class="dm-price-row" data-ts="gt_dc_price"><span>' + esc(parts[0]||'') + '</span><span>₹' + esc(parts[1]||'') + '</span></div>';
+    var label, price;
+    if (typeof t === 'string') {
+      var parts = t.split('|');
+      label = esc(parts[0] || '');
+      price = esc(parts[1] || '');
+    } else {
+      label = stripOuterParagraph(t.label || '');
+      price = stripOuterParagraph(t.price || '');
+    }
+    return '<div class="dm-price-row"><span data-ts="gt_dc_price_label">' + label + '</span><span data-ts="gt_dc_price">₹' + price + '</span></div>';
   }).join('');
   var waMsg = esc(d.whatsapp_message || '').replace(/'/g, '&#39;');
   var icStart = window.GT_ICON_TRIP_START ? '<img src="' + esc(window.GT_ICON_TRIP_START) + '" alt="">' : '📍';
@@ -2259,11 +2267,11 @@ function buildDateCard(d) {
           '<p class="dm-right-sub" data-ts="gt_dc_content">' + stripOuterParagraph(d.deposit_subtext || '') + '</p>' +
           '<div class="dm-price-head" data-ts="gt_dc_labels"><span>Book Before</span><span>Price (pp)</span></div>' +
           tiers +
-          '<div class="dm-cancel" data-ts="gt_dc_labels" onclick="toggleCancelPolicy(\'' + cancelId + '\',this)">Cancellation Policy <span class="chev">▾</span></div>' +
-          '<div class="dm-cancel-body" data-ts="gt_dc_content" id="' + cancelId + '">' + (window.GT_CANCELLATION_POLICY ? esc(window.GT_CANCELLATION_POLICY) : 'Cancellation policy details coming soon — contact us for specifics.') + '</div>' +
+          '<div class="dm-cancel" data-ts="gt_dc_cancel_label" onclick="toggleCancelPolicy(\'' + cancelId + '\',this)">' + (window.GT_DC_CANCEL_LABEL || 'Cancellation Policy') + ' <span class="chev">▾</span></div>' +
+          '<div class="dm-cancel-body" data-ts="gt_dc_content" id="' + cancelId + '">' + (window.GT_CANCELLATION_POLICY || 'Cancellation policy details coming soon — contact us for specifics.') + '</div>' +
           '<div class="dm-btns">' +
-            '<a href="#" class="dm-btn" data-ts="gt_dc_labels" onclick="openWA(&quot;' + waMsg + '&quot;)">🎫 Book Now</a>' +
-            '<a href="contact-us.html" class="dm-btn dm-btn-secondary" data-ts="gt_dc_labels">Contact Us</a>' +
+            '<a href="#" class="dm-btn" data-ts="gt_dc_booknow_label" onclick="openWA(&quot;' + waMsg + '&quot;)">' + (window.GT_DC_BOOKNOW_LABEL || '🎫 Book Now') + '</a>' +
+            '<a href="contact-us.html" class="dm-btn dm-btn-secondary" data-ts="gt_dc_contactus_label">' + (window.GT_DC_CONTACTUS_LABEL || 'Contact Us') + '</a>' +
           '</div>' +
       '</div>' +
     '</div>' +
@@ -2341,7 +2349,10 @@ async function loadGroupTripFromSupabase() {
   var settingsRows = await sbGet('settings', '');
   var settingsMap = {};
   settingsRows.forEach(function(r){ settingsMap[r.key] = r.value; });
-  window.GT_CANCELLATION_POLICY = settingsMap.gt_cancellation_policy || '';
+  window.GT_CANCELLATION_POLICY = settingsMap.gt_cancellation_policy ? stripOuterParagraph(settingsMap.gt_cancellation_policy) : '';
+  window.GT_DC_CANCEL_LABEL = settingsMap.gt_dc_cancel_label ? stripOuterParagraph(settingsMap.gt_dc_cancel_label) : '';
+  window.GT_DC_BOOKNOW_LABEL = settingsMap.gt_dc_booknow_label ? stripOuterParagraph(settingsMap.gt_dc_booknow_label) : '';
+  window.GT_DC_CONTACTUS_LABEL = settingsMap.gt_dc_contactus_label ? stripOuterParagraph(settingsMap.gt_dc_contactus_label) : '';
   window.GT_ICON_TRIP_START = settingsMap.gt_icon_trip_start || '';
   window.GT_ICON_TRIP_END = settingsMap.gt_icon_trip_end || '';
   window.GT_ICON_FLIGHT = settingsMap.gt_icon_flight || '';
@@ -2398,7 +2409,7 @@ async function loadGroupTripFromSupabase() {
       if (priceEl) priceEl.innerHTML = '₹' + Number(trip.price).toLocaleString('en-IN') + '<span class="cur">INR</span>';
     }
     setText('gtDurationEl', trip.duration_label);
-    setText('gtLocationEl', trip.route);
+    setText('gtLocationEl', trip.detail_route || trip.route);
     setText('gtAgeEl', trip.age_label);
     setText('gtBtn1El', trip.btn1_text);
     setText('gtBtn2El', trip.btn2_text);

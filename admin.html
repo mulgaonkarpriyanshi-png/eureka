@@ -1761,7 +1761,8 @@ function renderGroupTripEditorPage(r, itin, dates, settingsMap) {
     gtTsStatus('gt_price') +
     fg('Duration Label', 'text', 'gt_duration', r?r.duration_label:'', '', 'e.g. 18 days') +
     gtTsStatus('gt_duration') +
-    fg('Route (shown on Trip Cards)', 'text', 'gt_route', r?r.route:'', '', 'e.g. Bangkok - Chiang Mai', '', 'Short route shown on the homepage/listing cards — different from "Waypoints Breadcrumb" above, which is the full stop-by-stop line shown at the top of this trip\'s own page.') +
+    fg('Route (shown on Trip Cards)', 'text', 'gt_route', r?r.route:'', '', 'e.g. Bangkok - Chiang Mai', '', 'Short route shown on the homepage/listing cards — different from "Waypoints Breadcrumb" above, which is the full stop-by-stop line shown at the top of this trip\'s own page, and different from the field below too.') +
+    fg('Route (shown on this trip\'s own page)', 'text', 'gt_detail_route', r?r.detail_route:'', '', 'e.g. Cherrapunji • Dawki • Shillong', '', 'Shown next to the 📍 pin icon partway down this trip\'s own page — completely independent from "Route (shown on Trip Cards)" above, so you can word each one differently. Leave blank to just reuse the Trip Cards route above.') +
     gtTsStatus('gt_meta_location') +
     fg('Age Label', 'text', 'gt_age', r?r.age_label:'', '', 'e.g. Ages 18 to 40s') +
     gtTsStatus('gt_age') +
@@ -1982,6 +1983,61 @@ function collectDayImageList(rowKey) {
   }
   return urls;
 }
+// Normalizes price tier data to {label, price} objects regardless of
+// whether it's already in that shape or still in the older "label|price"
+// string format from before this became individually-editable rows.
+function normalizePriceTiers(arr) {
+  return (arr || []).map(function(t) {
+    if (typeof t === 'string') {
+      var p = t.split('|');
+      return { label: (p[0] || '').trim(), price: (p[1] || '').trim() };
+    }
+    return { label: t.label || '', price: t.price || '' };
+  });
+}
+var priceTierCounters = {};
+function renderPriceTierList(rowKey, tiersRaw) {
+  var tiers = normalizePriceTiers(tiersRaw);
+  priceTierCounters[rowKey] = tiers.length;
+  var itemsHtml = tiers.map(function(t, i) { return renderPriceTierItem(rowKey, t, i); }).join('');
+  return '<div class="fg full">' +
+    '<label>Price Tiers</label>' +
+    '<div class="hint">Each row gets its own "Book Before" label and price, each independently stylable with the pen — highlight any part of either field to give it its own color, weight, or size.</div>' +
+    '<div id="tierlist_' + rowKey + '">' + itemsHtml + '</div>' +
+    '<button type="button" class="btn-sm btn-edit" onclick="addPriceTierSlot(\'' + rowKey + '\')">+ Add Another Price Tier</button>' +
+  '</div>';
+}
+function renderPriceTierItem(rowKey, tier, idx) {
+  var boxId = 'tier_' + rowKey + '_' + idx;
+  return '<div class="nrow" id="' + boxId + '_wrap" style="margin-bottom:8px">' +
+    rta('Book Before Label', boxId + '_label', tier.label || '', 'e.g. 6 Oct 2026, or "Until spots are available"') +
+    rta('Price', boxId + '_price', tier.price || '', 'e.g. 58000 — the ₹ symbol is added automatically, just type the number. Highlight it to style it.') +
+    '<button type="button" class="btn-sm btn-del" onclick="document.getElementById(\'' + boxId + '_wrap\').remove()">Remove This Tier</button>' +
+  '</div>';
+}
+function addPriceTierSlot(rowKey) {
+  var container = document.getElementById('tierlist_' + rowKey);
+  var idx = priceTierCounters[rowKey] || 0;
+  container.insertAdjacentHTML('beforeend', renderPriceTierItem(rowKey, {label:'', price:''}, idx));
+  priceTierCounters[rowKey] = idx + 1;
+  setTimeout(initRichEditors, 30);
+}
+// Reads every currently-present tier row back into an array of
+// {label, price} objects, in row order — iterates explicit IDs (like
+// collectDayImageList) rather than a loose selector, since a removed row's
+// element simply won't exist and should be skipped, not collected as blank.
+function collectPriceTiers(rowKey) {
+  var out = [];
+  var count = priceTierCounters[rowKey] || 0;
+  for (var i = 0; i < count; i++) {
+    var wrap = document.getElementById('tier_' + rowKey + '_' + i + '_wrap');
+    if (!wrap) continue;
+    var label = rval('tier_' + rowKey + '_' + i + '_label');
+    var price = rval('tier_' + rowKey + '_' + i + '_price');
+    if (label || price) out.push({ label: label, price: price });
+  }
+  return out;
+}
 function nrowGtItinerary(d) {
   return '<div class="nrow" id="gtitinrow_'+d.id+'">' +
     '<input type="number" id="gtitinnum_'+d.id+'" value="'+d.day_number+'" placeholder="Sort order, e.g. 1, 2, 3...">' +
@@ -2002,7 +2058,6 @@ function nrowGtItinerary(d) {
 }
 function nrowGtDateFields(d, idSuffix) {
   d = d || {};
-  var tiers = d.price_tiers ? d.price_tiers.map(function(t){ var p = t.split('|'); return p[0]+' | '+(p[1]||''); }).join('\n') : '';
   return '<div class="nrow-inner">' +
     '<input type="text" id="gtdate_day_'+idSuffix+'" value="'+esc(d.date_day||'')+'" placeholder="Day, e.g. 28">' +
     '<input type="text" id="gtdate_month_'+idSuffix+'" value="'+esc(d.date_month||'')+'" placeholder="Month, e.g. June">' +
@@ -2018,12 +2073,11 @@ function nrowGtDateFields(d, idSuffix) {
     '<textarea id="gtdate_flight_'+idSuffix+'" rows="2" placeholder="Flight info paragraph">'+esc(d.flight_info||'')+'</textarea>' +
     rta('Deposit Heading', 'gtdate_deph_'+idSuffix, d.deposit_heading||'', 'e.g. Book now by paying just 15k. Highlight any part of the text (like "15k") to give it its own color, weight, or size — different from the rest of the sentence.') +
     rta('Deposit Subtext', 'gtdate_deps_'+idSuffix, d.deposit_subtext||'', 'e.g. And the balance amount can be paid until 30 days before departure. Same per-word styling applies here too.') +
-    '<textarea id="gtdate_tiers_'+idSuffix+'" rows="5" placeholder="Price tiers — one per line as: Book Before Label | Price&#10;e.g. 1st May, 2026 | 54000">'+esc(tiers)+'</textarea>' +
-    '<div class="hint">One row per line, kept as plain text (not rich text) since this is parsed into the price table shown on the page — any styling typed in here wouldn\'t survive that. Style the whole table\'s look instead via "Date Card — Price Typography" further down.</div>' +
+    renderPriceTierList(idSuffix, d.price_tiers) +
     '<textarea id="gtdate_wa_'+idSuffix+'" rows="3" placeholder="WhatsApp booking message, e.g. Hi EUREKA Trips! I want to book the 28 June departure.">'+esc(d.whatsapp_message||'')+'</textarea>' +
     '<div class="hint">Also kept as plain text — this gets sent as a WhatsApp message, and WhatsApp itself can\'t display bold text, colors, or any other styling, so a pen tool here wouldn\'t have anything to actually apply to on the receiving end.</div>' +
     '<div style="grid-column:1/-1;display:flex;flex-direction:column;gap:4px;margin-top:4px">' +
-      gtTsStatus('gt_dc_date') + gtTsStatus('gt_dc_price') + gtTsStatus('gt_dc_content') +
+      gtTsStatus('gt_dc_date') + gtTsStatus('gt_dc_price') + gtTsStatus('gt_dc_price_label') + gtTsStatus('gt_dc_content') +
     '</div>' +
   '</div>';
 }
@@ -2036,8 +2090,6 @@ function nrowGtDate(d) {
     '</div></div>';
 }
 function gtDateFieldsFromForm(idSuffix) {
-  var tierLines = lines(val('gtdate_tiers_'+idSuffix));
-  var tiers = tierLines.map(function(line){ var parts = line.split('|'); return (parts[0]||'').trim() + '|' + (parts[1]||'').trim(); });
   return {
     date_day: val('gtdate_day_'+idSuffix), date_month: val('gtdate_month_'+idSuffix), duration_label: val('gtdate_dur_'+idSuffix),
     start_day_label: val('gtdate_startday_'+idSuffix), start_date_label: val('gtdate_startdate_'+idSuffix),
@@ -2045,7 +2097,7 @@ function gtDateFieldsFromForm(idSuffix) {
     spots_label: val('gtdate_spots_'+idSuffix), price: Number(val('gtdate_price_'+idSuffix))||0,
     trip_start_location: val('gtdate_startloc_'+idSuffix), trip_end_location: val('gtdate_endloc_'+idSuffix),
     flight_info: val('gtdate_flight_'+idSuffix), deposit_heading: rval('gtdate_deph_'+idSuffix), deposit_subtext: rval('gtdate_deps_'+idSuffix),
-    price_tiers: tiers, whatsapp_message: val('gtdate_wa_'+idSuffix)
+    price_tiers: collectPriceTiers(idSuffix), whatsapp_message: val('gtdate_wa_'+idSuffix)
   };
 }
 async function addGtDate(tripId) {
@@ -2096,7 +2148,7 @@ async function saveGroupTripDetails(oldId) {
     if (/^gt_cg_\d+$/.test(inp.id)) { var v = inp.value.trim(); if (v) cardGalleryPhotos.push(v); }
   });
   var data = {
-    id: id, title: val('gt_title'), route: val('gt_route'), waypoints: csv(val('gt_waypoints')), tags: csv(val('gt_tags')), price: Number(val('gt_price'))||0,
+    id: id, title: val('gt_title'), route: val('gt_route'), detail_route: val('gt_detail_route'), waypoints: csv(val('gt_waypoints')), tags: csv(val('gt_tags')), price: Number(val('gt_price'))||0,
     duration_label: val('gt_duration'), age_label: val('gt_age'), brochure_link: val('gt_brochure'),
     btn1_text: val('gt_btn1'), btn2_text: val('gt_btn2'),
     detail_title: val('gt_dtitle'), detail_para1: rval('gt_dp1'), detail_para2: rval('gt_dp2'),
@@ -2116,7 +2168,7 @@ async function saveGroupTripDetails(oldId) {
     stampSharedTypography('gt_tags', (data.tags||[]).join(', '), (GT_EDITOR_SNAPSHOT.tags||[]).join(', '));
     stampSharedTypography('gt_price', String(data.price||''), String(GT_EDITOR_SNAPSHOT.price||''));
     stampSharedTypography('gt_duration', data.duration_label, GT_EDITOR_SNAPSHOT.duration_label);
-    stampSharedTypography('gt_meta_location', data.route, GT_EDITOR_SNAPSHOT.route);
+    stampSharedTypography('gt_meta_location', data.detail_route, GT_EDITOR_SNAPSHOT.detail_route);
     stampSharedTypography('gt_age', data.age_label, GT_EDITOR_SNAPSHOT.age_label);
     stampSharedTypography('gt_btn1', data.btn1_text, GT_EDITOR_SNAPSHOT.btn1_text);
     stampSharedTypography('gt_btn2', data.btn2_text, GT_EDITOR_SNAPSHOT.btn2_text);
@@ -3821,7 +3873,10 @@ var SETTINGS_GROUPS = {
     { key:'gt_icon_trip_start', label:'Trip Start Icon', type:'image', hint:'Small square icon, transparent PNG/SVG, e.g. 48×48px. Leave blank to keep the default 📍 emoji' },
     { key:'gt_icon_trip_end', label:'Trip End Icon', type:'image', hint:'Small square icon, transparent PNG/SVG, e.g. 48×48px. Leave blank to keep the default 🏁 emoji' },
     { key:'gt_icon_flight', label:'Flight Info Icon', type:'image', hint:'Small square icon, transparent PNG/SVG, e.g. 48×48px. Leave blank to keep the default ✈️ emoji' },
-    { key:'gt_cancellation_policy', label:'Cancellation Policy Text', type:'textarea', hint:'Shown when a visitor clicks "Cancellation Policy" on any date card — applies to all group trips.' },
+    { key:'gt_cancellation_policy', label:'Cancellation Policy Text', type:'richtext', hint:'Shown when a visitor clicks "Cancellation Policy" on any date card — applies to all group trips. Highlight any part of the text to give it its own color, weight, or size.' },
+    { key:'gt_dc_cancel_label', label:'Date Card — "Cancellation Policy" Toggle Text', type:'richtext', hint:'The clickable label that expands the policy text above. Currently: "Cancellation Policy" — leave blank to keep that. Style individual words the same way as any other rich text field.' },
+    { key:'gt_dc_booknow_label', label:'Date Card — "Book Now" Button Text', type:'richtext', hint:'Currently: "🎫 Book Now" — leave blank to keep that.' },
+    { key:'gt_dc_contactus_label', label:'Date Card — "Contact Us" Button Text', type:'richtext', hint:'Currently: "Contact Us" — leave blank to keep that.' },
     { key:'gt_inclusion_icon', label:'Inclusions Checkmark Icon', type:'image', hint:'Replaces the default teal checkmark on every Inclusions list item, for every group trip. Small square icon, transparent PNG/SVG, e.g. 44×44px. Leave blank to keep the default checkmark.' },
     { key:'gt_exclusion_icon', label:'Exclusions Checkmark Icon', type:'image', hint:'Replaces the default teal checkmark on every Exclusions list item, for every group trip. Small square icon, transparent PNG/SVG, e.g. 44×44px. Leave blank to keep the default checkmark.' }
   ],
@@ -3851,7 +3906,8 @@ var SETTINGS_GROUPS = {
     { key:'gt_fcta_heading', label:'Final CTA — Heading Typography', type:'typography_only', hint:'Applies to the Final CTA heading, for every trip.' },
     { key:'gt_fcta_text', label:'Final CTA — Paragraph Typography', type:'typography_only', hint:'Applies to the Final CTA paragraph, for every trip.' },
     { key:'gt_dc_date', label:'Date Card — Date/Days/Spots Typography', type:'typography_only', hint:'Applies to the date, duration, day-of-week rows, and spots-remaining text on every date card. Content is edited per-date in Group Trips \u2192 Available Dates.' },
-    { key:'gt_dc_price', label:'Date Card — Price Typography', type:'typography_only', hint:'Applies to the price shown on the card and every price tier row in the expanded view, on every date card.' },
+    { key:'gt_dc_price', label:'Date Card — Price Amount Typography', type:'typography_only', hint:'Applies to the ₹ price shown on the card, and just the price amount (not the date) in every price tier row in the expanded view, on every date card.' },
+    { key:'gt_dc_price_label', label:'Date Card — Price Tier Date Label Typography', type:'typography_only', hint:'Applies to just the date/label side of each price tier row — the whole-row color/size that applies when you don\'t style individual words within a specific tier\'s own rich text field.' },
     { key:'gt_dc_content', label:'Date Card — Trip Details Typography', type:'typography_only', hint:'Applies to Trip Start/End locations, Flight Info text, deposit heading/subtext, and the cancellation policy text in the expanded "More Info" view, on every date card.' },
     { key:'gt_dc_labels', label:'Date Card — Static Labels Typography', type:'typography_only', hint:'One shared style for all the fixed UI text on every date card: "call us", "More Info", "Trip Start", "Trip End", "Flight Info", "Book with confidence", "Book Before"/"Price (pp)", "Cancellation Policy", "Book Now", and "Contact Us".' }
   ],
