@@ -433,6 +433,11 @@ img{display:block;max-width:100%}
 @media(max-width:640px){
   .gt-detail-card,.gt-tabs-wrap{width:100%;max-width:100%}
   .gt-tabs-wrap{position:sticky;top:10px;gap:0;margin-bottom:.75rem;min-width:0;overflow:hidden;border-radius:999px;isolation:isolate}
+  .gt-tabs-placeholder.active{display:block}
+  .gt-tabs-wrap.gt-tabs-fixed{
+    position:fixed;top:10px;z-index:950;margin-bottom:0;
+    box-shadow:0 8px 24px rgba(15,75,65,.14);
+  }
   .gt-tabs{
     flex:1 1 auto;min-width:0;max-width:100%;gap:2px;padding:5px 26px 5px 5px;border:1px solid #e2e8e7;border-radius:999px;
     background:#fff;
@@ -2223,13 +2228,48 @@ function gtUpdateTabsOverflow(){
   var atEnd = tabs.scrollLeft + tabs.clientWidth >= tabs.scrollWidth - 4;
   wrap.classList.toggle('has-overflow', overflowing && !atEnd);
 }
+function gtUpdateMobileTabsFixed(){
+  var wrap = document.getElementById('gtTabsWrap');
+  var section = document.querySelector('.gt-tabs-section');
+  var placeholder = document.getElementById('gtTabsPlaceholder');
+  if (!wrap || !section || !placeholder) return;
+  if (window.innerWidth > 640) {
+    wrap.classList.remove('gt-tabs-fixed');
+    wrap.style.left = '';
+    wrap.style.width = '';
+    placeholder.classList.remove('active');
+    placeholder.style.height = '';
+    return;
+  }
+  var topGap = 10;
+  var sectionRect = section.getBoundingClientRect();
+  var sectionTop = window.scrollY + sectionRect.top;
+  var sectionBottom = sectionTop + section.offsetHeight;
+  var wrapH = wrap.offsetHeight;
+  var y = window.scrollY + topGap;
+  var shouldFix = y > sectionTop && y < (sectionBottom - wrapH);
+  wrap.classList.toggle('gt-tabs-fixed', shouldFix);
+  placeholder.classList.toggle('active', shouldFix);
+  if (shouldFix) {
+    var rect = section.getBoundingClientRect();
+    wrap.style.left = Math.max(0, rect.left) + 'px';
+    wrap.style.width = rect.width + 'px';
+    placeholder.style.height = (wrapH + 12) + 'px';
+  } else {
+    wrap.style.left = '';
+    wrap.style.width = '';
+    placeholder.style.height = '';
+  }
+}
 (function(){
   var tabs = document.getElementById('gtTabs');
   if (!tabs) return;
   tabs.addEventListener('scroll', gtUpdateTabsOverflow, { passive: true });
-  window.addEventListener('resize', gtUpdateTabsOverflow);
-  window.addEventListener('load', gtUpdateTabsOverflow);
+  window.addEventListener('scroll', gtUpdateMobileTabsFixed, { passive: true });
+  window.addEventListener('resize', function(){ gtUpdateTabsOverflow(); gtUpdateMobileTabsFixed(); });
+  window.addEventListener('load', function(){ gtUpdateTabsOverflow(); gtUpdateMobileTabsFixed(); });
   gtUpdateTabsOverflow();
+  gtUpdateMobileTabsFixed();
 })();
 
 /* ─────────────────────────────────────────
