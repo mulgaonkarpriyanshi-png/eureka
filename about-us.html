@@ -318,6 +318,7 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
 .story-body-wrap{order:2;max-width:680px}
 .story-txt p{text-align:start;font-family:'Poppins',sans-serif!important;font-size:16px!important;color:#202B2B!important;line-height:1.55!important;letter-spacing:0!important;font-weight:400!important;margin-bottom:.85rem}
 .story-body-wrap > span,.story-body-wrap p{font-weight:400!important}
+.story-body-wrap p:nth-of-type(1),.story-body-wrap p:nth-of-type(2){font-weight:700!important}
 .story-body-wrap strong,.story-body-wrap strong *{font-weight:700!important}
 .story-body-wrap em{font-style:italic!important}
 .story-care-card{order:3;display:grid;grid-template-columns:48px 1px 1fr;align-items:center;gap:.9rem;width:min(100%,640px);background:#FBF4E9;border:1.5px solid rgba(2,122,116,.46);border-radius:18px;padding:.82rem 1rem;margin-top:.45rem;color:#202B2B}
@@ -1410,7 +1411,22 @@ async function loadAboutUsPageData() {
       if (h2) h2.style.display = 'none';
     }
   })();
-  setText('abStoryBody', stripTrailingEmptyBlocks(s.about_story_body));
+  (function() {
+    // Not routed through setText() here — that function always applies
+    // stripOuterParagraph(), which is correct for single-line rich-text
+    // fields (removing Quill's automatic <p> wrapper around one line) but
+    // actively corrupts this field: since this content both starts with
+    // <p> and ends with </p> (multiple real paragraphs), that regex treats
+    // the whole thing as "one outer wrapper" and strips the first
+    // paragraph's <p> tag specifically — silently destroying its structure
+    // and any formatting applied to it, while leaving every other
+    // paragraph untouched. This field's content is used as-is instead.
+    var val = stripTrailingEmptyBlocks(s.about_story_body);
+    if (val) {
+      var bodyEl = document.getElementById('abStoryBody');
+      if (bodyEl) { bodyEl.innerHTML = val; applyElementTypography(bodyEl); }
+    }
+  })();
   setText('abStorySignature', s.about_story_signature);
   refineAboutStoryBody(((s.about_story_signature || '').replace(/[.\s]/g, '')).length > 2);
 

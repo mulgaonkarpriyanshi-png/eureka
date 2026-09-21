@@ -204,6 +204,7 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
 .wi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(1.5rem,3vw,1.75rem)}
 .wi-card{background:#fff;border-radius:20px;padding:clamp(2rem,3vw,2.5rem) clamp(1.5rem,2.5vw,2rem);text-align:center;box-shadow:var(--sh2)}
 .wi-icon{font-size:42px;margin-bottom:1.25rem;line-height:1}
+.wi-icon img{width:42px;height:42px;object-fit:contain;display:block}
 .wi-title{font-family:'apfel-grotezk','Poppins',sans-serif;font-size:25px;font-weight:500;font-style:normal;color:rgb(0,0,0);line-height:25px;margin-bottom:.75rem}
 .wi-desc{font-family:'apfel-grotezk','Poppins',sans-serif;font-size:18px;font-weight:400;font-style:normal;color:rgb(28,34,34);line-height:28px}
 @media(max-width:900px){
@@ -544,32 +545,32 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
   <div class="container" style="max-width:1150px">
     <div class="wi-grid">
       <div class="wi-card">
-        <div class="wi-icon">✈️</div>
+        <div class="wi-icon" id="wiIcon1">✈️</div>
         <div class="wi-title" id="wiTitle1" data-ts="wi_card1_title">Transport &amp; Internal flights</div>
         <p class="wi-desc" id="wiDesc1" data-ts="wi_card1_desc">It's simple. Coaches, boats, jeeps, planes &ndash; all transport you'll need during the trip is sorted by us.</p>
       </div>
       <div class="wi-card">
-        <div class="wi-icon">🏨</div>
+        <div class="wi-icon" id="wiIcon2">🏨</div>
         <div class="wi-title" id="wiTitle2" data-ts="wi_card2_title">Top Accommodation</div>
         <p class="wi-desc" id="wiDesc2" data-ts="wi_card2_desc">You'll always have a cosy bed to tuck into at the end of every trip day, all included and booked for you in advance.</p>
       </div>
       <div class="wi-card">
-        <div class="wi-icon">🗺️</div>
+        <div class="wi-icon" id="wiIcon3">🗺️</div>
         <div class="wi-title" id="wiTitle3" data-ts="wi_card3_title">Expert-curated itineraries</div>
         <p class="wi-desc" id="wiDesc3" data-ts="wi_card3_desc">Top attractions &ndash; mixed with rich local experiences. Get the best of every destination with free time to explore.</p>
       </div>
       <div class="wi-card">
-        <div class="wi-icon">🧑&zwj;✈️</div>
+        <div class="wi-icon" id="wiIcon4">🧑&zwj;✈️</div>
         <div class="wi-title" id="wiTitle4" data-ts="wi_card4_title">Best-in-class trip managers</div>
         <p class="wi-desc" id="wiDesc4" data-ts="wi_card4_desc">Explore with expert Trip Managers who know the ins and outs of every destination (and local hotspots too!)</p>
       </div>
       <div class="wi-card">
-        <div class="wi-icon">🌍</div>
+        <div class="wi-icon" id="wiIcon5">🌍</div>
         <div class="wi-title" id="wiTitle5" data-ts="wi_card5_title">Local-led experiences</div>
         <p class="wi-desc" id="wiDesc5" data-ts="wi_card5_desc">Stay, travel and eat like a local &ndash; plus get all the juicy info about every tourist spot from a local guide.</p>
       </div>
       <div class="wi-card">
-        <div class="wi-icon">✨</div>
+        <div class="wi-icon" id="wiIcon6">✨</div>
         <div class="wi-title" id="wiTitle6" data-ts="wi_card6_title">Unmatched experiences</div>
         <p class="wi-desc" id="wiDesc6" data-ts="wi_card6_desc">Every trip comes with popular bite-sized experiences that are included in the itinerary, booked in advance. You'll even get to skip the queues.</p>
       </div>
@@ -745,6 +746,11 @@ async function loadWhatsIncludedPageData() {
   [1,2,3,4,5,6].forEach(function(n) {
     setText('wiTitle'+n, s['wi_card'+n+'_title']);
     setText('wiDesc'+n, s['wi_card'+n+'_desc']);
+    var iconUrl = s['wi_card'+n+'_icon'];
+    if (iconUrl) {
+      var iconEl = document.getElementById('wiIcon'+n);
+      if (iconEl) iconEl.innerHTML = '<img src="' + esc(iconUrl) + '" alt="" loading="lazy" decoding="async">';
+    }
   });
   setText('ftMission', s.ft_mission);
   setText('ftCol1H', s.ft_col1_heading);

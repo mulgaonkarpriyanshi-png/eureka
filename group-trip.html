@@ -501,7 +501,8 @@ img{display:block;max-width:100%}
 .gt-day-p{font-family:'Poppins',sans-serif;font-size:14px;color:#3A3B3B;line-height:1.5;margin-bottom:1.1rem}
 .gt-day-tags{display:flex;flex-direction:column;gap:.6rem;padding-left:1.25rem}
 .gt-day-tag{display:flex;align-items:center;gap:9px;font-family:'Poppins',sans-serif;font-size:15px;color:var(--dark);font-weight:500}
-.gt-day-img{border-radius:12px;overflow:hidden;height:100%}
+.gt-day-img{position:relative;border-radius:12px;overflow:hidden;height:100%}
+.gt-day-img.tc2-img{border-radius:12px}
 .gt-day-img img{width:100%;height:100%;min-height:230px;object-fit:cover;display:block}
 
 @media(max-width:700px){
@@ -2220,10 +2221,33 @@ function getGroupTripMapImage(trip, slug) {
   });
   return match ? match.src : '';
 }
+// Recovers a tier's real label/price if it was saved as a JSON-stringified
+// {label,price} object during an earlier version of this feature that had
+// a bug — otherwise returns null so normal "|" parsing proceeds as usual.
+function repairCorruptedTierString(s) {
+  if (typeof s === 'string' && s.trim().charAt(0) === '{') {
+    try {
+      var parsed = JSON.parse(s);
+      if (parsed && typeof parsed === 'object' && ('label' in parsed || 'price' in parsed)) {
+        return { label: parsed.label || '', price: parsed.price || '' };
+      }
+    } catch (e) { /* not JSON after all */ }
+  }
+  return null;
+}
 function buildDateCard(d) {
   var tiers = (d.price_tiers || []).map(function(t) {
-    var parts = String(t).split('|');
-    return '<div class="dm-price-row" data-ts="gt_dc_price"><span>' + esc(parts[0]||'') + '</span><span>₹' + esc(parts[1]||'') + '</span></div>';
+    var repaired = repairCorruptedTierString(t);
+    var label, price;
+    if (repaired) {
+      label = stripOuterParagraph(repaired.label);
+      price = stripOuterParagraph(repaired.price);
+    } else {
+      var parts = String(t).split('|');
+      label = stripOuterParagraph(parts[0] || '');
+      price = stripOuterParagraph(parts[1] || '');
+    }
+    return '<div class="dm-price-row"><span data-ts="gt_dc_price_label">' + label + '</span><span data-ts="gt_dc_price">₹' + price + '</span></div>';
   }).join('');
   var waMsg = esc(d.whatsapp_message || '').replace(/'/g, '&#39;');
   var icStart = window.GT_ICON_TRIP_START ? '<img src="' + esc(window.GT_ICON_TRIP_START) + '" alt="">' : '📍';
@@ -2254,15 +2278,15 @@ function buildDateCard(d) {
           '<a href="contact-us.html" class="dm-confidence" data-ts="gt_dc_labels">Book with confidence</a>' +
         '</div>' +
         '<div class="dm-right">' +
-          '<div class="dm-right-h" data-ts="gt_dc_content">' + esc(d.deposit_heading) + '</div>' +
-          '<p class="dm-right-sub" data-ts="gt_dc_content">' + esc(d.deposit_subtext) + '</p>' +
+          '<div class="dm-right-h" data-ts="gt_dc_content">' + stripOuterParagraph(d.deposit_heading || '') + '</div>' +
+          '<p class="dm-right-sub" data-ts="gt_dc_content">' + stripOuterParagraph(d.deposit_subtext || '') + '</p>' +
           '<div class="dm-price-head" data-ts="gt_dc_labels"><span>Book Before</span><span>Price (pp)</span></div>' +
           tiers +
-          '<div class="dm-cancel" data-ts="gt_dc_labels" onclick="toggleCancelPolicy(\'' + cancelId + '\',this)">Cancellation Policy <span class="chev">▾</span></div>' +
-          '<div class="dm-cancel-body" data-ts="gt_dc_content" id="' + cancelId + '">' + (window.GT_CANCELLATION_POLICY ? esc(window.GT_CANCELLATION_POLICY) : 'Cancellation policy details coming soon — contact us for specifics.') + '</div>' +
+          '<div class="dm-cancel" data-ts="gt_dc_cancel_label" onclick="toggleCancelPolicy(\'' + cancelId + '\',this)">' + (window.GT_DC_CANCEL_LABEL || 'Cancellation Policy') + ' <span class="chev">▾</span></div>' +
+          '<div class="dm-cancel-body" data-ts="gt_dc_content" id="' + cancelId + '">' + (window.GT_CANCELLATION_POLICY || 'Cancellation policy details coming soon — contact us for specifics.') + '</div>' +
           '<div class="dm-btns">' +
-            '<a href="#" class="dm-btn" data-ts="gt_dc_labels" onclick="openWA(&quot;' + waMsg + '&quot;)">🎫 Book Now</a>' +
-            '<a href="contact-us.html" class="dm-btn dm-btn-secondary" data-ts="gt_dc_labels">Contact Us</a>' +
+            '<a href="#" class="dm-btn" data-ts="gt_dc_booknow_label" onclick="openWA(&quot;' + waMsg + '&quot;)">' + (window.GT_DC_BOOKNOW_LABEL || '🎫 Book Now') + '</a>' +
+            '<a href="contact-us.html" class="dm-btn dm-btn-secondary" data-ts="gt_dc_contactus_label">' + (window.GT_DC_CONTACTUS_LABEL || 'Contact Us') + '</a>' +
           '</div>' +
       '</div>' +
     '</div>' +
@@ -2288,9 +2312,30 @@ function buildDayCard(d, idx) {
         '<p class="gt-day-p" data-ts="gt_day_desc">' + stripOuterParagraph(d.description || '') + '</p>' +
         '<div class="gt-day-tags">' + tagsHtml + '</div>' +
       '</div>' +
-      '<div class="gt-day-img"><img src="' + esc(d.image_url||'') + '" alt="' + esc(d.title) + '" loading="lazy" decoding="async"></div>' +
+      buildDayImageHTML(d) +
     '</div></div>' +
   '</div>';
+}
+// A day with only its one cover photo (image_url) renders as before. If
+// gallery_images has more photos too, this becomes a small swipeable
+// gallery instead — reusing the exact same prev/next-arrow mechanism
+// (tc2GalNav) and CSS classes already shared via group-trip-card.js,
+// rather than building a second, separate gallery implementation.
+function buildDayImageHTML(d) {
+  var gallery = (d.gallery_images && d.gallery_images.length) ? [d.image_url].concat(d.gallery_images).filter(Boolean) : (d.image_url ? [d.image_url] : []);
+  if (!gallery.length) return '<div class="gt-day-img"><img src="" alt="' + esc(d.title||'') + '" loading="lazy" decoding="async"></div>';
+  var galJson = esc(JSON.stringify(gallery));
+  var out = '<div class="gt-day-img tc2-img" data-gallery=\'' + galJson + '\' data-idx="0">';
+  out += '<img src="' + esc(gallery[0]) + '" alt="' + esc(d.title||'') + '" loading="lazy" decoding="async">';
+  if (gallery.length > 1) {
+    out += '<button type="button" class="tc2-gal-arrow tc2-gal-prev" aria-label="Previous photo" onclick="event.stopPropagation();tc2GalNav(this,-1)"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>';
+    out += '<button type="button" class="tc2-gal-arrow tc2-gal-next" aria-label="Next photo" onclick="event.stopPropagation();tc2GalNav(this,1)"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></button>';
+    out += '<div class="tc2-gal-dots">';
+    for (var k = 0; k < gallery.length; k++) out += '<span class="tc2-gal-dot' + (k === 0 ? ' active' : '') + '"></span>';
+    out += '</div>';
+  }
+  out += '</div>';
+  return out;
 }
 
 function applyCardTypography(s) {
@@ -2319,7 +2364,10 @@ async function loadGroupTripFromSupabase() {
   var settingsRows = await sbGet('settings', '');
   var settingsMap = {};
   settingsRows.forEach(function(r){ settingsMap[r.key] = r.value; });
-  window.GT_CANCELLATION_POLICY = settingsMap.gt_cancellation_policy || '';
+  window.GT_CANCELLATION_POLICY = settingsMap.gt_cancellation_policy ? stripOuterParagraph(settingsMap.gt_cancellation_policy) : '';
+  window.GT_DC_CANCEL_LABEL = settingsMap.gt_dc_cancel_label ? stripOuterParagraph(settingsMap.gt_dc_cancel_label) : '';
+  window.GT_DC_BOOKNOW_LABEL = settingsMap.gt_dc_booknow_label ? stripOuterParagraph(settingsMap.gt_dc_booknow_label) : '';
+  window.GT_DC_CONTACTUS_LABEL = settingsMap.gt_dc_contactus_label ? stripOuterParagraph(settingsMap.gt_dc_contactus_label) : '';
   window.GT_ICON_TRIP_START = settingsMap.gt_icon_trip_start || '';
   window.GT_ICON_TRIP_END = settingsMap.gt_icon_trip_end || '';
   window.GT_ICON_FLIGHT = settingsMap.gt_icon_flight || '';
@@ -2376,7 +2424,7 @@ async function loadGroupTripFromSupabase() {
       if (priceEl) priceEl.innerHTML = '₹' + Number(trip.price).toLocaleString('en-IN') + '<span class="cur">INR</span>';
     }
     setText('gtDurationEl', trip.duration_label);
-    setText('gtLocationEl', trip.route);
+    setText('gtLocationEl', trip.detail_route || trip.route);
     setText('gtAgeEl', trip.age_label);
     setText('gtBtn1El', trip.btn1_text);
     setText('gtBtn2El', trip.btn2_text);
