@@ -1983,16 +1983,41 @@ function collectDayImageList(rowKey) {
   }
   return urls;
 }
-// Normalizes price tier data to {label, price} objects regardless of
-// whether it's already in that shape or still in the older "label|price"
-// string format from before this became individually-editable rows.
+// Normalizes price tier data to {label, price} objects for editing. Tiers
+// are stored as plain "label|price" strings in the database (matching the
+// existing text[] column — no schema change needed), same as before this
+// became individually-editable; the label/price sides can now contain rich
+// HTML, they just still travel joined by the same "|" delimiter as always.
+//
+// Also self-heals tiers that got saved while an earlier version of this
+// feature briefly stored each tier as a JSON-stringified {label,price}
+// object instead of a delimited string (visible as literal {"label":"...
+// text on the live page) — recovers the real label/price from inside that
+// broken JSON rather than displaying it as-is, so opening this editor and
+// clicking Save once fixes the stored data going forward.
+function repairCorruptedTierString(s) {
+  if (typeof s === 'string' && s.trim().charAt(0) === '{') {
+    try {
+      var parsed = JSON.parse(s);
+      if (parsed && typeof parsed === 'object' && ('label' in parsed || 'price' in parsed)) {
+        return { label: parsed.label || '', price: parsed.price || '' };
+      }
+    } catch (e) { /* not JSON after all — fall through to normal "|" parsing */ }
+  }
+  return null;
+}
 function normalizePriceTiers(arr) {
-  return (arr || []).map(function(t) {
-    if (typeof t === 'string') {
-      var p = t.split('|');
-      return { label: (p[0] || '').trim(), price: (p[1] || '').trim() };
-    }
-    return { label: t.label || '', price: t.price || '' };
+  if (typeof arr === 'string') {
+    try { arr = JSON.parse(arr); } catch (e) { arr = []; }
+  }
+  if (!Array.isArray(arr)) arr = [];
+  return arr.map(function(t) {
+    if (t == null) return { label: '', price: '' };
+    if (typeof t === 'object') return { label: t.label || '', price: t.price || '' };
+    var repaired = repairCorruptedTierString(t);
+    if (repaired) return repaired;
+    var p = String(t).split('|');
+    return { label: p[0] || '', price: p[1] || '' };
   });
 }
 var priceTierCounters = {};
@@ -2023,7 +2048,9 @@ function addPriceTierSlot(rowKey) {
   setTimeout(initRichEditors, 30);
 }
 // Reads every currently-present tier row back into an array of
-// {label, price} objects, in row order — iterates explicit IDs (like
+// "label|price" strings (matching the existing text[] column — same
+// storage shape as before, just with rich HTML now allowed on either side
+// of the |), in row order — iterates explicit IDs (like
 // collectDayImageList) rather than a loose selector, since a removed row's
 // element simply won't exist and should be skipped, not collected as blank.
 function collectPriceTiers(rowKey) {
@@ -2034,7 +2061,7 @@ function collectPriceTiers(rowKey) {
     if (!wrap) continue;
     var label = rval('tier_' + rowKey + '_' + i + '_label');
     var price = rval('tier_' + rowKey + '_' + i + '_price');
-    if (label || price) out.push({ label: label, price: price });
+    if (label || price) out.push((label || '') + '|' + (price || ''));
   }
   return out;
 }
@@ -2058,7 +2085,8 @@ function nrowGtItinerary(d) {
 }
 function nrowGtDateFields(d, idSuffix) {
   d = d || {};
-  return '<div class="nrow-inner">' +
+  try {
+    return '<div class="nrow-inner">' +
     '<input type="text" id="gtdate_day_'+idSuffix+'" value="'+esc(d.date_day||'')+'" placeholder="Day, e.g. 28">' +
     '<input type="text" id="gtdate_month_'+idSuffix+'" value="'+esc(d.date_month||'')+'" placeholder="Month, e.g. June">' +
     '<input type="text" id="gtdate_dur_'+idSuffix+'" value="'+esc(d.duration_label||'')+'" placeholder="Duration label, e.g. 10 Days">' +
@@ -2080,6 +2108,10 @@ function nrowGtDateFields(d, idSuffix) {
       gtTsStatus('gt_dc_date') + gtTsStatus('gt_dc_price') + gtTsStatus('gt_dc_price_label') + gtTsStatus('gt_dc_content') +
     '</div>' +
   '</div>';
+  } catch (e) {
+    console.error('nrowGtDateFields render error:', e);
+    return '<div class="nrow-inner"><div class="fg full" style="color:#b91c1c;font-weight:600">Something went wrong rendering part of this date\'s fields (' + esc(String((e && e.message) || e)) + '). The Save/Delete buttons below this still work — try refreshing the page. If this keeps happening, this specific date\'s data may need checking.</div></div>';
+  }
 }
 function nrowGtDate(d) {
   return '<div class="nrow" id="gtdaterow_'+d.id+'">' +
@@ -3922,9 +3954,60 @@ var SETTINGS_GROUPS = {
   ],
   privacypolicy: [
     { key:'pp_hero_heading', label:'Hero Heading', type:'richtext', hint:'Currently: "Privacy Policy" — leave blank to keep that.' },
-    { key:'pp_heading', label:'Section Headings', type:'typography_only', hint:'One shared style for all 8 section headings (Consent, Information We Collect, etc.). The wording itself stays as written — this only controls how it looks.' },
-    { key:'pp_subhead', label:'Sub-headings', type:'typography_only', hint:'One shared style for the bold sub-labels within sections (e.g. "Personal Information", "Data Security").' },
-    { key:'pp_body', label:'Body Paragraphs', type:'typography_only', hint:'One shared style for all body paragraphs across the page.' }
+    { key:'pp_intro_body', label:'Intro Paragraph', type:'richtext' },
+    { key:'pp_s1_heading', label:'Section 1 Heading', type:'richtext', hint:'e.g. Consent' },
+    { key:'pp_s1_body', label:'Section 1 Body', type:'richtext' },
+    { key:'pp_s2_heading', label:'Section 2 Heading', type:'richtext', hint:'e.g. Information We Collect' },
+    { key:'pp_s2_body', label:'Section 2 Intro', type:'richtext' },
+    { key:'pp_s2_sub1_heading', label:'Section 2 — Sub-heading 1', type:'richtext', hint:'e.g. Personal Information' },
+    { key:'pp_s2_sub1_body', label:'Section 2 — Sub-body 1', type:'richtext' },
+    { key:'pp_s2_sub2_heading', label:'Section 2 — Sub-heading 2', type:'richtext', hint:'e.g. Travel Preferences' },
+    { key:'pp_s2_sub2_body', label:'Section 2 — Sub-body 2', type:'richtext' },
+    { key:'pp_s2_sub3_heading', label:'Section 2 — Sub-heading 3', type:'richtext', hint:'e.g. Non-Personal Information' },
+    { key:'pp_s2_sub3_body', label:'Section 2 — Sub-body 3', type:'richtext' },
+    { key:'pp_s3_heading', label:'Section 3 Heading', type:'richtext', hint:'e.g. How We Use Your Information' },
+    { key:'pp_s3_body', label:'Section 3 Intro', type:'richtext' },
+    { key:'pp_s3_sub1_heading', label:'Section 3 — Sub-heading 1', type:'richtext', hint:'e.g. To Foster a Sense of Community' },
+    { key:'pp_s3_sub1_body', label:'Section 3 — Sub-body 1', type:'richtext' },
+    { key:'pp_s3_sub2_heading', label:'Section 3 — Sub-heading 2', type:'richtext', hint:'e.g. To Coordinate Group and Private Trips' },
+    { key:'pp_s3_sub2_body', label:'Section 3 — Sub-body 2', type:'richtext' },
+    { key:'pp_s3_sub3_heading', label:'Section 3 — Sub-heading 3', type:'richtext', hint:'e.g. To Create Tailored Experiences' },
+    { key:'pp_s3_sub3_body', label:'Section 3 — Sub-body 3', type:'richtext' },
+    { key:'pp_s3_sub4_heading', label:'Section 3 — Sub-heading 4', type:'richtext', hint:'e.g. Marketing Communications' },
+    { key:'pp_s3_sub4_body', label:'Section 3 — Sub-body 4', type:'richtext' },
+    { key:'pp_s3_sub5_heading', label:'Section 3 — Sub-heading 5', type:'richtext', hint:'e.g. Legal Compliance' },
+    { key:'pp_s3_sub5_body', label:'Section 3 — Sub-body 5', type:'richtext' },
+    { key:'pp_s4_heading', label:'Section 4 Heading', type:'richtext', hint:'e.g. Legal Compliance (this is the section heading — distinct from the Section 3 sub-heading of the same name)' },
+    { key:'pp_s4_sub1_heading', label:'Section 4 — Sub-heading 1', type:'richtext', hint:'e.g. Fellow Travelers' },
+    { key:'pp_s4_sub1_body', label:'Section 4 — Sub-body 1', type:'richtext' },
+    { key:'pp_s4_sub2_heading', label:'Section 4 — Sub-heading 2', type:'richtext', hint:'e.g. Third-Party Service Providers' },
+    { key:'pp_s4_sub2_body', label:'Section 4 — Sub-body 2', type:'richtext' },
+    { key:'pp_s4_sub3_heading', label:'Section 4 — Sub-heading 3', type:'richtext', hint:'e.g. Legal Requirements' },
+    { key:'pp_s4_sub3_body', label:'Section 4 — Sub-body 3', type:'richtext' },
+    { key:'pp_s4_sub4_heading', label:'Section 4 — Sub-heading 4', type:'richtext', hint:'e.g. Cookies and Tracking Technologies' },
+    { key:'pp_s4_sub4_body', label:'Section 4 — Sub-body 4', type:'richtext' },
+    { key:'pp_s4_sub5_heading', label:'Section 4 — Sub-heading 5', type:'richtext', hint:'e.g. Data Security' },
+    { key:'pp_s4_sub5_body', label:'Section 4 — Sub-body 5', type:'richtext' },
+    { key:'pp_s5_heading', label:'Section 5 Heading', type:'richtext', hint:'e.g. Data Protection Rights' },
+    { key:'pp_s5_sub1_heading', label:'Section 5 — Sub-heading 1', type:'richtext', hint:'e.g. Access and Correction' },
+    { key:'pp_s5_sub1_body', label:'Section 5 — Sub-body 1', type:'richtext' },
+    { key:'pp_s5_sub2_heading', label:'Section 5 — Sub-heading 2', type:'richtext', hint:'e.g. Opt-Out' },
+    { key:'pp_s5_sub2_body', label:'Section 5 — Sub-body 2', type:'richtext' },
+    { key:'pp_s5_sub3_heading', label:'Section 5 — Sub-heading 3', type:'richtext', hint:'e.g. Data Deletion' },
+    { key:'pp_s5_sub3_body', label:'Section 5 — Sub-body 3', type:'richtext' },
+    { key:'pp_s6_heading', label:'Section 6 Heading', type:'richtext', hint:'e.g. Content Credit and Disclaimer' },
+    { key:'pp_s6_sub1_heading', label:'Section 6 — Sub-heading 1', type:'richtext', hint:'e.g. Content Credit' },
+    { key:'pp_s6_sub1_body', label:'Section 6 — Sub-body 1', type:'richtext' },
+    { key:'pp_s6_sub2_heading', label:'Section 6 — Sub-heading 2', type:'richtext', hint:'e.g. Acknowledgment of Inspiration' },
+    { key:'pp_s6_sub2_body', label:'Section 6 — Sub-body 2', type:'richtext' },
+    { key:'pp_s6_sub3_heading', label:'Section 6 — Sub-heading 3', type:'richtext', hint:'e.g. No Intent to Infringe' },
+    { key:'pp_s6_sub3_body', label:'Section 6 — Sub-body 3', type:'richtext' },
+    { key:'pp_s7_heading', label:'Section 7 Heading', type:'richtext', hint:'e.g. Changes to This Privacy Policy' },
+    { key:'pp_s7_body', label:'Section 7 Body', type:'richtext' },
+    { key:'pp_s8_heading', label:'Section 8 Heading', type:'richtext', hint:'e.g. Contact Us' },
+    { key:'pp_s8_body', label:'Section 8 Intro', type:'richtext' },
+    { key:'pp_s8_email', label:'Section 8 — Email Line', type:'richtext', hint:'e.g. Email: hello@eurekatrips.com' },
+    { key:'pp_s8_address', label:'Section 8 — Address Line', type:'richtext' }
   ],
   footertext: [
     { key:'ft_mission', label:'Mission Statement', type:'richtext', hint:'Shown next to the logo, on every page. Currently: "Our mission is to inspire travel experiences that open your mind, ignite your curiosity, and broaden your horizons so you can discover your own \u2018Eureka moment\u2019" — leave blank to keep that.' },
@@ -3939,16 +4022,22 @@ var SETTINGS_GROUPS = {
   whatsincluded: [
     { key:'wi_hero_heading', label:'Hero Heading', type:'richtext', hint:'Currently: "What\u2019s Included?" — leave blank to keep that.' },
     { key:'wi_hero_subtext', label:'Hero Subtext', type:'richtext' },
+    { key:'wi_card1_icon', label:'Card 1 Icon', type:'image', hint:'Optional — upload a custom icon to replace the default ✈️ emoji. Square, e.g. 128×128px, transparent PNG works best.' },
     { key:'wi_card1_title', label:'Card 1 Title', type:'richtext', hint:'e.g. Transport & Internal flights' },
     { key:'wi_card1_desc', label:'Card 1 Description', type:'richtext' },
+    { key:'wi_card2_icon', label:'Card 2 Icon', type:'image', hint:'Optional — upload a custom icon to replace the default 🏨 emoji. Square, e.g. 128×128px, transparent PNG works best.' },
     { key:'wi_card2_title', label:'Card 2 Title', type:'richtext', hint:'e.g. Top Accommodation' },
     { key:'wi_card2_desc', label:'Card 2 Description', type:'richtext' },
+    { key:'wi_card3_icon', label:'Card 3 Icon', type:'image', hint:'Optional — upload a custom icon to replace the default 🗺️ emoji. Square, e.g. 128×128px, transparent PNG works best.' },
     { key:'wi_card3_title', label:'Card 3 Title', type:'richtext', hint:'e.g. Expert-curated itineraries' },
     { key:'wi_card3_desc', label:'Card 3 Description', type:'richtext' },
+    { key:'wi_card4_icon', label:'Card 4 Icon', type:'image', hint:'Optional — upload a custom icon to replace the default 🧑\u200d✈️ emoji. Square, e.g. 128×128px, transparent PNG works best.' },
     { key:'wi_card4_title', label:'Card 4 Title', type:'richtext', hint:'e.g. Best-in-class trip managers' },
     { key:'wi_card4_desc', label:'Card 4 Description', type:'richtext' },
+    { key:'wi_card5_icon', label:'Card 5 Icon', type:'image', hint:'Optional — upload a custom icon to replace the default 🌍 emoji. Square, e.g. 128×128px, transparent PNG works best.' },
     { key:'wi_card5_title', label:'Card 5 Title', type:'richtext', hint:'e.g. Local-led experiences' },
     { key:'wi_card5_desc', label:'Card 5 Description', type:'richtext' },
+    { key:'wi_card6_icon', label:'Card 6 Icon', type:'image', hint:'Optional — upload a custom icon to replace the default ✨ emoji. Square, e.g. 128×128px, transparent PNG works best.' },
     { key:'wi_card6_title', label:'Card 6 Title', type:'richtext', hint:'e.g. Unmatched experiences' },
     { key:'wi_card6_desc', label:'Card 6 Description', type:'richtext' }
   ],
@@ -4515,7 +4604,7 @@ function wiringConfirmationLine(key, pageFile, sourceHtml) {
 function checkMobileEngineHealth(sourceHtml) {
   if (sourceHtml == null) return null; // fetch failed — can't say either way
   var hasFlexAlignFix = sourceHtml.indexOf('el.style.justifyContent') !== -1;
-  var hasLineHeightInSelection = sourceHtml.indexOf('st.line_height') !== -1 && sourceHtml.indexOf('st.text_align') !== -1;
+  var hasLineHeightInSelection = sourceHtml.indexOf('style.line_height') !== -1 && sourceHtml.indexOf('style.text_align') !== -1;
   return { ok: hasFlexAlignFix && hasLineHeightInSelection, hasFlexAlignFix: hasFlexAlignFix, hasLineHeightInSelection: hasLineHeightInSelection };
 }
 // Prominent page-level banner (not per-field — this is the same answer for every
@@ -4562,11 +4651,23 @@ function modalWiringBanner(tabId, sourceHtml) {
 // Fetches and holds the source for whichever page the currently-open admin screen
 // belongs to, so wiringConfirmationLine() above can be called synchronously many
 // times per screen without re-fetching for every single field.
+// Fetches and holds the source for whichever page the currently-open admin screen
+// belongs to, so wiringConfirmationLine() above can be called synchronously many
+// times per screen without re-fetching for every single field. Also fetches
+// typography-engine.js and appends it, since the shared mobile-typography engine
+// logic that checkMobileEngineHealth() looks for now lives there (extracted out
+// of each page's own inline script during an earlier refactor) — checking only
+// the page's own source would always report it missing even when correctly wired
+// through the shared file every page loads.
 var CURRENT_PAGE_SOURCE = null;
 var CURRENT_PAGE_FILE = null;
 async function loadPageSourceFor(pageFile) {
   CURRENT_PAGE_FILE = pageFile;
-  CURRENT_PAGE_SOURCE = pageFile ? await fetchFrontendSource(pageFile) : null;
+  if (!pageFile) { CURRENT_PAGE_SOURCE = null; return; }
+  var pageSource = await fetchFrontendSource(pageFile);
+  if (pageSource == null) { CURRENT_PAGE_SOURCE = null; return; }
+  var engineSource = await fetchFrontendSource('typography-engine.js');
+  CURRENT_PAGE_SOURCE = pageSource + (engineSource || '');
 }
 var TEXT_FIELD_TYPES = ['text', 'textarea', 'richtext'];
 var GT_EDITOR_SNAPSHOT = {}; // set by renderGroupTripEditorPage; used below to detect real per-trip field changes

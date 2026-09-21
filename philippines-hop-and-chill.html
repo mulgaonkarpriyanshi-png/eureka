@@ -1847,7 +1847,7 @@ function cleanRichText(value) {
     .trim();
   return text;
 }
-function normalizePriceTier(raw) {
+function normalizePriceTier(raw, preserveRich) {
   if (raw === null || raw === undefined) return null;
   var tier = raw;
   if (typeof tier === 'string') {
@@ -1862,8 +1862,10 @@ function normalizePriceTier(raw) {
     tier = { label: parts[0] || '', price: parts[1] || '' };
   }
   if (typeof tier !== 'object') return null;
-  var label = cleanRichText(tier.label || tier.book_before || tier.bookBefore || tier.date || tier[0] || '');
-  var price = cleanRichText(tier.price || tier.amount || tier.value || tier[1] || '').replace(/^₹\s*/, '');
+  var rawLabel = tier.label || tier.book_before || tier.bookBefore || tier.date || tier[0] || '';
+  var rawPrice = tier.price || tier.amount || tier.value || tier[1] || '';
+  var label = preserveRich ? stripOuterParagraph(rawLabel) : cleanRichText(rawLabel);
+  var price = (preserveRich ? stripOuterParagraph(rawPrice) : cleanRichText(rawPrice)).replace(/^₹\s*/, '');
   if (!label && !price) return null;
   return { label: label, price: price };
 }
@@ -2504,11 +2506,25 @@ function getGroupTripMapImage(trip, slug) {
   });
   return match ? match.src : '';
 }
+// Recovers a tier's real label/price if it was saved as a JSON-stringified
+// {label,price} object during an earlier version of this feature that had
+// a bug — otherwise returns null so normal "|" parsing proceeds as usual.
+function repairCorruptedTierString(s) {
+  if (typeof s === 'string' && s.trim().charAt(0) === '{') {
+    try {
+      var parsed = JSON.parse(s);
+      if (parsed && typeof parsed === 'object' && ('label' in parsed || 'price' in parsed)) {
+        return { label: parsed.label || '', price: parsed.price || '' };
+      }
+    } catch (e) { /* not JSON after all */ }
+  }
+  return null;
+}
 function buildDateCard(d) {
   var tiers = (d.price_tiers || []).map(function(t) {
-    var tier = normalizePriceTier(t);
+    var tier = normalizePriceTier(t, true);
     if (!tier) return '';
-    return '<div class="dm-price-row"><span data-ts="gt_dc_price_label">' + esc(tier.label) + '</span><span data-ts="gt_dc_price">₹' + esc(tier.price) + '</span></div>';
+    return '<div class="dm-price-row"><span data-ts="gt_dc_price_label">' + tier.label + '</span><span data-ts="gt_dc_price">₹' + tier.price + '</span></div>';
   }).filter(Boolean).join('');
   var waMsg = esc(d.whatsapp_message || '').replace(/'/g, '&#39;');
   var icStart = window.GT_ICON_TRIP_START ? '<img src="' + esc(window.GT_ICON_TRIP_START) + '" alt="">' : '📍';
