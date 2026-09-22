@@ -3938,6 +3938,11 @@ var SETTINGS_GROUPS = {
     { key:'gt_dc_cancel_label', label:'Date Card — "Cancellation Policy" Toggle Text', type:'richtext', hint:'The clickable label that expands the policy text above. Currently: "Cancellation Policy" — leave blank to keep that. Style individual words the same way as any other rich text field.' },
     { key:'gt_dc_booknow_label', label:'Date Card — "Book Now" Button Text', type:'richtext', hint:'Currently: "🎫 Book Now" — leave blank to keep that.' },
     { key:'gt_dc_contactus_label', label:'Date Card — "Contact Us" Button Text', type:'richtext', hint:'Currently: "Contact Us" — leave blank to keep that.' },
+    { key:'gt_dc_date', label:'Date Card — Date/Days/Spots Typography', type:'typography_only', hint:'Applies to the date, duration, day-of-week rows, and spots-remaining text on every date card. Content is edited per-date in Group Trips → Available Dates.' },
+    { key:'gt_dc_price', label:'Date Card — Price Amount Typography', type:'typography_only', hint:'Applies to the price shown on the card, and the price amount in every price tier row in the expanded view, on every date card.' },
+    { key:'gt_dc_price_label', label:'Date Card — Price Tier Date Label Typography', type:'typography_only', hint:'Applies to the date/label side of every price tier row, across every group trip and departure date.' },
+    { key:'gt_dc_content', label:'Date Card — Trip Details Typography', type:'typography_only', hint:'Applies to Trip Start/End locations, Flight Info text, deposit heading/subtext, and the cancellation policy text in the expanded "More Info" view, on every date card.' },
+    { key:'gt_dc_labels', label:'Date Card — Static Labels Typography', type:'typography_only', hint:'One shared style for all the fixed UI text on every date card: "call us", "More Info", "Trip Start", "Trip End", "Flight Info", "Book with confidence", "Book Before"/"Price (pp)", "Cancellation Policy", "Book Now", and "Contact Us".' },
     { key:'gt_inclusion_icon', label:'Inclusions Checkmark Icon', type:'image', hint:'Replaces the default teal checkmark on every Inclusions list item, for every group trip. Small square icon, transparent PNG/SVG, e.g. 44×44px. Leave blank to keep the default checkmark.' },
     { key:'gt_exclusion_icon', label:'Exclusions Checkmark Icon', type:'image', hint:'Replaces the default teal checkmark on every Exclusions list item, for every group trip. Small square icon, transparent PNG/SVG, e.g. 44×44px. Leave blank to keep the default checkmark.' }
   ],
@@ -3966,11 +3971,6 @@ var SETTINGS_GROUPS = {
     { key:'gt_day_included', label:'Itinerary Day — Included Today Tag Typography', type:'typography_only', hint:'Applies to the "Included Today: ..." tag on every day, for every trip.' },
     { key:'gt_fcta_heading', label:'Final CTA — Heading Typography', type:'typography_only', hint:'Applies to the Final CTA heading, for every trip.' },
     { key:'gt_fcta_text', label:'Final CTA — Paragraph Typography', type:'typography_only', hint:'Applies to the Final CTA paragraph, for every trip.' },
-    { key:'gt_dc_date', label:'Date Card — Date/Days/Spots Typography', type:'typography_only', hint:'Applies to the date, duration, day-of-week rows, and spots-remaining text on every date card. Content is edited per-date in Group Trips \u2192 Available Dates.' },
-    { key:'gt_dc_price', label:'Date Card — Price Amount Typography', type:'typography_only', hint:'Applies to the ₹ price shown on the card, and just the price amount (not the date) in every price tier row in the expanded view, on every date card.' },
-    { key:'gt_dc_price_label', label:'Date Card — Price Tier Date Label Typography', type:'typography_only', hint:'Applies to the date/label side of every price tier row, across every group trip and departure date.' },
-    { key:'gt_dc_content', label:'Date Card — Trip Details Typography', type:'typography_only', hint:'Applies to Trip Start/End locations, Flight Info text, deposit heading/subtext, and the cancellation policy text in the expanded "More Info" view, on every date card.' },
-    { key:'gt_dc_labels', label:'Date Card — Static Labels Typography', type:'typography_only', hint:'One shared style for all the fixed UI text on every date card: "call us", "More Info", "Trip Start", "Trip End", "Flight Info", "Book with confidence", "Book Before"/"Price (pp)", "Cancellation Policy", "Book Now", and "Contact Us".' }
   ],
   blogposttypography: [
     { key:'bp_cta_heading', label:'Sidebar CTA Heading', type:'richtext', hint:'Currently static site text ("Book Your Next Trip With Eureka Trips"), not yet its own editable field.' },
