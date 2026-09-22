@@ -2528,7 +2528,7 @@ function repairCorruptedTierString(s) {
 }
 function buildDateCard(d) {
   var tiers = (d.price_tiers || []).map(function(t) {
-    var tier = normalizePriceTier(t, true);
+    var tier = normalizePriceTier(t, false);
     if (!tier) return '';
     return '<div class="dm-price-row"><span data-ts="gt_dc_price_label">' + tier.label + '</span><span data-ts="gt_dc_price">' + tier.price + '</span></div>';
   }).filter(Boolean).join('');

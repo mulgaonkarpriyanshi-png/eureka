@@ -1743,7 +1743,7 @@ async function applyBuildAdventureContent() {
     if (promoTrack) {
       promoTrack.innerHTML = adRowsFiltered.map(function(r) {
         var hasText = r.title || r.subtitle;
-        return '<a href="' + esc(r.link || '#') + '" class="promo-banner-slide">' +
+        return '<a href="' + esc(r.link || '#') + '" class="promo-banner-slide" target="_blank" rel="noopener">' +
           '<img src="' + esc(r.image_url || '') + '" alt="' + esc(r.title || 'Featured trip banner') + '" loading="lazy" decoding="async">' +
           (hasText ? '<div class="promo-banner-ov"></div>' : '') +
           '<div class="promo-banner-txt">' +

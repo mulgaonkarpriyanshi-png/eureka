@@ -3136,6 +3136,48 @@ var HOME_FEATURED_AD_BANNERS = [
     link: 'sailing-thailand-and-fullmoon-party.html'
   }
 ];
+var HOME_MOBILE_AD_BANNERS = [
+  {
+    image_url: 'assets/images/ad-banners/mobile/01-philippines-hop-chill.jpg',
+    image_position: 'center',
+    title: '',
+    subtitle: '',
+    alt: 'Philippines Hop & Chill mobile banner',
+    link: 'philippines-hop-and-chill.html'
+  },
+  {
+    image_url: 'assets/images/ad-banners/mobile/02-thailand-full-moon.jpg',
+    image_position: 'center',
+    title: '',
+    subtitle: '',
+    alt: 'Thailand Full Moon Nights mobile banner',
+    link: 'sailing-thailand-and-fullmoon-party.html'
+  },
+  {
+    image_url: 'assets/images/ad-banners/mobile/03-sri-lanka-uncovered.jpg',
+    image_position: 'center',
+    title: '',
+    subtitle: '',
+    alt: 'Sri Lanka Uncovered mobile banner',
+    link: 'sri-lanka-uncovered.html'
+  },
+  {
+    image_url: 'assets/images/ad-banners/mobile/04-egypt-and-the-nile.jpg',
+    image_position: 'center',
+    title: '',
+    subtitle: '',
+    alt: 'Egypt and the Nile mobile banner',
+    link: 'egypt-and-the-nile.html'
+  },
+  {
+    image_url: 'assets/images/ad-banners/mobile/05-japan.jpg',
+    image_position: 'center',
+    title: '',
+    subtitle: '',
+    alt: 'Japan mobile banner',
+    link: 'destinations.html'
+  }
+];
 async function applyAdBanners() {
   var rows = await sbGet('ad_banners', 'active=eq.true&order=sort_order.asc');
   rows = rows.filter(function(r) { return r.image_url; });
@@ -3144,11 +3186,11 @@ async function applyAdBanners() {
   renderAdBanners();
 }
 function renderAdBanners() {
-  var rows = AD_BANNER_ROWS;
+  var mobile = isMobileViewport();
+  var rows = mobile ? HOME_MOBILE_AD_BANNERS : AD_BANNER_ROWS;
   if (!rows.length) return;
   var track = document.getElementById('promoBannerTrack');
   if (!track) return;
-  var mobile = isMobileViewport();
   track.innerHTML = rows.map(function(r) {
     var pos = (r.image_position === 'top' || r.image_position === 'bottom') ? r.image_position : 'center';
     var hasText = r.title || r.subtitle;
@@ -3158,8 +3200,8 @@ function renderAdBanners() {
     // Only darken the image when there's actual title/subtitle text that needs the
     // contrast to stay readable — an admin-uploaded graphic that already has its own
     // text/design baked in (title & subtitle left blank) should show at full clarity.
-    return '<a href="' + esc(r.link || '#') + '" class="promo-banner-slide">' +
-      '<img src="' + esc(imgSrc || '') + '" alt="' + esc(r.title || 'Featured trip banner') + '" loading="lazy" style="object-position:center ' + pos + '">' +
+    return '<a href="' + esc(r.link || '#') + '" class="promo-banner-slide" target="_blank" rel="noopener">' +
+      '<img src="' + esc(imgSrc || '') + '" alt="' + esc(r.alt || r.title || 'Featured trip banner') + '" loading="lazy" style="object-position:center ' + pos + '">' +
       (hasText ? '<div class="promo-banner-ov"></div>' : '') +
       '<div class="promo-banner-txt">' +
         '<div class="promo-banner-ttl">' + stripOuterParagraph(r.title || '') + '</div>' +
@@ -3186,6 +3228,19 @@ window.addEventListener('resize', function () {
 
 var FT_SLIDES = [];
 var ftIndex = 0;
+function getFeaturedTripCtaLink(slide) {
+  var heading = String((slide && slide.heading) || '').toLowerCase();
+  if (heading.indexOf("thailand's full moon party") !== -1 || heading.indexOf('thailand') !== -1 && heading.indexOf('full moon') !== -1) {
+    return 'sailing-thailand-and-fullmoon-party.html';
+  }
+  if (heading.indexOf('philippines hop') !== -1 || heading.indexOf('hop & chill') !== -1 || heading.indexOf('hop and chill') !== -1) {
+    return 'philippines-hop-and-chill.html';
+  }
+  if (heading.indexOf('ayubowan') !== -1 || heading.indexOf('sri lanka') !== -1) {
+    return 'sri-lanka-uncovered.html';
+  }
+  return (slide && slide.button_link) || '#';
+}
 async function applyFeaturedTrips() {
   var rows = await sbGet('featured_trip_slides', 'active=eq.true&order=sort_order.asc');
   rows = rows.filter(function(r) { return r.heading; });
@@ -3204,7 +3259,7 @@ function renderFeaturedTrip() {
   var btn = document.getElementById('ftBtn');
   if (btn) {
     btn.textContent = r.button_text || 'Explore';
-    btn.setAttribute('href', r.button_link || '#');
+    btn.setAttribute('href', getFeaturedTripCtaLink(r));
     applyElementTypography(btn);
   }
   var imgs = [r.img1_url, r.img2_url, r.img3_url, r.img4_url, r.img5_url, r.img6_url, r.img7_url];

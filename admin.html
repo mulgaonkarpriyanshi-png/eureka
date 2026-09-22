@@ -482,6 +482,21 @@ function stripOuterParagraph(html) {
   var m = html.match(/^<p>([\s\S]*)<\/p>\s*$/i);
   return m ? m[1] : html;
 }
+function plainTextFromRich(html) {
+  var text = stripOuterParagraph(html)
+    .replace(/<br\s*\/?>/gi, ' ')
+    .replace(/<\/p>\s*<p>/gi, ' ')
+    .replace(/<[^>]*>/g, ' ')
+    .replace(/&nbsp;/gi, ' ')
+    .replace(/&amp;/gi, '&')
+    .replace(/&lt;/gi, '<')
+    .replace(/&gt;/gi, '>')
+    .replace(/&quot;/gi, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/\s+/g, ' ')
+    .trim();
+  return text;
+}
 function cleanSubscribeCopy(str) {
   if (!str) return str;
   var text = String(str)
@@ -2027,16 +2042,22 @@ function renderPriceTierList(rowKey, tiersRaw) {
   var itemsHtml = tiers.map(function(t, i) { return renderPriceTierItem(rowKey, t, i); }).join('');
   return '<div class="fg full">' +
     '<label>Price Tiers</label>' +
-    '<div class="hint">Each row gets its own "Book Before" label and price, each independently stylable with the pen — highlight any part of either field to give it its own color, weight, or size.</div>' +
+    '<div class="hint">Only edit the words/numbers here. Styling is global: use the shared Date Card typography controls below once, and it applies to every trip and every date row.</div>' +
     '<div id="tierlist_' + rowKey + '">' + itemsHtml + '</div>' +
     '<button type="button" class="btn-sm btn-edit" onclick="addPriceTierSlot(\'' + rowKey + '\')">+ Add Another Price Tier</button>' +
+    '<div style="margin-top:8px">' +
+      gtTsStatus('gt_dc_price_label') +
+      gtTsStatus('gt_dc_price') +
+    '</div>' +
   '</div>';
 }
 function renderPriceTierItem(rowKey, tier, idx) {
   var boxId = 'tier_' + rowKey + '_' + idx;
+  var label = plainTextFromRich(tier.label || '');
+  var price = plainTextFromRich(tier.price || '').replace(/^₹\s*/, '');
   return '<div class="nrow" id="' + boxId + '_wrap" style="margin-bottom:8px">' +
-    rta('Book Before Label', boxId + '_label', tier.label || '', 'e.g. 6 Oct 2026, or "Until spots are available"') +
-    rta('Price', boxId + '_price', tier.price || '', 'e.g. 58000 — the ₹ symbol is added automatically, just type the number. Highlight it to style it.') +
+    '<div class="fg"><label>Book Before Label</label><input type="text" id="' + boxId + '_label" value="' + esc(label) + '" placeholder="e.g. 6 Oct 2026, or Until spots are available"></div>' +
+    '<div class="fg"><label>Price</label><input type="text" id="' + boxId + '_price" value="' + esc(price) + '" placeholder="e.g. 58000"></div>' +
     '<button type="button" class="btn-sm btn-del" onclick="document.getElementById(\'' + boxId + '_wrap\').remove()">Remove This Tier</button>' +
   '</div>';
 }
@@ -2045,7 +2066,6 @@ function addPriceTierSlot(rowKey) {
   var idx = priceTierCounters[rowKey] || 0;
   container.insertAdjacentHTML('beforeend', renderPriceTierItem(rowKey, {label:'', price:''}, idx));
   priceTierCounters[rowKey] = idx + 1;
-  setTimeout(initRichEditors, 30);
 }
 // Reads every currently-present tier row back into an array of
 // "label|price" strings (matching the existing text[] column — same
@@ -2059,11 +2079,16 @@ function collectPriceTiers(rowKey) {
   for (var i = 0; i < count; i++) {
     var wrap = document.getElementById('tier_' + rowKey + '_' + i + '_wrap');
     if (!wrap) continue;
-    var label = rval('tier_' + rowKey + '_' + i + '_label');
-    var price = rval('tier_' + rowKey + '_' + i + '_price');
+    var label = val('tier_' + rowKey + '_' + i + '_label');
+    var price = val('tier_' + rowKey + '_' + i + '_price').replace(/^₹\s*/, '');
     if (label || price) out.push((label || '') + '|' + (price || ''));
   }
   return out;
+}
+function priceTierSideValues(tiersRaw, side) {
+  return normalizePriceTiers(tiersRaw).map(function(t) {
+    return plainTextFromRich((side === 'price' ? t.price : t.label) || '').replace(/^₹\s*/, '');
+  }).join(' | ');
 }
 function nrowGtItinerary(d) {
   return '<div class="nrow" id="gtitinrow_'+d.id+'">' +
@@ -2139,6 +2164,8 @@ async function addGtDate(tripId) {
     await sbInsert('group_trip_dates', data); toast('Date added!', 'success');
     stampSharedTypography('gt_dc_date', data.date_day, '');
     stampSharedTypography('gt_dc_price', String(data.price||''), '');
+    stampSharedTypography('gt_dc_price', priceTierSideValues(data.price_tiers, 'price'), '');
+    stampSharedTypography('gt_dc_price_label', priceTierSideValues(data.price_tiers, 'label'), '');
     stampSharedTypography('gt_dc_content', data.trip_start_location, '');
     editGroupTrip(tripId);
   } catch(e) { toast('Error adding date', 'error'); }
@@ -2157,6 +2184,8 @@ async function saveGtDate(id) {
     stampSharedTypography('gt_dc_date', data.end_date_label, before.end_date_label);
     stampSharedTypography('gt_dc_date', data.spots_label, before.spots_label);
     stampSharedTypography('gt_dc_price', String(data.price||''), String(before.price||''));
+    stampSharedTypography('gt_dc_price', priceTierSideValues(data.price_tiers, 'price'), priceTierSideValues(before.price_tiers, 'price'));
+    stampSharedTypography('gt_dc_price_label', priceTierSideValues(data.price_tiers, 'label'), priceTierSideValues(before.price_tiers, 'label'));
     stampSharedTypography('gt_dc_content', data.trip_start_location, before.trip_start_location);
     stampSharedTypography('gt_dc_content', data.trip_end_location, before.trip_end_location);
     stampSharedTypography('gt_dc_content', data.flight_info, before.flight_info);
@@ -3939,7 +3968,7 @@ var SETTINGS_GROUPS = {
     { key:'gt_fcta_text', label:'Final CTA — Paragraph Typography', type:'typography_only', hint:'Applies to the Final CTA paragraph, for every trip.' },
     { key:'gt_dc_date', label:'Date Card — Date/Days/Spots Typography', type:'typography_only', hint:'Applies to the date, duration, day-of-week rows, and spots-remaining text on every date card. Content is edited per-date in Group Trips \u2192 Available Dates.' },
     { key:'gt_dc_price', label:'Date Card — Price Amount Typography', type:'typography_only', hint:'Applies to the ₹ price shown on the card, and just the price amount (not the date) in every price tier row in the expanded view, on every date card.' },
-    { key:'gt_dc_price_label', label:'Date Card — Price Tier Date Label Typography', type:'typography_only', hint:'Applies to just the date/label side of each price tier row — the whole-row color/size that applies when you don\'t style individual words within a specific tier\'s own rich text field.' },
+    { key:'gt_dc_price_label', label:'Date Card — Price Tier Date Label Typography', type:'typography_only', hint:'Applies to the date/label side of every price tier row, across every group trip and departure date.' },
     { key:'gt_dc_content', label:'Date Card — Trip Details Typography', type:'typography_only', hint:'Applies to Trip Start/End locations, Flight Info text, deposit heading/subtext, and the cancellation policy text in the expanded "More Info" view, on every date card.' },
     { key:'gt_dc_labels', label:'Date Card — Static Labels Typography', type:'typography_only', hint:'One shared style for all the fixed UI text on every date card: "call us", "More Info", "Trip Start", "Trip End", "Flight Info", "Book with confidence", "Book Before"/"Price (pp)", "Cancellation Policy", "Book Now", and "Contact Us".' }
   ],

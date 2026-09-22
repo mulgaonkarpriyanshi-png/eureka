@@ -47,7 +47,7 @@ function buildGroupTripCardHTML(t) {
   var dStr = esc((t.dates || []).join(' | '));
   var pr = (t.price || 0).toLocaleString('en-IN');
   var msg = 'Hi EUREKA Trips! I am interested in "' + (t.name || '') + '". Can you share details and available dates?';
-  var clickAction = t.page ? ("window.location.href='" + esc(t.page) + "'") : ("openWA('" + msg.replace(/'/g, "&#39;") + "')");
+  var clickAction = t.page ? ("window.open('" + esc(t.page) + "','_blank','noopener')") : ("openWA('" + msg.replace(/'/g, "&#39;") + "')");
   var gallery = (t.gallery && t.gallery.length) ? t.gallery : [t.img];
   var galJson = esc(JSON.stringify(gallery));
 

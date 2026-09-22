@@ -981,7 +981,7 @@ function renderDestGrid(){
     var dStr=(t.dates || []).join(' | ');
     var price=Number(t.price);
     var pr=Number.isFinite(price) ? price.toLocaleString('en-IN') : esc(t.price || '');
-    out+='<div class="tc2 fu"'+(t.id?' id="'+esc(t.id)+'"':'')+' onclick="window.location.href=\''+esc(t.page || '#')+'\'">';
+    out+='<div class="tc2 fu"'+(t.id?' id="'+esc(t.id)+'"':'')+' onclick="window.open(\''+esc(t.page || '#')+'\',\'_blank\',\'noopener\')">';
     out+='<div class="tc2-img" data-gallery=\''+esc(JSON.stringify(gallery))+'\' data-idx="0">';
     if(t.trending) out+='<div class="tc2-trending-badge"><svg viewBox="0 0 24 24"><path d="M13 2L3 14h7l-1 8 11-14h-7z"/></svg>Trending</div>';
     if(gallery.length) out+='<img width="800" height="600" src="'+esc(gallery[0])+'" alt="'+esc(t.name)+'" loading="lazy">';

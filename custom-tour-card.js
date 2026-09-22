@@ -26,7 +26,7 @@ function buildCustomTourCardHTML(r) {
   var galJson = esc(JSON.stringify(gallery));
 
   var out = '';
-  out += '<div class="ctc-card fu" onclick="window.location.href=\'' + page + '\'">';
+  out += '<div class="ctc-card fu" onclick="window.open(\'' + page + '\',\'_blank\',\'noopener\')">';
   out += '<div class="ctc-img" data-gallery=\'' + galJson + '\' data-idx="0">';
   out += '<img width="800" height="600" src="' + esc(gallery[0] || '') + '" alt="' + esc(r.title || '') + '" loading="lazy">';
   if (gallery.length > 1) {
