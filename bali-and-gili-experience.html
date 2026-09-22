@@ -2524,7 +2524,7 @@ function buildDateCard(d) {
   var tiers = (d.price_tiers || []).map(function(t) {
     var tier = normalizePriceTier(t, true);
     if (!tier) return '';
-    return '<div class="dm-price-row"><span data-ts="gt_dc_price_label">' + tier.label + '</span><span data-ts="gt_dc_price">₹' + tier.price + '</span></div>';
+    return '<div class="dm-price-row"><span data-ts="gt_dc_price_label">' + tier.label + '</span><span data-ts="gt_dc_price">' + tier.price + '</span></div>';
   }).filter(Boolean).join('');
   var waMsg = esc(d.whatsapp_message || '').replace(/'/g, '&#39;');
   var icStart = window.GT_ICON_TRIP_START ? '<img src="' + esc(window.GT_ICON_TRIP_START) + '" alt="">' : '📍';
