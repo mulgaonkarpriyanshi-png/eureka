@@ -1894,6 +1894,12 @@ function closeDrawer(){
   document.getElementById('mobDrawer').classList.remove('show');
 }
 function openWA(msg) { window.open('https://wa.me/919792496457?text=' + encodeURIComponent(msg), '_blank'); }
+function buildTripAssistWAHref(d) {
+  var tripName = (CURRENT_TRIP && CURRENT_TRIP.title) || ((document.getElementById('gtTitleEl') && document.getElementById('gtTitleEl').textContent.trim()) || 'this group trip');
+  var dateLine = d && d.start_date_label ? ' for the ' + d.start_date_label + ' departure' : '';
+  var msg = 'Hi Eureka Trips! I was exploring the "' + tripName + '" group trip' + dateLine + ' and would love a little help. Could you assist me with availability, pricing, and the best next steps to book?';
+  return 'https://wa.me/919792496457?text=' + encodeURIComponent(msg);
+}
 
 /* "Download Full Itinerary" box — validates the number, then opens WhatsApp
    with a pre-filled request so the team can send the PDF over chat. */
@@ -2526,7 +2532,7 @@ function buildDateCard(d) {
     if (!tier) return '';
     return '<div class="dm-price-row"><span data-ts="gt_dc_price_label">' + tier.label + '</span><span data-ts="gt_dc_price">' + tier.price + '</span></div>';
   }).filter(Boolean).join('');
-  var waMsg = esc(d.whatsapp_message || '').replace(/'/g, '&#39;');
+  var contactHref = esc(buildTripAssistWAHref(d));
   var icStart = window.GT_ICON_TRIP_START ? '<img src="' + esc(window.GT_ICON_TRIP_START) + '" alt="">' : '📍';
   var icEnd = window.GT_ICON_TRIP_END ? '<img src="' + esc(window.GT_ICON_TRIP_END) + '" alt="">' : '🏁';
   var icFlight = window.GT_ICON_FLIGHT ? '<img src="' + esc(window.GT_ICON_FLIGHT) + '" alt="">' : '✈️';
@@ -2562,8 +2568,8 @@ function buildDateCard(d) {
           '<div class="dm-cancel" data-ts="gt_dc_cancel_label" onclick="toggleCancelPolicy(\'' + cancelId + '\',this)">' + (window.GT_DC_CANCEL_LABEL || 'Cancellation Policy') + ' <span class="chev">▾</span></div>' +
           '<div class="dm-cancel-body" data-ts="gt_dc_content" id="' + cancelId + '">' + (window.GT_CANCELLATION_POLICY || 'Cancellation policy details coming soon — contact us for specifics.') + '</div>' +
           '<div class="dm-btns">' +
-            '<a href="#" class="dm-btn" data-ts="gt_dc_booknow_label" onclick="openWA(&quot;' + waMsg + '&quot;)">' + (window.GT_DC_BOOKNOW_LABEL || '🎫 Book Now') + '</a>' +
-            '<a href="contact-us.html" class="dm-btn dm-btn-secondary" data-ts="gt_dc_contactus_label">' + (window.GT_DC_CONTACTUS_LABEL || 'Contact Us') + '</a>' +
+            '<a href="/booking-page.html" class="dm-btn" data-ts="gt_dc_booknow_label">' + (window.GT_DC_BOOKNOW_LABEL || '🎫 Book Now') + '</a>' +
+            '<a href="' + contactHref + '" target="_blank" rel="noopener" class="dm-btn dm-btn-secondary" data-ts="gt_dc_contactus_label">' + (window.GT_DC_CONTACTUS_LABEL || 'Contact Us') + '</a>' +
           '</div>' +
       '</div>' +
     '</div>' +
