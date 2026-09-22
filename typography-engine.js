@@ -449,8 +449,17 @@
     if (document.getElementById('tsPreviewToggle')) return;
     var wrap = document.createElement('div');
     wrap.id = 'tsPreviewToggle';
-    wrap.title = 'Preview the admin panel as if it were this width — lets you see mobile pen/typography styles without resizing your browser.';
-    wrap.style.cssText = 'position:fixed;right:16px;bottom:16px;z-index:99998;background:#1c1c1c;border-radius:30px;padding:4px;display:flex;gap:2px;box-shadow:0 4px 16px rgba(0,0,0,.35);font-family:"Poppins",sans-serif;font-size:12px;font-weight:600';
+    wrap.title = 'Preview the admin panel as if it were this width — lets you see mobile pen/typography styles without resizing your browser. Drag to move.';
+    wrap.style.cssText = 'position:fixed;z-index:99998;background:#1c1c1c;border-radius:30px;padding:4px;display:flex;gap:2px;align-items:center;box-shadow:0 4px 16px rgba(0,0,0,.35);font-family:"Poppins",sans-serif;font-size:12px;font-weight:600;cursor:grab;touch-action:none';
+
+    // Drag handle — a small grip icon at the start of the pill, so dragging
+    // doesn't conflict with clicking the buttons themselves.
+    var handle = document.createElement('span');
+    handle.setAttribute('aria-hidden', 'true');
+    handle.style.cssText = 'display:flex;align-items:center;justify-content:center;width:16px;color:#666;font-size:14px;line-height:1;user-select:none;padding-left:2px';
+    handle.textContent = '\u22ee\u22ee';
+    wrap.appendChild(handle);
+
     [['auto', '\u21C4 Actual size'], ['desktop', '\uD83D\uDDA5\uFE0F Desktop'], ['mobile', '\uD83D\uDCF1 Mobile']].forEach(function (pair) {
       var btn = document.createElement('button');
       btn.type = 'button';
@@ -462,6 +471,86 @@
     });
     document.body.appendChild(wrap);
     updatePreviewToggleUI();
+    positionPreviewToggle(wrap);
+    makePreviewToggleDraggable(wrap);
+  }
+
+  // Restores a saved position from a previous session, or defaults to the
+  // top-right corner — this pill used to always start bottom-right, which
+  // could sit over content admins needed to see or click.
+  function positionPreviewToggle(wrap) {
+    var saved = null;
+    try { saved = JSON.parse(localStorage.getItem('tsPreviewTogglePos') || 'null'); } catch (e) {}
+    if (saved && typeof saved.top === 'number' && typeof saved.left === 'number') {
+      wrap.style.top = saved.top + 'px';
+      wrap.style.left = saved.left + 'px';
+      wrap.style.right = '';
+      wrap.style.bottom = '';
+    } else {
+      wrap.style.top = '16px';
+      wrap.style.right = '16px';
+      wrap.style.bottom = '';
+      wrap.style.left = '';
+    }
+  }
+
+  // Lets the whole pill be dragged anywhere on screen (mouse or touch),
+  // clamped so it can't be dragged off-screen, with the chosen spot
+  // remembered for next time.
+  function makePreviewToggleDraggable(wrap) {
+    var dragging = false, startX = 0, startY = 0, startLeft = 0, startTop = 0, moved = false;
+
+    function toLeftTopPositioning() {
+      var rect = wrap.getBoundingClientRect();
+      wrap.style.left = rect.left + 'px';
+      wrap.style.top = rect.top + 'px';
+      wrap.style.right = '';
+      wrap.style.bottom = '';
+    }
+
+    function onPointerDown(e) {
+      if (e.target.closest('button')) return; // let button clicks through untouched
+      var point = e.touches ? e.touches[0] : e;
+      dragging = true;
+      moved = false;
+      toLeftTopPositioning();
+      var rect = wrap.getBoundingClientRect();
+      startX = point.clientX; startY = point.clientY;
+      startLeft = rect.left; startTop = rect.top;
+      wrap.style.cursor = 'grabbing';
+      e.preventDefault();
+    }
+
+    function onPointerMove(e) {
+      if (!dragging) return;
+      var point = e.touches ? e.touches[0] : e;
+      var dx = point.clientX - startX, dy = point.clientY - startY;
+      if (Math.abs(dx) > 3 || Math.abs(dy) > 3) moved = true;
+      var rect = wrap.getBoundingClientRect();
+      var maxLeft = window.innerWidth - rect.width;
+      var maxTop = window.innerHeight - rect.height;
+      var newLeft = Math.min(Math.max(0, startLeft + dx), Math.max(0, maxLeft));
+      var newTop = Math.min(Math.max(0, startTop + dy), Math.max(0, maxTop));
+      wrap.style.left = newLeft + 'px';
+      wrap.style.top = newTop + 'px';
+    }
+
+    function onPointerUp() {
+      if (!dragging) return;
+      dragging = false;
+      wrap.style.cursor = 'grab';
+      if (moved) {
+        var rect = wrap.getBoundingClientRect();
+        try { localStorage.setItem('tsPreviewTogglePos', JSON.stringify({ top: rect.top, left: rect.left })); } catch (e) {}
+      }
+    }
+
+    wrap.addEventListener('mousedown', onPointerDown);
+    document.addEventListener('mousemove', onPointerMove);
+    document.addEventListener('mouseup', onPointerUp);
+    wrap.addEventListener('touchstart', onPointerDown, { passive: false });
+    document.addEventListener('touchmove', onPointerMove, { passive: false });
+    document.addEventListener('touchend', onPointerUp);
   }
 
   // Only mount in the admin panel — sbFetch/toast are admin.html globals,
