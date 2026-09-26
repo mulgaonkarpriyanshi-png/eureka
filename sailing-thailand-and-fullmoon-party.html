@@ -223,7 +223,7 @@ img{display:block;max-width:100%}
   font-family:'Poppins',sans-serif;font-weight:600;font-size:16px;white-space:nowrap;
   transition:background .2s,color .2s,transform .2s;display:inline-block;
 }
-.gt-btn-outline:hover{background:#02A9A2;color:#FFFFFF;transform:translateY(-1px)}
+.gt-btn-outline:hover{background:#02A9A2;color:#FFFFFF!important;transform:translateY(-1px)}
 
 @media(max-width:900px){
   /* Reorder the header stack on mobile to: route → title → tags →
@@ -242,9 +242,9 @@ img{display:block;max-width:100%}
   .gt-meta{order:4;margin-bottom:1rem}
   .gt-price-mini{order:5;text-align:left;margin-bottom:1rem}
   .gt-price-btns{order:6;justify-content:flex-start;flex-wrap:nowrap;width:100%;gap:8px}
-  .gt-btn-solid,.gt-btn-outline{flex:1;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:13px;padding:14px 4px}
+  .gt-btn-solid,.gt-btn-outline{flex:1;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:13px;padding:10px 4px}
   .gt-price-btns #gtBtn1El{display:none}
-  .gt-price-btns #gtBtn2El{flex:0 0 calc((100% - 8px) / 2)}
+  .gt-price-btns #gtBtn2El{flex:0 0 calc((100% - 8px) / 2);padding-top:9px;padding-bottom:9px}
 }
 
 @media(max-width:640px){
@@ -253,7 +253,7 @@ img{display:block;max-width:100%}
   .gt-title{margin-bottom:1.25rem}
   .gt-tags{
     flex-wrap:wrap;gap:6px;width:100%;overflow:visible;
-    margin-bottom:.8rem;padding-bottom:0;
+    margin-bottom:1rem;padding-bottom:0;
   }
   .gt-tag{flex:0 0 auto;padding:6px 9px;font-size:12px;line-height:1.2}
   .gt-tag .ic{font-size:13px}
@@ -399,9 +399,9 @@ img{display:block;max-width:100%}
 }
 .gt-tabs-scroll-arrow:hover{background:rgba(2,169,162,.08);border-color:var(--teal-d)}
 .gt-tabs-scroll-arrow svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2.6}
-.gt-tabs-wrap.has-overflow .gt-tabs-scroll-arrow{display:flex}
+.gt-tabs-wrap.has-overflow .gt-tabs-scroll-arrow{display:none}
 .gt-panels-wrap{display:flex;flex-direction:column}
-.gt-panel{display:none;margin-bottom:1.75rem;scroll-margin-top:150px}
+.gt-panel{display:block;margin-bottom:1.75rem;scroll-margin-top:150px}
 .gt-panel.active{display:block}
 .gt-panel-heading{font-family:'Poppins',sans-serif;font-size:26px;font-weight:500;color:#3A3B3B;letter-spacing:-1px;line-height:1.15;margin-bottom:.85rem}
 .gt-map-card{border-radius:14px;overflow:hidden;box-shadow:0 4px 16px rgba(0,0,0,.1);margin-bottom:1.25rem}
@@ -417,7 +417,7 @@ img{display:block;max-width:100%}
 .gt-detail-p:last-child{margin-bottom:0}
 
 .gt-tabs{
-  display:flex;gap:4px;flex-wrap:nowrap;overflow-x:auto;margin:0;scrollbar-width:none;
+  display:flex;gap:4px;flex-wrap:nowrap;overflow-x:hidden;margin:0;scrollbar-width:none;
   background:#fff;border:1.5px solid var(--border);border-radius:50px;padding:6px;
   flex:1;min-width:0;
 }
@@ -425,7 +425,7 @@ img{display:block;max-width:100%}
 .gt-tab{
   font-family:'Poppins',sans-serif;font-weight:600;font-size:13.5px;
   padding:10px 20px;border-radius:50px;border:none;background:transparent;color:var(--body2);
-  transition:all .2s;white-space:nowrap;flex-shrink:0;
+  transition:all .2s;white-space:nowrap;flex:1 1 0;text-align:center;min-width:0;
 }
 .gt-tab.active{background:#cfeceA;color:var(--dark)}
 .gt-tab:not(.active):hover{color:var(--dark)}
@@ -439,18 +439,18 @@ img{display:block;max-width:100%}
     box-shadow:0 8px 24px rgba(15,75,65,.14);
   }
   .gt-tabs{
-    flex:1 1 auto;min-width:0;max-width:100%;gap:2px;padding:5px 26px 5px 5px;border:1px solid #e2e8e7;border-radius:999px;
+    flex:1 1 auto;min-width:0;max-width:100%;gap:2px;padding:5px;border:1px solid #e2e8e7;border-radius:999px;
     background:#fff;
   }
-  .gt-tab{font-size:11px;font-weight:600;line-height:1;padding:8px 12px}
+  .gt-tab{font-size:clamp(8px,2.15vw,11px);font-weight:600;line-height:1;padding:8px 4px}
   .gt-tab.active{background:#cfecea;color:#285357}
   .gt-tabs-wrap.has-overflow::after{
-    content:"";position:absolute;z-index:1;top:1px;bottom:1px;right:0;width:80px;
+    content:none;position:absolute;z-index:1;top:1px;bottom:1px;right:0;width:80px;
     border-radius:0 999px 999px 0;pointer-events:none;
     background:linear-gradient(90deg,rgba(255,255,255,0),#fff 62%);
   }
   .gt-tabs-scroll-arrow{
-    position:absolute;z-index:2;right:3px;top:50%;transform:translateY(-50%);
+    display:none!important;position:absolute;z-index:2;right:3px;top:50%;transform:translateY(-50%);
     width:19px;height:22px;border:0;border-radius:0;background:transparent;color:var(--teal-d);
   }
   .gt-tabs-scroll-arrow svg{width:11px;height:11px;stroke-width:2.2}
@@ -620,8 +620,9 @@ img{display:block;max-width:100%}
 .date-card-spots{font-family:'Poppins',sans-serif;font-size:16px;color:#3A3B3B;font-weight:500;line-height:1.5;text-align:center;flex:1;min-width:120px}
 
 .date-card-right{text-align:right;flex-shrink:0}
-.date-card-call{color:#027A74;text-decoration:underline;font-weight:600;font-size:16px;font-family:'Poppins',sans-serif;line-height:1.15;display:inline-block}
-.date-card-price{font-family:'Outfit','Poppins',sans-serif;font-size:30px;font-weight:700;font-style:normal;letter-spacing:0.2px;color:#3A3B3B;margin-top:.2rem;line-height:1.05}
+.date-card-call,.date-card-call:visited{color:#02A9A2!important;text-decoration:underline;font-weight:600;font-size:16px;font-family:'Poppins',sans-serif;line-height:1.15;display:inline-block}
+.date-card-call:hover{color:#027A74!important}
+.date-card-price{font-family:'Outfit','Poppins',sans-serif;font-size:34px;font-weight:700;font-style:normal;letter-spacing:0.2px;color:#3A3B3B;margin-top:.2rem;line-height:1.05}
 
 .date-card-more{
   border-top:1px solid var(--border);text-align:center;padding:.9rem;
@@ -670,13 +671,13 @@ img{display:block;max-width:100%}
   .gt-dates-sec{padding:1.5rem 0 .65rem}
   .gt-dates-inner{padding:0 .7rem}
   .date-card-main{
-    display:grid;grid-template-columns:50px minmax(72px,1fr) 62px max-content;
+    display:grid;grid-template-columns:52px minmax(88px,1fr) minmax(76px,.72fr) max-content;
     grid-template-areas:'date dates spots price';
     align-items:center;column-gap:.55rem;padding:.55rem .72rem;
   }
   .date-card{border-color:#087c76;border-radius:16px;margin-bottom:1.1rem}
   .date-card-date{grid-area:date;text-align:left;min-width:0;align-self:center}
-  .date-card-date .day,.date-card-date .month{font-size:14px;line-height:1.05}
+  .date-card-date .day,.date-card-date .month{font-size:15px;line-height:1.05}
   .date-card-date .month-full{display:none}
   .date-card-date .month-short{display:block;margin-top:.3rem}
   .date-card-date .dur{font-size:9.5px;margin-top:3px}
@@ -685,10 +686,10 @@ img{display:block;max-width:100%}
   .date-card-day-row br{display:none}
   .date-card-day-row{line-height:1}
   .date-card-day-row .val{font-size:10px;white-space:nowrap;line-height:1.2}
-  .date-card-spots{grid-area:spots;font-size:10px;text-align:left;width:auto;min-width:0;line-height:1.3;padding:0;white-space:nowrap;justify-self:start;transform:translateX(-4px)}
+  .date-card-spots{grid-area:spots;font-size:10px;text-align:left;width:auto;min-width:0;line-height:1.3;padding:0;white-space:nowrap;justify-self:start;transform:translateX(-10px)}
   .date-card-right{grid-area:price;align-self:center;text-align:right;width:auto;min-width:0;display:flex;flex-direction:column;align-items:flex-end;gap:.25rem}
   .date-card-call{font-size:10px}
-  .date-card-price{font-size:13.5px;margin-top:0;white-space:nowrap}
+  .date-card-price{font-size:15px;margin-top:0;white-space:nowrap}
   .date-card-more{padding:.35rem;font-size:13px;background:#edf9f8;border-top-color:#087c76}
   .date-more.open{max-height:2000px;overflow:visible;margin:1.5rem 0 1.25rem;border:2px solid #087c76;border-radius:16px;background:#fff}
   .date-more-grid{grid-template-areas:'price' 'info';gap:1.5rem;padding:1.5rem 1rem 1rem}
@@ -784,6 +785,11 @@ img{display:block;max-width:100%}
 .gt-faq-row{display:grid;grid-template-columns:.85fr 1.15fr;gap:clamp(2.5rem,5vw,4rem);align-items:start}
 .gt-faq-txt h2{font-family:'Poppins',sans-serif;font-size:42px;font-weight:600;color:#3A3B3B;letter-spacing:-1px;line-height:1.15;margin-bottom:1rem}
 .gt-faq-txt p{font-family:'Poppins',sans-serif;font-size:15px;color:#454A4A;line-height:1.5;letter-spacing:-0.1px;font-weight:400;max-width:420px}
+.gt-faq-btns{display:flex;gap:.9rem;flex-wrap:wrap;margin-top:1.75rem}
+.gt-faq-btn-outline{padding:.85rem 1.75rem;border-radius:50px;border:1.5px solid var(--teal);color:var(--teal);font-family:'Proxima Nova','Poppins',sans-serif;font-size:14px;font-weight:600;background:#fff;transition:all .22s}
+.gt-faq-btn-outline:hover{background:var(--teal-l)}
+.gt-faq-btn-solid{padding:.85rem 1.75rem;border-radius:50px;border:none;background:#377472;color:#fff;font-family:'Proxima Nova','Poppins',sans-serif;font-size:14px;font-weight:600;transition:all .22s}
+.gt-faq-btn-solid:hover{background:var(--teal-d)}
 .gt-faq-list{display:flex;flex-direction:column;gap:.9rem}
 .gt-faq-item{background:transparent}
 .gt-faq-q{background:#F1F9F9;border-radius:50px;display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:1.1rem 1.75rem;cursor:pointer;font-family:'Outfit','Poppins',sans-serif;font-size:15px;font-weight:600;color:var(--dark)}
@@ -793,7 +799,7 @@ img{display:block;max-width:100%}
 @media(max-width:768px){
   .gt-faq-row{grid-template-columns:1fr}
 }
-.gt-reviews-card-outer{background:#EDF8F8;border-radius:32px;max-width:1320px;margin:0 auto;padding:clamp(1.1rem,2vw,1.5rem) clamp(1.5rem,4vw,4rem) clamp(1.25rem,2.5vw,1.75rem)}
+.gt-reviews-card-outer{background:#EAF8F8;border-radius:32px;max-width:1320px;margin:0 auto;padding:clamp(1.1rem,2vw,1.5rem) clamp(1.5rem,4vw,4rem) clamp(1.25rem,2.5vw,1.75rem)}
 .gt-reviews-inner{max-width:none;margin:0;padding:0}
 .gt-reviews-hdr{text-align:center;margin-bottom:clamp(1rem,2vw,1.5rem)}
 .gt-reviews-hdr h2{font-family:'ITApfelGrotezk-Regular','Apfel Grotesk','Poppins',sans-serif;font-size:42px;font-weight:600;color:#3A3B3B;line-height:1.15;letter-spacing:-1px;margin-bottom:var(--home-title-byline-gap);font-style:normal}
@@ -864,6 +870,23 @@ img{display:block;max-width:100%}
 .gt-rev-dot{width:8px;height:8px;border-radius:50%;background:#d1d5db;border:none;cursor:pointer;padding:0;transition:all .28s}
 .gt-rev-dot.active{background:#02A9A2;width:24px;border-radius:4px}
 
+/* Book with confidence strip */
+.gt-confidence-sec{text-align:center;margin-top:.75rem;overflow:hidden}
+.gt-confidence-inner{max-width:1320px;margin:0 auto}
+.gt-confidence-sec h3{font-family:'Poppins',sans-serif;font-style:normal;font-size:36px;font-weight:600;color:rgb(58,59,59);margin-bottom:.6rem;letter-spacing:0;line-height:58px}
+.gt-confidence-marquee{position:relative;max-width:760px;margin:0 auto;padding:.15rem 0;overflow:hidden}
+.gt-confidence-marquee::before,.gt-confidence-marquee::after{content:"";position:absolute;top:0;bottom:0;width:64px;z-index:2;pointer-events:none}
+.gt-confidence-marquee::before{left:0;background:linear-gradient(90deg,#EAF8F8 0%,rgba(234,248,248,0) 100%)}
+.gt-confidence-marquee::after{right:0;background:linear-gradient(270deg,#EAF8F8 0%,rgba(234,248,248,0) 100%)}
+.gt-confidence-track{display:flex;width:max-content;animation:gt-confidence-scroll 34s linear infinite}
+.gt-confidence-marquee:hover .gt-confidence-track{animation-play-state:paused}
+.gt-confidence-set{display:flex;align-items:center;gap:clamp(1.5rem,3vw,2.25rem);padding:0 clamp(.75rem,2vw,1.25rem)}
+.gt-confidence-logo{height:clamp(42px,5vw,62px);width:auto;max-width:160px;object-fit:contain;display:block;filter:drop-shadow(0 4px 8px rgba(0,0,0,.04))}
+.gt-confidence-logo.logo-wide{max-width:190px}
+.gt-confidence-logo.logo-tall{height:clamp(50px,5.8vw,70px)}
+@keyframes gt-confidence-scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@media(prefers-reduced-motion:reduce){.gt-confidence-track{animation:none;transform:none}}
+
 @media(max-width:768px){
   .gt-reviews-sec{padding:1.5rem 1.25rem}
   .gt-reviews-card-outer{border-radius:20px;padding:1.25rem 1.25rem 1.5rem}
@@ -874,6 +897,14 @@ img{display:block;max-width:100%}
   .gt-rc{width:calc(100vw - 66px);height:auto;min-height:220px;padding:1rem 1.1rem;gap:.6rem}
   .gt-rc-q{line-height:1.55}
   .gt-rev-dots{margin-top:1.25rem}
+  .gt-confidence-sec{margin-top:2rem}
+  .gt-confidence-sec h3{font-size:36px;line-height:58px}
+  .gt-confidence-marquee{max-width:100%;padding:.1rem 0}
+  .gt-confidence-marquee::before,.gt-confidence-marquee::after{width:34px}
+  .gt-confidence-set{gap:1.15rem;padding:0 .55rem}
+  .gt-confidence-logo{height:42px;max-width:128px}
+  .gt-confidence-logo.logo-wide{max-width:150px}
+  .gt-confidence-logo.logo-tall{height:50px}
 }
 
 /* ─────────────────────────────────────────
@@ -883,13 +914,14 @@ img{display:block;max-width:100%}
 .gt-tribe-inner{max-width:1400px;margin:0 auto;padding:0 clamp(1.5rem,4vw,4rem)}
 .gt-tribe-h2{font-family:'Poppins',sans-serif;font-size:42px;font-weight:600;color:#3A3B3B;letter-spacing:-1px;line-height:1.15;text-align:center;margin-bottom:2.5rem}
 
-.gt-tribe-carousel{position:relative;overflow:hidden;padding:0 56px}
+.gt-tribe-carousel{position:relative;overflow:visible;padding:0 72px}
 .gt-tribe-track{
   display:flex;gap:24px;overflow-x:auto;scroll-snap-type:x mandatory;
   -webkit-overflow-scrolling:touch;scrollbar-width:none;scroll-behavior:smooth;
   padding:4px 4px 12px;
 }
 .gt-tribe-track::-webkit-scrollbar{display:none}
+.gt-tribe-track .tc2{width:350px;min-width:350px;flex-basis:350px}
 
 /* ── Card (matches homepage "Upcoming trips" tc2 card) ── */
 /* This .tc2 card design is shared with index.html's "Social group trips"
@@ -908,7 +940,7 @@ img{display:block;max-width:100%}
   cursor:pointer;
   flex-shrink:0;
   height:470px;
-  width:300px;
+  width:350px;
   display:flex;
   flex-direction:column;
   transition:transform .3s ease,box-shadow .3s;
@@ -982,10 +1014,11 @@ img{display:block;max-width:100%}
 }
 .gt-tribe-arrow svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2.4}
 .gt-tribe-arrow:hover{background:var(--teal)}
-.gt-tribe-prev{left:-8px}
-.gt-tribe-next{right:-8px}
+.gt-tribe-prev{left:8px}
+.gt-tribe-next{right:8px}
 
 @media(max-width:640px){
+  .gt-tribe-track .tc2{width:280px;min-width:280px;flex-basis:280px}
   .gt-tribe-inner{padding:0}
   .gt-tribe-h2{padding:0 1.25rem}
   .gt-tribe-carousel{padding:0 1.25rem}
@@ -1096,7 +1129,7 @@ img{display:block;max-width:100%}
   /* 8. Itinerary */
   .gt-itin-title{font-size:28px;line-height:1.1em}
   .gt-itin-sub{font-size:14px;line-height:23px}
-  .gt-day-head{font-size:18px;line-height:23px}
+  .gt-day-head{font-size:15px;line-height:20px;font-weight:600}
   .gt-day-h3{font-size:20px;line-height:22px}
   .gt-day-p{font-size:15px;line-height:24px}
   .gt-day-tag{font-size:16px;line-height:29px}
@@ -1111,6 +1144,7 @@ img{display:block;max-width:100%}
   /* 13. FAQ — matched to About Us page's mobile FAQ values, per CR note */
   .gt-faq-txt h2{font-size:32px;line-height:35px}
   .gt-faq-txt p{font-size:15px;line-height:23px}
+  .gt-faq-btn-outline,.gt-faq-btn-solid{font-size:16px;line-height:16px}
   .gt-faq-q{font-size:18px;line-height:23px}
   .gt-faq-a-in{font-size:15px;line-height:23px}
 
@@ -1310,7 +1344,7 @@ img{display:block;max-width:100%}
           <button class="gt-tab" data-panel="inclusions" onclick="gtSelectTab(this)">Inclusions</button>
           <button class="gt-tab" data-panel="accommodation" onclick="gtSelectTab(this)">Accommodation</button>
           <button class="gt-tab" data-panel="exclusions" onclick="gtSelectTab(this)">Exclusions</button>
-          <button class="gt-tab active" data-panel="itinerary" onclick="gtSelectTab(this)">Itinerary</button>
+          <button class="gt-tab" data-panel="itinerary" onclick="gtSelectTab(this)">Itinerary</button>
         </div>
         <button class="gt-tabs-scroll-arrow" id="gtTabsScrollArrow" onclick="gtScrollTabs()" aria-label="See more tabs"><svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></button>
       </div>
@@ -1484,6 +1518,38 @@ img{display:block;max-width:100%}
         <button class="gt-rc-arrow gt-rc-next" id="gtRevNext" onclick="gtRevNav(1)" aria-label="Next"><svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></button>
       </div>
       <div class="gt-rev-dots" id="gtRevDots"></div>
+
+      <div class="gt-confidence-sec" aria-label="Book with confidence">
+        <div class="gt-confidence-inner">
+          <h3>Book with confidence</h3>
+          <div class="gt-confidence-marquee" aria-label="Trusted travel and review logos">
+            <div class="gt-confidence-track">
+              <div class="gt-confidence-set">
+                <img class="gt-confidence-logo logo-wide" src="assets/images/book-confidence/clean/google-reviews.png" alt="Google Reviews">
+                <img class="gt-confidence-logo" src="assets/images/book-confidence/clean/jnto.png" alt="JNTO">
+                <img class="gt-confidence-logo" src="assets/images/book-confidence/clean/incredible-india.png" alt="Incredible India">
+                <img class="gt-confidence-logo" src="assets/images/book-confidence/clean/iata.png" alt="IATA">
+                <img class="gt-confidence-logo" src="assets/images/book-confidence/clean/visit-indonesia.png" alt="Visit Indonesia">
+                <img class="gt-confidence-logo" src="assets/images/book-confidence/clean/tripadvisor.png" alt="Tripadvisor">
+                <img class="gt-confidence-logo" src="assets/images/book-confidence/clean/egypt.png" alt="Egypt">
+                <img class="gt-confidence-logo" src="assets/images/book-confidence/clean/love-philippines.png" alt="Love The Philippines">
+                <img class="gt-confidence-logo" src="assets/images/book-confidence/clean/ministry-tourism-india.png" alt="Ministry of Tourism">
+              </div>
+              <div class="gt-confidence-set" aria-hidden="true">
+                <img class="gt-confidence-logo logo-wide" src="assets/images/book-confidence/clean/google-reviews.png" alt="">
+                <img class="gt-confidence-logo" src="assets/images/book-confidence/clean/jnto.png" alt="">
+                <img class="gt-confidence-logo" src="assets/images/book-confidence/clean/incredible-india.png" alt="">
+                <img class="gt-confidence-logo" src="assets/images/book-confidence/clean/iata.png" alt="">
+                <img class="gt-confidence-logo" src="assets/images/book-confidence/clean/visit-indonesia.png" alt="">
+                <img class="gt-confidence-logo" src="assets/images/book-confidence/clean/tripadvisor.png" alt="">
+                <img class="gt-confidence-logo" src="assets/images/book-confidence/clean/egypt.png" alt="">
+                <img class="gt-confidence-logo" src="assets/images/book-confidence/clean/love-philippines.png" alt="">
+                <img class="gt-confidence-logo" src="assets/images/book-confidence/clean/ministry-tourism-india.png" alt="">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -1495,6 +1561,10 @@ img{display:block;max-width:100%}
       <div class="gt-faq-txt">
         <h2 id="gtFaqH" data-ts="gt_faq_heading">Frequently asked questions</h2>
         <p id="gtFaqIntro" data-ts="gt_faq_intro">Got questions about this trip? We've gathered the essential details right here to help you plan your adventure.</p>
+        <div class="gt-faq-btns">
+          <a href="#faqs" class="gt-faq-btn-outline">View all FAQs</a>
+          <a href="contact-us.html" class="gt-faq-btn-solid">Chat With Us</a>
+        </div>
       </div>
       <div class="gt-faq-list" id="gtFaqListEl"></div>
     </div>
@@ -1522,7 +1592,7 @@ img{display:block;max-width:100%}
       <div class="gt-final-content">
         <h2 class="gt-final-h2" id="gtFinalH" data-ts="gt_final_heading"></h2>
         <p class="gt-final-p" id="gtFinalP" data-ts="gt_final_text"></p>
-        <a href="#dates" class="gt-final-btn" id="gtFinalBtn" data-ts="gt_final_btn_text"></a>
+        <a href="booking-page.html" class="gt-final-btn" id="gtFinalBtn" data-ts="gt_final_btn_text"></a>
       </div>
     </div>
   </div>
@@ -1870,7 +1940,9 @@ function normalizePriceTier(raw, preserveRich) {
   return { label: label, price: price };
 }
 function formatPriceTierAmount(value) {
-  var raw = cleanRichText(value || '').trim();
+  var rawHtml = value === null || value === undefined ? '' : String(value);
+  if (/<[^>]+>/.test(rawHtml)) return stripOuterParagraph(rawHtml);
+  var raw = cleanRichText(rawHtml).trim();
   var hadCurrency = /^\s*(?:₹|INR|Rs\.?)/i.test(raw);
   var text = raw.replace(/^\s*(?:₹|INR|Rs\.?)\s*/i, '').trim();
   if (!text) return '';
@@ -2181,14 +2253,29 @@ window.addEventListener('resize',function(){gtRevSetWidths();gtRevBuildDots(GT_R
 /* ITINERARY ACCORDION */
 function toggleDay(id){
   var el=document.getElementById(id);
-  if(el) el.classList.toggle('open');
+  if(!el) return;
+  var shouldOpen=!el.classList.contains('open');
+  document.querySelectorAll('.gt-day.open').forEach(function(day){
+    if(day!==el) day.classList.remove('open');
+  });
+  el.classList.toggle('open', shouldOpen);
 }
 
 function toggleDateMore(idx,btn){
   var panel=document.getElementById('moreInfo'+idx);
+  if(!panel) return;
   var isOpen=panel.classList.contains('open');
-  panel.classList.toggle('open');
-  btn.classList.toggle('open');
+  document.querySelectorAll('.date-more.open').forEach(function(openPanel){
+    if(openPanel!==panel) openPanel.classList.remove('open');
+  });
+  document.querySelectorAll('.date-card-more.open').forEach(function(openBtn){
+    if(openBtn!==btn){
+      openBtn.classList.remove('open');
+      openBtn.innerHTML='More Info <span class="chev">›</span>';
+    }
+  });
+  panel.classList.toggle('open', !isOpen);
+  btn.classList.toggle('open', !isOpen);
   btn.innerHTML=isOpen?'More Info <span class="chev">›</span>':'Less Info <span class="chev">›</span>';
 }
 
@@ -2220,16 +2307,15 @@ function gtToggleFaq(q){
 
 function gtSelectTab(el){
   var clicked = el.dataset.panel;
-  // Itinerary always stays open, no matter which other tab gets clicked — only
-  // the other tabs/panels are mutually exclusive among themselves.
   document.querySelectorAll('.gt-tab').forEach(function(t){
-    if (t.dataset.panel === 'itinerary') return;
     t.classList.toggle('active', t.dataset.panel === clicked);
   });
-  document.querySelectorAll('.gt-panel').forEach(function(p){
-    if (p.dataset.panel === 'itinerary') return;
-    p.classList.toggle('active', p.dataset.panel === clicked);
-  });
+  var panel = document.getElementById('gt-panel-' + clicked);
+  if (!panel) return;
+  var wrap = document.getElementById('gtTabsWrap');
+  var offset = (wrap ? wrap.offsetHeight : 0) + 24;
+  var top = window.scrollY + panel.getBoundingClientRect().top - offset;
+  window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
 }
 
 /* Tabs row can overflow horizontally (Highlights/Inclusions/.../Itinerary don't
@@ -2281,15 +2367,28 @@ function gtUpdateMobileTabsFixed(){
     placeholder.style.height = '';
   }
 }
+function gtUpdateActiveTabOnScroll(){
+  var tabs = Array.prototype.slice.call(document.querySelectorAll('.gt-tab'));
+  if (!tabs.length) return;
+  var wrap = document.getElementById('gtTabsWrap');
+  var y = window.scrollY + (wrap ? wrap.offsetHeight : 0) + 36;
+  var active = tabs[0].dataset.panel;
+  tabs.forEach(function(tab){
+    var panel = document.getElementById('gt-panel-' + tab.dataset.panel);
+    if (panel && (window.scrollY + panel.getBoundingClientRect().top) <= y) active = tab.dataset.panel;
+  });
+  tabs.forEach(function(tab){ tab.classList.toggle('active', tab.dataset.panel === active); });
+}
 (function(){
   var tabs = document.getElementById('gtTabs');
   if (!tabs) return;
   tabs.addEventListener('scroll', gtUpdateTabsOverflow, { passive: true });
-  window.addEventListener('scroll', gtUpdateMobileTabsFixed, { passive: true });
-  window.addEventListener('resize', function(){ gtUpdateTabsOverflow(); gtUpdateMobileTabsFixed(); });
-  window.addEventListener('load', function(){ gtUpdateTabsOverflow(); gtUpdateMobileTabsFixed(); });
+  window.addEventListener('scroll', function(){ gtUpdateMobileTabsFixed(); gtUpdateActiveTabOnScroll(); }, { passive: true });
+  window.addEventListener('resize', function(){ gtUpdateTabsOverflow(); gtUpdateMobileTabsFixed(); gtUpdateActiveTabOnScroll(); });
+  window.addEventListener('load', function(){ gtUpdateTabsOverflow(); gtUpdateMobileTabsFixed(); gtUpdateActiveTabOnScroll(); });
   gtUpdateTabsOverflow();
   gtUpdateMobileTabsFixed();
+  gtUpdateActiveTabOnScroll();
 })();
 
 /* ─────────────────────────────────────────
@@ -2540,7 +2639,7 @@ function repairCorruptedTierString(s) {
 }
 function buildDateCard(d) {
   var tiers = (d.price_tiers || []).map(function(t) {
-    var tier = normalizePriceTier(t, false);
+    var tier = normalizePriceTier(t, true);
     if (!tier) return '';
     return '<div class="dm-price-row"><span data-ts="gt_dc_price_label">' + tier.label + '</span><span data-ts="gt_dc_price">' + formatPriceTierAmount(tier.price) + '</span></div>';
   }).filter(Boolean).join('');

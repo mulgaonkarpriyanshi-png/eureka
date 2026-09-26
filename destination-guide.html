@@ -541,15 +541,15 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
   <div class="dg-hero-ov"></div>
 
   <div class="dg-cat-card" id="dgCatCard">
-    <div class="dg-cat-name" id="dgCatName"></div>
-    <div class="dg-cat-sub" id="dgCatSub"></div>
-    <div class="dg-cat-meta" id="dgCatMeta"></div>
+    <div class="dg-cat-name" id="dgCatName" data-ts="dg_catname"></div>
+    <div class="dg-cat-sub" id="dgCatSub" data-ts="dg_catsub"></div>
+    <div class="dg-cat-meta" id="dgCatMeta" data-ts="dg_catmeta"></div>
   </div>
 
   <div class="dg-nav-bar">
     <button class="dg-nav-arrow" id="dgPrev" aria-label="Previous destination"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
     <div class="dg-nav-line"></div>
-    <div class="dg-nav-name" id="dgName"></div>
+    <div class="dg-nav-name" id="dgName" data-ts="dg_name"></div>
     <div class="dg-nav-line"></div>
     <button class="dg-nav-arrow" id="dgNext" aria-label="Next destination"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
   </div>
@@ -559,7 +559,7 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
 <section class="dg-content">
   <div class="container" style="max-width:1150px">
     <div class="dg-card">
-      <h2 class="dg-card-h" id="dgGuideHeading" data-ts="dg_guide_heading">Quick Destination Guide</h2>
+      <h2 class="dg-card-h" id="dgGuideHeading" data-ts="dg_guide_heading"></h2>
       <div class="dg-guide-inner" id="dgGuideInner">
         <div id="dgGuideBody" data-ts="dg_guide_body"></div>
       </div>
@@ -736,10 +736,14 @@ function renderDestGuide(){
   setTimeout(function(){
     heroImg.src=d.img;
     heroImg.alt=d.alt;
-    document.getElementById('dgCatName').textContent=d.catName;
-    document.getElementById('dgCatSub').textContent=d.catSub;
-    document.getElementById('dgCatMeta').textContent=d.catMeta;
+    document.getElementById('dgCatName').innerHTML=d.catName||'';
+    document.getElementById('dgCatSub').innerHTML=d.catSub||'';
+    document.getElementById('dgCatMeta').innerHTML=d.catMeta||'';
     navName.textContent=d.name;
+    applyElementTypography(document.getElementById('dgCatName'));
+    applyElementTypography(document.getElementById('dgCatSub'));
+    applyElementTypography(document.getElementById('dgCatMeta'));
+    applyElementTypography(navName);
     document.getElementById('dgGuideBody').innerHTML=d.guide||'';
     applyElementTypography(document.getElementById('dgGuideBody'));
     document.title=d.name+' Destination Guide | Eureka Trips';

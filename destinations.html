@@ -226,7 +226,7 @@ section{padding:clamp(1.25rem,2.5vw,2rem) clamp(1.25rem,4vw,3rem)}
 
 .dest-grid-hdr{text-align:center;padding-bottom:0;margin-bottom:clamp(1rem,2vw,1.5rem);border-bottom:none}
 .dest-grid-hdr h2{font-family:'Poppins',sans-serif;font-size:clamp(22px,3vw,30px);font-weight:600;color:#3A3B3B;letter-spacing:-.3px}
-.dest-grid{display:grid;grid-template-columns:repeat(3,minmax(320px,340px));justify-content:center;gap:1.75rem}
+.dest-grid{display:grid;grid-template-columns:repeat(3,360px);justify-content:center;gap:20px}
 .dest-carousel-dots{display:none;justify-content:center;gap:6px;margin-top:.75rem;padding:0 1rem}
 .cdot{width:8px;height:8px;border-radius:50%;background:#d1d5db;border:none;cursor:pointer;padding:0;transition:all .28s}
 .cdot.active{background:#02A9A2;width:24px;border-radius:4px}
@@ -333,7 +333,7 @@ section{padding:clamp(1.25rem,2.5vw,2rem) clamp(1.25rem,4vw,3rem)}
 @media(max-width:1024px){
   .nav-pill,.nav-soc{display:none}
   .hbg{display:flex}
-  .dest-grid{grid-template-columns:repeat(2,minmax(320px,340px))}
+  .dest-grid{grid-template-columns:repeat(2,360px)}
   .footer-grid{grid-template-columns:1fr 1fr}
 }
 @media(max-width:900px){.tc2{height:490px}}
@@ -357,8 +357,8 @@ section{padding:clamp(1.25rem,2.5vw,2rem) clamp(1.25rem,4vw,3rem)}
 }
 @media(max-width:580px){.tc2{height:470px}}
 .hiw-sec{text-align:center;padding:clamp(2.5rem,5vw,4rem) clamp(1.25rem,4vw,3rem)}
-.hiw-title{font-family:'Poppins',sans-serif;font-size:42px;font-weight:600;color:#3a3b3b!important;letter-spacing:-1px;line-height:1.15;margin-bottom:.35rem}
-.hiw-sub{font-family:'Poppins',sans-serif;font-size:16px;line-height:1.5;letter-spacing:-0.2px;color:#464a4b!important;margin-bottom:clamp(2rem,4vw,3rem)}
+.hiw-title{font-family:'Poppins',sans-serif;font-size:22px;font-weight:600;color:#3a3b3b!important;letter-spacing:0;line-height:1.15;margin-bottom:.35rem}
+.hiw-sub{font-family:'Poppins',sans-serif;font-size:15px;font-weight:500;line-height:1.5;letter-spacing:0;color:#464a4b!important;margin-bottom:clamp(2rem,4vw,3rem)}
 .hiw-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;max-width:1200px;margin:0 auto}
 .hiw-step{display:flex;flex-direction:column;align-items:flex-start;text-align:left;padding:0 1.75rem;border-left:1px solid var(--border)}
 .hiw-step:first-child{border-left:none}
@@ -399,27 +399,22 @@ section{padding:clamp(1.25rem,2.5vw,2rem) clamp(1.25rem,4vw,3rem)}
   /* 5. Trip Grid — keep the same card typography as Home page's "Upcoming trips" cards. */
   .dest-grid-hdr h2{font-size:32px;line-height:35px}
   .dest-grid{
-    display:flex;
-    grid-template-columns:none;
-    justify-content:flex-start;
+    display:grid;
+    grid-template-columns:minmax(0, min(100%, 360px));
+    justify-content:center;
     gap:1rem;
-    overflow-x:auto;
-    overflow-y:visible;
-    scroll-snap-type:x mandatory;
-    scroll-padding:0 1.25rem;
-    -webkit-overflow-scrolling:touch;
-    padding:0 1.25rem .75rem;
-    margin:0 -1.25rem;
-    scrollbar-width:none;
+    overflow:visible;
+    scroll-snap-type:none;
+    padding:0;
+    margin:0 auto;
   }
   .dest-grid::-webkit-scrollbar{display:none}
   .dest-grid .tc2{
-    flex:0 0 calc((100vw - 2.5rem) * .92);
-    width:calc((100vw - 2.5rem) * .92);
-    max-width:none;
-    scroll-snap-align:start;
+    width:100%;
+    max-width:360px;
+    scroll-snap-align:none;
   }
-  .dest-carousel-dots{display:flex;margin-top:1.25rem}
+  .dest-carousel-dots{display:none!important}
 
   /* 7. FAQ — matched to About Us page's mobile FAQ values, per CR note */
   .faq-txt h2{font-size:32px;line-height:35px}

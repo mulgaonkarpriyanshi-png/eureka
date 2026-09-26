@@ -482,21 +482,6 @@ function stripOuterParagraph(html) {
   var m = html.match(/^<p>([\s\S]*)<\/p>\s*$/i);
   return m ? m[1] : html;
 }
-function plainTextFromRich(html) {
-  var text = stripOuterParagraph(html)
-    .replace(/<br\s*\/?>/gi, ' ')
-    .replace(/<\/p>\s*<p>/gi, ' ')
-    .replace(/<[^>]*>/g, ' ')
-    .replace(/&nbsp;/gi, ' ')
-    .replace(/&amp;/gi, '&')
-    .replace(/&lt;/gi, '<')
-    .replace(/&gt;/gi, '>')
-    .replace(/&quot;/gi, '"')
-    .replace(/&#39;/g, "'")
-    .replace(/\s+/g, ' ')
-    .trim();
-  return text;
-}
 function cleanSubscribeCopy(str) {
   if (!str) return str;
   var text = String(str)
@@ -783,6 +768,9 @@ var NAV = [
   { section: "What's Included Page", icon: '✅', items: [
     { id:'wi-settings', label:'Page Settings', icon:'⚙️' }
   ]},
+  { section: 'Booking Page', icon: '📝', items: [
+    { id:'bp-settings', label:'Page Settings', icon:'⚙️' }
+  ]},
   { section: 'Group Trip Page', icon: '👥', items: [
     { id:'gt-list', label:'Group Trips', icon:'🗺️' },
     { id:'gt-datecard-settings', label:'Date Card Settings', icon:'📅' },
@@ -793,9 +781,11 @@ var NAV = [
   { section: 'Destinations Page', icon: '📍', items: [
     { id:'dest-settings', label:'Destination Hero Settings', icon:'🎬' },
     { id:'dest-herophotos', label:'Hero Photos', icon:'🖼️' },
-    { id:'dest-guides',   label:'Destination Guides', icon:'📖' },
-    { id:'dest-guide-typography', label:'Guide Page Typography', icon:'🔤' },
     { id:'dest-faqs',     label:'FAQs',          icon:'❓' }
+  ]},
+  { section: 'Destination Guide Page', icon: '📖', items: [
+    { id:'dest-guides',   label:'Destination Guides', icon:'📖' },
+    { id:'dest-guide-typography', label:'Guide Page Typography', icon:'🔤' }
   ]},
   { section: 'About Us Page', icon: 'ℹ️', items: [
     { id:'about-hero',     label:'Hero Settings', icon:'🎬' },
@@ -873,6 +863,7 @@ var TAB_CONFIG = {
 
   'pp-settings':      { crumb:'Privacy Policy Page', title:'Page Typography', add:false, load: function(){ renderSettingsGroup('privacypolicy'); } },
   'wi-settings':      { crumb:"What's Included Page", title:'Page Settings', add:false, load: function(){ renderSettingsGroup('whatsincluded'); } },
+  'bp-settings':      { crumb:'Booking Page', title:'Page Settings', add:false, load: function(){ renderSettingsGroup('bookingpage'); } },
   'gt-list':          { crumb:'Group Trip Page', title:'Group Trips', add:true, load: loadGroupTrips, addFn: function(){ addNewGroupTrip(); } },
   'gt-datecard-settings': { crumb:'Group Trip Page', title:'Date Card Settings', add:false, load: function(){ renderSettingsGroup('gtdatecard'); } },
   'gt-typography': { crumb:'Group Trip Page', title:'Static Section Text', add:false, load: function(){ renderSettingsGroup('grouptriptext'); } },
@@ -881,8 +872,8 @@ var TAB_CONFIG = {
 
   'dest-settings':    { crumb:'Destinations Page', title:'Destination Hero Settings', add:false, load: function(){ renderSettingsGroup('destinations'); } },
   'dest-herophotos':  { crumb:'Destinations Page', title:'Hero Photos', add:true, load: function(){ loadHeroPhotos('destinations'); }, addFn: function(){ openHeroPhotoModal(null,'destinations'); } },
-  'dest-guides':      { crumb:'Destinations Page', title:'Destination Guides', add:true, load: loadDestinationGuides, addFn: function(){ renderDestGuideEditorPage(null); } },
-  'dest-guide-typography': { crumb:'Destinations Page', title:'Guide Page Typography', add:false, load: function(){ renderSettingsGroup('destguidetypography'); } },
+  'dest-guides':      { crumb:'Destination Guide Page', title:'Destination Guides', add:true, load: loadDestinationGuides, addFn: function(){ renderDestGuideEditorPage(null); } },
+  'dest-guide-typography': { crumb:'Destination Guide Page', title:'Guide Page Typography', add:false, load: function(){ renderSettingsGroup('destguidetypography'); } },
   'dest-faqs':        { crumb:'Destinations Page', title:'FAQs', add:true, load: function(){ loadFaqs('destinations'); }, addFn: function(){ openFaqModal(null,'destinations'); } },
 
   'about-hero':       { crumb:'About Us Page', title:'Hero Settings', add:false, load: function(){ renderSettingsGroup('abouthero'); } },
@@ -2042,22 +2033,16 @@ function renderPriceTierList(rowKey, tiersRaw) {
   var itemsHtml = tiers.map(function(t, i) { return renderPriceTierItem(rowKey, t, i); }).join('');
   return '<div class="fg full">' +
     '<label>Price Tiers</label>' +
-    '<div class="hint">Only edit the words/numbers here. Styling is global: use the shared Date Card typography controls below once, and it applies to every trip and every date row.</div>' +
+    '<div class="hint">Each row gets its own "Book Before" label and price, each independently stylable with the pen — highlight any part of either field to give it its own color, weight, or size.</div>' +
     '<div id="tierlist_' + rowKey + '">' + itemsHtml + '</div>' +
     '<button type="button" class="btn-sm btn-edit" onclick="addPriceTierSlot(\'' + rowKey + '\')">+ Add Another Price Tier</button>' +
-    '<div style="margin-top:8px">' +
-      gtTsStatus('gt_dc_price_label') +
-      gtTsStatus('gt_dc_price') +
-    '</div>' +
   '</div>';
 }
 function renderPriceTierItem(rowKey, tier, idx) {
   var boxId = 'tier_' + rowKey + '_' + idx;
-  var label = plainTextFromRich(tier.label || '');
-  var price = plainTextFromRich(tier.price || '').replace(/^₹\s*/, '');
   return '<div class="nrow" id="' + boxId + '_wrap" style="margin-bottom:8px">' +
-    '<div class="fg"><label>Book Before Label</label><input type="text" id="' + boxId + '_label" value="' + esc(label) + '" placeholder="e.g. 6 Oct 2026, or Until spots are available"></div>' +
-    '<div class="fg"><label>Price</label><input type="text" id="' + boxId + '_price" value="' + esc(price) + '" placeholder="e.g. 58000"></div>' +
+    rta('Book Before Label', boxId + '_label', tier.label || '', 'e.g. 6 Oct 2026, or "Until spots are available"') +
+    rta('Price', boxId + '_price', tier.price || '', 'e.g. ₹58000 — type the ₹ symbol yourself if you want it shown; it\'s no longer added automatically. Highlight any part of it to style it.') +
     '<button type="button" class="btn-sm btn-del" onclick="document.getElementById(\'' + boxId + '_wrap\').remove()">Remove This Tier</button>' +
   '</div>';
 }
@@ -2066,6 +2051,7 @@ function addPriceTierSlot(rowKey) {
   var idx = priceTierCounters[rowKey] || 0;
   container.insertAdjacentHTML('beforeend', renderPriceTierItem(rowKey, {label:'', price:''}, idx));
   priceTierCounters[rowKey] = idx + 1;
+  setTimeout(initRichEditors, 30);
 }
 // Reads every currently-present tier row back into an array of
 // "label|price" strings (matching the existing text[] column — same
@@ -2079,16 +2065,11 @@ function collectPriceTiers(rowKey) {
   for (var i = 0; i < count; i++) {
     var wrap = document.getElementById('tier_' + rowKey + '_' + i + '_wrap');
     if (!wrap) continue;
-    var label = val('tier_' + rowKey + '_' + i + '_label');
-    var price = val('tier_' + rowKey + '_' + i + '_price').replace(/^₹\s*/, '');
+    var label = rval('tier_' + rowKey + '_' + i + '_label');
+    var price = rval('tier_' + rowKey + '_' + i + '_price');
     if (label || price) out.push((label || '') + '|' + (price || ''));
   }
   return out;
-}
-function priceTierSideValues(tiersRaw, side) {
-  return normalizePriceTiers(tiersRaw).map(function(t) {
-    return plainTextFromRich((side === 'price' ? t.price : t.label) || '').replace(/^₹\s*/, '');
-  }).join(' | ');
 }
 function nrowGtItinerary(d) {
   return '<div class="nrow" id="gtitinrow_'+d.id+'">' +
@@ -2164,8 +2145,6 @@ async function addGtDate(tripId) {
     await sbInsert('group_trip_dates', data); toast('Date added!', 'success');
     stampSharedTypography('gt_dc_date', data.date_day, '');
     stampSharedTypography('gt_dc_price', String(data.price||''), '');
-    stampSharedTypography('gt_dc_price', priceTierSideValues(data.price_tiers, 'price'), '');
-    stampSharedTypography('gt_dc_price_label', priceTierSideValues(data.price_tiers, 'label'), '');
     stampSharedTypography('gt_dc_content', data.trip_start_location, '');
     editGroupTrip(tripId);
   } catch(e) { toast('Error adding date', 'error'); }
@@ -2184,8 +2163,6 @@ async function saveGtDate(id) {
     stampSharedTypography('gt_dc_date', data.end_date_label, before.end_date_label);
     stampSharedTypography('gt_dc_date', data.spots_label, before.spots_label);
     stampSharedTypography('gt_dc_price', String(data.price||''), String(before.price||''));
-    stampSharedTypography('gt_dc_price', priceTierSideValues(data.price_tiers, 'price'), priceTierSideValues(before.price_tiers, 'price'));
-    stampSharedTypography('gt_dc_price_label', priceTierSideValues(data.price_tiers, 'label'), priceTierSideValues(before.price_tiers, 'label'));
     stampSharedTypography('gt_dc_content', data.trip_start_location, before.trip_start_location);
     stampSharedTypography('gt_dc_content', data.trip_end_location, before.trip_end_location);
     stampSharedTypography('gt_dc_content', data.flight_info, before.flight_info);
@@ -2234,7 +2211,7 @@ async function saveGroupTripDetails(oldId) {
     stampSharedTypography('gt_btn1', data.btn1_text, GT_EDITOR_SNAPSHOT.btn1_text);
     stampSharedTypography('gt_btn2', data.btn2_text, GT_EDITOR_SNAPSHOT.btn2_text);
     toast('Group trip saved!', 'success'); editingId = id; editGroupTrip(id); loadGroupTrips();
-  } catch(e) { toast('Error saving group trip', 'error'); console.error(e); }
+  } catch(e) { toast('Error saving group trip: ' + (e.message || 'unknown error') + ' — if this mentions a missing column (like detail_route), that column needs to be added to the group_trips table in Supabase.', 'error'); console.error(e); }
 }
 async function saveGroupTripGallery(id) {
   var photos = [];
@@ -2305,7 +2282,7 @@ async function addGtItineraryDay(tripId) {
     stampSharedTypography('gt_day_meals', data.meals_tag, '');
     stampSharedTypography('gt_day_included', data.included_tag, '');
     editGroupTrip(tripId);
-  } catch(e) { toast('Error adding day', 'error'); }
+  } catch(e) { toast('Error adding day: ' + (e.message || 'unknown error') + ' — if this mentions a missing column (like gallery_images), that column needs to be added to the group_trip_itinerary table in Supabase.', 'error'); console.error(e); }
 }
 async function saveGtItineraryDay(id) {
   var data = { day_number: Number(val('gtitinnum_'+id))||0, title: val('gtitintitle_'+id), description: rval('gtitindesc_'+id), meals_tag: val('gtitinmeals_'+id), included_tag: val('gtitinincluded_'+id), image_url: val('gtitinimg_'+id), gallery_images: collectDayImageList('day_'+id) };
@@ -2316,7 +2293,7 @@ async function saveGtItineraryDay(id) {
     stampSharedTypography('gt_day_desc', data.description, before.description);
     stampSharedTypography('gt_day_meals', data.meals_tag, before.meals_tag);
     stampSharedTypography('gt_day_included', data.included_tag, before.included_tag);
-  } catch(e) { toast('Error saving day', 'error'); }
+  } catch(e) { toast('Error saving day: ' + (e.message || 'unknown error') + ' — if this mentions a missing column (like gallery_images), that column needs to be added to the group_trip_itinerary table in Supabase.', 'error'); console.error(e); }
 }
 
 /* =====================================================================
@@ -3756,25 +3733,30 @@ async function loadDestinationGuides() {
 }
 async function editDestGuide(id) {
   var rows = await sbFetch('destinations', 'id=eq.' + id);
+  var settingsRows = await sbFetch('settings', '');
+  var settingsMap = {};
+  settingsRows.forEach(function(r){ settingsMap[r.key] = r.value; });
+  GT_SETTINGS_MAP = settingsMap;
   renderDestGuideEditorPage(rows[0]);
 }
 function renderDestGuideEditorPage(r) {
   document.querySelectorAll('.nav-item').forEach(function(el){ el.classList.remove('active'); });
-  document.getElementById('topbarCrumb').textContent = 'Destinations Page';
+  document.getElementById('topbarCrumb').textContent = 'Destination Guide Page';
   document.getElementById('topbarTitle').textContent = r ? ('Editing: ' + r.name) : 'Add Destination';
   document.getElementById('topbarAddBtn').style.display = 'none';
 
   var heroHtml = pageHint('The hero banner shown when this destination is active in the destination-guide.html carousel — background image, category card, and the destination name in the nav bar.') + '<div class="form-grid">' +
     fg('Destination ID (unique slug)', 'text', 'dg_id', r?r.id:'', '', 'e.g. bali') +
     fg('Name', 'text', 'dg_name', r?r.name:'', '', 'e.g. Bali') +
+    gtTsStatus('dg_name') +
     fg('Country', 'text', 'dg_country', r?r.country:'', '', 'e.g. Indonesia') +
     imageField('Hero Background Image', 'dg_img', 'dg_imgprev', r?r.image_url||'':'', 'Landscape, e.g. 1920×1080px — full-bleed hero background') +
     fg('Image Alt Text', 'text', 'dg_imgalt', r?r.image_alt:'', '', 'e.g. Group of friends celebrating together on a boat') +
-    fg('Category Label', 'text', 'dg_catname', r?r.dg_category:'', '', 'e.g. Food') +
-    fg('Category Subtitle', 'text', 'dg_catsub', r?r.dg_subtitle:'', '', 'e.g. Exotic Culinary Escape') +
-    fg('Category Meta Line', 'text', 'dg_catmeta', r?r.dg_meta:'', '', 'e.g. Just 2-4 Hrs Away | Visa-Free for Indians | ₹64,000 Onwards') +
     ta('Short Description (used elsewhere, e.g. destinations.html card)', 'dg_short', r?r.short_desc:'', 2) +
   '</div>' +
+  rta('Category Label', 'dg_catname', r?r.dg_category:'', 'e.g. Food — highlight text to style it independently with the pen.') +
+  rta('Category Subtitle', 'dg_catsub', r?r.dg_subtitle:'', 'e.g. Exotic Culinary Escape') +
+  rta('Category Meta Line', 'dg_catmeta', r?r.dg_meta:'', 'e.g. Just 2-4 Hrs Away | Visa-Free for Indians | ₹64,000 Onwards') +
   '<div style="display:flex;gap:1.5rem;margin-top:1rem;flex-wrap:wrap">' +
     toggle('dg_hasguide', r?r.has_guide:false, 'Has Destination Guide (shows in the destination-guide.html carousel)') +
     toggle('dg_active', r?r.active:true, 'Show on Website') +
@@ -3810,7 +3792,7 @@ async function saveDestGuide(oldId) {
   if (!id) { toast('Destination ID is required', 'error'); return; }
   var data = {
     id: id, name: val('dg_name'), country: val('dg_country'), image_url: val('dg_img'), image_alt: val('dg_imgalt'),
-    dg_category: val('dg_catname'), dg_subtitle: val('dg_catsub'), dg_meta: val('dg_catmeta'), short_desc: val('dg_short'),
+    dg_category: rval('dg_catname'), dg_subtitle: rval('dg_catsub'), dg_meta: rval('dg_catmeta'), short_desc: val('dg_short'),
     guide_content: rval('dg_guide'),
     has_guide: document.getElementById('dg_hasguide').classList.contains('on'),
     active: document.getElementById('dg_active').classList.contains('on')
@@ -3938,11 +3920,6 @@ var SETTINGS_GROUPS = {
     { key:'gt_dc_cancel_label', label:'Date Card — "Cancellation Policy" Toggle Text', type:'richtext', hint:'The clickable label that expands the policy text above. Currently: "Cancellation Policy" — leave blank to keep that. Style individual words the same way as any other rich text field.' },
     { key:'gt_dc_booknow_label', label:'Date Card — "Book Now" Button Text', type:'richtext', hint:'Currently: "🎫 Book Now" — leave blank to keep that.' },
     { key:'gt_dc_contactus_label', label:'Date Card — "Contact Us" Button Text', type:'richtext', hint:'Currently: "Contact Us" — leave blank to keep that.' },
-    { key:'gt_dc_date', label:'Date Card — Date/Days/Spots Typography', type:'typography_only', hint:'Applies to the date, duration, day-of-week rows, and spots-remaining text on every date card. Content is edited per-date in Group Trips → Available Dates.' },
-    { key:'gt_dc_price', label:'Date Card — Price Amount Typography', type:'typography_only', hint:'Applies to the price shown on the card, and the price amount in every price tier row in the expanded view, on every date card.' },
-    { key:'gt_dc_price_label', label:'Date Card — Price Tier Date Label Typography', type:'typography_only', hint:'Applies to the date/label side of every price tier row, across every group trip and departure date.' },
-    { key:'gt_dc_content', label:'Date Card — Trip Details Typography', type:'typography_only', hint:'Applies to Trip Start/End locations, Flight Info text, deposit heading/subtext, and the cancellation policy text in the expanded "More Info" view, on every date card.' },
-    { key:'gt_dc_labels', label:'Date Card — Static Labels Typography', type:'typography_only', hint:'One shared style for all the fixed UI text on every date card: "call us", "More Info", "Trip Start", "Trip End", "Flight Info", "Book with confidence", "Book Before"/"Price (pp)", "Cancellation Policy", "Book Now", and "Contact Us".' },
     { key:'gt_inclusion_icon', label:'Inclusions Checkmark Icon', type:'image', hint:'Replaces the default teal checkmark on every Inclusions list item, for every group trip. Small square icon, transparent PNG/SVG, e.g. 44×44px. Leave blank to keep the default checkmark.' },
     { key:'gt_exclusion_icon', label:'Exclusions Checkmark Icon', type:'image', hint:'Replaces the default teal checkmark on every Exclusions list item, for every group trip. Small square icon, transparent PNG/SVG, e.g. 44×44px. Leave blank to keep the default checkmark.' }
   ],
@@ -3971,6 +3948,11 @@ var SETTINGS_GROUPS = {
     { key:'gt_day_included', label:'Itinerary Day — Included Today Tag Typography', type:'typography_only', hint:'Applies to the "Included Today: ..." tag on every day, for every trip.' },
     { key:'gt_fcta_heading', label:'Final CTA — Heading Typography', type:'typography_only', hint:'Applies to the Final CTA heading, for every trip.' },
     { key:'gt_fcta_text', label:'Final CTA — Paragraph Typography', type:'typography_only', hint:'Applies to the Final CTA paragraph, for every trip.' },
+    { key:'gt_dc_date', label:'Date Card — Date/Days/Spots Typography', type:'typography_only', hint:'Applies to the date, duration, day-of-week rows, and spots-remaining text on every date card. Content is edited per-date in Group Trips \u2192 Available Dates.' },
+    { key:'gt_dc_price', label:'Date Card — Price Amount Typography', type:'typography_only', hint:'Applies to the ₹ price shown on the card, and just the price amount (not the date) in every price tier row in the expanded view, on every date card.' },
+    { key:'gt_dc_price_label', label:'Date Card — Price Tier Date Label Typography', type:'typography_only', hint:'Applies to just the date/label side of each price tier row — the whole-row color/size that applies when you don\'t style individual words within a specific tier\'s own rich text field.' },
+    { key:'gt_dc_content', label:'Date Card — Trip Details Typography', type:'typography_only', hint:'Applies to Trip Start/End locations, Flight Info text, deposit heading/subtext, and the cancellation policy text in the expanded "More Info" view, on every date card.' },
+    { key:'gt_dc_labels', label:'Date Card — Static Labels Typography', type:'typography_only', hint:'One shared style for all the fixed UI text on every date card: "call us", "More Info", "Trip Start", "Trip End", "Flight Info", "Book with confidence", "Book Before"/"Price (pp)", "Cancellation Policy", "Book Now", and "Contact Us".' }
   ],
   blogposttypography: [
     { key:'bp_cta_heading', label:'Sidebar CTA Heading', type:'richtext', hint:'Currently static site text ("Book Your Next Trip With Eureka Trips"), not yet its own editable field.' },
@@ -4069,6 +4051,31 @@ var SETTINGS_GROUPS = {
     { key:'wi_card6_icon', label:'Card 6 Icon', type:'image', hint:'Optional — upload a custom icon to replace the default ✨ emoji. Square, e.g. 128×128px, transparent PNG works best.' },
     { key:'wi_card6_title', label:'Card 6 Title', type:'richtext', hint:'e.g. Unmatched experiences' },
     { key:'wi_card6_desc', label:'Card 6 Description', type:'richtext' }
+  ],
+  bookingpage: [
+    { key:'bp_hero_heading', label:'Hero Heading', type:'richtext', hint:'e.g. Book With Eureka Trips' },
+    { key:'bp_hero_image', label:'Hero Background Image', type:'image', hint:'Landscape, sits behind the hero heading. e.g. 1920×1080px' },
+    { key:'bp_intro_text', label:'Intro Paragraph', type:'richtext', hint:'e.g. Yay! We\u2019re thrilled you\u2019ll be joining us on one of our epic trips! Now let\u2019s get you booked.' },
+    { key:'bp_step1_title', label:'Step 1 Title', type:'richtext', hint:'e.g. Find Your Trip' },
+    { key:'bp_step1_icon', label:'Step 1 Icon', type:'image', hint:'Optional — upload a custom icon to replace the default 🌳 emoji. Square, e.g. 128×128px, transparent PNG works best.' },
+    { key:'bp_step1_desc', label:'Step 1 Description', type:'richtext' },
+    { key:'bp_step2_title', label:'Step 2 Title', type:'richtext', hint:'e.g. Planning' },
+    { key:'bp_step2_icon', label:'Step 2 Icon', type:'image', hint:'Optional — upload a custom icon to replace the default map SVG. Square, e.g. 128×128px, transparent PNG works best.' },
+    { key:'bp_step2_desc', label:'Step 2 Description', type:'richtext' },
+    { key:'bp_step3_title', label:'Step 3 Title', type:'richtext', hint:'e.g. We\u2019ll Get You Ready' },
+    { key:'bp_step3_icon', label:'Step 3 Icon', type:'image', hint:'Optional — upload a custom icon to replace the default suitcase SVG. Square, e.g. 128×128px, transparent PNG works best.' },
+    { key:'bp_step3_desc', label:'Step 3 Description', type:'richtext' },
+    { key:'bp_step4_title', label:'Step 4 Title', type:'richtext', hint:'e.g. Show up & Go' },
+    { key:'bp_step4_icon', label:'Step 4 Icon', type:'image', hint:'Optional — upload a custom icon to replace the default smiley-face SVG. Square, e.g. 128×128px, transparent PNG works best.' },
+    { key:'bp_step4_desc', label:'Step 4 Description', type:'richtext' },
+    { key:'bp_travel_heading', label:'Traveller Information Heading', type:'richtext', hint:'e.g. Traveller information' },
+    { key:'bp_travel_label', label:'Traveller Form Label', type:'richtext', hint:'e.g. Traveller details as per passport — shown next to the 🪪 icon above the form fields.' },
+    { key:'bp_travel_image', label:'Traveller Section Photo', type:'image', hint:'Shown beside the Traveller Information form.' },
+    { key:'bp_trust_heading', label:'"Book With Confidence" Heading', type:'richtext', hint:'e.g. Book with confidence' },
+    { key:'bp_passport_heading', label:'"Your Passport To Good Stuff" Heading', type:'richtext' },
+    { key:'bp_hello_heading', label:'"Say Hello" Heading', type:'richtext', hint:'e.g. Say Hello To Your Next Trip' },
+    { key:'bp_hello_subtext', label:'"Say Hello" Subtext', type:'richtext', hint:'e.g. Got a question? Want trip details? Or just feeling the itch to get away? Drop us a line' },
+    { key:'bp_hello_image', label:'"Say Hello" Background Photo', type:'image' }
   ],
   triptypography: [
     { key:'tp_acc_heading', label:'Accordion Heading (What\u2019s Included / Not Included / Accommodation)', type:'typography_only', hint:'Currently static site text, not yet its own editable field.' },

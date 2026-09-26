@@ -191,6 +191,7 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
 .bp-hiw-step:first-child{border-left:none}
 .bp-hiw-icon{width:44px;height:44px;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;color:#02A9A2}
 .bp-hiw-icon svg{width:44px;height:44px;display:block}
+.bp-hiw-icon img{width:44px;height:44px;object-fit:contain;display:block}
 .bp-hiw-emoji{font-size:34px;line-height:1}
 .bp-hiw-step-lbl{font-family:'Poppins',sans-serif;font-size:12px;font-weight:600;color:#02A9A2;letter-spacing:1px;margin-bottom:.4rem}
 .bp-hiw-step-ttl{font-family:'Outfit','Poppins',sans-serif;font-size:20px;font-weight:500;font-style:normal;color:#3A3B3B;margin:0 auto;line-height:1.12;max-width:260px}
@@ -588,41 +589,41 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
 
 <!-- BOOKING HERO -->
 <section class="bp-hero" id="home" style="padding:0">
-  <div class="bp-hero-img"><img fetchpriority="high" src="https://images.unsplash.com/photo-1518509562904-e7ef99cdcc86?w=1920&q=85&auto=format&fm=webp&fit=crop" alt="Group of friends wearing life jackets celebrating on a beach"></div>
+  <div class="bp-hero-img"><img fetchpriority="high" id="bpHeroImg" src="" alt="Group of friends wearing life jackets celebrating on a beach"></div>
   <div class="bp-hero-ov"></div>
   <div class="bp-hero-content">
-    <h1 class="bp-hero-h1">Book With Eureka Trips</h1>
+    <h1 class="bp-hero-h1" id="bpHeroH1" data-ts="bp_hero_heading"></h1>
   </div>
 </section>
 
 <!-- BOOKING INTRO -->
 <section class="bp-intro">
   <div class="container" style="max-width:1240px">
-    <p class="bp-intro-txt">Yay! We're thrilled you'll be joining us on one of our epic trips!<br>Now let's get you booked.</p>
+    <p class="bp-intro-txt" id="bpIntroTxt" data-ts="bp_intro_text"></p>
     <div class="bp-hiw-grid">
       <div class="bp-hiw-step">
-        <div class="bp-hiw-icon bp-hiw-emoji" aria-hidden="true">🌳</div>
+        <div class="bp-hiw-icon bp-hiw-emoji" id="bpStep1Icon" aria-hidden="true">🌳</div>
         <div class="bp-hiw-step-lbl">STEP 1</div>
-        <div class="bp-hiw-step-ttl">Find Your Trip</div>
-        <div class="bp-hiw-step-desc">Choosing where to go is the hard part. Booking it is easy. Find a trip you love, pick the departure that works for you, and you're one step closer to going.</div>
+        <div class="bp-hiw-step-ttl" id="bpStep1Ttl" data-ts="bp_step1_title"></div>
+        <div class="bp-hiw-step-desc" id="bpStep1Desc" data-ts="bp_step1_desc"></div>
       </div>
       <div class="bp-hiw-step">
-        <div class="bp-hiw-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="#02A9A2" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4L3 6.5v14L9 18l6 2.5 6-2.5v-14L15 6.5 9 4z"/><path d="M9 4v14M15 6.5v14"/></svg></div>
+        <div class="bp-hiw-icon" id="bpStep2Icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="#02A9A2" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4L3 6.5v14L9 18l6 2.5 6-2.5v-14L15 6.5 9 4z"/><path d="M9 4v14M15 6.5v14"/></svg></div>
         <div class="bp-hiw-step-lbl">STEP 2</div>
-        <div class="bp-hiw-step-ttl">Planning</div>
-        <div class="bp-hiw-step-desc">Wait! Leave it on us</div>
+        <div class="bp-hiw-step-ttl" id="bpStep2Ttl" data-ts="bp_step2_title"></div>
+        <div class="bp-hiw-step-desc" id="bpStep2Desc" data-ts="bp_step2_desc"></div>
       </div>
       <div class="bp-hiw-step">
-        <div class="bp-hiw-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="#02A9A2" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="8" width="16" height="12" rx="2"/><path d="M9 8V6a2 2 0 012-2h2a2 2 0 012 2v2"/><path d="M4 13h16"/></svg></div>
+        <div class="bp-hiw-icon" id="bpStep3Icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="#02A9A2" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="8" width="16" height="12" rx="2"/><path d="M9 8V6a2 2 0 012-2h2a2 2 0 012 2v2"/><path d="M4 13h16"/></svg></div>
         <div class="bp-hiw-step-lbl">STEP 3</div>
-        <div class="bp-hiw-step-ttl">We'll Get You Ready</div>
-        <div class="bp-hiw-step-desc">Flights, visa, packing, meeting the crew &ndash; we'll help you through it. You'll also get your Travel Dossier and join the trip WhatsApp group before departure.</div>
+        <div class="bp-hiw-step-ttl" id="bpStep3Ttl" data-ts="bp_step3_title"></div>
+        <div class="bp-hiw-step-desc" id="bpStep3Desc" data-ts="bp_step3_desc"></div>
       </div>
       <div class="bp-hiw-step">
-        <div class="bp-hiw-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="#02A9A2" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8.5 10h.01M15.5 10h.01"/><path d="M8 15c1 1.2 2.4 1.8 4 1.8s3-.6 4-1.8"/></svg></div>
+        <div class="bp-hiw-icon" id="bpStep4Icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="#02A9A2" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8.5 10h.01M15.5 10h.01"/><path d="M8 15c1 1.2 2.4 1.8 4 1.8s3-.6 4-1.8"/></svg></div>
         <div class="bp-hiw-step-lbl">STEP 4</div>
-        <div class="bp-hiw-step-ttl">Show up &amp; Go</div>
-        <div class="bp-hiw-step-desc">Land, meet your Trip Leader and the squad you'll be travelling with. Stays, transfers and included experiences? Already sorted. Now comes the good part.</div>
+        <div class="bp-hiw-step-ttl" id="bpStep4Ttl" data-ts="bp_step4_title"></div>
+        <div class="bp-hiw-step-desc" id="bpStep4Desc" data-ts="bp_step4_desc"></div>
       </div>
     </div>
   </div>
@@ -632,9 +633,9 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
 <section class="bp-travel-sec">
   <div class="container bp-travel-grid">
     <div class="bp-travel-left">
-      <h2 class="bp-travel-h">Traveller information</h2>
+      <h2 class="bp-travel-h" id="bpTravelH" data-ts="bp_travel_heading"></h2>
       <div class="bp-form-card">
-        <div class="bp-form-label">🪪 <span>Traveller details as per passport</span></div>
+        <div class="bp-form-label">🪪 <span id="bpTravelLabel" data-ts="bp_travel_label"></span></div>
         <div class="bp-form-row">
           <input type="text" class="bp-input" placeholder="Full Name*">
           <input type="email" class="bp-input" placeholder="Email*">
@@ -652,7 +653,7 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
 
     <div class="bp-travel-right">
       <div class="bp-photo-card">
-        <img src="https://images.unsplash.com/photo-1573843981267-be1999ff37cd?w=900&q=85&auto=format&fm=webp&fit=crop" alt="Group of friends waving on a beach beside limestone cliffs">
+        <img id="bpTravelImg" src="" alt="Group of friends waving on a beach beside limestone cliffs">
       </div>
     </div>
   </div>
@@ -660,7 +661,7 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
 
 <!-- BOOK WITH CONFIDENCE -->
 <section class="cu-trust-sec">
-  <h2 class="cu-trust-h">Book with confidence</h2>
+  <h2 class="cu-trust-h" id="bpTrustH" data-ts="bp_trust_heading"></h2>
   <div class="confidence-marquee" aria-label="Trusted travel and review logos">
     <div class="confidence-track">
       <div class="confidence-set">
@@ -705,7 +706,7 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
 <section class="bp-passport-sec">
   <div class="container bp-passport-grid">
     <div class="bp-passport-left">
-      <h2 class="bp-passport-h">Your Passport To Good Stuff</h2>
+      <h2 class="bp-passport-h" id="bpPassportH" data-ts="bp_passport_heading"></h2>
       <div class="bp-form-card">
         <div class="bp-form-row">
           <input type="text" class="bp-input" id="pp_name" placeholder="Full Name*">
@@ -743,11 +744,11 @@ section{padding:clamp(2rem,4vw,3.5rem) clamp(1.25rem,4vw,3rem)}
 <section class="bp-hello-sec">
   <div class="container">
     <div class="bp-hello-card">
-      <img class="bp-hello-bg" src="https://images.unsplash.com/photo-1502680390469-be75c86b636f?w=1600&q=80&auto=format&fm=webp&fit=crop" alt="Friends walking along a scenic trail at sunset" loading="lazy">
+      <img class="bp-hello-bg" id="bpHelloImg" src="" alt="Friends walking along a scenic trail at sunset" loading="lazy">
       <div class="bp-hello-ov"></div>
       <div class="bp-hello-content">
-      <h2 class="bp-hello-h">Say Hello To Your Next Trip</h2>
-      <p class="bp-hello-sub">Got a question? Want trip details? Or just feeling the itch to get away? Drop us a line</p>
+      <h2 class="bp-hello-h" id="bpHelloH" data-ts="bp_hello_heading"></h2>
+      <p class="bp-hello-sub" id="bpHelloSub" data-ts="bp_hello_subtext"></p>
       <div class="bp-hello-contact">
         <a href="mailto:hello@eurekatrips.com" class="bp-hello-item">✉️ hello@eurekatrips.com</a>
         <a href="tel:+919792496457" class="bp-hello-item">📱 +91 9792496457</a>
@@ -932,11 +933,13 @@ function applyAllTaggedTypography() {
     }, 150);
   });
 })();
+function esc(s) { if (s === null || s === undefined) return ''; return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 function stripOuterParagraph(html) {
   var m = html.match(/^<p>([\s\S]*)<\/p>\s*$/i);
   return m ? m[1] : html;
 }
 function setText(id, val) { if (!val) return; var el = document.getElementById(id); if (el) { el.innerHTML = stripOuterParagraph(val); applyElementTypography(el); } }
+function setAttr(id, attr, val) { if (!val) return; var el = document.getElementById(id); if (el) el.setAttribute(attr, val); }
 
 async function loadBookingPageFooterTypography() {
   var s = await sbSettings();
@@ -945,7 +948,34 @@ async function loadBookingPageFooterTypography() {
   shuffleConfidenceLogos();
   applyPaymentLogos();
   applyTrustBadges();
-  
+
+  setText('bpHeroH1', s.bp_hero_heading);
+  setAttr('bpHeroImg', 'src', s.bp_hero_image);
+  setText('bpIntroTxt', s.bp_intro_text);
+  setText('bpStep1Ttl', s.bp_step1_title);
+  setText('bpStep1Desc', s.bp_step1_desc);
+  setText('bpStep2Ttl', s.bp_step2_title);
+  setText('bpStep2Desc', s.bp_step2_desc);
+  setText('bpStep3Ttl', s.bp_step3_title);
+  setText('bpStep3Desc', s.bp_step3_desc);
+  setText('bpStep4Ttl', s.bp_step4_title);
+  setText('bpStep4Desc', s.bp_step4_desc);
+  [1, 2, 3, 4].forEach(function(n) {
+    var iconUrl = s['bp_step' + n + '_icon'];
+    if (iconUrl) {
+      var iconEl = document.getElementById('bpStep' + n + 'Icon');
+      if (iconEl) iconEl.innerHTML = '<img src="' + esc(iconUrl) + '" alt="" loading="lazy" decoding="async">';
+    }
+  });
+  setText('bpTravelH', s.bp_travel_heading);
+  setText('bpTravelLabel', s.bp_travel_label);
+  setAttr('bpTravelImg', 'src', s.bp_travel_image);
+  setText('bpTrustH', s.bp_trust_heading);
+  setText('bpPassportH', s.bp_passport_heading);
+  setText('bpHelloH', s.bp_hello_heading);
+  setText('bpHelloSub', s.bp_hello_subtext);
+  setAttr('bpHelloImg', 'src', s.bp_hello_image);
+
   setText('ftMission', s.ft_mission);
   setText('ftCol1H', s.ft_col1_heading);
   setText('ftCol2H', s.ft_col2_heading);
