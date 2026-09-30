@@ -492,13 +492,19 @@ img{display:block;max-width:100%}
 .gt-accom-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;align-items:start}
 .gt-accom-list{padding-left:1.2rem;margin-top:.75rem}
 .gt-accom-list li{list-style:disc;font-family:'Poppins',sans-serif;font-size:15px;font-weight:500;color:var(--dark);padding:.15rem 0}
-.gt-accom-img{border-radius:14px;overflow:hidden;cursor:pointer}
-.gt-accom-img img{transition:transform .4s ease}
+.gt-accom-gallery{position:relative;width:100%}
+.gt-accom-track{display:flex;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;border-radius:14px}
+.gt-accom-track::-webkit-scrollbar{display:none}
+.gt-accom-img{flex:0 0 100%;scroll-snap-align:center;border-radius:14px;overflow:hidden;cursor:pointer;background:#eef8f7}
+.gt-accom-img img{width:100%;height:260px;object-fit:cover;display:block;transition:transform .4s ease}
 .gt-accom-img:hover img{transform:scale(1.04)}
-.gt-accom-img img{width:100%;height:260px;object-fit:cover;display:block}
+.gt-accom-dots{display:flex;justify-content:center;gap:6px;margin-top:.75rem}
+.gt-accom-dot{width:8px;height:8px;border-radius:50%;background:#d1d5db;border:none;cursor:pointer;padding:0;transition:all .28s}
+.gt-accom-dot.active{background:#02A9A2;width:24px;border-radius:4px}
 @media(max-width:700px){
   .gt-accom-grid{grid-template-columns:1fr}
   .gt-accom-img img{height:220px}
+  .gt-accom-dots{margin-top:.6rem}
 }
 
 /* ─────────────────────────────────────────
@@ -1378,9 +1384,7 @@ img{display:block;max-width:100%}
               <li>Ora Resort, El Nido</li>
             </ul>
           </div>
-          <div class="gt-accom-img" onclick="gtOpenImageLightbox(this.querySelector('img').dataset.full,this.querySelector('img').alt)">
-            <img id="gtAccomImgEl" src="" data-full="" alt="Accommodation photo" loading="lazy" decoding="async">
-          </div>
+          <div class="gt-accom-gallery" id="gtAccomGalleryEl"></div>
         </div>
       </div>
 
@@ -1962,6 +1966,62 @@ function parseFaqOrder(value) {
 }
 function setText(id, val) { if (!val) return; var el = document.getElementById(id); if (el) { el.innerHTML = val; applyElementTypography(el); } }
 function setAttr(id, attr, val) { if (!val) return; var el = document.getElementById(id); if (el) el.setAttribute(attr, val); }
+function normalizeStringList(value) {
+  if (Array.isArray(value)) return value.map(function(v){ return String(v || '').trim(); }).filter(Boolean);
+  if (!value) return [];
+  try {
+    var parsed = JSON.parse(value);
+    if (Array.isArray(parsed)) return parsed.map(function(v){ return String(v || '').trim(); }).filter(Boolean);
+  } catch(e) {}
+  return String(value).split(String.fromCharCode(10)).map(function(v){ return v.trim(); }).filter(Boolean);
+}
+function uniqueStringList(values) {
+  var seen = {};
+  return values.filter(function(v) {
+    var key = String(v || '').trim();
+    if (!key || seen[key]) return false;
+    seen[key] = true;
+    return true;
+  });
+}
+function renderAccommodationGallery(trip) {
+  var el = document.getElementById('gtAccomGalleryEl');
+  if (!el) return;
+  var photos = uniqueStringList([trip.accommodation_image].concat(normalizeStringList(trip.accommodation_images)));
+  el.className = 'gt-accom-gallery' + (photos.length > 1 ? ' has-many' : '');
+  el.innerHTML = '<div class="gt-accom-track"></div>' + (photos.length > 1 ? '<div class="gt-accom-dots" aria-label="Accommodation photos"></div>' : '');
+  var track = el.querySelector('.gt-accom-track');
+  var dots = el.querySelector('.gt-accom-dots');
+  var moved = false;
+  var startX = 0;
+  track.innerHTML = photos.map(function(src, i) {
+    var alt = 'Accommodation photo ' + (i + 1);
+    return '<div class="gt-accom-img"><img src="' + esc(src) + '" data-full="' + esc(src) + '" alt="' + esc(alt) + '" loading="lazy" decoding="async"></div>';
+  }).join('');
+  function setActive(index) {
+    if (!dots) return;
+    dots.querySelectorAll('.gt-accom-dot').forEach(function(dot, i) { dot.classList.toggle('active', i === index); });
+  }
+  if (dots) {
+    dots.innerHTML = photos.map(function(_, i) { return '<button type="button" class="gt-accom-dot' + (i === 0 ? ' active' : '') + '" aria-label="Accommodation photo ' + (i + 1) + '"></button>'; }).join('');
+    dots.querySelectorAll('.gt-accom-dot').forEach(function(dot, i) {
+      dot.addEventListener('click', function() { track.scrollTo({ left: i * track.clientWidth, behavior: 'smooth' }); setActive(i); });
+    });
+    track.addEventListener('scroll', function() {
+      var idx = Math.round(track.scrollLeft / Math.max(1, track.clientWidth));
+      setActive(Math.max(0, Math.min(photos.length - 1, idx)));
+    }, { passive: true });
+  }
+  track.addEventListener('pointerdown', function(e) { startX = e.clientX; moved = false; });
+  track.addEventListener('pointermove', function(e) { if (Math.abs(e.clientX - startX) > 8) moved = true; });
+  track.querySelectorAll('.gt-accom-img').forEach(function(card) {
+    card.addEventListener('click', function() {
+      if (moved) return;
+      var img = card.querySelector('img');
+      if (img) gtOpenImageLightbox(img.dataset.full, img.alt);
+    });
+  });
+}
 
 /*
 Navbar solid/hide scroll behavior disabled per design request.
@@ -2130,8 +2190,8 @@ var GT_REVIEWS=[
 function gtBuildFaqItem(f, idx) {
   return '' +
   '<div class="gt-faq-item' + (idx===0?' open':'') + '">' +
-    '<div class="gt-faq-q" onclick="gtToggleFaq(this)">' + stripOuterParagraph(f.question||'') + '<span class="gt-faq-icon">' + (idx===0?'−':'+') + '</span></div>' +
-    '<div class="gt-faq-a"' + (idx===0?' style="max-height:600px"':'') + '><div class="gt-faq-a-in">' + stripOuterParagraph(f.answer||'') + '</div></div>' +
+    '<div class="gt-faq-q" data-ts="gt_faq_question" onclick="gtToggleFaq(this)">' + stripOuterParagraph(f.question||'') + '<span class="gt-faq-icon">' + (idx===0?'−':'+') + '</span></div>' +
+    '<div class="gt-faq-a"' + (idx===0?' style="max-height:600px"':'') + '><div class="gt-faq-a-in" data-ts="gt_faq_answer">' + stripOuterParagraph(f.answer||'') + '</div></div>' +
   '</div>';
 }
 var GT_RI=0,GT_RT=0,GT_REVIEW_TIMER=null;
@@ -2700,7 +2760,7 @@ function buildDayCard(d, idx) {
   if (d.included_tag) tagsHtml += '<div class="gt-day-tag" data-ts="gt_day_included">' + esc(d.included_tag) + '</div>';
   return '' +
   '<div class="gt-day' + (idx===0?' open':'') + '" id="' + dayId + '">' +
-    '<div class="gt-day-head" onclick="toggleDay(\'' + dayId + '\')"><div class="gt-day-head-txt"><span class="gt-day-num">Day ' + (idx+1) + '</span>' + (d.title ? '<span>' + esc(d.title) + '</span>' : '') + '</div><span class="chev">▾</span></div>' +
+    '<div class="gt-day-head" onclick="toggleDay(\'' + dayId + '\')"><div class="gt-day-head-txt"><span class="gt-day-num" data-ts="gt_day_title">Day ' + (idx+1) + '</span>' + (d.title ? '<span data-ts="gt_day_title">' + esc(d.title) + '</span>' : '') + '</div><span class="chev">▾</span></div>' +
     '<div class="gt-day-body"><div class="gt-day-inner">' +
       '<div class="gt-day-text">' +
         '<p class="gt-day-p" data-ts="gt_day_desc">' + stripOuterParagraph(d.description || '') + '</p>' +
@@ -2897,8 +2957,7 @@ async function loadGroupTripFromSupabase() {
     if (trip.accommodation_list && trip.accommodation_list.length) {
       document.getElementById('gtAccomListEl').innerHTML = trip.accommodation_list.map(function(h){ return '<li data-ts="gt_accom_list">'+esc(h)+'</li>'; }).join('');
     }
-    setAttr('gtAccomImgEl', 'src', trip.accommodation_image);
-    setAttr('gtAccomImgEl', 'data-full', trip.accommodation_image);
+    renderAccommodationGallery(trip);
 
     /* ── EXCLUSIONS ── */
     if (trip.exclusions && trip.exclusions.length) {

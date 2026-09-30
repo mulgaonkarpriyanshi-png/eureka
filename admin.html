@@ -122,6 +122,7 @@ tr:hover td{background:var(--cream)}
 .ql-toolbar .ts-active-select{vertical-align:middle;max-width:170px;margin:2px 0}
 .ts-status{margin-top:-8px;font-size:10.5px;color:var(--body);display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .ts-status strong{color:var(--teal-d,var(--teal))}
+.ts-global-badge{display:inline-flex;align-items:center;gap:4px;padding:3px 7px;border-radius:999px;background:#E6F7F6;color:#007C78;border:1px solid #B8E8E5;font-size:10px;font-weight:800;letter-spacing:.02em;text-transform:uppercase}
 .toggle-wrap{display:flex;align-items:center;gap:10px}
 .toggle{width:40px;height:22px;border-radius:11px;background:var(--border2);position:relative;cursor:pointer;transition:background 0.2s;flex-shrink:0;border:none}
 .toggle.on{background:var(--teal)}
@@ -1645,6 +1646,7 @@ async function editGroupTrip(id) {
 }
 var gtHighlightCounter = 0;
 var gtCardGalleryCounter = 0;
+var gtAccomPicsCounter = 0;
 var ctcGalleryCounter = 0;
 function renderCtcGalleryPicField(url, idx) {
   var boxId = 'ctc_gal_' + idx;
@@ -1669,6 +1671,28 @@ function addCardGalleryPicSlot() {
   var container = document.getElementById('gtCardGalleryList');
   container.insertAdjacentHTML('beforeend', renderCardGalleryPicField('', gtCardGalleryCounter));
   gtCardGalleryCounter++;
+}
+function renderGtAccomPicField(url, idx) {
+  var boxId = 'gt_accom_extra_' + idx;
+  return '<div class="nrow" id="gt_accom_extra_wrap_'+idx+'">' +
+    imageField('Additional Accommodation Photo ' + (idx + 1), boxId, boxId+'prev', url||'', 'Landscape, e.g. 1000×650px') +
+    '<button type="button" class="btn-sm btn-del" onclick="document.getElementById(\'gt_accom_extra_wrap_'+idx+'\').remove()">Remove This Photo</button>' +
+  '</div>';
+}
+function addGtAccomPicSlot() {
+  var container = document.getElementById('gtAccomPicsList');
+  container.insertAdjacentHTML('beforeend', renderGtAccomPicField('', gtAccomPicsCounter));
+  gtAccomPicsCounter++;
+}
+function collectGtAccomPics() {
+  var urls = [];
+  document.querySelectorAll('#gtAccomPicsList input').forEach(function(inp) {
+    if (/^gt_accom_extra_\d+$/.test(inp.id)) {
+      var v = inp.value.trim();
+      if (v) urls.push(v);
+    }
+  });
+  return urls;
 }
 var tpJoyPicsCounter = 0;
 var tpAccomPicsCounter = 0;
@@ -1858,13 +1882,19 @@ function renderGroupTripEditorPage(r, itin, dates, settingsMap) {
     ta('Extra Inclusions (one per line)', 'gt_inc_extra', (r&&r.inclusions_extra)?r.inclusions_extra.join('\n'):'', 3, 'Add as many as you need — each becomes its own row below the 6 above') +
   '</div><div class="form-actions"><button class="btn-save" onclick="saveGroupTripInclusions(\''+(r?r.id:'')+'\')">Save Inclusions</button></div>';
 
+  gtAccomPicsCounter = (r && r.accommodation_images) ? r.accommodation_images.length : 0;
   var accomHtml = pageHint('The Accommodation and Exclusions tabs, plus the Map tab note.') + '<div class="form-grid">' +
     rta('Accommodation Description', 'gt_accomtext', r?r.accommodation_text:'') +
     gtTsStatus('gt_accom_text') +
     ta('Hotel List (one per line)', 'gt_accomlist', r&&r.accommodation_list?r.accommodation_list.join('\n'):'', 3) +
     gtTsStatus('gt_accom_list') +
     gtTsStatus('gt_accom_list') +
-    imageField('Accommodation Photo', 'gt_accomimg', 'gt_accomimgprev', r?r.accommodation_image||'':'', 'Landscape, e.g. 1000×650px') +
+    imageField('Accommodation Photo (main/first photo)', 'gt_accomimg', 'gt_accomimgprev', r?r.accommodation_image||'':'', 'Landscape, e.g. 1000×650px') +
+    '</div>' +
+    pageHint('Add more accommodation photos below. The main photo above stays first, and these appear after it on the group trip Accommodation tab.') +
+    '<div id="gtAccomPicsList">' + ((r && r.accommodation_images && r.accommodation_images.length) ? r.accommodation_images.map(function(url, i){ return renderGtAccomPicField(url, i); }).join('') : '') + '</div>' +
+    '<button type="button" class="btn-sm btn-edit" style="margin-bottom:1rem" onclick="addGtAccomPicSlot()">+ Add Another Accommodation Photo</button>' +
+    '<div class="form-grid">' +
     ta('Exclusions (one per line)', 'gt_exclusions', r&&r.exclusions?r.exclusions.join('\n'):'', 3) +
     gtTsStatus('gt_exclusions') +
     ta('Map Tab Note', 'gt_mapnote', r?r.map_note:'', 2, 'e.g. Interactive route map coming soon — Seminyak → Nusa Penida → Gili Islands → Ubud.') +
@@ -2189,7 +2219,7 @@ async function saveGroupTripDetails(oldId) {
     id: id, title: val('gt_title'), route: val('gt_route'), detail_route: val('gt_detail_route'), waypoints: csv(val('gt_waypoints')), tags: csv(val('gt_tags')), price: Number(val('gt_price'))||0,
     duration_label: val('gt_duration'), age_label: val('gt_age'), brochure_link: val('gt_brochure'),
     btn1_text: val('gt_btn1'), btn2_text: val('gt_btn2'),
-    detail_title: val('gt_dtitle'), detail_para1: rval('gt_dp1'), detail_para2: rval('gt_dp2'),
+    detail_title: val('gt_dtitle'), detail_para1: stripSharedTypographyClasses(rval('gt_dp1')), detail_para2: stripSharedTypographyClasses(rval('gt_dp2')),
     card_image_url: val('gt_cardimg'), card_gallery_images: cardGalleryPhotos, card_dates: val('gt_carddates'), card_location: val('gt_cardlocation'),
     hot: document.getElementById('gt_hot').classList.contains('on'),
     trending: document.getElementById('gt_trending').classList.contains('on'),
@@ -2200,8 +2230,8 @@ async function saveGroupTripDetails(oldId) {
     else { await sbInsert('group_trips', data); }
     stampSharedTypography('gt_title', data.title, GT_EDITOR_SNAPSHOT.title);
     stampSharedTypography('gt_detail_title', data.detail_title, GT_EDITOR_SNAPSHOT.detail_title);
-    stampSharedTypography('gt_detail_p', data.detail_para1, GT_EDITOR_SNAPSHOT.detail_para1);
-    stampSharedTypography('gt_detail_p', data.detail_para2, GT_EDITOR_SNAPSHOT.detail_para2);
+    await stampSharedRichTextTypography('gt_detail_p', rval('gt_dp1'), GT_EDITOR_SNAPSHOT.detail_para1);
+    await stampSharedRichTextTypography('gt_detail_p', rval('gt_dp2'), GT_EDITOR_SNAPSHOT.detail_para2);
     stampSharedTypography('gt_waypoints', (data.waypoints||[]).join(', '), (GT_EDITOR_SNAPSHOT.waypoints||[]).join(', '));
     stampSharedTypography('gt_tags', (data.tags||[]).join(', '), (GT_EDITOR_SNAPSHOT.tags||[]).join(', '));
     stampSharedTypography('gt_price', String(data.price||''), String(GT_EDITOR_SNAPSHOT.price||''));
@@ -2257,10 +2287,11 @@ async function saveGroupTripInclusions(id) {
   } catch(e) { toast('Error saving inclusions', 'error'); }
 }
 async function saveGroupTripAccom(id) {
-  var data = { accommodation_text: rval('gt_accomtext'), accommodation_list: lines(val('gt_accomlist')), accommodation_image: val('gt_accomimg'), exclusions: lines(val('gt_exclusions')), map_note: val('gt_mapnote') };
+  var rawAccomText = rval('gt_accomtext');
+  var data = { accommodation_text: stripSharedTypographyClasses(rawAccomText), accommodation_list: lines(val('gt_accomlist')), accommodation_image: val('gt_accomimg'), accommodation_images: collectGtAccomPics(), exclusions: lines(val('gt_exclusions')), map_note: val('gt_mapnote') };
   try {
     await sbUpdate('group_trips', id, data); toast('Saved!', 'success');
-    stampSharedTypography('gt_accom_text', data.accommodation_text, GT_EDITOR_SNAPSHOT.accommodation_text);
+    await stampSharedRichTextTypography('gt_accom_text', rawAccomText, GT_EDITOR_SNAPSHOT.accommodation_text);
     stampSharedTypography('gt_accom_list', data.accommodation_list.join('\n'), (GT_EDITOR_SNAPSHOT.accommodation_list||[]).join('\n'));
     stampSharedTypography('gt_exclusions', data.exclusions.join('\n'), (GT_EDITOR_SNAPSHOT.exclusions||[]).join('\n'));
     stampSharedTypography('gt_map_note', data.map_note, GT_EDITOR_SNAPSHOT.map_note);
@@ -2274,23 +2305,25 @@ async function saveGroupTripItinHeader(id) {
   } catch(e) { toast('Error saving', 'error'); }
 }
 async function addGtItineraryDay(tripId) {
-  var data = { group_trip_id: tripId, day_number: Number(val('gtitin_new_num'))||0, title: val('gtitin_new_title'), description: rval('gtitin_new_desc'), meals_tag: val('gtitin_new_meals'), included_tag: val('gtitin_new_included'), image_url: val('gtitin_new_img'), gallery_images: collectDayImageList('day_new') };
+  var rawDesc = rval('gtitin_new_desc');
+  var data = { group_trip_id: tripId, day_number: Number(val('gtitin_new_num'))||0, title: val('gtitin_new_title'), description: stripSharedTypographyClasses(rawDesc), meals_tag: val('gtitin_new_meals'), included_tag: val('gtitin_new_included'), image_url: val('gtitin_new_img'), gallery_images: collectDayImageList('day_new') };
   try {
     await sbInsert('group_trip_itinerary', data); toast('Day added!', 'success');
     stampSharedTypography('gt_day_title', data.title, '');
-    stampSharedTypography('gt_day_desc', data.description, '');
+    await stampSharedRichTextTypography('gt_day_desc', rawDesc, '');
     stampSharedTypography('gt_day_meals', data.meals_tag, '');
     stampSharedTypography('gt_day_included', data.included_tag, '');
     editGroupTrip(tripId);
   } catch(e) { toast('Error adding day: ' + (e.message || 'unknown error') + ' — if this mentions a missing column (like gallery_images), that column needs to be added to the group_trip_itinerary table in Supabase.', 'error'); console.error(e); }
 }
 async function saveGtItineraryDay(id) {
-  var data = { day_number: Number(val('gtitinnum_'+id))||0, title: val('gtitintitle_'+id), description: rval('gtitindesc_'+id), meals_tag: val('gtitinmeals_'+id), included_tag: val('gtitinincluded_'+id), image_url: val('gtitinimg_'+id), gallery_images: collectDayImageList('day_'+id) };
+  var rawDesc = rval('gtitindesc_'+id);
+  var data = { day_number: Number(val('gtitinnum_'+id))||0, title: val('gtitintitle_'+id), description: stripSharedTypographyClasses(rawDesc), meals_tag: val('gtitinmeals_'+id), included_tag: val('gtitinincluded_'+id), image_url: val('gtitinimg_'+id), gallery_images: collectDayImageList('day_'+id) };
   var before = GT_DAY_SNAPSHOTS[id] || {};
   try {
     await sbUpdate('group_trip_itinerary', id, data); toast('Day saved!', 'success');
     stampSharedTypography('gt_day_title', data.title, before.title);
-    stampSharedTypography('gt_day_desc', data.description, before.description);
+    await stampSharedRichTextTypography('gt_day_desc', rawDesc, before.description);
     stampSharedTypography('gt_day_meals', data.meals_tag, before.meals_tag);
     stampSharedTypography('gt_day_included', data.included_tag, before.included_tag);
   } catch(e) { toast('Error saving day: ' + (e.message || 'unknown error') + ' — if this mentions a missing column (like gallery_images), that column needs to be added to the group_trip_itinerary table in Supabase.', 'error'); console.error(e); }
@@ -3830,9 +3863,20 @@ function openFaqModal(r, scope) {
 }
 async function saveFaq(id, scope) {
   var saveScope = isGroupTripFaqScope(scope) ? 'group-trip' : scope;
-  var data = { sort_order: Number(val('fq_sort'))||0, question: rval('fq_q'), answer: rval('fq_a'), page_scope: saveScope };
+  var rawQuestion = rval('fq_q');
+  var rawAnswer = rval('fq_a');
+  var data = {
+    sort_order: Number(val('fq_sort'))||0,
+    question: isGroupTripFaqScope(saveScope) ? stripSharedTypographyClasses(rawQuestion) : rawQuestion,
+    answer: isGroupTripFaqScope(saveScope) ? stripSharedTypographyClasses(rawAnswer) : rawAnswer,
+    page_scope: saveScope
+  };
   try {
     var savedRows = id ? await sbUpdate('faqs', id, data) : await sbInsert('faqs', data);
+    if (isGroupTripFaqScope(saveScope)) {
+      await stampSharedRichTextTypography('gt_faq_question', rawQuestion, '');
+      await stampSharedRichTextTypography('gt_faq_answer', rawAnswer, '');
+    }
     var savedId = id || (Array.isArray(savedRows) && savedRows[0] ? savedRows[0].id : '');
     if (isGroupTripFaqScope(saveScope)) await saveFaqTripAssignments(savedId);
     toast('FAQ saved!', 'success'); closeModal();
@@ -3942,10 +3986,19 @@ var SETTINGS_GROUPS = {
     { key:'gt_panel_label_accommodation', label:'Panel Label — Accommodation', type:'text', hint:'Currently: "Accommodation" — leave blank to keep that.' },
     { key:'gt_panel_label_exclusions', label:'Panel Label — Exclusions', type:'text', hint:'Currently: "Exclusions" — leave blank to keep that.' },
     { key:'gt_panel_label_map', label:'Panel Label — Map', type:'text', hint:'Currently: "Map" — leave blank to keep that.' },
-    { key:'gt_day_title', label:'Itinerary Day — Title Typography', type:'typography_only', hint:'Applies to every day\u2019s title, for every trip. The words themselves are edited per-day in Group Trips \u2192 Itinerary.' },
-    { key:'gt_day_meals', label:'Itinerary Day — Meals Tag Typography', type:'typography_only', hint:'Applies to the "Meals: ..." tag on every day, for every trip.' },
+    { key:'gt_inclusions', label:'Inclusions List Typography', type:'typography_only', hint:'Applies to every Inclusions item, for every group trip.' },
+    { key:'gt_accom_text', label:'Accommodation Description Typography', type:'typography_only', hint:'Applies to the Accommodation paragraph on every group trip.' },
     { key:'gt_accom_list', label:'Hotel List Typography', type:'typography_only', hint:'Applies to every item in the Hotel List, for every trip. The words themselves are edited per-trip in Group Trips \u2192 Accom. & Exclusions.' },
+    { key:'gt_exclusions', label:'Exclusions List Typography', type:'typography_only', hint:'Applies to every Exclusions item, for every group trip.' },
+    { key:'gt_map_note', label:'Map Note Typography', type:'typography_only', hint:'Applies to the Map tab note on every group trip.' },
+    { key:'gt_itin_title', label:'Itinerary Section Title Typography', type:'typography_only', hint:'Applies to the main Itinerary heading on every group trip.' },
+    { key:'gt_itin_sub', label:'Itinerary Section Byline Typography', type:'typography_only', hint:'Applies to the Itinerary subtext on every group trip.' },
+    { key:'gt_day_title', label:'Itinerary Day — Title Typography', type:'typography_only', hint:'Applies to every day\u2019s title, for every trip. The words themselves are edited per-day in Group Trips \u2192 Itinerary.' },
+    { key:'gt_day_desc', label:'Itinerary Day — Description Typography', type:'typography_only', hint:'Applies to every day description, for every trip.' },
+    { key:'gt_day_meals', label:'Itinerary Day — Meals Tag Typography', type:'typography_only', hint:'Applies to the "Meals: ..." tag on every day, for every trip.' },
     { key:'gt_day_included', label:'Itinerary Day — Included Today Tag Typography', type:'typography_only', hint:'Applies to the "Included Today: ..." tag on every day, for every trip.' },
+    { key:'gt_faq_question', label:'FAQ Question Typography', type:'typography_only', hint:'Applies to every FAQ question on every group trip page.' },
+    { key:'gt_faq_answer', label:'FAQ Answer Typography', type:'typography_only', hint:'Applies to every FAQ answer on every group trip page.' },
     { key:'gt_fcta_heading', label:'Final CTA — Heading Typography', type:'typography_only', hint:'Applies to the Final CTA heading, for every trip.' },
     { key:'gt_fcta_text', label:'Final CTA — Paragraph Typography', type:'typography_only', hint:'Applies to the Final CTA paragraph, for every trip.' },
     { key:'gt_dc_date', label:'Date Card — Date/Days/Spots Typography', type:'typography_only', hint:'Applies to the date, duration, day-of-week rows, and spots-remaining text on every date card. Content is edited per-date in Group Trips \u2192 Available Dates.' },
@@ -4527,9 +4580,10 @@ function renderFieldTypographyStatus(group, key, s) {
 function renderTypographyOnlyField(group, f, s) {
   var dName = tsStyleName('desktop', s[f.key + '_style_desktop']);
   var mName = tsStyleName('mobile', s[f.key + '_style_mobile']);
+  var globalBadge = group === 'grouptriptext' && /^gt_/.test(f.key) ? '<span class="ts-global-badge">Global across all group trips</span> ' : '';
   return '<div class="fg full"><label>' + esc(f.label) + '</label>' +
     (f.hint ? '<div class="hint">' + esc(f.hint) + '</div>' : '') +
-    '<div class="ts-status">🔤 Desktop: <strong>' + esc(dName) + '</strong>' + tsWarnIfEmpty('desktop', s[f.key+'_style_desktop']) + ' &nbsp;·&nbsp; Mobile: <strong>' + esc(mName) + '</strong>' + tsWarnIfEmpty('mobile', s[f.key+'_style_mobile']) + ' ' +
+    '<div class="ts-status">' + globalBadge + '🔤 Desktop: <strong>' + esc(dName) + '</strong>' + tsWarnIfEmpty('desktop', s[f.key+'_style_desktop']) + ' &nbsp;·&nbsp; Mobile: <strong>' + esc(mName) + '</strong>' + tsWarnIfEmpty('mobile', s[f.key+'_style_mobile']) + ' ' +
     '<button type="button" class="btn-sm btn-edit" onclick="applyActiveStyleToField(\''+group+'\',\''+f.key+'\',\'desktop\')">Apply Desktop pen</button>' +
     ' <button type="button" class="btn-sm btn-edit" onclick="applyActiveStyleToField(\''+group+'\',\''+f.key+'\',\'mobile\')">Apply Mobile pen</button>' +
     ((s[f.key+'_style_desktop'] || s[f.key+'_style_mobile']) ? ' <button type="button" class="btn-sm btn-del" onclick="clearFieldTypography(\''+group+'\',\''+f.key+'\')">Clear style</button>' : '') +
@@ -4759,7 +4813,7 @@ var GT_SETTINGS_MAP = {}; // set by renderGroupTripEditorPage; typography style 
 function gtTsStatus(key) {
   var dName = tsStyleName('desktop', GT_SETTINGS_MAP[key + '_style_desktop']);
   var mName = tsStyleName('mobile', GT_SETTINGS_MAP[key + '_style_mobile']);
-  return '<div class="ts-status">🔤 Desktop: <strong>' + esc(dName) + '</strong>' + tsWarnIfEmpty('desktop', GT_SETTINGS_MAP[key+'_style_desktop']) + ' &nbsp;·&nbsp; Mobile: <strong>' + esc(mName) + '</strong>' + tsWarnIfEmpty('mobile', GT_SETTINGS_MAP[key+'_style_mobile']) +
+  return '<div class="ts-status"><span class="ts-global-badge">Global across all group trips</span> 🔤 Desktop: <strong>' + esc(dName) + '</strong>' + tsWarnIfEmpty('desktop', GT_SETTINGS_MAP[key+'_style_desktop']) + ' &nbsp;·&nbsp; Mobile: <strong>' + esc(mName) + '</strong>' + tsWarnIfEmpty('mobile', GT_SETTINGS_MAP[key+'_style_mobile']) +
     ' <button type="button" class="btn-sm btn-edit" onclick="applyActiveStyleToFieldGT(\''+key+'\',\'desktop\')">Apply Desktop pen</button>' +
     ' <button type="button" class="btn-sm btn-edit" onclick="applyActiveStyleToFieldGT(\''+key+'\',\'mobile\')">Apply Mobile pen</button>' +
     ((GT_SETTINGS_MAP[key+'_style_desktop'] || GT_SETTINGS_MAP[key+'_style_mobile']) ? ' <button type="button" class="btn-sm btn-del" onclick="clearFieldTypographyGT(\''+key+'\')">Clear style</button>' : '') +
@@ -4803,6 +4857,34 @@ async function stampSharedTypography(key, newVal, oldVal) {
     if (!CURRENT_ADMIN_SETTINGS[key + '_style_mobile'])  pairs.push(sbUpsert('settings', { key: key + '_style_mobile', value: ACTIVE_TS.mobile || '' }, 'key'));
     await Promise.all(pairs);
   } catch(e) { /* non-fatal — the trip content itself still saved fine */ }
+}
+function sharedTypographyIdsFromHtml(html) {
+  html = String(html || '');
+  var out = { desktop: '', mobile: '' };
+  var d = html.match(/\btsd-([A-Za-z0-9_-]+)/);
+  var m = html.match(/\btsm-([A-Za-z0-9_-]+)/);
+  if (d) out.desktop = d[1];
+  if (m) out.mobile = m[1];
+  return out;
+}
+function stripSharedTypographyClasses(html) {
+  return String(html || '').replace(/\sclass="([^"]*)"/g, function(match, cls) {
+    var kept = cls.split(/\s+/).filter(function(name) { return name && !/^ts[dm]-/.test(name); });
+    return kept.length ? ' class="' + kept.join(' ') + '"' : '';
+  });
+}
+async function stampSharedRichTextTypography(key, rawHtml, oldHtml) {
+  var ids = sharedTypographyIdsFromHtml(rawHtml);
+  var cleanNew = stripSharedTypographyClasses(rawHtml);
+  var cleanOld = stripSharedTypographyClasses(oldHtml || '');
+  try {
+    var pairs = [];
+    if (ids.desktop) pairs.push(sbUpsert('settings', { key: key + '_style_desktop', value: ids.desktop }, 'key'));
+    else if (cleanNew !== cleanOld && !CURRENT_ADMIN_SETTINGS[key + '_style_desktop']) pairs.push(sbUpsert('settings', { key: key + '_style_desktop', value: ACTIVE_TS.desktop || '' }, 'key'));
+    if (ids.mobile) pairs.push(sbUpsert('settings', { key: key + '_style_mobile', value: ids.mobile }, 'key'));
+    else if (cleanNew !== cleanOld && !CURRENT_ADMIN_SETTINGS[key + '_style_mobile']) pairs.push(sbUpsert('settings', { key: key + '_style_mobile', value: ACTIVE_TS.mobile || '' }, 'key'));
+    await Promise.all(pairs);
+  } catch(e) { /* non-fatal — the content itself still saved fine */ }
 }
 function readFieldValueFromDom(f) {
   if (f.type === 'richtext') return rval('set_'+f.key);
