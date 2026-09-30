@@ -243,7 +243,7 @@ img{display:block;max-width:100%}
 
 .tribe-carousel{position:relative}
 .tribe-track{
-  display:flex;gap:24px;overflow-x:auto;scroll-snap-type:x mandatory;
+  display:flex;gap:20px;overflow-x:auto;scroll-snap-type:x mandatory;
   -webkit-overflow-scrolling:touch;scrollbar-width:none;scroll-behavior:smooth;
   padding:4px 4px 16px;
 }
@@ -395,7 +395,7 @@ img{display:block;max-width:100%}
 .testi-body{position:absolute;left:0;right:0;bottom:0;height:140px;padding:.75rem 1.1rem 1.1rem;background:#fff}
 .testi-name{font-family:'Proxima Nova Light','Poppins',sans-serif;font-size:23px;font-weight:700;font-style:normal;color:#1C2222;margin-bottom:.6rem}
 .testi-quote{font-family:'Proxima Nova Regular','Poppins',sans-serif;font-size:13px;line-height:16px;color:#000000;margin-bottom:.75rem;overflow:hidden;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical}
-.testi-more{font-family:'Poppins',sans-serif;font-size:12.5px;color:#888;font-weight:600;cursor:pointer}
+.testi-more{font-family:'Poppins',sans-serif;font-size:12.5px;color:var(--teal);font-weight:600;cursor:pointer}
 .testi-more:hover{color:var(--teal)}
 .testi-modal{
   position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:2000;
@@ -482,14 +482,15 @@ img{display:block;max-width:100%}
 .ch-icon svg [stroke]{stroke:#02A9A2}
 .ch-icon svg [fill="#FFA43B"]{fill:#02A9A2}
 .ch-step-lbl{font-family:'Poppins',sans-serif;font-size:12px;font-weight:600;color:#02A9A2;letter-spacing:1px;margin-bottom:.4rem}
-.ch-ttl{font-family:'Outfit','Poppins',sans-serif;font-size:20px;font-weight:500;color:#000!important;line-height:1.12;letter-spacing:normal;max-width:260px;margin:0}
-.ch-desc{font-family:'Poppins',sans-serif;font-size:15px;color:#000!important;line-height:1.5;letter-spacing:-0.2px;font-weight:400;max-width:280px;margin:.15rem 0 0}
-.ch-ttl,.ch-ttl *,.ch-desc,.ch-desc *{color:#000!important}
+.ch-ttl{font-family:'Poppins',sans-serif;font-size:22px!important;font-weight:600!important;color:#3a3b3b!important;line-height:1.18;letter-spacing:normal;max-width:260px;margin:0}
+.ch-desc{font-family:'Poppins',sans-serif;font-size:15px!important;color:#464a4b!important;line-height:1.5;letter-spacing:-0.2px;font-weight:500!important;max-width:280px;margin:.15rem 0 0}
+.ch-ttl,.ch-ttl *{font-family:'Poppins',sans-serif!important;font-size:22px!important;font-weight:600!important;color:#3a3b3b!important}
+.ch-desc,.ch-desc *{font-family:'Poppins',sans-serif!important;font-size:15px!important;font-weight:500!important;color:#464a4b!important}
 .ch-step-lbl,.ch-ttl,.ch-ttl *,.ch-desc,.ch-desc *{text-align:left!important}
 .ch-desc,.ch-desc *{line-height:1.5!important}
 .ch-ttl p,.ch-desc p,.ch-desc div{margin:0!important;padding:0!important;line-height:inherit!important}
 .ch-ttl br:first-child,.ch-desc br:first-child{display:none}
-.ch-desc b{font-weight:700;color:#000}
+.ch-desc b{font-weight:500;color:#464a4b}
 @media(max-width:768px){
   .choose-grid{grid-template-columns:repeat(2,1fr);row-gap:2rem}
   .ch{padding:0 1.5rem}
@@ -538,12 +539,19 @@ img{display:block;max-width:100%}
   font-family:'Poppins',sans-serif;font-weight:600;font-style:normal;font-size:16px;line-height:16px;transition:background .2s;
 }
 .pf-submit:hover{background:#e5981a}
+.pf-actions{display:grid;grid-template-columns:1fr 1fr;gap:.875rem}
+.pf-call{
+  width:100%;background:#02A9A2;color:#ffffff;padding:13px 20px;border-radius:5px;border:none;
+  font-family:'Poppins',sans-serif;font-weight:600;font-style:normal;font-size:16px;line-height:16px;text-align:center;transition:background .2s;
+}
+.pf-call:hover{background:#027A74}
 .passport-form-card .pf-submit{
   background:#F4A261;padding:15px;border-radius:50px;
   font-family:'Apfel Grotezk','Poppins',sans-serif;font-weight:700;font-size:14.5px;line-height:1;transition:all .25s;
   display:flex;align-items:center;justify-content:center;gap:8px;
 }
 .passport-form-card .pf-submit:hover{background:#e5904a;transform:translateY(-1px)}
+.booking-popup-card textarea.pf-field{min-height:70px;line-height:1.45;resize:vertical}
 
 /* ─────────────────────────────────────────
    EUREKA SELECT FAQ
@@ -553,6 +561,11 @@ img{display:block;max-width:100%}
 .ba-faq-row{display:grid;grid-template-columns:.85fr 1.15fr;gap:clamp(2.5rem,5vw,4rem);align-items:start}
 .ba-faq-copy h2{font-family:'Poppins',sans-serif;font-size:42px;font-weight:600;color:#3A3B3B;letter-spacing:-1px;line-height:1.15;margin:0 0 .9rem}
 .ba-faq-copy p{font-family:'Poppins',sans-serif;font-size:15px;color:#454A4A;line-height:1.5;letter-spacing:-0.1px;font-weight:400;max-width:420px;margin:0}
+.ba-faq-btns{display:flex;gap:.9rem;flex-wrap:wrap;margin-top:1.75rem}
+.ba-faq-btn-outline{padding:.85rem 1.75rem;border-radius:50px;border:1.5px solid var(--teal);color:var(--teal);font-family:'Proxima Nova','Poppins',sans-serif;font-size:14px;font-weight:600;background:#fff;transition:all .22s;text-align:center}
+.ba-faq-btn-outline:hover{background:var(--teal-l)}
+.ba-faq-btn-solid{padding:.85rem 1.75rem;border-radius:50px;border:none;background:#377472;color:#fff;font-family:'Proxima Nova','Poppins',sans-serif;font-size:14px;font-weight:600;transition:all .22s;text-align:center}
+.ba-faq-btn-solid:hover{background:var(--teal-d)}
 .ba-faq-list{display:flex;flex-direction:column;gap:.9rem}
 .ba-faq-item{background:transparent}
 .ba-faq-q{background:#F1F9F9;border-radius:50px;display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:1.1rem 1.75rem;cursor:pointer;font-family:'Outfit','Poppins',sans-serif;font-size:15px;font-weight:600;color:var(--dark)}
@@ -565,11 +578,13 @@ img{display:block;max-width:100%}
   .ba-faq-row{grid-template-columns:1fr;gap:1.75rem}
   .ba-faq-copy h2{font-size:32px;line-height:35px}
   .ba-faq-copy p{font-size:15px;line-height:23px}
+  .ba-faq-btns{width:100%}
+  .ba-faq-btn-outline,.ba-faq-btn-solid{flex:1;font-size:16px;line-height:16px}
   .ba-faq-q{font-size:18px;line-height:23px;border-radius:28px}
   .ba-faq-a-in{font-size:15px;line-height:23px}
 }
 
-/* Booking form popup — appears 60 minutes after the page loads */
+/* Booking form popup — appears after the page has been open a while */
 .booking-popup-overlay{
   position:fixed;inset:0;z-index:99999;
   background:rgba(0,0,0,.55);
@@ -620,8 +635,12 @@ img{display:block;max-width:100%}
   .passport-inner{grid-template-columns:1fr}
   .passport-photos{height:400px}
   .pf-row2{grid-template-columns:1fr}
+  .pf-actions{grid-template-columns:1fr}
 }
 @media(max-width:560px){
+  .passport-sec{padding:2.5rem 1.25rem;margin-left:calc(50% - 50vw);padding-left:calc(1.25rem + 50vw - 50%);padding-right:calc(1.25rem + 50vw - 50%)}
+  .passport-inner{padding:0;gap:1.5rem}
+  .passport-form-card{padding:1.5rem 1.25rem;border-radius:16px}
   .passport-photos{display:block;height:auto;overflow:visible;-webkit-mask-image:none;mask-image:none}
   .passport-col{display:none}
   .passport-mobile-track{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;scrollbar-width:none;padding:4px;margin:-4px}
@@ -659,7 +678,7 @@ img{display:block;max-width:100%}
 .ft-contact-icon svg{width:15px;height:15px;stroke:#fff;fill:none;stroke-width:1.8}
 .ft-contact-lbl{font-family:'Poppins',sans-serif;font-size:11px;color:rgba(255,255,255,.5);margin-bottom:2px}
 .ft-contact-val{font-family:'Poppins',sans-serif;font-size:13.5px;color:#fff;font-weight:500}
-.ft-badges{max-width:1280px;margin:1.5rem auto 0;display:flex;flex-wrap:wrap;align-items:center;gap:1.5rem}
+.ft-badges{max-width:1280px;margin:2.15rem auto 0;display:flex;flex-wrap:wrap;align-items:center;gap:1.5rem}
 .ft-badge{height:38px}
 .ft-pay-row{max-width:1280px;margin:1.25rem auto 0;display:flex;flex-wrap:wrap;align-items:center;gap:1.25rem}
 .footer-btm{max-width:1280px;margin:1.75rem auto 0;display:flex;flex-wrap:wrap;justify-content:space-between;gap:1rem}
@@ -990,16 +1009,16 @@ img{display:block;max-width:100%}
         <h2 class="passport-h2" id="passportHeadingEl" data-ts="ba_passport_heading"></h2>
         <form onsubmit="event.preventDefault();alert('Thanks! We will get back to you shortly.')">
           <div class="pf-row2">
-            <input class="pf-field" id="baFormName" type="text" placeholder="*Your Name" required>
-            <input class="pf-field" id="baFormEmail" type="email" placeholder="*Your Email" required>
+            <input class="pf-field" id="baFormName" type="text" placeholder="Name*" required>
+            <input class="pf-field" id="baFormEmail" type="email" placeholder="Email" required>
           </div>
           <div class="pf-row2">
-            <input class="pf-field" id="baFormPhone" type="tel" placeholder="*Contact" required>
-            <input class="pf-field" id="baFormMsgInline" type="text" placeholder="Message">
+            <input class="pf-field" id="baFormPhone" type="tel" placeholder="Contact*" required>
+            <input class="pf-field" id="baFormDates" type="text" placeholder="Dates" aria-label="Dates" title="Dates" onfocus="this.type='date'; if(this.showPicker)this.showPicker()" onblur="if(!this.value)this.type='text'">
           </div>
           <div class="pf-row2">
             <input class="pf-field" id="baFormDest" type="text" placeholder="Where would you like to go">
-            <input class="pf-field" id="baFormDates" type="text" placeholder="Dates chart" aria-label="Dates chart" title="Dates chart" onfocus="this.type='date'; if(this.showPicker)this.showPicker()" onblur="if(!this.value)this.type='text'">
+            <input class="pf-field" id="baFormMsgInline" type="text" placeholder="Message">
           </div>
           <button type="submit" class="pf-submit" id="baFormBtn" data-ts="ba_form_btn_text"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
         </form>
@@ -1045,6 +1064,10 @@ img{display:block;max-width:100%}
       <div class="ba-faq-copy">
         <h2 id="baFaqHeading" data-ts="ba_faq_heading">Frequently asked questions</h2>
         <p id="baFaqIntro" data-ts="ba_faq_intro">Everything you may want to know before we build your Eureka Select journey.</p>
+        <div class="ba-faq-btns">
+          <a href="#select-faqs" class="ba-faq-btn-outline">View all FAQs</a>
+          <a href="contact-us.html" class="ba-faq-btn-solid">Chat With Us</a>
+        </div>
       </div>
       <div class="ba-faq-list">
         <div class="ba-faq-item open">
@@ -1085,7 +1108,7 @@ img{display:block;max-width:100%}
 </section>
 
 <!-- FOOTER -->
-<!-- BOOKING FORM POPUP — appears automatically 60 minutes after the page loads -->
+<!-- BOOKING FORM POPUP — appears automatically after the page has been open a while -->
 <div class="booking-popup-overlay" id="bookingPopupOverlay" onclick="if(event.target===this)closeBookingPopup()">
   <div class="booking-popup-card">
     <button type="button" class="booking-popup-close" onclick="closeBookingPopup()" aria-label="Close">
@@ -1095,18 +1118,19 @@ img{display:block;max-width:100%}
     <p class="booking-popup-sub">Leave your details and we'll help you build the perfect adventure.</p>
     <form onsubmit="return submitBookingPopup(event)">
       <div class="pf-row2">
-        <input class="pf-field" id="bpName" type="text" placeholder="*Your Name" required>
-        <input class="pf-field" id="bpEmail" type="email" placeholder="*Your Email" required>
+        <input class="pf-field" id="bpName" type="text" placeholder="Name*" required>
+        <input class="pf-field" id="bpEmail" type="email" placeholder="Email">
       </div>
       <div class="pf-row2">
-        <input class="pf-field" id="bpPhone" type="tel" placeholder="*Contact" required>
-        <input class="pf-field" id="bpMsg" type="text" placeholder="Message">
+        <input class="pf-field" id="bpPhone" type="tel" placeholder="Contact*" required>
+        <input class="pf-field" id="bpDates" type="text" placeholder="Date" aria-label="Date" title="Date" onfocus="this.type='date'; if(this.showPicker)this.showPicker()" onblur="if(!this.value)this.type='text'">
       </div>
-      <div class="pf-row2">
-        <input class="pf-field" id="bpDest" type="text" placeholder="Where would you like to go">
-        <input class="pf-field" id="bpDates" type="text" placeholder="Dates chart" aria-label="Dates chart" title="Dates chart" onfocus="this.type='date'; if(this.showPicker)this.showPicker()" onblur="if(!this.value)this.type='text'">
+      <input class="pf-field" id="bpDest" type="text" placeholder="Where would you like to go">
+      <textarea class="pf-field" id="bpMsg" placeholder="Message"></textarea>
+      <div class="pf-actions">
+        <button type="submit" class="pf-submit">Send Message</button>
+        <a href="tel:+919792496457" class="pf-call">Call Us</a>
       </div>
-      <button type="submit" class="pf-submit">Send Message</button>
     </form>
   </div>
 </div>
@@ -1167,7 +1191,6 @@ img{display:block;max-width:100%}
     <div class="ft-bottom-row">
       <!-- Payment methods — populated entirely by applyPaymentLogos() from Supabase -->
       <div class="ft-pay-row">
-        <span style="color:#fff;font-size:12px;font-weight:700;opacity:.85">We accept:</span>
         <div id="ftPayLogos" style="display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap"></div>
       </div>
       <!-- Certification badges — populated entirely by applyTrustBadges() from Supabase -->
@@ -1259,13 +1282,43 @@ function toggleBaFaq(q) {
   }
 }
 function isMobileViewport() { return TypographyEngine.isMobileViewport(); }
+function isHardcodedHowItWorksField(el) {
+  var key = el && el.getAttribute && el.getAttribute('data-ts');
+  return /^ba_step\d+_(title|desc)$/.test(key || '');
+}
+function enforceHowItWorksTypography(root) {
+  var scope = root || document;
+  var titleEls = [];
+  var descEls = [];
+  if (scope.matches && scope.matches('.ch-ttl')) titleEls.push(scope);
+  if (scope.matches && scope.matches('.ch-desc')) descEls.push(scope);
+  scope.querySelectorAll('.ch-ttl,.ch-ttl *').forEach(function(el) { titleEls.push(el); });
+  scope.querySelectorAll('.ch-desc,.ch-desc *').forEach(function(el) { descEls.push(el); });
+  titleEls.forEach(function(el) {
+    el.style.setProperty('font-family', 'Poppins, sans-serif', 'important');
+    el.style.setProperty('font-size', '22px', 'important');
+    el.style.setProperty('font-weight', '600', 'important');
+    el.style.setProperty('color', '#3a3b3b', 'important');
+  });
+  descEls.forEach(function(el) {
+    el.style.setProperty('font-family', 'Poppins, sans-serif', 'important');
+    el.style.setProperty('font-size', '15px', 'important');
+    el.style.setProperty('font-weight', '500', 'important');
+    el.style.setProperty('color', '#464a4b', 'important');
+  });
+}
 function applyElementTypography(el) {
+  if (isHardcodedHowItWorksField(el)) {
+    enforceHowItWorksTypography(el);
+    return;
+  }
   TypographyEngine.setCurrentSettings(CURRENT_SETTINGS);
   return TypographyEngine.applyTagged(el);
 }
 function applyAllTaggedTypography() {
   TypographyEngine.setCurrentSettings(CURRENT_SETTINGS);
   TypographyEngine.applyAllTagged();
+  enforceHowItWorksTypography();
   if (window.location.search.indexOf('ts_debug=1') !== -1) TypographyEngine.debug();
 }
 // Placeholder text can't be styled with inline styles at all (it's rendered via
@@ -1327,6 +1380,19 @@ function ensurePassportButtonArrow() {
   if (!btn || btn.querySelector('svg')) return;
   btn.insertAdjacentHTML('beforeend', ' <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>');
 }
+function enforcePassportFormPlaceholderTypography() {
+  var tag = document.getElementById('passport-placeholder-lock');
+  if (!tag) {
+    tag = document.createElement('style');
+    tag.id = 'passport-placeholder-lock';
+    document.head.appendChild(tag);
+  }
+  tag.textContent = [
+    '#baFormName::placeholder,#baFormEmail::placeholder,#baFormPhone::placeholder,#baFormDates::placeholder,#baFormDest::placeholder,#baFormMsgInline::placeholder{',
+    'font-family:inherit!important;font-size:inherit!important;font-weight:inherit!important;color:#9ca3af!important;opacity:1!important;',
+    '}'
+  ].join('');
+}
 
 /*
 Navbar solid/hide scroll behavior disabled per design request.
@@ -1347,19 +1413,19 @@ function closeDrawer(){
 var TRIBE_TRIPS=[];
 var currentCatFilter='Explore';
 function openWA(msg) { window.open('https://wa.me/919792496457?text=' + encodeURIComponent(msg), '_blank'); }
-
-/* BOOKING FORM POPUP — appears once, 60 minutes after the page loads.
+/* BOOKING FORM POPUP — appears once after the page has been open a while.
    Won't reappear if the person already saw it or submitted it this session
    (sessionStorage), so it doesn't nag someone who's kept the tab open. */
 (function(){
   var POPUP_DELAY = 55 * 1000; // 55 seconds
-  if (sessionStorage.getItem('bookingPopupShown')) return;
+  var POPUP_SESSION_KEY = 'bookingPopupShownCustomTripsV2';
+  if (sessionStorage.getItem(POPUP_SESSION_KEY)) return;
   setTimeout(function(){
-    if (sessionStorage.getItem('bookingPopupShown')) return; // could've been shown via another tab in the meantime
+    if (sessionStorage.getItem(POPUP_SESSION_KEY)) return; // could've been shown via another tab in the meantime
     var overlay = document.getElementById('bookingPopupOverlay');
     if (!overlay) return;
     overlay.classList.add('show');
-    sessionStorage.setItem('bookingPopupShown', '1');
+    sessionStorage.setItem(POPUP_SESSION_KEY, '1');
   }, POPUP_DELAY);
 })();
 function closeBookingPopup(){
@@ -1374,11 +1440,12 @@ function submitBookingPopup(e){
   var name = document.getElementById('bpName').value.trim();
   var email = document.getElementById('bpEmail').value.trim();
   var phone = document.getElementById('bpPhone').value.trim();
-  var dest = document.getElementById('bpDest').value.trim();
   var dates = document.getElementById('bpDates').value.trim();
+  var dest = document.getElementById('bpDest').value.trim();
   var msg = document.getElementById('bpMsg').value.trim();
-  var waMsg = 'Hi EUREKA Trips! I want to plan a trip.\nName: ' + name + '\nEmail: ' + email + '\nPhone: ' + phone +
-    (dest ? '\nDestination: ' + dest : '') + (dates ? '\nDates: ' + dates : '') + (msg ? '\nMessage: ' + msg : '');
+  var waMsg = 'Hi EUREKA Trips! I want to plan a trip.\nName: ' + name +
+    (email ? '\nEmail: ' + email : '') + '\nPhone: ' + phone +
+    (dates ? '\nDate: ' + dates : '') + (dest ? '\nDestination: ' + dest : '') + (msg ? '\nMessage: ' + msg : '');
   openWA(waMsg);
   closeBookingPopup();
   return false;
@@ -1392,14 +1459,46 @@ function tribeRender(){
     return;
   }
   track.innerHTML = list.map(buildCustomTourCardHTML).join('');
+  setCustomTourCardWidths(track);
   track.scrollLeft=0;
 }
+function customTourVisibleCount() {
+  var w = window.innerWidth;
+  if (w < 600) return 1;
+  if (w < 900) return 2;
+  return 3;
+}
+function setCustomTourCardWidths(track) {
+  if (!track) return;
+  var cards = track.querySelectorAll('.ctc-card');
+  if (!cards.length) return;
+  var visible = customTourVisibleCount();
+  var gap = window.innerWidth < 600 ? 14 : 20;
+  var scale = window.innerWidth < 600 ? 0.86 : 0.86;
+  var cardW = Math.floor((track.clientWidth - gap * (visible - 1)) / visible * scale);
+  if (cardW <= 0) {
+    setTimeout(function(){ setCustomTourCardWidths(track); }, 150);
+    return;
+  }
+  cards.forEach(function(card) {
+    card.style.width = cardW + 'px';
+    card.style.minWidth = cardW + 'px';
+  });
+}
+function setAllCustomTourCardWidths() {
+  setCustomTourCardWidths(document.getElementById('tribeTrack'));
+  setCustomTourCardWidths(document.getElementById('moreTripsTrack'));
+}
+window.addEventListener('resize', function() {
+  clearTimeout(window.__customTourCardsResizeTimer);
+  window.__customTourCardsResizeTimer = setTimeout(setAllCustomTourCardWidths, 150);
+}, { passive: true });
 function tribeNav(dir){
   var track=document.getElementById('tribeTrack');
   if(!track) return;
   var card=track.querySelector('.ctc-card');
   if(!card) return;
-  var step=card.getBoundingClientRect().width + 24;
+  var step=card.getBoundingClientRect().width + (window.innerWidth < 600 ? 14 : 20);
   track.scrollBy({left:dir*step*2, behavior:'smooth'});
 }
 /* tribeRender() called after Supabase data is applied — see bottom of script */
@@ -1412,13 +1511,14 @@ function moreTripsRender(){
   var track=document.getElementById('moreTripsTrack');
   if(!track) return;
   track.innerHTML = MORE_TRIPS.map(buildCustomTourCardHTML).join('');
+  setCustomTourCardWidths(track);
 }
 function moreTripsNav(dir){
   var track=document.getElementById('moreTripsTrack');
   if(!track) return;
   var card=track.querySelector('.ctc-card');
   if(!card) return;
-  var step=card.getBoundingClientRect().width + 24;
+  var step=card.getBoundingClientRect().width + (window.innerWidth < 600 ? 14 : 20);
   track.scrollBy({left:dir*step*2, behavior:'smooth'});
 }
 /* moreTripsRender() called after Supabase data is applied — see bottom of script */
@@ -1700,20 +1800,21 @@ async function applyBuildAdventureContent() {
 
   /* ── YOUR PASSPORT TO GOOD STUFF ── */
   setText('passportHeadingEl', s.ba_passport_heading);
-  setFormPlaceholder('baFormName', 'ba_form_name_placeholder', s, '*Your Name', ['Full Name*', 'Your name', 'Your Name']);
-  setFormPlaceholder('baFormEmail', 'ba_form_email_placeholder', s, '*Your Email', ['Email*', 'Your email', 'Your Email']);
-  setFormPlaceholder('baFormPhone', 'ba_form_phone_placeholder', s, '*Contact', ['Phone*', '+91 00000-00000', 'Contact']);
+  setFormPlaceholder('baFormName', 'ba_form_name_placeholder', s, 'Name*', ['Full Name*', 'Your name', 'Your Name', '*Your Name']);
+  setFormPlaceholder('baFormEmail', 'ba_form_email_placeholder', s, 'Email', ['Email*', 'Your email', 'Your Email', '*Your Email']);
+  setFormPlaceholder('baFormPhone', 'ba_form_phone_placeholder', s, 'Contact*', ['Phone*', '+91 00000-00000', 'Contact', '*Contact']);
   setFormPlaceholder('baFormMsgInline', 'ba_form_msg_placeholder', s, 'Message', ['Msg', 'We love a good yap.. or just say Hi!', 'We love a good yap... or just say Hi!']);
   setFormPlaceholder('baFormDest', 'ba_form_dest_placeholder', s, 'Where would you like to go', ['Where would you like to go?']);
-  setFormPlaceholder('baFormDates', 'ba_form_dates_placeholder', s, 'Dates chart', []);
-  setFormPlaceholder('bpName', 'ba_form_name_placeholder', s, '*Your Name', ['Full Name*', 'Your name', 'Your Name']);
-  setFormPlaceholder('bpEmail', 'ba_form_email_placeholder', s, '*Your Email', ['Email*', 'Your email', 'Your Email']);
-  setFormPlaceholder('bpPhone', 'ba_form_phone_placeholder', s, '*Contact', ['Phone*', '+91 00000-00000', 'Contact']);
+  setFormPlaceholder('baFormDates', 'ba_form_dates_placeholder', s, 'Dates', ['Dates chart', 'Date', 'Travel dates']);
+  setFormPlaceholder('bpName', 'ba_form_name_placeholder', s, 'Name*', ['Full Name*', 'Your name', 'Your Name', '*Your Name']);
+  setFormPlaceholder('bpEmail', 'ba_form_email_placeholder', s, 'Email', ['Email*', 'Your email', 'Your Email', '*Your Email']);
+  setFormPlaceholder('bpPhone', 'ba_form_phone_placeholder', s, 'Contact*', ['Phone*', '+91 00000-00000', 'Contact', '*Contact']);
   setFormPlaceholder('bpMsg', 'ba_form_msg_placeholder', s, 'Message', ['Msg', 'We love a good yap.. or just say Hi!', 'We love a good yap... or just say Hi!']);
   setFormPlaceholder('bpDest', 'ba_form_dest_placeholder', s, 'Where would you like to go', ['Where would you like to go?']);
-  setFormPlaceholder('bpDates', 'ba_form_dates_placeholder', s, 'Dates chart', []);
+  setFormPlaceholder('bpDates', 'ba_form_dates_placeholder', s, 'Date', ['Dates chart', 'Dates', 'Travel dates']);
   setText('baFormBtn', s.ba_form_btn_text);
   ensurePassportButtonArrow();
+  enforcePassportFormPlaceholderTypography();
   var passportRows = await sbGet('passport_photos', 'active=eq.true&order=sort_order.asc');
   if (passportRows.length) {
     var colA = passportRows.filter(function(r){ return r.column_key === 'a'; }).map(function(r){ return r.image_url; });

@@ -179,7 +179,7 @@ img{display:block;max-width:100%}
   align-items:start;
 }
 .trip-main{min-width:0}
-.trip-title{font-family:'IT ApfelGrotezk-Regular','Poppins',sans-serif;font-size:32px;color:#3A3B3B;font-weight:600;font-style:normal;line-height:1.15;letter-spacing:0.2px;margin-bottom:1.25rem}
+.trip-title{font-family:'IT ApfelGrotezk-Regular','Poppins',sans-serif;font-size:32px;color:#3A3B3B;font-weight:600;font-style:normal;line-height:1.25;letter-spacing:0.2px;margin-bottom:1.25rem}
 .trip-desc{font-family:'Poppins',sans-serif;font-size:15px;line-height:1.5;letter-spacing:-0.2px;color:#3A3B3B;margin-bottom:2rem}
 
 /* Ratings grid — uniform size bars */
@@ -192,9 +192,11 @@ img{display:block;max-width:100%}
 
 /* Auto-sliding photo strip — rounded photos with spacing between */
 .trip-slider{position:relative;overflow:hidden;border-radius:12px;margin-bottom:2.5rem}
-.trip-slider-track{display:flex;gap:14px;will-change:transform}
+.trip-slider-track{display:flex;gap:14px;overflow-x:auto;overflow-y:hidden;width:100%;cursor:grab;touch-action:pan-x;user-select:none;-webkit-overflow-scrolling:touch;scrollbar-width:none;overscroll-behavior-inline:contain;scroll-snap-type:x mandatory;scroll-behavior:smooth}
+.trip-slider-track::-webkit-scrollbar{display:none}
+.trip-slider-track.is-dragging{cursor:grabbing}
 .trip-slider-track img{
-  height:340px;width:240px;object-fit:cover;border-radius:16px;flex-shrink:0;display:block;
+  height:340px;width:240px;object-fit:cover;border-radius:16px;flex-shrink:0;display:block;pointer-events:none;scroll-snap-align:start;
 }
 @media(max-width:640px){
   .trip-slider-track img{height:240px;width:200px}
@@ -234,6 +236,17 @@ img{display:block;max-width:100%}
 }
 .acc-body-inner li .li-ic svg{width:22px;height:22px;fill:none;stroke:#027A74;stroke-width:1.6}
 .acc-body-inner li .li-ic img{width:22px;height:22px;object-fit:contain;display:block}
+.acc-body-inner li.tp-list-hidden{display:none}
+.tp-inc-more-wrap{margin-top:.6rem;text-align:left;padding-left:28px}
+.tp-inc-more{
+  border:0;background:transparent;color:#027A74;padding:0;
+  font-family:'Poppins',sans-serif;font-size:11px;font-weight:600;
+  cursor:pointer;text-decoration:none;line-height:1.25;
+}
+.tp-inc-more:hover{color:#02A9A2;text-decoration:underline}
+@media(max-width:640px){
+  .tp-inc-more{font-size:14px;line-height:20px}
+}
 
 /* Headed bullet lists (What's Not Included style) */
 .acc-subhead{font-family:'Poppins',sans-serif;font-weight:500;font-size:15px;line-height:1.5;color:#3A3B3B;margin:1.1rem 0 .6rem}
@@ -245,7 +258,9 @@ img{display:block;max-width:100%}
 
 /* Accommodation: text + image carousel */
 .accom-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;align-items:start}
-.accom-text p{color:var(--dark);line-height:1.8;margin-bottom:.75rem}
+.accom-text p{color:var(--dark);line-height:1.8;margin:0 0 .75rem}
+.accom-text p:empty{display:none}
+.accom-text .acc-bullets{margin-top:0;padding-top:0}
 .accom-gallery{position:relative;border-radius:12px;overflow:hidden;box-shadow:var(--sh2);cursor:pointer}
 .accom-gallery img{width:100%;height:280px;object-fit:cover;display:block;transition:transform .4s ease}
 .accom-gallery:hover img{transform:scale(1.04)}
@@ -284,7 +299,7 @@ img{display:block;max-width:100%}
 }
 .confidence-box h3{font-family:'Poppins',sans-serif;font-size:25px;font-weight:600;font-style:normal;letter-spacing:0.2px;color:#3A3B3B;margin-bottom:.35rem}
 .confidence-box p{font-family:'Poppins',sans-serif;font-size:14px;color:#454A4A;line-height:1.5;letter-spacing:-0.2px;margin-bottom:.4rem}
-.confidence-box a{font-family:'Poppins',sans-serif;font-size:12px;color:#454A4A;line-height:1.5;letter-spacing:-0.2px;text-decoration:underline}
+.confidence-box a{font-family:'Poppins',sans-serif;font-size:12px;color:#02A9A2;line-height:1.5;letter-spacing:-0.2px;text-decoration:underline}
 
 .trip-sidebar .form-card{background:#fff;border:2px solid #d1d5db;border-radius:16px;padding:1rem;box-shadow:none}
 .trip-sidebar .form-card-head{display:flex;align-items:center;gap:12px;margin-bottom:.65rem}
@@ -363,12 +378,15 @@ img{display:block;max-width:100%}
   overflow:hidden;
   padding:1.25rem 0;
   background:#fff;
+  position:relative;
 }
-.sg-row{overflow:hidden;margin-bottom:12px}
+.sg-row{overflow-x:auto;overflow-y:hidden;margin-bottom:12px;cursor:grab;touch-action:auto;user-select:none;-webkit-overflow-scrolling:touch;scrollbar-width:none;overscroll-behavior-inline:contain}
+.sg-row::-webkit-scrollbar{display:none}
+.sg-row.is-dragging{cursor:grabbing}
 .sg-row:last-child{margin-bottom:0}
-.sg-track{display:flex;gap:12px;width:max-content;will-change:transform}
+.sg-track{display:flex;gap:12px;width:max-content}
 .sg-track img{
-  height:315px;width:238px;object-fit:cover;border-radius:10px;flex-shrink:0;display:block;
+  height:315px;width:238px;object-fit:cover;border-radius:10px;flex-shrink:0;display:block;pointer-events:none;
 }
 @media(max-width:768px){
   .sg-track img{height:204px;width:170px}
@@ -475,6 +493,26 @@ img{display:block;max-width:100%}
 .trip-rev-dots .cdot.active{background:#02A9A2;width:24px;border-radius:4px}
 .trip-reviews-empty{margin:0;text-align:center;font-family:'Poppins',sans-serif;font-size:15px;color:#454A4A}
 
+/* Book with confidence strip — matched to the home page reviews box */
+.reviews-confidence{text-align:center;margin-top:.75rem;overflow:hidden}
+.reviews-confidence h3{
+  font-family:'Apfel Grotezk','Poppins',sans-serif;
+  font-size:42px;font-weight:700;color:#3A3B3B;
+  margin-bottom:.6rem;letter-spacing:.2px;
+}
+.confidence-marquee{position:relative;max-width:760px;margin:0 auto;padding:.15rem 0;overflow:hidden}
+.confidence-marquee::before,.confidence-marquee::after{content:"";position:absolute;top:0;bottom:0;width:64px;z-index:2;pointer-events:none}
+.confidence-marquee::before{left:0;background:linear-gradient(90deg,#EDF8F8 0%,rgba(237,248,248,0) 100%)}
+.confidence-marquee::after{right:0;background:linear-gradient(270deg,#EDF8F8 0%,rgba(237,248,248,0) 100%)}
+.confidence-track{display:flex;width:max-content;animation:confidence-scroll 34s linear infinite}
+.confidence-marquee:hover .confidence-track{animation-play-state:paused}
+.confidence-set{display:flex;align-items:center;gap:clamp(1.5rem,3vw,2.25rem);padding:0 clamp(.75rem,2vw,1.25rem)}
+.confidence-logo{height:clamp(42px,5vw,62px);width:auto;max-width:160px;object-fit:contain;display:block;filter:drop-shadow(0 4px 8px rgba(0,0,0,.04))}
+.confidence-logo.logo-wide{max-width:190px}
+.confidence-logo.logo-tall{height:clamp(50px,5.8vw,70px)}
+@keyframes confidence-scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@media(prefers-reduced-motion:reduce){.confidence-track{animation:none;transform:none}}
+
 .rc{
   background:#fff;
   border-radius:12px;
@@ -534,6 +572,13 @@ img{display:block;max-width:100%}
   .rc{width:calc(100vw - 66px);height:auto;min-height:220px;padding:1rem 1.1rem;gap:.6rem}
   .rc-q{line-height:1.55}
   .trip-rev-dots{margin-top:1.25rem}
+  .reviews-confidence{margin-top:2rem}
+  .confidence-marquee{max-width:100%;padding:.1rem 0}
+  .confidence-marquee::before,.confidence-marquee::after{width:34px}
+  .confidence-set{gap:1.15rem;padding:0 .55rem}
+  .confidence-logo{height:42px;max-width:128px}
+  .confidence-logo.logo-wide{max-width:150px}
+  .confidence-logo.logo-tall{height:50px}
 }
 
 /* ─────────────────────────────────────────
@@ -583,7 +628,7 @@ img{display:block;max-width:100%}
 
 .tribe-carousel{position:relative}
 .tribe-track{
-  display:flex;gap:24px;overflow-x:auto;scroll-snap-type:x mandatory;
+  display:flex;gap:20px;overflow-x:auto;scroll-snap-type:x mandatory;
   -webkit-overflow-scrolling:touch;scrollbar-width:none;scroll-behavior:smooth;
   padding:4px 4px 16px;
 }
@@ -733,7 +778,7 @@ img{display:block;max-width:100%}
 .ft-contact-icon svg{width:15px;height:15px;stroke:#fff;fill:none;stroke-width:1.8}
 .ft-contact-lbl{font-family:'Poppins',sans-serif;font-size:11px;color:rgba(255,255,255,.5);margin-bottom:2px}
 .ft-contact-val{font-family:'Poppins',sans-serif;font-size:13.5px;color:#fff;font-weight:500}
-.ft-badges{max-width:1280px;margin:1.5rem auto 0;display:flex;flex-wrap:wrap;align-items:center;gap:1.5rem}
+.ft-badges{max-width:1280px;margin:2.15rem auto 0;display:flex;flex-wrap:wrap;align-items:center;gap:1.5rem}
 .ft-badge{height:38px}
 .ft-pay-row{max-width:1280px;margin:1.25rem auto 0;display:flex;flex-wrap:wrap;align-items:center;gap:1.25rem}
 .footer-btm{max-width:1280px;margin:1.75rem auto 0;display:flex;flex-wrap:wrap;justify-content:space-between;gap:1rem}
@@ -760,7 +805,7 @@ img{display:block;max-width:100%}
   .day-card{padding:1rem}
   /* 5. Trip Detail — Overview & Ratings (Trip title ~ Group Trip's "Trip title";
      Trip description ~ Group Trip's "Detail paragraph") */
-  .trip-title{font-size:40px;line-height:1.2em}
+  .trip-title{font-size:40px;line-height:1.1em}
   .trip-desc{font-size:14.5px;line-height:1.5em}
 
   /* 6. Accordion (~ Group Trip's Panels section) */
@@ -1155,6 +1200,36 @@ img{display:block;max-width:100%}
     </div>
     <div class="trip-rev-dots" id="tripRevDots"></div>
 
+    <div class="reviews-confidence fu">
+      <h3 id="tpStripConfidenceH" data-ts="confidence_heading">Book with confidence</h3>
+      <div class="confidence-marquee" aria-label="Trusted travel and review logos">
+        <div class="confidence-track">
+          <div class="confidence-set">
+            <img class="confidence-logo logo-wide" src="assets/images/book-confidence/clean/google-reviews.png" alt="Google Reviews">
+            <img class="confidence-logo" src="assets/images/book-confidence/clean/jnto.png" alt="JNTO">
+            <img class="confidence-logo" src="assets/images/book-confidence/clean/incredible-india.png" alt="Incredible India">
+            <img class="confidence-logo" src="assets/images/book-confidence/clean/iata.png" alt="IATA">
+            <img class="confidence-logo" src="assets/images/book-confidence/clean/visit-indonesia.png" alt="Visit Indonesia">
+            <img class="confidence-logo" src="assets/images/book-confidence/clean/tripadvisor.png" alt="Tripadvisor">
+            <img class="confidence-logo" src="assets/images/book-confidence/clean/egypt.png" alt="Egypt">
+            <img class="confidence-logo" src="assets/images/book-confidence/clean/love-philippines.png" alt="Love The Philippines">
+            <img class="confidence-logo" src="assets/images/book-confidence/clean/ministry-tourism-india.png" alt="Ministry of Tourism">
+          </div>
+          <div class="confidence-set" aria-hidden="true">
+            <img class="confidence-logo logo-wide" src="assets/images/book-confidence/clean/google-reviews.png" alt="">
+            <img class="confidence-logo" src="assets/images/book-confidence/clean/jnto.png" alt="">
+            <img class="confidence-logo" src="assets/images/book-confidence/clean/incredible-india.png" alt="">
+            <img class="confidence-logo" src="assets/images/book-confidence/clean/iata.png" alt="">
+            <img class="confidence-logo" src="assets/images/book-confidence/clean/visit-indonesia.png" alt="">
+            <img class="confidence-logo" src="assets/images/book-confidence/clean/tripadvisor.png" alt="">
+            <img class="confidence-logo" src="assets/images/book-confidence/clean/egypt.png" alt="">
+            <img class="confidence-logo" src="assets/images/book-confidence/clean/love-philippines.png" alt="">
+            <img class="confidence-logo" src="assets/images/book-confidence/clean/ministry-tourism-india.png" alt="">
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </section>
 
@@ -1221,11 +1296,11 @@ img{display:block;max-width:100%}
     <p class="booking-popup-sub">Leave your details and we'll help you get this adventure booked.</p>
     <form onsubmit="return submitBookingPopup(event)">
       <input class="form-field" id="bpName" type="text" placeholder="Full Name*" required>
-      <input class="form-field" id="bpEmail" type="email" placeholder="Email*" required>
+      <input class="form-field" id="bpEmail" type="email" placeholder="Email">
       <input class="form-field" id="bpPhone" type="tel" placeholder="Phone*" required>
       <div class="form-row2">
-        <input class="form-field" id="bpDate" type="text" placeholder="Travel Date*" onfocus="(this.type='date')" required>
-        <input class="form-field" id="bpTravellers" type="number" min="1" placeholder="No of Travellers*" required>
+        <input class="form-field" id="bpDate" type="text" placeholder="Travel Date" onfocus="(this.type='date')">
+        <input class="form-field" id="bpTravellers" type="number" min="1" placeholder="No of Travellers">
       </div>
       <textarea class="form-field" id="bpMsg" rows="2" placeholder="Message" style="resize:vertical"></textarea>
       <button type="submit" class="form-submit">Send Message</button>
@@ -1289,7 +1364,6 @@ img{display:block;max-width:100%}
     <div class="ft-bottom-row">
       <!-- Payment methods — populated entirely by applyPaymentLogos() from Supabase -->
       <div class="ft-pay-row">
-        <span style="color:#fff;font-size:12px;font-weight:700;opacity:.85">We accept:</span>
         <div id="ftPayLogos" style="display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap"></div>
       </div>
       <!-- Certification badges — populated entirely by applyTrustBadges() from Supabase -->
@@ -1368,6 +1442,22 @@ function applyAllTaggedTypography() {
   TypographyEngine.applyAllTagged();
   if (window.location.search.indexOf('ts_debug=1') !== -1) TypographyEngine.debug();
 }
+function applyCustomTourCardTypography(s) {
+  var root = document.documentElement.style;
+  var map = {
+    ctc_title_size: '--ctc-title-size', ctc_title_weight: '--ctc-title-weight',
+    ctc_dur_size: '--ctc-dur-size', ctc_dur_weight: '--ctc-dur-weight',
+    ctc_price_size: '--ctc-price-size', ctc_price_weight: '--ctc-price-weight',
+    ctc_pricelbl_size: '--ctc-pricelbl-size',
+    ctc_route_size: '--ctc-route-size', ctc_route_weight: '--ctc-route-weight',
+    ctc_tag_size: '--ctc-tag-size', ctc_tag_weight: '--ctc-tag-weight'
+  };
+  Object.keys(map).forEach(function(key) {
+    if (!s[key]) return;
+    var isWeight = key.indexOf('_weight') !== -1;
+    root.setProperty(map[key], isWeight ? s[key] : (s[key] + 'px'));
+  });
+}
 // Placeholder text can't be styled with inline styles at all (it's rendered via
 // the ::placeholder pseudo-element) — this injects a real CSS rule instead.
 function applyPlaceholderTypography(elId, key) {
@@ -1431,7 +1521,13 @@ function toggleAcc(id){
   var el = document.getElementById(id);
   var body = el.querySelector('.acc-body');
   var opening = !el.classList.contains('open');
-  el.classList.toggle('open');
+  document.querySelectorAll('.acc.open').forEach(function(openEl) {
+    if (openEl === el) return;
+    openEl.classList.remove('open');
+    var openBody = openEl.querySelector('.acc-body');
+    if (openBody) openBody.style.maxHeight = '';
+  });
+  el.classList.toggle('open', opening);
   if (body) body.style.maxHeight = opening ? (body.scrollHeight + 24) + 'px' : '';
 }
 // If the window is resized (e.g. the grid reflows to fewer columns on mobile,
@@ -1446,8 +1542,53 @@ window.addEventListener('resize', debounce(function () {
 function debounce(fn, ms) { var t; return function () { clearTimeout(t); t = setTimeout(fn, ms); }; }
 
 function setupMobileInclusionReadMore(){
-  setupMobileListReadMore('inclusionsList',false);
+  setupPrivateTripInclusionsReadMore();
   setupMobileListReadMore('exclusionsList',true);
+}
+
+function updateAccordionHeightFrom(el){
+  var accordion=el?el.closest('.acc'):null;
+  var body=accordion?accordion.querySelector('.acc-body'):null;
+  if(body)body.style.maxHeight=(body.scrollHeight+24)+'px';
+}
+
+function setupPrivateTripInclusionsReadMore(){
+  var list=document.getElementById('inclusionsList');
+  if(!list)return;
+
+  var oldWrap=document.getElementById('tpIncMoreWrap');
+  var wasExpanded=oldWrap && oldWrap.querySelector('.tp-inc-more') && oldWrap.querySelector('.tp-inc-more').textContent==='Show less';
+  if(oldWrap)oldWrap.remove();
+
+  var items=Array.prototype.slice.call(list.children).filter(function(item){return item.tagName==='LI';});
+  items.forEach(function(item){item.classList.remove('tp-list-hidden','mobile-list-hidden');});
+
+  var limit=window.innerWidth<=640?8:16;
+  if(items.length<=limit){
+    updateAccordionHeightFrom(list);
+    return;
+  }
+
+  if(!wasExpanded){
+    items.slice(limit).forEach(function(item){item.classList.add('tp-list-hidden');});
+  }
+
+  var wrap=document.createElement('div');
+  wrap.className='tp-inc-more-wrap';
+  wrap.id='tpIncMoreWrap';
+  var button=document.createElement('button');
+  button.type='button';
+  button.className='tp-inc-more';
+  button.textContent=wasExpanded?'Show less':'Read more';
+  button.addEventListener('click',function(){
+    var expanded=button.textContent==='Read more';
+    items.slice(limit).forEach(function(item){item.classList.toggle('tp-list-hidden',!expanded);});
+    button.textContent=expanded?'Show less':'Read more';
+    updateAccordionHeightFrom(list);
+  });
+  wrap.appendChild(button);
+  list.insertAdjacentElement('afterend',wrap);
+  updateAccordionHeightFrom(list);
 }
 
 function setupMobileListReadMore(listId,hasNestedLists){
@@ -1514,56 +1655,104 @@ document.addEventListener('keydown',function(e){
   if(e.key==='ArrowRight') accomNav(1);
 });
 
-/* SCROLL-DRIVEN PHOTO WALL — row 1 moves left, row 2 moves right, speed tied to scroll position */
+/* AUTO-SCROLL PHOTO WALL — native horizontal scroll, so finger swipe works */
+var SCROLL_GALLERY_STATE={raf:0,rows:[],paused:false,lastTs:0};
 function initScrollGallery(){
-  var track1=document.getElementById('sgTrack1');
-  var track2=document.getElementById('sgTrack2');
-  if(!track1||!track2) return;
+  if(SCROLL_GALLERY_STATE.raf) cancelAnimationFrame(SCROLL_GALLERY_STATE.raf);
+  SCROLL_GALLERY_STATE={raf:0,rows:[],paused:false,lastTs:0};
+  var gallery=document.getElementById('scrollGallery');
+  var tracks=[document.getElementById('sgTrack1'),document.getElementById('sgTrack2')].filter(Boolean);
+  if(!gallery||!tracks.length) return;
 
-  var originalCount1=track1.children.length;
-  var originalCount2=track2.children.length;
-
-  /* duplicate each row's images so the loop is seamless */
-  track1.innerHTML += track1.innerHTML;
-  track2.innerHTML += track2.innerHTML;
-
-  var setW1=0, setW2=0;
-  function measure(){
-    var c1=track1.children, c2=track2.children;
-    setW1 = c1[originalCount1].offsetLeft - c1[0].offsetLeft;
-    setW2 = c2[originalCount2].offsetLeft - c2[0].offsetLeft;
+  if(!gallery.dataset.sgHoverBound){
+    gallery.addEventListener('mouseenter',function(){SCROLL_GALLERY_STATE.paused=true;});
+    gallery.addEventListener('mouseleave',function(){SCROLL_GALLERY_STATE.paused=false;});
+    gallery.addEventListener('focusin',function(){SCROLL_GALLERY_STATE.paused=true;});
+    gallery.addEventListener('focusout',function(){SCROLL_GALLERY_STATE.paused=false;});
+    gallery.dataset.sgHoverBound='1';
   }
 
-  function mod(n,m){ return m===0?0:((n%m)+m)%m; }
+  function cleanupTrack(track){
+    Array.prototype.slice.call(track.querySelectorAll('[data-sg-clone="1"]')).forEach(function(node){node.remove();});
+    track.style.transform='';
+  }
+  function bindMouseDrag(row){
+    if(row.el.dataset.sgDragBound) return;
+    var dragging=false,startX=0,startScroll=0;
+    row.el.addEventListener('mousedown',function(e){
+      if(e.button!==0) return;
+      dragging=true;
+      startX=e.pageX;
+      startScroll=row.el.scrollLeft;
+      row.el.classList.add('is-dragging');
+      SCROLL_GALLERY_STATE.paused=true;
+      e.preventDefault();
+    });
+    window.addEventListener('mousemove',function(e){
+      if(!dragging) return;
+      row.el.scrollLeft=startScroll-(e.pageX-startX);
+    });
+    window.addEventListener('mouseup',function(){
+      if(!dragging) return;
+      dragging=false;
+      row.el.classList.remove('is-dragging');
+      setTimeout(function(){SCROLL_GALLERY_STATE.paused=false;},350);
+    });
+    row.el.addEventListener('touchstart',function(){SCROLL_GALLERY_STATE.paused=true;},{passive:true});
+    row.el.addEventListener('touchend',function(){setTimeout(function(){SCROLL_GALLERY_STATE.paused=false;},500);},{passive:true});
+    row.el.addEventListener('touchcancel',function(){setTimeout(function(){SCROLL_GALLERY_STATE.paused=false;},500);},{passive:true});
+    row.el.dataset.sgDragBound='1';
+  }
+  function makeRow(track,index){
+    cleanupTrack(track);
+    var originals=Array.prototype.slice.call(track.children);
+    if(!originals.length) return null;
+    originals.forEach(function(node){
+      var clone=node.cloneNode(true);
+      clone.setAttribute('data-sg-clone','1');
+      clone.setAttribute('aria-hidden','true');
+      track.appendChild(clone);
+    });
+    var rowEl=track.closest('.sg-row')||track.parentElement;
+    var row={el:rowEl,track:track,dir:index%2===0?1:-1,speed:window.innerWidth<=768?22:32,loopWidth:0};
+    row.measure=function(){
+      var children=track.children;
+      row.loopWidth=children.length>originals.length ? children[originals.length].offsetLeft-children[0].offsetLeft : 0;
+      if(row.dir<0&&row.loopWidth&&row.el.scrollLeft<4) row.el.scrollLeft=row.loopWidth;
+    };
+    row.tick=function(dt){
+      if(!row.loopWidth) return;
+      row.el.scrollLeft+=row.dir*row.speed*(dt/1000);
+      if(row.dir>0&&row.el.scrollLeft>=row.loopWidth) row.el.scrollLeft-=row.loopWidth;
+      if(row.dir<0&&row.el.scrollLeft<=0) row.el.scrollLeft+=row.loopWidth;
+    };
+    bindMouseDrag(row);
+    setTimeout(row.measure,50);
+    setTimeout(row.measure,350);
+    return row;
+  }
 
-  var SPEED=0.45; /* px moved per px scrolled */
-  var ticking=false;
+  SCROLL_GALLERY_STATE.rows=tracks.map(makeRow).filter(Boolean);
+  if(!window.__scrollGalleryResizeBound){
+    window.addEventListener('resize',debounce(function(){
+      SCROLL_GALLERY_STATE.rows.forEach(function(row){
+        row.speed=window.innerWidth<=768?22:32;
+        row.measure();
+      });
+    },150));
+    window.__scrollGalleryResizeBound=true;
+  }
 
-  function update(){
-    var y=window.scrollY;
-    if(setW1>0){
-      var off1 = -mod(y*SPEED, setW1);
-      track1.style.transform='translateX('+off1+'px)';
+  function tick(ts){
+    var dt=SCROLL_GALLERY_STATE.lastTs?ts-SCROLL_GALLERY_STATE.lastTs:16;
+    SCROLL_GALLERY_STATE.lastTs=ts;
+    if(!SCROLL_GALLERY_STATE.paused&&!window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+      SCROLL_GALLERY_STATE.rows.forEach(function(row){row.tick(dt);});
     }
-    if(setW2>0){
-      var off2 = -setW2 + mod(y*SPEED, setW2);
-      track2.style.transform='translateX('+off2+'px)';
-    }
-    ticking=false;
+    SCROLL_GALLERY_STATE.raf=requestAnimationFrame(tick);
   }
-
-  function onScroll(){
-    if(!ticking){ requestAnimationFrame(update); ticking=true; }
-  }
-
-  window.addEventListener('load',function(){ measure(); update(); });
-  window.addEventListener('resize',function(){ measure(); update(); });
-  window.addEventListener('scroll', onScroll, {passive:true});
-
-  /* run once immediately in case images are cached / load event already fired */
-  setTimeout(function(){ measure(); update(); }, 300);
+  SCROLL_GALLERY_STATE.raf=requestAnimationFrame(tick);
 }
-
 /* TRIP HIGHLIGHTS — day tab switching */
 var DAYS=[
   {
@@ -1820,17 +2009,13 @@ function buildTripFaqItem(f, idx) {
 /* CHOOSE YOUR TRAVEL TRIBE — homepage card shape, original tribe content */
 function openWA(msg) { window.open('https://wa.me/919792496457?text=' + encodeURIComponent(msg), '_blank'); }
 
-/* BOOKING FORM POPUP — appears once after the page has been open a while.
-   Won't reappear if the person already saw it this session (sessionStorage). */
+/* BOOKING FORM POPUP — appears after the page has been open a while. */
 (function(){
-  var POPUP_DELAY = 55 * 1000; // 55 seconds
-  if (sessionStorage.getItem('bookingPopupShownTP')) return;
+  var POPUP_DELAY = 60 * 1000; // 60 seconds
   setTimeout(function(){
-    if (sessionStorage.getItem('bookingPopupShownTP')) return; // could've been shown via another tab in the meantime
     var overlay = document.getElementById('bookingPopupOverlay');
     if (!overlay) return;
     overlay.classList.add('show');
-    sessionStorage.setItem('bookingPopupShownTP', '1');
   }, POPUP_DELAY);
 })();
 function closeBookingPopup(){
@@ -1848,7 +2033,8 @@ function submitBookingPopup(e){
   var date = document.getElementById('bpDate').value.trim();
   var travellers = document.getElementById('bpTravellers').value.trim();
   var msg = document.getElementById('bpMsg').value.trim();
-  var waMsg = 'Hi EUREKA Trips! I want to book this trip.\nName: ' + name + '\nEmail: ' + email + '\nPhone: ' + phone +
+  var waMsg = 'Hi EUREKA Trips! I want to book this trip.\nName: ' + name +
+    (email ? '\nEmail: ' + email : '') + '\nPhone: ' + phone +
     (date ? '\nTravel Date: ' + date : '') + (travellers ? '\nTravellers: ' + travellers : '') + (msg ? '\nMessage: ' + msg : '');
   openWA(waMsg);
   closeBookingPopup();
@@ -1876,57 +2062,125 @@ function tribeRender(){
   var track=document.getElementById('tribeTrack');
   if(!track) return;
   track.innerHTML = TRIBE_TRIPS.map(buildCustomTourCardHTML).join('');
+  setTripPageCustomTourCardWidths(track);
 }
+function tripPageCustomTourVisibleCount() {
+  var w = window.innerWidth;
+  if (w < 600) return 1;
+  if (w < 900) return 2;
+  return 3;
+}
+function setTripPageCustomTourCardWidths(track) {
+  if (!track) return;
+  var cards = track.querySelectorAll('.ctc-card');
+  if (!cards.length) return;
+  var visible = tripPageCustomTourVisibleCount();
+  var gap = window.innerWidth < 600 ? 14 : 20;
+  var scale = window.innerWidth < 600 ? 0.86 : 0.86;
+  var cardW = Math.floor((track.clientWidth - gap * (visible - 1)) / visible * scale);
+  if (cardW <= 0) {
+    setTimeout(function(){ setTripPageCustomTourCardWidths(track); }, 150);
+    return;
+  }
+  cards.forEach(function(card) {
+    card.style.width = cardW + 'px';
+    card.style.minWidth = cardW + 'px';
+  });
+}
+window.addEventListener('resize', function() {
+  clearTimeout(window.__tripPageCustomTourCardsResizeTimer);
+  window.__tripPageCustomTourCardsResizeTimer = setTimeout(function(){
+    setTripPageCustomTourCardWidths(document.getElementById('tribeTrack'));
+  }, 150);
+}, { passive: true });
 function tribeNav(dir){
   var track=document.getElementById('tribeTrack');
   if(!track) return;
   var card=track.querySelector('.ctc-card');
   if(!card) return;
-  var step=card.getBoundingClientRect().width + 24;
+  var step=card.getBoundingClientRect().width + (window.innerWidth < 600 ? 14 : 20);
   track.scrollBy({left:dir*step*2, behavior:'smooth'});
 }
 /* tribeRender() called after Supabase data is applied — see bottom of script */
 
-/* AUTO-SLIDING PHOTO STRIP — moves one image to the left every 1s, seamless loop */
+var TRIP_SLIDER_STATE={timer:0,paused:false,loopWidth:0};
+function tripSliderStep(){
+  var track=document.getElementById('tripSliderTrack');
+  if(!track) return 254;
+  var first=track.children[0];
+  var second=track.children[1];
+  return first&&second ? Math.abs(second.offsetLeft-first.offsetLeft) : (first ? first.getBoundingClientRect().width+14 : 254);
+}
+function normalizeTripSlider(){
+  var track=document.getElementById('tripSliderTrack');
+  if(!track||!TRIP_SLIDER_STATE.loopWidth) return;
+  if(track.scrollLeft>=TRIP_SLIDER_STATE.loopWidth) track.scrollLeft-=TRIP_SLIDER_STATE.loopWidth;
+  if(track.scrollLeft<0) track.scrollLeft+=TRIP_SLIDER_STATE.loopWidth;
+}
+/* AUTO-SLIDING PHOTO STRIP — native scroll so mouse drag and mobile swipe work */
 function initTripSlider(){
   var track=document.getElementById('tripSliderTrack');
   var outer=document.getElementById('tripSlider');
   if(!track||!outer) return;
 
-  /* duplicate the images once for a seamless infinite loop */
-  track.innerHTML += track.innerHTML;
+  clearInterval(TRIP_SLIDER_STATE.timer);
+  Array.prototype.slice.call(track.querySelectorAll('[data-trip-clone="1"]')).forEach(function(node){node.remove();});
+  track.style.transform='';
+  var originals=Array.prototype.slice.call(track.children);
+  if(!originals.length) return;
+  originals.forEach(function(node){
+    node.setAttribute('draggable','false');
+    var clone=node.cloneNode(true);
+    clone.setAttribute('data-trip-clone','1');
+    clone.setAttribute('aria-hidden','true');
+    clone.setAttribute('draggable','false');
+    track.appendChild(clone);
+  });
 
-  var paused=false;
-  outer.addEventListener('mouseenter',function(){paused=true});
-  outer.addEventListener('mouseleave',function(){paused=false});
-  outer.addEventListener('touchstart',function(){paused=true},{passive:true});
-  outer.addEventListener('touchend',function(){paused=false});
-
-  var pos=0;
-  function step(){
-    if(!paused){
-      var imgs=track.children;
-      var firstImg=imgs[0];
-      var w = imgs.length > 1
-        ? (imgs[1].getBoundingClientRect().left - firstImg.getBoundingClientRect().left)
-        : firstImg.getBoundingClientRect().width; /* includes gap so the loop stays seamless */
-      pos -= w;
-      track.style.transition='transform .6s ease';
-      track.style.transform='translateX('+pos+'px)';
-
-      /* once we've scrolled past the first (original) image, reset seamlessly */
-      var halfCount = imgs.length/2;
-      var scrolledCount = Math.round(Math.abs(pos)/w);
-      if(scrolledCount >= halfCount){
-        setTimeout(function(){
-          track.style.transition='none';
-          pos=0;
-          track.style.transform='translateX(0)';
-        },620);
-      }
-    }
+  function measure(){
+    var children=track.children;
+    TRIP_SLIDER_STATE.loopWidth=children.length>originals.length ? children[originals.length].offsetLeft-children[0].offsetLeft : 0;
   }
-  setInterval(step,1000);
+  setTimeout(measure,50);
+  setTimeout(measure,350);
+  window.addEventListener('resize',debounce(measure,150));
+
+  outer.addEventListener('mouseenter',function(){TRIP_SLIDER_STATE.paused=true});
+  outer.addEventListener('mouseleave',function(){TRIP_SLIDER_STATE.paused=false});
+  track.addEventListener('touchstart',function(){TRIP_SLIDER_STATE.paused=true},{passive:true});
+  track.addEventListener('touchend',function(){setTimeout(function(){TRIP_SLIDER_STATE.paused=false;},450)},{passive:true});
+  track.addEventListener('touchcancel',function(){setTimeout(function(){TRIP_SLIDER_STATE.paused=false;},450)},{passive:true});
+
+  if(!track.dataset.tripDragBound){
+    var dragging=false,startX=0,startScroll=0;
+    track.addEventListener('mousedown',function(e){
+      if(e.button!==0) return;
+      dragging=true;
+      startX=e.pageX;
+      startScroll=track.scrollLeft;
+      track.classList.add('is-dragging');
+      TRIP_SLIDER_STATE.paused=true;
+      e.preventDefault();
+    });
+    window.addEventListener('mousemove',function(e){
+      if(!dragging) return;
+      track.scrollLeft=startScroll-(e.pageX-startX);
+    });
+    window.addEventListener('mouseup',function(){
+      if(!dragging) return;
+      dragging=false;
+      track.classList.remove('is-dragging');
+      normalizeTripSlider();
+      setTimeout(function(){TRIP_SLIDER_STATE.paused=false;},350);
+    });
+    track.dataset.tripDragBound='1';
+  }
+
+  TRIP_SLIDER_STATE.timer=setInterval(function(){
+    if(TRIP_SLIDER_STATE.paused) return;
+    track.scrollBy({left:tripSliderStep(),behavior:'smooth'});
+    setTimeout(normalizeTripSlider,650);
+  },1800);
 }
 
 /* ═════════════════════════════════════════════════════════════
@@ -1940,6 +2194,7 @@ async function loadTripFromSupabase() {
   var siteSettingsRows = await sbGet('settings', '');
   CURRENT_SETTINGS = {};
   siteSettingsRows.forEach(function(r) { CURRENT_SETTINGS[r.key] = r.value; });
+  applyCustomTourCardTypography(CURRENT_SETTINGS);
   
   await loadTypographyStylesFrontend();
   applyPaymentLogos();
@@ -2021,8 +2276,11 @@ async function loadTripFromSupabase() {
       if (exclEl) { exclEl.innerHTML = '<ul>' + trip.exclusions.map(function(x){ return '<li><span class="li-ic">' + tpExclIconHtml + '</span>' + esc(x) + '</li>'; }).join('') + '</ul>'; applyElementTypography(exclEl); }
     }
     setText('accomTextEl', trip.accommodation_text);
+    var accomTextNode = document.getElementById('accomTextEl');
+    if (accomTextNode) accomTextNode.style.display = accomTextNode.textContent.trim() ? '' : 'none';
     setText('tpConfidenceH', CURRENT_SETTINGS.tp_confidence_heading);
     setText('tpConfidenceText', CURRENT_SETTINGS.tp_confidence_text);
+    setText('tpStripConfidenceH', CURRENT_SETTINGS.confidence_heading);
     setText('tpFaqH', CURRENT_SETTINGS.tp_faq_heading);
     setText('tpFaqIntro', CURRENT_SETTINGS.tp_faq_intro);
     if (trip.accommodation_list && trip.accommodation_list.length) {
@@ -2039,11 +2297,11 @@ async function loadTripFromSupabase() {
     /* ── REEL ROLL ── */
     if (trip.reelroll_row1 && trip.reelroll_row1.length) {
       var sg1 = document.getElementById('sgTrack1');
-      if (sg1) sg1.innerHTML = trip.reelroll_row1.map(function(u,i){ return '<img src="'+esc(u)+'" alt="Trip memory" loading="lazy" decoding="async">'; }).join('');
+      if (sg1) sg1.innerHTML = trip.reelroll_row1.map(function(u,i){ return '<img src="'+esc(u)+'" alt="Trip memory" loading="lazy" decoding="async" draggable="false">'; }).join('');
     }
     if (trip.reelroll_row2 && trip.reelroll_row2.length) {
       var sg2 = document.getElementById('sgTrack2');
-      if (sg2) sg2.innerHTML = trip.reelroll_row2.map(function(u,i){ return '<img src="'+esc(u)+'" alt="Trip memory" loading="lazy" decoding="async">'; }).join('');
+      if (sg2) sg2.innerHTML = trip.reelroll_row2.map(function(u,i){ return '<img src="'+esc(u)+'" alt="Trip memory" loading="lazy" decoding="async" draggable="false">'; }).join('');
     }
 
     /* ── TRIP HIGHLIGHTS (itinerary) ── */
