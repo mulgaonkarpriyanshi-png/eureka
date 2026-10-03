@@ -3109,84 +3109,27 @@ async function applyTrustBadges() {
 }
 
 var AD_BANNER_ROWS = [];
-var HOME_FEATURED_AD_BANNERS = [
-  {
-    image_url: 'assets/images/ad-banners/egypt-nile-banner.jpg',
-    image_url_mobile: 'assets/images/ad-banners/egypt-nile-banner.jpg',
-    image_position: 'center',
-    title: '',
-    subtitle: '',
-    link: 'egypt-and-the-nile.html'
-  },
-  {
-    image_url: 'assets/images/ad-banners/philippines-hop-chill-banner.jpg',
-    image_url_mobile: 'assets/images/ad-banners/philippines-hop-chill-banner.jpg',
-    image_position: 'center',
-    title: '',
-    subtitle: '',
-    link: 'philippines-hop-and-chill.html'
-  },
-  {
-    image_url: 'assets/images/ad-banners/thailand-full-moon-banner.jpg',
-    image_url_mobile: 'assets/images/ad-banners/thailand-full-moon-banner.jpg',
-    image_position: 'center',
-    title: '',
-    subtitle: '',
-    link: 'sailing-thailand-and-fullmoon-party.html'
-  }
-];
-var HOME_MOBILE_AD_BANNERS = [
-  {
-    image_url: 'assets/images/ad-banners/mobile/01-philippines-hop-chill.jpg',
-    image_position: 'center',
-    title: '',
-    subtitle: '',
-    alt: 'Philippines Hop & Chill mobile banner',
-    link: 'philippines-hop-and-chill.html'
-  },
-  {
-    image_url: 'assets/images/ad-banners/mobile/02-thailand-full-moon.jpg',
-    image_position: 'center',
-    title: '',
-    subtitle: '',
-    alt: 'Thailand Full Moon Nights mobile banner',
-    link: 'sailing-thailand-and-fullmoon-party.html'
-  },
-  {
-    image_url: 'assets/images/ad-banners/mobile/03-sri-lanka-uncovered.jpg',
-    image_position: 'center',
-    title: '',
-    subtitle: '',
-    alt: 'Sri Lanka Uncovered mobile banner',
-    link: 'sri-lanka-uncovered.html'
-  },
-  {
-    image_url: 'assets/images/ad-banners/mobile/04-egypt-and-the-nile.jpg',
-    image_position: 'center',
-    title: '',
-    subtitle: '',
-    alt: 'Egypt and the Nile mobile banner',
-    link: 'egypt-and-the-nile.html'
-  },
-  {
-    image_url: 'assets/images/ad-banners/mobile/05-japan.jpg',
-    image_position: 'center',
-    title: '',
-    subtitle: '',
-    alt: 'Japan mobile banner',
-    link: 'destinations.html'
-  }
+var HOME_PROMO_AD_BANNERS = [
+  { image_url: 'assets/images/ad-banners/promo-sequence/01.jpg', image_url_mobile: 'assets/images/ad-banners/promo-sequence-mobile/01.jpg', image_position: 'center', title: '', subtitle: '', alt: 'Philippines Hop and Chill banner', link: 'philippines-hop-and-chill.html' },
+  { image_url: 'assets/images/ad-banners/promo-sequence/02.jpg', image_url_mobile: 'assets/images/ad-banners/promo-sequence-mobile/02.jpg', image_position: 'center', title: '', subtitle: '', alt: 'Egypt and the Nile banner', link: 'egypt-and-the-nile.html' },
+  { image_url: 'assets/images/ad-banners/promo-sequence/03.jpg', image_url_mobile: 'assets/images/ad-banners/promo-sequence-mobile/03.jpg', image_position: 'center', title: '', subtitle: '', alt: 'Eureka group trips banner', link: 'group-trip.html' },
+  { image_url: 'assets/images/ad-banners/promo-sequence/04.jpg', image_url_mobile: 'assets/images/ad-banners/promo-sequence-mobile/04.jpg', image_position: 'center', title: '', subtitle: '', alt: 'Thailand full moon nights banner', link: 'sailing-thailand-and-fullmoon-party.html' },
+  { image_url: 'assets/images/ad-banners/promo-sequence/05.jpg', image_url_mobile: 'assets/images/ad-banners/promo-sequence-mobile/05.jpg', image_position: 'center', title: '', subtitle: '', alt: 'Sri Lanka banner', link: 'sri-lanka-uncovered.html' },
+  { image_url: 'assets/images/ad-banners/promo-sequence/06.jpg', image_url_mobile: 'assets/images/ad-banners/promo-sequence-mobile/06.jpg', image_position: 'center', title: '', subtitle: '', alt: 'Japan banner', link: 'destinations.html' },
+  { image_url: 'assets/images/ad-banners/promo-sequence/07.jpg', image_url_mobile: 'assets/images/ad-banners/promo-sequence-mobile/07.jpg', image_position: 'center', title: '', subtitle: '', alt: 'Indonesia banner', link: 'custom-trips.html' },
+  { image_url: 'assets/images/ad-banners/promo-sequence/08.jpg', image_url_mobile: 'assets/images/ad-banners/promo-sequence-mobile/08.jpg', image_position: 'center', title: '', subtitle: '', alt: 'Seychelles banner', link: 'custom-trips.html' },
+  { image_url: 'assets/images/ad-banners/promo-sequence/09.jpg', image_url_mobile: 'assets/images/ad-banners/promo-sequence-mobile/09.jpg', image_position: 'center', title: '', subtitle: '', alt: 'Spain banner', link: 'custom-trips.html' },
+  { image_url: 'assets/images/ad-banners/promo-sequence/10.jpg', image_url_mobile: 'assets/images/ad-banners/promo-sequence-mobile/10.jpg', image_position: 'center', title: '', subtitle: '', alt: 'Eureka Select banner', link: 'custom-trips.html' },
+  { image_url: 'assets/images/ad-banners/promo-sequence/11.jpg', image_url_mobile: 'assets/images/ad-banners/promo-sequence-mobile/11.jpg', image_position: 'center', title: '', subtitle: '', alt: 'Maldives banner', link: 'custom-trips.html' },
+  { image_url: 'assets/images/ad-banners/promo-sequence/12.jpg', image_url_mobile: 'assets/images/ad-banners/promo-sequence-mobile/12.jpg', image_position: 'center', title: '', subtitle: '', alt: 'Italy banner', link: 'custom-trips.html' }
 ];
 async function applyAdBanners() {
-  var rows = await sbGet('ad_banners', 'active=eq.true&order=sort_order.asc');
-  rows = rows.filter(function(r) { return r.image_url; });
-  rows = HOME_FEATURED_AD_BANNERS.concat(rows.slice(1));
-  AD_BANNER_ROWS = rows;
+  AD_BANNER_ROWS = HOME_PROMO_AD_BANNERS.slice();
   renderAdBanners();
 }
 function renderAdBanners() {
   var mobile = isMobileViewport();
-  var rows = mobile ? HOME_MOBILE_AD_BANNERS : AD_BANNER_ROWS;
+  var rows = AD_BANNER_ROWS;
   if (!rows.length) return;
   var track = document.getElementById('promoBannerTrack');
   if (!track) return;

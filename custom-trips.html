@@ -1503,6 +1503,21 @@ function tribeNav(dir){
 }
 /* tribeRender() called after Supabase data is applied — see bottom of script */
 
+var PROMO_AD_BANNERS = [
+  { image_url: 'assets/images/ad-banners/promo-sequence/01.jpg', image_url_mobile: 'assets/images/ad-banners/promo-sequence-mobile/01.jpg', title: '', subtitle: '', alt: 'Philippines Hop and Chill banner', link: 'philippines-hop-and-chill.html' },
+  { image_url: 'assets/images/ad-banners/promo-sequence/02.jpg', image_url_mobile: 'assets/images/ad-banners/promo-sequence-mobile/02.jpg', title: '', subtitle: '', alt: 'Egypt and the Nile banner', link: 'egypt-and-the-nile.html' },
+  { image_url: 'assets/images/ad-banners/promo-sequence/03.jpg', image_url_mobile: 'assets/images/ad-banners/promo-sequence-mobile/03.jpg', title: '', subtitle: '', alt: 'Eureka group trips banner', link: 'group-trip.html' },
+  { image_url: 'assets/images/ad-banners/promo-sequence/04.jpg', image_url_mobile: 'assets/images/ad-banners/promo-sequence-mobile/04.jpg', title: '', subtitle: '', alt: 'Thailand full moon nights banner', link: 'sailing-thailand-and-fullmoon-party.html' },
+  { image_url: 'assets/images/ad-banners/promo-sequence/05.jpg', image_url_mobile: 'assets/images/ad-banners/promo-sequence-mobile/05.jpg', title: '', subtitle: '', alt: 'Sri Lanka banner', link: 'sri-lanka-uncovered.html' },
+  { image_url: 'assets/images/ad-banners/promo-sequence/06.jpg', image_url_mobile: 'assets/images/ad-banners/promo-sequence-mobile/06.jpg', title: '', subtitle: '', alt: 'Japan banner', link: 'destinations.html' },
+  { image_url: 'assets/images/ad-banners/promo-sequence/07.jpg', image_url_mobile: 'assets/images/ad-banners/promo-sequence-mobile/07.jpg', title: '', subtitle: '', alt: 'Indonesia banner', link: 'custom-trips.html' },
+  { image_url: 'assets/images/ad-banners/promo-sequence/08.jpg', image_url_mobile: 'assets/images/ad-banners/promo-sequence-mobile/08.jpg', title: '', subtitle: '', alt: 'Seychelles banner', link: 'custom-trips.html' },
+  { image_url: 'assets/images/ad-banners/promo-sequence/09.jpg', image_url_mobile: 'assets/images/ad-banners/promo-sequence-mobile/09.jpg', title: '', subtitle: '', alt: 'Spain banner', link: 'custom-trips.html' },
+  { image_url: 'assets/images/ad-banners/promo-sequence/10.jpg', image_url_mobile: 'assets/images/ad-banners/promo-sequence-mobile/10.jpg', title: '', subtitle: '', alt: 'Eureka Select banner', link: 'custom-trips.html' },
+  { image_url: 'assets/images/ad-banners/promo-sequence/11.jpg', image_url_mobile: 'assets/images/ad-banners/promo-sequence-mobile/11.jpg', title: '', subtitle: '', alt: 'Maldives banner', link: 'custom-trips.html' },
+  { image_url: 'assets/images/ad-banners/promo-sequence/12.jpg', image_url_mobile: 'assets/images/ad-banners/promo-sequence-mobile/12.jpg', title: '', subtitle: '', alt: 'Italy banner', link: 'custom-trips.html' }
+];
+
 /* MORE TRIPS (second row, below promo banner) — shares buildCustomTourCardHTML
    above with "Choose Your Travel Tribe" and the home page's "Our featured
    tours", so all three render an identical card from one place. */
@@ -1836,25 +1851,23 @@ async function applyBuildAdventureContent() {
     MORE_TRIPS = moreTripsRows;
   }
 
-  /* ── PROMO BANNER CAROUSEL — same source as homepage (ad_banners) ── */
-  var adRows = await sbGet('ad_banners', 'active=eq.true&order=sort_order.asc');
-  var adRowsFiltered = adRows.filter(function(r) { return r.image_url; });
-  if (adRowsFiltered.length) {
-    var promoTrack = document.getElementById('promoBannerTrack');
-    if (promoTrack) {
-      promoTrack.innerHTML = adRowsFiltered.map(function(r) {
-        var hasText = r.title || r.subtitle;
-        return '<a href="' + esc(r.link || '#') + '" class="promo-banner-slide" target="_blank" rel="noopener">' +
-          '<img src="' + esc(r.image_url || '') + '" alt="' + esc(r.title || 'Featured trip banner') + '" loading="lazy" decoding="async">' +
-          (hasText ? '<div class="promo-banner-ov"></div>' : '') +
-          '<div class="promo-banner-txt">' +
-            '<div class="promo-banner-ttl">' + stripOuterParagraph(r.title || '') + '</div>' +
-            '<div class="promo-banner-sub">' + stripOuterParagraph(r.subtitle || '') + '</div>' +
-          '</div>' +
-        '</a>';
-      }).join('');
-      initPromoBannerCarousel();
-    }
+  /* ── PROMO BANNER CAROUSEL — fixed local sequence, with mobile-specific banners on phones ── */
+  var promoTrack = document.getElementById('promoBannerTrack');
+  if (promoTrack) {
+    var useMobileBanners = isMobileViewport();
+    promoTrack.innerHTML = PROMO_AD_BANNERS.map(function(r) {
+      var hasText = r.title || r.subtitle;
+      var imgSrc = (useMobileBanners && r.image_url_mobile) ? r.image_url_mobile : r.image_url;
+      return '<a href="' + esc(r.link || '#') + '" class="promo-banner-slide" target="_blank" rel="noopener">' +
+        '<img src="' + esc(imgSrc || '') + '" alt="' + esc(r.alt || r.title || 'Featured trip banner') + '" loading="lazy" decoding="async">' +
+        (hasText ? '<div class="promo-banner-ov"></div>' : '') +
+        '<div class="promo-banner-txt">' +
+          '<div class="promo-banner-ttl">' + stripOuterParagraph(r.title || '') + '</div>' +
+          '<div class="promo-banner-sub">' + stripOuterParagraph(r.subtitle || '') + '</div>' +
+        '</div>' +
+      '</a>';
+    }).join('');
+    initPromoBannerCarousel();
   }
 
   /* ── Finalize: render carousels exactly once, after all content is set ── */
