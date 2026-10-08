@@ -2351,7 +2351,7 @@ async function loadTripFromSupabase() {
   }
 
   /* ── CHOOSE YOUR TRAVEL TRIBE — now uses the same source as homepage "Build your own adventure" ── */
-  setText('tpTribeH', CURRENT_SETTINGS.tp_tribe_heading);
+  setText('tpTribeH', CURRENT_SETTINGS.tp_tribe_heading || 'Explore more trips');
   var tribeRows = await sbGet('custom_tour_cards', 'active=eq.true&order=sort_order.asc');
   if (tribeRows.length) {
     TRIBE_TRIPS = tribeRows;

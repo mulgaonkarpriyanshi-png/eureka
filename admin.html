@@ -988,7 +988,7 @@ function renderTripEditorPage(r, itin, revs) {
   document.getElementById('topbarTitle').textContent = r ? ('Editing: ' + r.name) : 'Add Trip';
   document.getElementById('topbarAddBtn').style.display = 'none';
 
-  var heroHtml = pageHint('This is the hero banner at the top of the trip page — the background image, trip title, and route breadcrumb.') + '<div class="form-grid">' +
+  var heroHtml = pageHint('This is the hero banner at the top of the private trip page — the background image, trip title, and route breadcrumb. Typography rows marked "Global across all private trips" update the shared trip-page.html styling for every private trip, no matter which trip you opened here.') + '<div class="form-grid">' +
     fg('Trip ID (unique slug, no spaces)', 'text', 'tp_id', r ? r.id : '', '', 'e.g. bali-gili-experience',
       r ? 'readonly' : 'onblur="markSlugManual(\'tp_id\')"',
       r ? 'Locked — the ID can\'t be changed after a trip is created.' : 'Auto-filled from the Trip Name as you type. Edit it here if you want something different.') +
@@ -4581,6 +4581,7 @@ function renderTypographyOnlyField(group, f, s) {
   var dName = tsStyleName('desktop', s[f.key + '_style_desktop']);
   var mName = tsStyleName('mobile', s[f.key + '_style_mobile']);
   var globalBadge = group === 'grouptriptext' && /^gt_/.test(f.key) ? '<span class="ts-global-badge">Global across all group trips</span> ' : '';
+  if (group === 'triptypography' && /^tp_/.test(f.key)) globalBadge = '<span class="ts-global-badge">Global across all private trips</span> ';
   return '<div class="fg full"><label>' + esc(f.label) + '</label>' +
     (f.hint ? '<div class="hint">' + esc(f.hint) + '</div>' : '') +
     '<div class="ts-status">' + globalBadge + '🔤 Desktop: <strong>' + esc(dName) + '</strong>' + tsWarnIfEmpty('desktop', s[f.key+'_style_desktop']) + ' &nbsp;·&nbsp; Mobile: <strong>' + esc(mName) + '</strong>' + tsWarnIfEmpty('mobile', s[f.key+'_style_mobile']) + ' ' +
@@ -4774,7 +4775,7 @@ async function addNewTrip() {
 function tpTsStatus(key) {
   var dName = tsStyleName('desktop', TP_SETTINGS_MAP[key + '_style_desktop']);
   var mName = tsStyleName('mobile', TP_SETTINGS_MAP[key + '_style_mobile']);
-  return '<div class="ts-status">🔤 Desktop: <strong>' + esc(dName) + '</strong>' + tsWarnIfEmpty('desktop', TP_SETTINGS_MAP[key+'_style_desktop']) + ' &nbsp;·&nbsp; Mobile: <strong>' + esc(mName) + '</strong>' + tsWarnIfEmpty('mobile', TP_SETTINGS_MAP[key+'_style_mobile']) +
+  return '<div class="ts-status"><span class="ts-global-badge">Global across all private trips</span> 🔤 Desktop: <strong>' + esc(dName) + '</strong>' + tsWarnIfEmpty('desktop', TP_SETTINGS_MAP[key+'_style_desktop']) + ' &nbsp;·&nbsp; Mobile: <strong>' + esc(mName) + '</strong>' + tsWarnIfEmpty('mobile', TP_SETTINGS_MAP[key+'_style_mobile']) +
     ' <button type="button" class="btn-sm btn-edit" onclick="applyActiveStyleToFieldTP(\''+key+'\',\'desktop\')">Apply Desktop pen</button>' +
     ' <button type="button" class="btn-sm btn-edit" onclick="applyActiveStyleToFieldTP(\''+key+'\',\'mobile\')">Apply Mobile pen</button>' +
     ((TP_SETTINGS_MAP[key+'_style_desktop'] || TP_SETTINGS_MAP[key+'_style_mobile']) ? ' <button type="button" class="btn-sm btn-del" onclick="clearFieldTypographyTP(\''+key+'\')">Clear style</button>' : '') +
