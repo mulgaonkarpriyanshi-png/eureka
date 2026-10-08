@@ -141,7 +141,7 @@ img{display:block;max-width:100%}
 ───────────────────────────────────────── */
 .ct-hero{height:90vh;min-height:640px;max-height:960px;position:relative;display:flex;align-items:center;overflow:hidden;background:var(--dark)}
 @media(max-width:768px){
-  .ct-hero{height:63vh;min-height:448px;max-height:672px}
+  .ct-hero{height:auto;min-height:620px;max-height:none;align-items:center}
 }
 .ct-hero-img{position:absolute;inset:0;z-index:0}
 .ct-hero-img img{width:100%;height:100%;object-fit:cover;display:block;animation:kz 16s ease-in-out infinite alternate}
@@ -213,9 +213,9 @@ img{display:block;max-width:100%}
   .tsta-grid{grid-template-columns:1fr 1fr}
 }
 @media(max-width:560px){
-  .ct-hero-content{padding:2.5rem 1.5rem 0;text-align:left;transform:translateY(18px)}
+  .ct-hero-content{padding:7rem 1.5rem 4.25rem;text-align:left;transform:none}
   .ct-hero-h1,.ct-hero-sub{text-align:left!important}
-  .ct-hero-ctas{justify-content:flex-start}
+  .ct-hero-ctas{justify-content:flex-start;gap:16px}
 
   .tsta-grid{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;scrollbar-width:none;padding:4px;margin:-4px}
   .tsta-grid::-webkit-scrollbar{display:none}
@@ -730,8 +730,10 @@ img{display:block;max-width:100%}
 ───────────────────────────────────────── */
 @media(max-width:768px){
   /* 4. Hero */
-  .ct-hero-h1{font-size:32px;line-height:36px}
-  .ct-hero-sub{font-size:16px;line-height:22.4px}
+  .ct-hero-h1{font-size:31px;line-height:31px!important;margin-bottom:14px!important;max-width:340px}
+  .ct-hero-h1 *{line-height:inherit!important}
+  .ct-hero-h1 p,.ct-hero-h1 div,.ct-hero-h1 span{margin:0!important;padding:0!important}
+  .ct-hero-sub{font-size:16px;line-height:22.4px;margin-bottom:1.8rem;max-width:340px}
   .ct-btn-white,.ct-btn-teal{font-size:16px;line-height:16px}
 
   /* 5. This Summer, Think Asia */
@@ -1125,8 +1127,8 @@ img{display:block;max-width:100%}
         <input class="pf-field" id="bpPhone" type="tel" placeholder="Contact*" required>
         <input class="pf-field" id="bpDates" type="text" placeholder="Date" aria-label="Date" title="Date" onfocus="this.type='date'; if(this.showPicker)this.showPicker()" onblur="if(!this.value)this.type='text'">
       </div>
-      <input class="pf-field" id="bpDest" type="text" placeholder="Where would you like to go">
-      <textarea class="pf-field" id="bpMsg" placeholder="Message"></textarea>
+      <input class="pf-field" id="bpDest" type="hidden" aria-hidden="true">
+      <textarea class="pf-field" id="bpMsg" placeholder="Message" style="display:none"></textarea>
       <div class="pf-actions">
         <button type="submit" class="pf-submit">Send Message</button>
         <a href="tel:+919792496457" class="pf-call">Call Us</a>
@@ -1416,18 +1418,24 @@ function openWA(msg) { window.open('https://wa.me/919792496457?text=' + encodeUR
 /* BOOKING FORM POPUP — appears once after the page has been open a while.
    Won't reappear if the person already saw it or submitted it this session
    (sessionStorage), so it doesn't nag someone who's kept the tab open. */
+var BOOKING_POPUP_SESSION_KEY = 'bookingPopupShownCustomTripsV2';
+var bookingPopupTripTitle = '';
 (function(){
   var POPUP_DELAY = 55 * 1000; // 55 seconds
-  var POPUP_SESSION_KEY = 'bookingPopupShownCustomTripsV2';
-  if (sessionStorage.getItem(POPUP_SESSION_KEY)) return;
+  if (sessionStorage.getItem(BOOKING_POPUP_SESSION_KEY)) return;
   setTimeout(function(){
-    if (sessionStorage.getItem(POPUP_SESSION_KEY)) return; // could've been shown via another tab in the meantime
-    var overlay = document.getElementById('bookingPopupOverlay');
-    if (!overlay) return;
-    overlay.classList.add('show');
-    sessionStorage.setItem(POPUP_SESSION_KEY, '1');
+    if (sessionStorage.getItem(BOOKING_POPUP_SESSION_KEY)) return; // could've been shown via another tab in the meantime
+    openBookingPopup();
   }, POPUP_DELAY);
 })();
+function openBookingPopup(context){
+  var overlay = document.getElementById('bookingPopupOverlay');
+  if (!overlay) return;
+  var tripTitle = context && context.tripTitle ? String(context.tripTitle).trim() : '';
+  bookingPopupTripTitle = tripTitle;
+  overlay.classList.add('show');
+  sessionStorage.setItem(BOOKING_POPUP_SESSION_KEY, '1');
+}
 function closeBookingPopup(){
   var overlay = document.getElementById('bookingPopupOverlay');
   if (overlay) overlay.classList.remove('show');
@@ -1441,7 +1449,7 @@ function submitBookingPopup(e){
   var email = document.getElementById('bpEmail').value.trim();
   var phone = document.getElementById('bpPhone').value.trim();
   var dates = document.getElementById('bpDates').value.trim();
-  var dest = document.getElementById('bpDest').value.trim();
+  var dest = bookingPopupTripTitle || document.getElementById('bpDest').value.trim();
   var msg = document.getElementById('bpMsg').value.trim();
   var waMsg = 'Hi EUREKA Trips! I want to plan a trip.\nName: ' + name +
     (email ? '\nEmail: ' + email : '') + '\nPhone: ' + phone +

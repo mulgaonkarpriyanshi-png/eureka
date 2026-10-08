@@ -2013,11 +2013,19 @@ function openWA(msg) { window.open('https://wa.me/919792496457?text=' + encodeUR
 (function(){
   var POPUP_DELAY = 60 * 1000; // 60 seconds
   setTimeout(function(){
-    var overlay = document.getElementById('bookingPopupOverlay');
-    if (!overlay) return;
-    overlay.classList.add('show');
+    openBookingPopup();
   }, POPUP_DELAY);
 })();
+function openBookingPopup(context){
+  var overlay = document.getElementById('bookingPopupOverlay');
+  if (!overlay) return;
+  var tripTitle = context && context.tripTitle ? String(context.tripTitle).trim() : '';
+  if (tripTitle) {
+    var msg = document.getElementById('bpMsg');
+    if (msg) msg.value = 'Please call me back about "' + tripTitle + '".';
+  }
+  overlay.classList.add('show');
+}
 function closeBookingPopup(){
   var overlay = document.getElementById('bookingPopupOverlay');
   if (overlay) overlay.classList.remove('show');
