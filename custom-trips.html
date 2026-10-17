@@ -495,6 +495,10 @@ img{display:block;max-width:100%}
   .choose-grid{grid-template-columns:repeat(2,1fr);row-gap:2rem}
   .ch{padding:0 1.5rem}
   .ch:nth-child(odd){border-left:none}
+  .ch-step-lbl{order:1}
+  .ch-ttl{order:2}
+  .ch-desc{order:3}
+  .ch-icon{order:4;margin:1rem 0 0}
 }
 @media(max-width:480px){
   .choose-grid{grid-template-columns:1fr;row-gap:2rem}
@@ -730,7 +734,7 @@ img{display:block;max-width:100%}
 ───────────────────────────────────────── */
 @media(max-width:768px){
   /* 4. Hero */
-  .ct-hero-h1{font-size:31px;line-height:31px!important;margin-bottom:14px!important;max-width:340px}
+  .ct-hero-h1{font-size:31px;line-height:36px!important;margin-bottom:14px!important;max-width:340px}
   .ct-hero-h1 *{line-height:inherit!important}
   .ct-hero-h1 p,.ct-hero-h1 div,.ct-hero-h1 span{margin:0!important;padding:0!important}
   .ct-hero-sub{font-size:16px;line-height:22.4px;margin-bottom:1.8rem;max-width:340px}
@@ -831,7 +835,7 @@ img{display:block;max-width:100%}
     <p class="ct-hero-sub" id="ctHeroSub" data-ts="ba_hero_subtext"></p>
     <div class="ct-hero-ctas">
       <a href="#plan" class="ct-btn-white" id="ctHeroBtn1"></a>
-      <a href="contact-us.html" class="ct-btn-teal" id="ctHeroBtn2"></a>
+      <a href="https://wa.me/919792496457?text=Hi%20EUREKA%20Trips!%20I%27d%20like%20help%20planning%20a%20custom%20trip." class="ct-btn-teal" id="ctHeroBtn2" target="_blank" rel="noopener noreferrer"></a>
     </div>
   </div>
 </section>
@@ -949,7 +953,7 @@ img{display:block;max-width:100%}
       <div class="group-banner-content">
         <h3 class="group-banner-h3" id="gbHeadingEl" data-ts="ba_gb_heading"></h3>
         <p class="group-banner-p" id="gbSubtextEl" data-ts="ba_gb_subtext"></p>
-        <a href="contact-us.html" class="group-banner-btn" id="gbBtnEl" data-ts="ba_gb_btn_text"></a>
+        <a href="#callback" class="group-banner-btn" id="gbBtnEl" data-ts="ba_gb_btn_text" onclick="openBookingPopup({tripTitle:'Private group trip'});return false"></a>
       </div>
     </div>
   </div>
@@ -1121,14 +1125,13 @@ img{display:block;max-width:100%}
     <form onsubmit="return submitBookingPopup(event)">
       <div class="pf-row2">
         <input class="pf-field" id="bpName" type="text" placeholder="Name*" required>
-        <input class="pf-field" id="bpEmail" type="email" placeholder="Email">
+        <input class="pf-field" id="bpEmail" type="email" placeholder="Email*" required>
       </div>
       <div class="pf-row2">
         <input class="pf-field" id="bpPhone" type="tel" placeholder="Contact*" required>
-        <input class="pf-field" id="bpDates" type="text" placeholder="Date" aria-label="Date" title="Date" onfocus="this.type='date'; if(this.showPicker)this.showPicker()" onblur="if(!this.value)this.type='text'">
+        <input class="pf-field" id="bpMsg" type="text" placeholder="Message">
       </div>
       <input class="pf-field" id="bpDest" type="hidden" aria-hidden="true">
-      <textarea class="pf-field" id="bpMsg" placeholder="Message" style="display:none"></textarea>
       <div class="pf-actions">
         <button type="submit" class="pf-submit">Send Message</button>
         <a href="tel:+919792496457" class="pf-call">Call Us</a>
@@ -1415,26 +1418,21 @@ function closeDrawer(){
 var TRIBE_TRIPS=[];
 var currentCatFilter='Explore';
 function openWA(msg) { window.open('https://wa.me/919792496457?text=' + encodeURIComponent(msg), '_blank'); }
-/* BOOKING FORM POPUP — appears once after the page has been open a while.
-   Won't reappear if the person already saw it or submitted it this session
-   (sessionStorage), so it doesn't nag someone who's kept the tab open. */
-var BOOKING_POPUP_SESSION_KEY = 'bookingPopupShownCustomTripsV2';
+/* BOOKING FORM POPUP — appears shortly after each fresh page load. */
 var bookingPopupTripTitle = '';
-(function(){
-  var POPUP_DELAY = 55 * 1000; // 55 seconds
-  if (sessionStorage.getItem(BOOKING_POPUP_SESSION_KEY)) return;
-  setTimeout(function(){
-    if (sessionStorage.getItem(BOOKING_POPUP_SESSION_KEY)) return; // could've been shown via another tab in the meantime
-    openBookingPopup();
-  }, POPUP_DELAY);
-})();
+var bookingPopupTimer = window.setTimeout(function(){
+  openBookingPopup();
+}, 20000);
 function openBookingPopup(context){
   var overlay = document.getElementById('bookingPopupOverlay');
   if (!overlay) return;
+  if (bookingPopupTimer) {
+    window.clearTimeout(bookingPopupTimer);
+    bookingPopupTimer = null;
+  }
   var tripTitle = context && context.tripTitle ? String(context.tripTitle).trim() : '';
   bookingPopupTripTitle = tripTitle;
   overlay.classList.add('show');
-  sessionStorage.setItem(BOOKING_POPUP_SESSION_KEY, '1');
 }
 function closeBookingPopup(){
   var overlay = document.getElementById('bookingPopupOverlay');
@@ -1448,12 +1446,11 @@ function submitBookingPopup(e){
   var name = document.getElementById('bpName').value.trim();
   var email = document.getElementById('bpEmail').value.trim();
   var phone = document.getElementById('bpPhone').value.trim();
-  var dates = document.getElementById('bpDates').value.trim();
   var dest = bookingPopupTripTitle || document.getElementById('bpDest').value.trim();
   var msg = document.getElementById('bpMsg').value.trim();
   var waMsg = 'Hi EUREKA Trips! I want to plan a trip.\nName: ' + name +
-    (email ? '\nEmail: ' + email : '') + '\nPhone: ' + phone +
-    (dates ? '\nDate: ' + dates : '') + (dest ? '\nDestination: ' + dest : '') + (msg ? '\nMessage: ' + msg : '');
+    '\nEmail: ' + email + '\nPhone: ' + phone +
+    (dest ? '\nDestination: ' + dest : '') + (msg ? '\nMessage: ' + msg : '');
   openWA(waMsg);
   closeBookingPopup();
   return false;
@@ -1552,6 +1549,9 @@ function moreTripsNav(dir){
    made-up customer testimonials, even briefly, isn't something to fall back
    to. testiRender()/testiBuildDots() already handle an empty array safely. */
 var TESTIMONIALS=[];
+var testiAutoTimer=null;
+var testiAutoRestartTimer=null;
+var TESTI_AUTO_DELAY=11000;
 function testiRender(){
   var track=document.getElementById('testiTrack');
   if(!track) return;
@@ -1572,6 +1572,14 @@ function testiRender(){
   track.innerHTML=out;
   testiBuildDots();
   track.addEventListener('scroll',testiOnScroll,{passive:true});
+  track.addEventListener('pointerdown',testiPauseAuto,{passive:true});
+  track.addEventListener('pointerup',testiRestartAuto,{passive:true});
+  track.addEventListener('pointercancel',testiRestartAuto,{passive:true});
+  track.addEventListener('mouseenter',testiPauseAuto);
+  track.addEventListener('mouseleave',testiRestartAuto);
+  track.addEventListener('focusin',testiPauseAuto);
+  track.addEventListener('focusout',testiRestartAuto);
+  testiStartAuto();
 }
 function testiOpenModal(i){
   var t=TESTIMONIALS[i];
@@ -1585,12 +1593,14 @@ function testiOpenModal(i){
   document.getElementById('testiModalQuote').innerHTML=stripOuterParagraph(t.quote||'');
   modal.classList.add('open');
   document.body.style.overflow='hidden';
+  testiPauseAuto();
 }
 function testiCloseModal(){
   var modal=document.getElementById('testiModal');
   if(!modal) return;
   modal.classList.remove('open');
   document.body.style.overflow='';
+  testiRestartAuto();
 }
 document.addEventListener('keydown',function(e){
   if(e.key==='Escape'){
@@ -1621,6 +1631,7 @@ function testiGoTo(idx){
   if(!card) return;
   var step=card.getBoundingClientRect().width + 20;
   track.scrollTo({left:idx*step, behavior:'smooth'});
+  testiRestartAuto();
 }
 function testiNav(dir){
   var track=document.getElementById('testiTrack');
@@ -1629,7 +1640,35 @@ function testiNav(dir){
   if(!card) return;
   var step=card.getBoundingClientRect().width + 20;
   track.scrollBy({left:dir*step*2, behavior:'smooth'});
+  testiRestartAuto();
 }
+function testiPauseAuto(){
+  if(testiAutoTimer){clearInterval(testiAutoTimer);testiAutoTimer=null;}
+}
+function testiStartAuto(){
+  testiPauseAuto();
+  if(TESTIMONIALS.length<2 || document.hidden) return;
+  testiAutoTimer=setInterval(function(){
+    var track=document.getElementById('testiTrack');
+    var card=track&&track.querySelector('.testi-card');
+    if(!track||!card) return;
+    var step=card.getBoundingClientRect().width+20;
+    var maxScroll=track.scrollWidth-track.clientWidth;
+    var next=track.scrollLeft+step;
+    track.scrollTo({left:next>=maxScroll-4?0:next,behavior:'smooth'});
+  },TESTI_AUTO_DELAY);
+}
+function testiRestartAuto(){
+  testiPauseAuto();
+  if(testiAutoRestartTimer) window.clearTimeout(testiAutoRestartTimer);
+  testiAutoRestartTimer=window.setTimeout(function(){
+    testiAutoRestartTimer=null;
+    testiStartAuto();
+  },600);
+}
+document.addEventListener('visibilitychange',function(){
+  if(document.hidden) testiPauseAuto(); else testiStartAuto();
+});
 /* testiRender() called after Supabase data is applied — see bottom of script */
 
 /* ═════════════════════════════════════════════════════════════
@@ -1757,7 +1796,8 @@ async function applyBuildAdventureContent() {
   colorizeCtHeroHeading(s.ba_hero_heading);
   setText('ctHeroSub', s.ba_hero_subtext);
   setText('ctHeroBtn1', s.ba_hero_btn1_text); setAttr('ctHeroBtn1', 'href', s.ba_hero_btn1_link);
-  setText('ctHeroBtn2', s.ba_hero_btn2_text); setAttr('ctHeroBtn2', 'href', s.ba_hero_btn2_link);
+  setText('ctHeroBtn2', s.ba_hero_btn2_text);
+  setAttr('ctHeroBtn2', 'href', 'https://wa.me/919792496457?text=' + encodeURIComponent("Hi EUREKA Trips! I'd like help planning a custom trip."));
 
   /* ── THIS SUMMER CARDS ── */
   setText('tstaEyebrow', s.ba_asia_eyebrow);
@@ -1799,7 +1839,7 @@ async function applyBuildAdventureContent() {
   setAttr('gbImgEl', 'src', s.ba_gb_image);
   setText('gbHeadingEl', s.ba_gb_heading);
   setText('gbSubtextEl', s.ba_gb_subtext);
-  setText('gbBtnEl', s.ba_gb_btn_text); setAttr('gbBtnEl', 'href', s.ba_gb_btn_link);
+  setText('gbBtnEl', s.ba_gb_btn_text); setAttr('gbBtnEl', 'href', '#callback');
 
   /* ── HOW TO BUILD YOUR ADVENTURE ── */
   setText('htbHeadingEl', s.ba_htb_heading);
@@ -1830,11 +1870,10 @@ async function applyBuildAdventureContent() {
   setFormPlaceholder('baFormDest', 'ba_form_dest_placeholder', s, 'Where would you like to go', ['Where would you like to go?']);
   setFormPlaceholder('baFormDates', 'ba_form_dates_placeholder', s, 'Dates', ['Dates chart', 'Date', 'Travel dates']);
   setFormPlaceholder('bpName', 'ba_form_name_placeholder', s, 'Name*', ['Full Name*', 'Your name', 'Your Name', '*Your Name']);
-  setFormPlaceholder('bpEmail', 'ba_form_email_placeholder', s, 'Email', ['Email*', 'Your email', 'Your Email', '*Your Email']);
+  setFormPlaceholder('bpEmail', 'ba_form_email_placeholder', s, 'Email*', ['Email', 'Your email', 'Your Email', '*Your Email']);
   setFormPlaceholder('bpPhone', 'ba_form_phone_placeholder', s, 'Contact*', ['Phone*', '+91 00000-00000', 'Contact', '*Contact']);
   setFormPlaceholder('bpMsg', 'ba_form_msg_placeholder', s, 'Message', ['Msg', 'We love a good yap.. or just say Hi!', 'We love a good yap... or just say Hi!']);
   setFormPlaceholder('bpDest', 'ba_form_dest_placeholder', s, 'Where would you like to go', ['Where would you like to go?']);
-  setFormPlaceholder('bpDates', 'ba_form_dates_placeholder', s, 'Date', ['Dates chart', 'Dates', 'Travel dates']);
   setText('baFormBtn', s.ba_form_btn_text);
   ensurePassportButtonArrow();
   enforcePassportFormPlaceholderTypography();
@@ -1923,7 +1962,8 @@ function initPromoBannerCarousel(){
   function next(){ goTo(idx+1); }
   function resetTimer(){
     if(timer) clearInterval(timer);
-    timer=setInterval(next, 2000);
+    var delay=window.matchMedia('(max-width: 640px)').matches ? 4000 : 2000;
+    timer=setInterval(next, delay);
   }
   track.addEventListener('mouseenter',function(){ if(timer) clearInterval(timer); });
   track.addEventListener('mouseleave',resetTimer);

@@ -190,18 +190,6 @@ img{display:block;max-width:100%}
 .rating-track{width:100%;height:10px;border-radius:20px;background:#ececec;overflow:hidden}
 .rating-fill{height:100%;border-radius:20px;background:linear-gradient(90deg,#F5A623,#F7B84B)}
 
-/* Auto-sliding photo strip — rounded photos with spacing between */
-.trip-slider{position:relative;overflow:hidden;border-radius:12px;margin-bottom:2.5rem}
-.trip-slider-track{display:flex;gap:14px;overflow-x:auto;overflow-y:hidden;width:100%;cursor:grab;touch-action:pan-x;user-select:none;-webkit-overflow-scrolling:touch;scrollbar-width:none;overscroll-behavior-inline:contain;scroll-snap-type:x mandatory;scroll-behavior:smooth}
-.trip-slider-track::-webkit-scrollbar{display:none}
-.trip-slider-track.is-dragging{cursor:grabbing}
-.trip-slider-track img{
-  height:340px;width:240px;object-fit:cover;border-radius:16px;flex-shrink:0;display:block;pointer-events:none;scroll-snap-align:start;
-}
-@media(max-width:640px){
-  .trip-slider-track img{height:240px;width:200px}
-}
-
 /* Accordion — header is a standalone fully-rounded bar; body is plain, borderless */
 .acc{margin-bottom:1.1rem}
 .acc-head{
@@ -351,6 +339,8 @@ img{display:block;max-width:100%}
   font-family:'Poppins',sans-serif;font-weight:500;font-size:16px;transition:background .2s;
 }
 .form-submit:hover{background:#e5981a}
+.booking-form-actions{display:flex;align-items:stretch;gap:10px}
+.booking-call-btn{display:none}
 /* Match the compact group-trip form without changing the separate booking popup. */
 .trip-sidebar .form-field{padding:10px 14px;border-width:1px;margin-bottom:.5rem}
 .trip-sidebar .form-row2{gap:.6rem}
@@ -439,7 +429,7 @@ img{display:block;max-width:100%}
   .day-card{grid-template-columns:1fr}
   .day-photos{min-height:280px}
 }
-@media(max-width:560px){
+@media(max-width:768px){
   .day-photos{
     grid-template-columns:1fr 1fr;
     grid-template-rows:none;
@@ -451,12 +441,12 @@ img{display:block;max-width:100%}
     object-fit:cover;
     object-position:center;
   }
+  .day-photos img:nth-child(n+3){display:none}
   .dp-tall,.dp-a,.dp-b{
     grid-row:auto;
     grid-column:auto;
   }
 }
-
 /* ─────────────────────────────────────────
    REVIEWS
 ───────────────────────────────────────── */
@@ -848,10 +838,13 @@ img{display:block;max-width:100%}
      style on this page and are left unchanged */
   .tribe-h2{font-size:32px;line-height:35px}
 
-  /* 12. Final CTA (Lead text ~ Group Trip's "Paragraph") — hidden on mobile;
-     the sticky bottom bar's "Book Now" already jumps straight to the real
-     booking form, so this second, redundant form is skipped in the scroll. */
-  .final-cta-sec{display:none}
+  /* 12. Final CTA */
+  .final-cta-sec{display:block;padding:2.5rem 0 6rem}
+  .final-cta-inner{padding:0 1.25rem}
+  .final-cta-h2{font-size:28px;line-height:32px;margin-bottom:1.5rem}
+  .final-cta-grid{gap:1.5rem}
+  .final-cta-img img{height:240px}
+  .final-cta-lead{font-size:15px;line-height:23px;margin-bottom:1rem}
 
   /* 13. Footer — matched to Home page's mobile footer values */
   .ft-col-h{font-size:18px;line-height:22px}
@@ -885,6 +878,16 @@ img{display:block;max-width:100%}
     transform:translateY(-100%);transition:transform .3s ease;
   }
   .trip-sidebar.tp-modal-open{transform:translateY(0)}
+  .trip-sidebar .booking-form-actions,.booking-popup-card .booking-form-actions{display:flex;align-items:stretch;gap:10px}
+  .trip-sidebar .booking-call-btn,.booking-popup-card .booking-call-btn{
+    display:flex;align-items:center;justify-content:center;flex:0 0 48px;
+    width:48px;min-height:48px;border:1.5px solid #FFA43B;border-radius:14px;
+    background:#fff;color:#FFA43B;
+  }
+  .trip-sidebar .booking-call-btn svg,.booking-popup-card .booking-call-btn svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+  .trip-sidebar .booking-form-actions .form-submit,.booking-popup-card .booking-form-actions .form-submit{
+    width:auto;flex:1;min-height:48px;padding:12px;border-radius:14px;
+  }
   .tp-modal-close{
     display:flex;align-items:center;justify-content:center;
     position:sticky;top:0;margin-left:auto;
@@ -994,18 +997,6 @@ img{display:block;max-width:100%}
       </div>
     </div>
 
-    <!-- AUTO SLIDING PHOTO STRIP -->
-    <div class="trip-slider" id="tripSlider">
-      <div class="trip-slider-track" id="tripSliderTrack">
-        <img src="https://images.unsplash.com/photo-1502920917128-1aa500764cbd?w=440&q=80&auto=format&fm=webp&fit=crop" alt="Trip photo 1" loading="lazy" decoding="async">
-        <img src="https://images.unsplash.com/photo-1503220317375-aaad61436b1b?w=440&q=80&auto=format&fm=webp&fit=crop" alt="Trip photo 2" loading="lazy" decoding="async">
-        <img src="https://images.unsplash.com/photo-1467269204594-9661b134dd2b?w=440&q=80&auto=format&fm=webp&fit=crop" alt="Trip photo 3" loading="lazy" decoding="async">
-        <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=440&q=80&auto=format&fm=webp&fit=crop" alt="Trip photo 4" loading="lazy" decoding="async">
-        <img src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=440&q=80&auto=format&fm=webp&fit=crop" alt="Trip photo 5" loading="lazy" decoding="async">
-        <img src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=440&q=80&auto=format&fm=webp&fit=crop" alt="Trip photo 6" loading="lazy" decoding="async">
-      </div>
-    </div>
-
     <!-- WHAT'S INCLUDED ACCORDION -->
     <div class="acc open" id="acc1">
       <div class="acc-head" onclick="toggleAcc('acc1')">
@@ -1106,10 +1097,15 @@ img{display:block;max-width:100%}
         </div>
         <textarea class="form-field" rows="3" placeholder="Message" style="resize:vertical"></textarea>
         <label class="form-check">
-          <input type="checkbox" required>
+          <input type="checkbox" checked required>
           <span>I agree to the Privacy Policy and Terms &amp; Conditions.</span>
         </label>
-        <button type="submit" class="form-submit">Send Message</button>
+        <div class="booking-form-actions">
+          <a class="booking-call-btn" href="tel:+919792496457" aria-label="Call Eureka Trips">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.9.33 1.78.62 2.63a2 2 0 0 1-.45 2.11L8 9.73a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.85.29 1.73.5 2.63.62A2 2 0 0 1 22 16.92z"/></svg>
+          </a>
+          <button type="submit" class="form-submit">Send Message</button>
+        </div>
       </form>
     </div>
   </aside>
@@ -1296,14 +1292,19 @@ img{display:block;max-width:100%}
     <p class="booking-popup-sub">Leave your details and we'll help you get this adventure booked.</p>
     <form onsubmit="return submitBookingPopup(event)">
       <input class="form-field" id="bpName" type="text" placeholder="Full Name*" required>
-      <input class="form-field" id="bpEmail" type="email" placeholder="Email">
+      <input class="form-field" id="bpEmail" type="email" placeholder="Email*" required>
       <input class="form-field" id="bpPhone" type="tel" placeholder="Phone*" required>
       <div class="form-row2">
         <input class="form-field" id="bpDate" type="text" placeholder="Travel Date" onfocus="(this.type='date')">
         <input class="form-field" id="bpTravellers" type="number" min="1" placeholder="No of Travellers">
       </div>
       <textarea class="form-field" id="bpMsg" rows="2" placeholder="Message" style="resize:vertical"></textarea>
-      <button type="submit" class="form-submit">Send Message</button>
+      <div class="booking-form-actions">
+        <a class="booking-call-btn" href="tel:+919792496457" aria-label="Call Eureka Trips">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.9.33 1.78.62 2.63a2 2 0 0 1-.45 2.11L8 9.73a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.85.29 1.73.5 2.63.62A2 2 0 0 1 22 16.92z"/></svg>
+        </a>
+        <button type="submit" class="form-submit">Send Message</button>
+      </div>
     </form>
   </div>
 </div>
@@ -2111,86 +2112,6 @@ function tribeNav(dir){
 }
 /* tribeRender() called after Supabase data is applied — see bottom of script */
 
-var TRIP_SLIDER_STATE={timer:0,paused:false,loopWidth:0};
-function tripSliderStep(){
-  var track=document.getElementById('tripSliderTrack');
-  if(!track) return 254;
-  var first=track.children[0];
-  var second=track.children[1];
-  return first&&second ? Math.abs(second.offsetLeft-first.offsetLeft) : (first ? first.getBoundingClientRect().width+14 : 254);
-}
-function normalizeTripSlider(){
-  var track=document.getElementById('tripSliderTrack');
-  if(!track||!TRIP_SLIDER_STATE.loopWidth) return;
-  if(track.scrollLeft>=TRIP_SLIDER_STATE.loopWidth) track.scrollLeft-=TRIP_SLIDER_STATE.loopWidth;
-  if(track.scrollLeft<0) track.scrollLeft+=TRIP_SLIDER_STATE.loopWidth;
-}
-/* AUTO-SLIDING PHOTO STRIP — native scroll so mouse drag and mobile swipe work */
-function initTripSlider(){
-  var track=document.getElementById('tripSliderTrack');
-  var outer=document.getElementById('tripSlider');
-  if(!track||!outer) return;
-
-  clearInterval(TRIP_SLIDER_STATE.timer);
-  Array.prototype.slice.call(track.querySelectorAll('[data-trip-clone="1"]')).forEach(function(node){node.remove();});
-  track.style.transform='';
-  var originals=Array.prototype.slice.call(track.children);
-  if(!originals.length) return;
-  originals.forEach(function(node){
-    node.setAttribute('draggable','false');
-    var clone=node.cloneNode(true);
-    clone.setAttribute('data-trip-clone','1');
-    clone.setAttribute('aria-hidden','true');
-    clone.setAttribute('draggable','false');
-    track.appendChild(clone);
-  });
-
-  function measure(){
-    var children=track.children;
-    TRIP_SLIDER_STATE.loopWidth=children.length>originals.length ? children[originals.length].offsetLeft-children[0].offsetLeft : 0;
-  }
-  setTimeout(measure,50);
-  setTimeout(measure,350);
-  window.addEventListener('resize',debounce(measure,150));
-
-  outer.addEventListener('mouseenter',function(){TRIP_SLIDER_STATE.paused=true});
-  outer.addEventListener('mouseleave',function(){TRIP_SLIDER_STATE.paused=false});
-  track.addEventListener('touchstart',function(){TRIP_SLIDER_STATE.paused=true},{passive:true});
-  track.addEventListener('touchend',function(){setTimeout(function(){TRIP_SLIDER_STATE.paused=false;},450)},{passive:true});
-  track.addEventListener('touchcancel',function(){setTimeout(function(){TRIP_SLIDER_STATE.paused=false;},450)},{passive:true});
-
-  if(!track.dataset.tripDragBound){
-    var dragging=false,startX=0,startScroll=0;
-    track.addEventListener('mousedown',function(e){
-      if(e.button!==0) return;
-      dragging=true;
-      startX=e.pageX;
-      startScroll=track.scrollLeft;
-      track.classList.add('is-dragging');
-      TRIP_SLIDER_STATE.paused=true;
-      e.preventDefault();
-    });
-    window.addEventListener('mousemove',function(e){
-      if(!dragging) return;
-      track.scrollLeft=startScroll-(e.pageX-startX);
-    });
-    window.addEventListener('mouseup',function(){
-      if(!dragging) return;
-      dragging=false;
-      track.classList.remove('is-dragging');
-      normalizeTripSlider();
-      setTimeout(function(){TRIP_SLIDER_STATE.paused=false;},350);
-    });
-    track.dataset.tripDragBound='1';
-  }
-
-  TRIP_SLIDER_STATE.timer=setInterval(function(){
-    if(TRIP_SLIDER_STATE.paused) return;
-    track.scrollBy({left:tripSliderStep(),behavior:'smooth'});
-    setTimeout(normalizeTripSlider,650);
-  },1800);
-}
-
 /* ═════════════════════════════════════════════════════════════
    LOAD & APPLY TRIP DATA FROM SUPABASE
 ═════════════════════════════════════════════════════════════ */
@@ -2245,11 +2166,6 @@ async function loadTripFromSupabase() {
         if (fillEl) fillEl.style.width = pct + '%';
       }
     });
-    if (trip.joy_pics && trip.joy_pics.length) {
-      var jpTrack = document.getElementById('tripSliderTrack');
-      if (jpTrack) jpTrack.innerHTML = trip.joy_pics.map(function(u,i){ return '<img src="'+esc(u)+'" alt="Trip photo '+(i+1)+'" loading="lazy" decoding="async">'; }).join('');
-    }
-
     /* ── TRIP ACCORDIONS ── */
     var tpIncIconHtml = CURRENT_SETTINGS.tp_inclusion_icon
       ? '<img src="' + esc(CURRENT_SETTINGS.tp_inclusion_icon) + '" alt="">'
@@ -2364,7 +2280,6 @@ async function loadTripFromSupabase() {
   }
   tripRenderReviews();
   tribeRender();
-  initTripSlider();
   initScrollGallery();
 
   setText('ftMission', CURRENT_SETTINGS.ft_mission);
