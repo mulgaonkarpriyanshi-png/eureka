@@ -23,7 +23,6 @@
 
   var answers = {};
   var index = 0;
-  var partialSent = false;
   var leadId = Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
 
   var steps = [
@@ -209,12 +208,6 @@
       '<label class="eq-f">Anything you would like to tell us? (optional)<textarea id="eq-msg" placeholder="Places saved, dates, must-do experiences or questions..."></textarea></label>';
     nextButton.textContent = 'Send my details';
     nextButton.classList.remove('eq-hide');
-    byId('eq-phone').addEventListener('blur', function () {
-      if (!partialSent && validPhone(byId('eq-phone').value)) {
-        partialSent = true;
-        send(payload(true)).catch(function () {});
-      }
-    });
     byId('eq-name').focus();
   }
 

@@ -15,7 +15,24 @@ function doPost(e) {
     var book = SpreadsheetApp.openById(SPREADSHEET_ID);
     var sheet = book.getSheetByName(SHEET_NAME) || book.insertSheet(SHEET_NAME);
     if (sheet.getLastRow() === 0) sheet.appendRow(COLUMNS);
-    sheet.appendRow(COLUMNS.map(function (key) { return data[key] == null ? '' : data[key]; }));
+    var row = COLUMNS.map(function (key) { return data[key] == null ? '' : data[key]; });
+    var leadId = String(data.lead_id || '').trim();
+    var existingRow = 0;
+
+    if (leadId && sheet.getLastRow() > 1) {
+      var leadIdColumn = COLUMNS.indexOf('lead_id') + 1;
+      var match = sheet.getRange(2, leadIdColumn, sheet.getLastRow() - 1, 1)
+        .createTextFinder(leadId)
+        .matchEntireCell(true)
+        .findNext();
+      if (match) existingRow = match.getRow();
+    }
+
+    if (existingRow) {
+      sheet.getRange(existingRow, 1, 1, COLUMNS.length).setValues([row]);
+    } else {
+      sheet.appendRow(row);
+    }
     return ContentService.createTextOutput(JSON.stringify({ ok: true }))
       .setMimeType(ContentService.MimeType.JSON);
   } catch (error) {
