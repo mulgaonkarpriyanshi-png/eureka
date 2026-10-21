@@ -1540,6 +1540,17 @@ body{font-display:swap}
 .ctc-call-icon svg{width:16px;height:16px}
 .ctc-callback-btn{flex:1;background:#027A74;color:#fff;border:none;border-radius:10px;font-family:'Poppins',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:background .2s;padding:9px}
 .ctc-callback-btn:hover{background:#02A9A2}
+.booking-popup-overlay{position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,.58);display:none;align-items:center;justify-content:center;padding:1.25rem}
+.booking-popup-overlay.show{display:flex}
+.booking-popup-card{position:relative;background:#fff;border-radius:16px;padding:2rem 1.75rem 1.75rem;max-width:440px;width:100%;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+.booking-popup-close{position:absolute;top:14px;right:14px;width:32px;height:32px;border-radius:50%;border:0;background:#f3f4f6;display:flex;align-items:center;justify-content:center;color:#3a3b3b;cursor:pointer}
+.booking-popup-close:hover{background:#e5e7eb}.booking-popup-close svg{width:16px;height:16px}
+.booking-popup-h3{font-family:'Poppins',sans-serif;font-size:24px;line-height:1.25;font-weight:600;color:#303535;margin:0 38px .4rem 0}
+.booking-popup-sub{font-family:'Poppins',sans-serif;font-size:14px;color:#6b7575;margin:0 0 1.25rem;line-height:1.45}
+.booking-popup-form{display:grid;gap:12px}.booking-popup-field{width:100%;border:1px solid #d8e0df;border-radius:10px;padding:12px 14px;font:400 14px 'Poppins',sans-serif;color:#303535;background:#fff}
+.booking-popup-field:focus{outline:3px solid rgba(2,169,162,.2);border-color:#02a9a2}.booking-popup-field::placeholder{color:#8c9998}.booking-popup-field-msg{min-height:88px;resize:vertical}
+.booking-popup-submit{border:0;border-radius:10px;padding:13px 18px;background:#027a74;color:#fff;font:700 14px 'Poppins',sans-serif;cursor:pointer}.booking-popup-submit:hover{background:#02a9a2}.booking-popup-submit:disabled{opacity:.65;cursor:wait}
+.booking-popup-status{display:none;margin:0;font:500 13px/1.4 'Poppins',sans-serif}.booking-popup-status.show{display:block}.booking-popup-status.ok{color:#027a74}.booking-popup-status.error{color:#b42318}
 @media(max-width:900px){
   .ct-cards-grid{grid-template-columns:1fr 1fr}
 }
@@ -1914,9 +1925,28 @@ body{font-display:swap}
       <button class="carousel-arrow arr-next" id="ctcArrNext" onclick="ctcCarouselNext()" aria-label="Next"><svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></button>
     </div>
     <div class="carousel-dots" id="ctcCarouselDots"></div>
-    <div class="trips-more2 fu"><a href="custom-trips.html" class="btn-view-more" data-ts="ct_more_btn_text">Build Your Adventure</a></div>
+    <div class="trips-more2 fu"><a href="custom-trips.html" class="btn-view-more" data-ts="ct_more_btn_text">Explore Tours</a></div>
   </div>
 </section>
+
+<div class="booking-popup-overlay" id="bookingPopupOverlay" onclick="if(event.target===this)closeBookingPopup()">
+  <div class="booking-popup-card" role="dialog" aria-modal="true" aria-labelledby="bookingPopupTitle">
+    <button type="button" class="booking-popup-close" onclick="closeBookingPopup()" aria-label="Close callback form">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+    <h3 class="booking-popup-h3" id="bookingPopupTitle">Request a callback</h3>
+    <p class="booking-popup-sub" id="bookingPopupSub">Leave your details and our trip expert will call you back.</p>
+    <form class="booking-popup-form" id="bookingPopupForm" onsubmit="return submitBookingPopup(event)">
+      <input class="booking-popup-field" id="bpName" name="name" type="text" autocomplete="name" placeholder="Name*" required>
+      <input class="booking-popup-field" id="bpEmail" name="email" type="email" autocomplete="email" placeholder="Email*" required>
+      <input class="booking-popup-field" id="bpPhone" name="contact" type="tel" inputmode="tel" autocomplete="tel" placeholder="Contact*" required>
+      <textarea class="booking-popup-field booking-popup-field-msg" id="bpMsg" name="message" placeholder="When do you want us to call?*" required></textarea>
+      <input id="bpTour" name="tour_title" type="hidden">
+      <p class="booking-popup-status" id="bookingPopupStatus" aria-live="polite"></p>
+      <button type="submit" class="booking-popup-submit" id="bookingPopupSubmit">Request Callback</button>
+    </form>
+  </div>
+</div>
 
 <!-- REVIEWS -->
 <section class="reviews-sec" id="reviews">
@@ -2246,6 +2276,86 @@ function submitBooking() {
 }
 
 function openWA(msg) { window.open('https://wa.me/919792496457?text=' + encodeURIComponent(msg), '_blank'); }
+
+window.CTC_CALL_OPENS_POPUP = true;
+var bookingPopupTripTitle = '';
+
+function openBookingPopup(context) {
+  var overlay = document.getElementById('bookingPopupOverlay');
+  if (!overlay) return;
+  bookingPopupTripTitle = context && context.tripTitle ? String(context.tripTitle).trim() : '';
+  document.getElementById('bpTour').value = bookingPopupTripTitle;
+  document.getElementById('bookingPopupSub').textContent = bookingPopupTripTitle
+    ? 'Request a callback about ' + bookingPopupTripTitle + '.'
+    : 'Leave your details and our trip expert will call you back.';
+  var status = document.getElementById('bookingPopupStatus');
+  status.className = 'booking-popup-status';
+  status.textContent = '';
+  overlay.classList.add('show');
+  document.body.style.overflow = 'hidden';
+  window.setTimeout(function(){ document.getElementById('bpName').focus(); }, 50);
+}
+
+function closeBookingPopup() {
+  var overlay = document.getElementById('bookingPopupOverlay');
+  if (overlay) overlay.classList.remove('show');
+  document.body.style.overflow = '';
+}
+
+document.addEventListener('keydown', function(event) {
+  if (event.key === 'Escape') closeBookingPopup();
+});
+
+async function submitBookingPopup(event) {
+  event.preventDefault();
+  var form = document.getElementById('bookingPopupForm');
+  if (!form.reportValidity()) return false;
+  var submit = document.getElementById('bookingPopupSubmit');
+  var status = document.getElementById('bookingPopupStatus');
+  var payload = {
+    name: document.getElementById('bpName').value.trim(),
+    email: document.getElementById('bpEmail').value.trim(),
+    contact: document.getElementById('bpPhone').value.trim(),
+    message: document.getElementById('bpMsg').value.trim(),
+    tour_title: bookingPopupTripTitle,
+    source: 'homepage_featured_tours'
+  };
+  submit.disabled = true;
+  submit.textContent = 'Sending...';
+  try {
+    var response = await fetch(SB_URL + '/callback_requests', {
+      method: 'POST',
+      headers: {
+        apikey: SB_KEY,
+        Authorization: 'Bearer ' + SB_KEY,
+        'Content-Type': 'application/json',
+        Prefer: 'return=minimal'
+      },
+      body: JSON.stringify(payload)
+    });
+    if (!response.ok) throw new Error('Callback request could not be stored.');
+    status.className = 'booking-popup-status show ok';
+    status.textContent = 'Thanks. We will call you at your preferred time.';
+    form.reset();
+    window.setTimeout(closeBookingPopup, 1400);
+  } catch (error) {
+    try {
+      var saved = JSON.parse(localStorage.getItem('eurekaCallbackRequests') || '[]');
+      saved.push(payload);
+      localStorage.setItem('eurekaCallbackRequests', JSON.stringify(saved.slice(-20)));
+    } catch (storageError) {}
+    var waText = 'Hi EUREKA Trips! Please call me back.\nName: ' + payload.name +
+      '\nEmail: ' + payload.email + '\nContact: ' + payload.contact +
+      (payload.tour_title ? '\nTour: ' + payload.tour_title : '') +
+      '\nPreferred time: ' + payload.message;
+    status.className = 'booking-popup-status show error';
+    status.innerHTML = 'We could not save this yet. <a href="https://wa.me/919792496457?text=' + encodeURIComponent(waText) + '" target="_blank" rel="noopener">Send it on WhatsApp</a>.';
+  } finally {
+    submit.disabled = false;
+    submit.textContent = 'Request Callback';
+  }
+  return false;
+}
 
 /* ── MOBILE DRAWER ── */
 function openDrawer() {
