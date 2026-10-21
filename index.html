@@ -2334,6 +2334,17 @@ async function submitBookingPopup(event) {
       body: JSON.stringify(payload)
     });
     if (!response.ok) throw new Error('Callback request could not be stored.');
+    fetch('https://caigrloiymgfxubzprbg.supabase.co/functions/v1/callback-notify', {
+      method: 'POST',
+      headers: {
+        apikey: SB_KEY,
+        Authorization: 'Bearer ' + SB_KEY,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(payload)
+    }).catch(function(error) {
+      console.error('Callback email notification failed', error);
+    });
     status.className = 'booking-popup-status show ok';
     status.textContent = 'Thanks. We will call you at your preferred time.';
     form.reset();
