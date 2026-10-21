@@ -284,6 +284,8 @@ section{padding:clamp(1.25rem,2.5vw,2rem) clamp(1.25rem,4vw,3rem)}
 .faq-a-in{padding:.85rem 1.75rem 0;font-family:'Poppins',sans-serif;font-size:14px;color:var(--body);line-height:1.6;letter-spacing:-0.2px;font-weight:400}
 .faq-a-in ul{margin:.5rem 0 .5rem 1.1rem}
 .faq-a-in li{margin-bottom:.3rem}
+.faq-contact-link{color:var(--teal);font-weight:600;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:2px}
+.faq-contact-link:hover{color:var(--teal-d)}
 
 /* ─────────────────────────────────────────
    FOOTER (shared)
@@ -374,6 +376,9 @@ section{padding:clamp(1.25rem,2.5vw,2rem) clamp(1.25rem,4vw,3rem)}
 .hiw-step-desc,.hiw-step-desc *{line-height:1.5!important}
 .hiw-step-ttl p,.hiw-step-desc p,.hiw-step-desc div{margin:0!important;padding:0!important;line-height:inherit!important}
 .hiw-step-ttl br:first-child,.hiw-step-desc br:first-child{display:none}
+@media(min-width:769px){
+  .hiw-step-desc,.hiw-step-desc *{font-size:14px!important}
+}
 @media(max-width:900px){
   .hiw-grid{grid-template-columns:1fr 1fr;row-gap:2rem}
   .hiw-step{padding:0 1.5rem}
@@ -383,7 +388,10 @@ section{padding:clamp(1.25rem,2.5vw,2rem) clamp(1.25rem,4vw,3rem)}
   .hiw-sec{padding-left:1rem;padding-right:1rem}
   .hiw-grid{grid-template-columns:1fr;row-gap:2rem}
   .hiw-step{border-left:none;padding:0;align-items:stretch;width:100%}
-  .hiw-icon{width:100%;max-width:none}
+  .hiw-step-lbl{order:1}
+  .hiw-step-ttl{order:2}
+  .hiw-step-desc{order:3}
+  .hiw-icon{order:4;width:100%;max-width:none;margin:1rem 0 0}
   .hiw-step-lbl,.hiw-step-ttl,.hiw-step-desc{max-width:none;width:100%}
 }
 
@@ -595,7 +603,7 @@ section{padding:clamp(1.25rem,2.5vw,2rem) clamp(1.25rem,4vw,3rem)}
         <p id="faqIntroEl" data-ts="dest_faq_intro"></p>
         <div class="faq-btns">
           <a href="#faqs" class="faq-btn-outline">View all FAQs</a>
-          <a href="contact-us.html" class="faq-btn-solid">Chat With Us</a>
+          <a href="https://wa.me/919792496457?text=Hi%20EUREKA%20Trips!%20I%20have%20a%20question%20about%20your%20group%20trips." target="_blank" rel="noopener" class="faq-btn-solid">Chat With Us</a>
         </div>
       </div>
 
@@ -811,7 +819,7 @@ function enforceDestinationHowItWorksTypography(root) {
   });
   descEls.forEach(function(el) {
     el.style.setProperty('font-family', 'Poppins, sans-serif', 'important');
-    el.style.setProperty('font-size', '15px', 'important');
+    el.style.setProperty('font-size', isMobileViewport() ? '15px' : '14px', 'important');
     el.style.setProperty('font-weight', '500', 'important');
     el.style.setProperty('color', '#464a4b', 'important');
   });
@@ -1111,6 +1119,42 @@ function buildFaqItem(f, idx) {
   '</div>';
 }
 
+function linkFaqContactActions(container) {
+  if (!container || !document.createTreeWalker) return;
+  var links = {
+    call: { href: 'tel:+919792496457', label: 'Call' },
+    whatsapp: { href: 'https://wa.me/919792496457?text=' + encodeURIComponent('Hi EUREKA Trips! I have a question about your group trips.'), label: 'WhatsApp', external: true },
+    email: { href: 'mailto:hello@eurekatrips.com', label: 'Email' }
+  };
+  var walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT);
+  var nodes = [];
+  while (walker.nextNode()) {
+    var node = walker.currentNode;
+    if (node.parentElement && !node.parentElement.closest('a,script,style') && /\b(call|whatsapp|email)\b/i.test(node.nodeValue)) nodes.push(node);
+  }
+  nodes.forEach(function(node) {
+    var fragment = document.createDocumentFragment();
+    var lastIndex = 0;
+    node.nodeValue.replace(/\b(call|whatsapp|email)\b/gi, function(match, key, offset) {
+      fragment.appendChild(document.createTextNode(node.nodeValue.slice(lastIndex, offset)));
+      var config = links[key.toLowerCase()];
+      var anchor = document.createElement('a');
+      anchor.className = 'faq-contact-link';
+      anchor.href = config.href;
+      anchor.textContent = match;
+      if (config.external) {
+        anchor.target = '_blank';
+        anchor.rel = 'noopener';
+      }
+      fragment.appendChild(anchor);
+      lastIndex = offset + match.length;
+      return match;
+    });
+    fragment.appendChild(document.createTextNode(node.nodeValue.slice(lastIndex)));
+    node.parentNode.replaceChild(fragment, node);
+  });
+}
+
 function applyCardTypography(s) {
   var root = document.documentElement.style;
   var map = {
@@ -1211,6 +1255,7 @@ async function loadDestinationsPageData() {
   if (faqRows.length) {
     document.getElementById('faqListEl').innerHTML = faqRows.map(buildFaqItem).join('');
   }
+  linkFaqContactActions(document.getElementById('faqListEl'));
 
   setText('ftMission', s.ft_mission);
   setText('ftCol1H', s.ft_col1_heading);
