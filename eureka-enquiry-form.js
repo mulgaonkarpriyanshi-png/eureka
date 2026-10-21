@@ -6,6 +6,9 @@
 
   var CONFIG = {
     webhookUrl: root.getAttribute('data-webhook-url') || '',
+    supabaseRestUrl: window.SB_URL || 'https://caigrloiymgfxubzprbg.supabase.co/rest/v1',
+    supabaseFunctionUrl: 'https://caigrloiymgfxubzprbg.supabase.co/functions/v1/custom-trip-enquiry-notify',
+    supabaseKey: window.SB_KEY || '',
     whatsappNumber: '919792496457',
     localStorageKey: 'eurekaCustomTripEnquiries'
   };
@@ -132,18 +135,65 @@
     } catch (error) {}
   }
 
-  function send(data) {
-    saveRecoveryCopy(data);
+  function sendToSheet(data) {
     if (!CONFIG.webhookUrl) {
       console.warn('Eureka enquiry webhook is not configured.', data);
-      return Promise.resolve({ storedRemotely: false });
+      return Promise.resolve(false);
     }
     return fetch(CONFIG.webhookUrl, {
       method: 'POST',
       mode: 'no-cors',
       headers: { 'Content-Type': 'text/plain;charset=utf-8' },
       body: JSON.stringify(data)
-    }).then(function () { return { storedRemotely: true }; });
+    }).then(function () { return true; });
+  }
+
+  function sendToSupabase(data) {
+    if (!CONFIG.supabaseKey) return Promise.reject(new Error('Supabase is not configured.'));
+    return fetch(CONFIG.supabaseRestUrl + '/custom_trip_enquiries', {
+      method: 'POST',
+      headers: {
+        apikey: CONFIG.supabaseKey,
+        Authorization: 'Bearer ' + CONFIG.supabaseKey,
+        'Content-Type': 'application/json',
+        Prefer: 'return=minimal'
+      },
+      body: JSON.stringify(data)
+    }).then(function (response) {
+      if (!response.ok) throw new Error('Custom trip enquiry could not be stored in Supabase.');
+      return true;
+    });
+  }
+
+  function sendEmailNotification(data) {
+    if (!CONFIG.supabaseKey) return Promise.reject(new Error('Supabase is not configured.'));
+    return fetch(CONFIG.supabaseFunctionUrl, {
+      method: 'POST',
+      headers: {
+        apikey: CONFIG.supabaseKey,
+        Authorization: 'Bearer ' + CONFIG.supabaseKey,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    }).then(function (response) {
+      if (!response.ok) throw new Error('Custom trip email notification failed.');
+      return true;
+    });
+  }
+
+  function send(data) {
+    saveRecoveryCopy(data);
+    var deliveries = [
+      sendToSheet(data),
+      sendToSupabase(data),
+      sendEmailNotification(data)
+    ];
+    return Promise.allSettled(deliveries).then(function (results) {
+      results.forEach(function (result) {
+        if (result.status === 'rejected') console.error(result.reason);
+      });
+      return { storedRemotely: results.some(function (result) { return result.status === 'fulfilled'; }) };
+    });
   }
 
   function move(direction) {
