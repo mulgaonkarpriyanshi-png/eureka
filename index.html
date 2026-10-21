@@ -3339,7 +3339,8 @@ function initPromoBannerCarousel(){
   function prev(){ goTo(idx-1); }
   function resetTimer(){
     if(timer) clearInterval(timer);
-    timer=setInterval(next, 2000); /* advance every 2 seconds */
+    var delay=window.matchMedia('(max-width: 768px)').matches ? 4000 : 2000;
+    timer=setInterval(next, delay);
   }
   var wheelLock=false;
   track.addEventListener('wheel',function(e){
