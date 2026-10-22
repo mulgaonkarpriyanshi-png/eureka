@@ -2272,6 +2272,7 @@ function submitBooking() {
   if (!p.trim()) { alert('Please enter your contact number'); return; }
   if (pol && !pol.checked) { alert('Please agree to the privacy policy'); return; }
   var msg = 'Hi EUREKA Trips! \uD83D\uDE4C\n\nName: ' + n + '\nPhone: ' + p + (e ? '\nEmail: ' + e : '') + (t ? '\nInterested in: ' + t : '') + '\n\nCould you share more details and available dates?';
+  window.eurekaTrack && window.eurekaTrack.lead({ content_name: t, source: 'homepage_booking_form' });
   window.open('https://wa.me/919792496457?text=' + encodeURIComponent(msg), '_blank');
 }
 
@@ -2346,6 +2347,7 @@ async function submitBookingPopup(event) {
       console.error('Callback email notification failed', error);
     });
     status.className = 'booking-popup-status show ok';
+    window.eurekaTrack && window.eurekaTrack.lead({ content_name: payload.tour_title, source: payload.source });
     status.textContent = 'Thanks. We will call you at your preferred time.';
     form.reset();
     window.setTimeout(closeBookingPopup, 1400);

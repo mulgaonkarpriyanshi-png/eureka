@@ -1479,6 +1479,7 @@ function submitBookingPopup(e){
   var waMsg = 'Hi EUREKA Trips! I want to plan a trip.\nName: ' + name +
     '\nEmail: ' + email + '\nPhone: ' + phone +
     (dest ? '\nDestination: ' + dest : '') + (msg ? '\nMessage: ' + msg : '');
+  window.eurekaTrack && window.eurekaTrack.lead({ content_name: dest, source: 'custom_trips_popup' });
   openWA(waMsg);
   closeBookingPopup();
   return false;

@@ -797,6 +797,7 @@ function submitContactForm(){
     (e?'\nEmail: '+e:'')+
     (m?'\n\nMessage: '+m:'')+
     '\n\nCould you share more details?';
+  window.eurekaTrack && window.eurekaTrack.lead({source:'contact_form'});
   window.open('https://wa.me/919792496457?text='+encodeURIComponent(msg),'_blank');
 }
 

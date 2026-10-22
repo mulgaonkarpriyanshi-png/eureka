@@ -316,7 +316,10 @@
       whatsapp.classList.remove('eq-hide');
     }
     if (window.fbq) {
-      try { window.fbq('track', 'Lead', { content_category: data.lead_tier }); } catch (error) {}
+      try {
+        if (window.eurekaTrack) window.eurekaTrack.lead({ content_name: data.destination_note, source: 'custom_trip_enquiry' });
+        else window.fbq('track', 'Lead', { content_category: data.lead_tier });
+      } catch (error) {}
     }
   }
 
