@@ -317,7 +317,7 @@
     }
     if (window.fbq) {
       try {
-        if (window.eurekaTrack) window.eurekaTrack.lead({ content_name: data.destination_note, source: 'custom_trip_enquiry' });
+        if (window.eurekaTrack) window.eurekaTrack.lead({ content_name: data.destination_note, source: 'custom_trip_enquiry', user_data: { name: data.name, email: data.email, phone: data.phone } });
         else window.fbq('track', 'Lead', { content_category: data.lead_tier });
       } catch (error) {}
     }

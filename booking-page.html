@@ -999,7 +999,7 @@ function submitContactForm(){
     (t?'\nTrip: '+t:'')+
     (s?'\nSpots to reserve: '+s:'')+
     '\n\nCould you share more details and available dates?';
-  window.eurekaTrack && window.eurekaTrack.lead({source:'contact_form'});
+  window.eurekaTrack && window.eurekaTrack.lead({source:'contact_form',user_data:{name:n,email:e,phone:p}});
   window.open('https://wa.me/919792496457?text='+encodeURIComponent(msg),'_blank');
 }
 
@@ -1017,7 +1017,7 @@ function submitPassportForm(){
     (e?'\nEmail: '+e:'')+
     (d?'\nWhere I\'d like to go: '+d:'')+
     (m?'\nMessage: '+m:'');
-  window.eurekaTrack && window.eurekaTrack.lead({source:'contact_form'});
+  window.eurekaTrack && window.eurekaTrack.lead({source:'contact_form',user_data:{name:n,email:e,phone:p}});
   window.open('https://wa.me/919792496457?text='+encodeURIComponent(msg),'_blank');
 }
 function closeDrawer(){document.getElementById('hbg').classList.remove('open');document.getElementById('mobDrawer').classList.remove('open');document.getElementById('mobOverlay').classList.remove('show');document.body.style.overflow='';}

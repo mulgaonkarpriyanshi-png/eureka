@@ -2114,7 +2114,7 @@ function submitBrochureRequest() {
 
   /* Log the lead in Supabase (visible in Admin Panel → Brochure Leads) — a backup
      record even if the notification below hasn't been switched on yet. */
-  window.eurekaTrack && window.eurekaTrack.lead({ content_name: tripTitle, source: 'brochure_request' });
+  window.eurekaTrack && window.eurekaTrack.lead({ content_name: tripTitle, source: 'brochure_request', user_data: { name: name, email: email, phone: phone } });
   sbInsert('brochure_leads', { trip_id: tripId, trip_title: tripTitle, name: name, phone: phone, email: email });
 
   /* Notify the admin automatically, server-side — both WhatsApp (Meta Cloud API) and

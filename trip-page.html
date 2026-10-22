@@ -2045,7 +2045,7 @@ function submitBookingPopup(e){
   var waMsg = 'Hi EUREKA Trips! I want to book this trip.\nName: ' + name +
     (email ? '\nEmail: ' + email : '') + '\nPhone: ' + phone +
     (date ? '\nTravel Date: ' + date : '') + (travellers ? '\nTravellers: ' + travellers : '') + (msg ? '\nMessage: ' + msg : '');
-  window.eurekaTrack && window.eurekaTrack.lead({ content_name: document.title, source: 'trip_page_popup' });
+  window.eurekaTrack && window.eurekaTrack.lead({ content_name: document.title, source: 'trip_page_popup', user_data: { name: name, email: email, phone: phone } });
   openWA(waMsg);
   closeBookingPopup();
   return false;

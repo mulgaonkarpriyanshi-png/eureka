@@ -14,11 +14,12 @@
   s.parentNode.insertBefore(t,s);
 }(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
 fbq('init', '222456587607172');
-fbq('track', 'PageView');
 
 /* Eureka Trips browser events. No form PII is sent as event parameters. */
 (function () {
   var WA = /^https?:\/\/(wa\.me|api\.whatsapp\.com)\//i;
+  var CAPI_URL = 'https://caigrloiymgfxubzprbg.supabase.co/functions/v1/meta-conversions';
+  var SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNhaWdybG9peW1nZnh1YnpwcmJnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODMzOTM1MjksImV4cCI6MjA5ODk2OTUyOX0.zA5Q1kAAk66fgX_Ertnrbb4TJmM5yPE71zy-alK-yqE';
   var suppressContactUntil = 0;
   var lastContactAt = 0;
   var viewed = false;
@@ -28,12 +29,45 @@ fbq('track', 'PageView');
     return 'e' + Date.now() + Math.random().toString(36).slice(2);
   }
 
-  function track(name, params, eventId) {
+  function cookie(name) {
+    var match = document.cookie.match(new RegExp('(?:^|; )' + name.replace(/([.$?*|{}()\[\]\\\/+^])/g, '\\$1') + '=([^;]*)'));
+    return match ? decodeURIComponent(match[1]) : '';
+  }
+
+  function sendServerEvent(name, params, eventId, userData) {
+    var payload = {
+      event_name: name,
+      event_time: Math.floor(Date.now() / 1000),
+      event_id: eventId,
+      event_source_url: location.href,
+      user_agent: navigator.userAgent,
+      fbp: cookie('_fbp'),
+      fbc: cookie('_fbc'),
+      custom_data: params || {},
+      user_data: userData || {}
+    };
     try {
-      if (!window.fbq) return;
-      if (eventId) window.fbq('track', name, params || {}, { eventID: eventId });
-      else window.fbq('track', name, params || {});
+      fetch(CAPI_URL, {
+        method: 'POST',
+        keepalive: true,
+        headers: {
+          'Content-Type': 'application/json',
+          apikey: SB_KEY,
+          Authorization: 'Bearer ' + SB_KEY
+        },
+        body: JSON.stringify(payload)
+      }).catch(function () {});
     } catch (e) {}
+  }
+
+  function track(name, params, eventId, userData) {
+    try {
+      if (window.fbq) {
+        if (eventId) window.fbq('track', name, params || {}, { eventID: eventId });
+        else window.fbq('track', name, params || {});
+      }
+    } catch (e) {}
+    if (eventId) sendServerEvent(name, params, eventId, userData);
   }
 
   function lead(info) {
@@ -43,7 +77,7 @@ fbq('track', 'PageView');
     var params = {};
     if (info.content_name) params.content_name = String(info.content_name);
     if (info.source) params.lead_source = String(info.source);
-    track('Lead', params, eventId);
+    track('Lead', params, eventId, info.user_data);
     return eventId;
   }
 
@@ -64,6 +98,8 @@ fbq('track', 'PageView');
     lastContactAt = now;
     track('Contact', { contact_method: method }, uid());
   }
+
+  track('PageView', {}, uid());
 
   document.addEventListener('click', function (event) {
     try {
