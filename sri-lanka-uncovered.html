@@ -551,7 +551,7 @@ img{display:block;max-width:100%}
 .gt-sidebar{position:sticky;top:10px;display:flex;flex-direction:column;gap:1rem}
 
 .gt-itin-download-box{background:#fff;border-radius:16px;padding:1.1rem 1.4rem;border:2px solid #d1d5db;box-shadow:none}
-.gt-itin-download-box h3{font-family:'Poppins',sans-serif;font-size:22px;font-weight:700;color:#111827;margin-bottom:.35rem}
+.gt-itin-download-box h3{font-family:'Poppins',sans-serif;font-size:22px;font-weight:700;color:#3A3B3B;margin-bottom:.35rem}
 .gt-itin-download-box p{font-family:'Poppins',sans-serif;font-size:14px;color:#4b5563;margin-bottom:.65rem}
 .gt-itin-phone-row{
   display:flex;align-items:center;gap:8px;background:#f3f4f6;border-radius:50px;
@@ -563,7 +563,7 @@ img{display:block;max-width:100%}
   font-family:'Poppins',sans-serif;font-size:15px;color:#111827;
 }
 .gt-itin-phone-row input::placeholder{color:#6b7280}
-.gt-itin-confidence-link{display:inline-block;margin:.65rem 0 0;font-family:'Poppins',sans-serif;font-size:12px;color:var(--teal-d);font-weight:800;line-height:1.5;letter-spacing:-0.2px;text-decoration:underline}
+.gt-itin-confidence-link{display:inline-block;margin:.65rem 0 0;font-family:'Poppins',sans-serif;font-size:12px;color:var(--teal-d);font-weight:400;line-height:1.5;letter-spacing:-0.2px;text-decoration:underline}
 .gt-itin-download-btn{
   width:100%;background:#FFA43B;color:#fff;border:none;border-radius:50px;
   padding:.65rem 1rem;font-family:'Poppins',sans-serif;font-weight:700;font-size:16px;
@@ -666,9 +666,10 @@ img{display:block;max-width:100%}
 .dm-cancel-body{max-height:0;overflow:hidden;transition:max-height .3s ease;font-family:'Poppins',sans-serif;font-size:12.5px;color:#454A4A;line-height:1.5;white-space:pre-line}
 .dm-cancel-body.open{max-height:300px;margin:.5rem 0 .25rem}
 .dm-btns{display:flex;gap:.75rem;flex-wrap:wrap;margin-top:.5rem}
-.dm-btn{flex:1;min-width:130px;text-align:center;background:#F5A623;color:#fff;padding:11px 18px;border-radius:50px;font-family:'Poppins',sans-serif;font-weight:700;font-size:13.5px;transition:background .2s}
+.dm-btn{flex:1;min-width:130px;text-align:center;background:#F5A623;color:#fff;padding:12px 18px;border-radius:50px;font-family:'Poppins',sans-serif;font-weight:700;font-size:14px;line-height:1.35;transition:background .2s}
 .dm-btn:hover{background:#e5981a}
-.dm-btn-secondary{background:#b3e0df;color:#0a4a47}
+.dm-btn-secondary,.dm-btn-secondary:visited{background:#a9dad8;color:#365554!important;font-weight:500}
+.dm-btn-secondary *{color:#365554!important;font-weight:500}
 .dm-btn-secondary:hover{background:#9ed4d2}
 
 @media(max-width:768px){
@@ -804,6 +805,8 @@ img{display:block;max-width:100%}
 .gt-faq-icon{width:22px;height:22px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:18px;font-weight:400;color:var(--dark)}
 .gt-faq-a{max-height:0;overflow:hidden;transition:max-height .35s ease}
 .gt-faq-a-in{padding:.85rem 1.75rem 0;font-family:'Poppins',sans-serif;font-size:14px;color:var(--body);line-height:1.6;letter-spacing:-0.2px;font-weight:400}
+.gt-faq-contact-link{color:var(--teal-d);font-weight:600;text-decoration:underline;text-underline-offset:2px}
+.gt-faq-contact-link:hover{color:var(--teal)}
 @media(max-width:768px){
   .gt-faq-row{grid-template-columns:1fr}
 }
@@ -1155,7 +1158,7 @@ img{display:block;max-width:100%}
   .gt-faq-txt h2{font-size:32px;line-height:35px}
   .gt-faq-txt p{font-size:15px;line-height:23px}
   .gt-faq-btn-outline,.gt-faq-btn-solid{font-size:16px;line-height:16px}
-  .gt-faq-q{font-size:18px;line-height:23px}
+  .gt-faq-q{font-size:18px!important;line-height:23px!important;font-weight:600!important}
   .gt-faq-a-in{font-size:15px;line-height:23px}
 
   /* 14. Choose Your Travel Tribe — cards unchanged (shared, admin-editable component) */
@@ -1184,9 +1187,10 @@ img{display:block;max-width:100%}
   .gt-mb-txt{display:flex;flex-direction:column;gap:2px;font-family:'Poppins',sans-serif;color:#fff;font-size:13px;line-height:1.3}
   .gt-mb-txt strong{font-weight:700}
   .gt-mb-btn{
-    flex-shrink:0;background:#FFA43B;color:#3A3B3B;font-family:'Poppins',sans-serif;font-weight:700;font-size:14px;
+    flex-shrink:0;background:#FFA43B;color:#fff!important;font-family:'Poppins',sans-serif;font-weight:700;font-size:14px;
     padding:11px 22px;border-radius:50px;text-decoration:none;white-space:nowrap;
   }
+  .gt-mb-btn:visited{color:#fff!important}
 }
 
 /* Compact mobile header: tags may use two rows; facts only wrap for long routes. */
@@ -1255,13 +1259,13 @@ img{display:block;max-width:100%}
 <div class="brochure-overlay" id="brochureOverlay" onclick="closeBrochureModal()"></div>
 <div class="brochure-modal" id="brochureModal">
   <button class="brochure-close" onclick="closeBrochureModal()" aria-label="Close">✕</button>
-  <h3 class="brochure-modal-h"><span class="brochure-modal-icon">📄</span>Get the Brochure</h3>
-  <p class="brochure-modal-sub">Pop in your details and we'll send the full itinerary straight to you.</p>
+  <h3 class="brochure-modal-h" id="brochureModalTitle"><span class="brochure-modal-icon">📄</span>Get the Brochure</h3>
+  <p class="brochure-modal-sub" id="brochureModalSub">Pop in your details and we'll send the full itinerary straight to you.</p>
   <div class="brochure-fg"><input type="text" id="bro_name" placeholder="Your Name"></div>
   <div class="brochure-fg"><input type="tel" id="bro_phone" placeholder="Phone Number"></div>
   <div class="brochure-fg"><input type="email" id="bro_email" placeholder="Email Address"></div>
   <button class="brochure-submit-btn" id="brochureSubmitBtn" onclick="submitBrochureRequest()">Download Brochure</button>
-  <p class="brochure-modal-note">We'll only use this to share trip info — no spam, promise.</p>
+  <p class="brochure-modal-note" id="brochureModalNote">We'll only use this to share trip info — no spam, promise.</p>
 </div>
 
 <!-- HEADER: TITLE, TAGS, META, PRICE -->
@@ -1571,7 +1575,7 @@ img{display:block;max-width:100%}
         <p id="gtFaqIntro" data-ts="gt_faq_intro">Got questions about this trip? We've gathered the essential details right here to help you plan your adventure.</p>
         <div class="gt-faq-btns">
           <a href="#faqs" class="gt-faq-btn-outline">View all FAQs</a>
-          <a href="contact-us.html" class="gt-faq-btn-solid">Chat With Us</a>
+          <a href="https://wa.me/919792496457?text=Hi%20Eureka%20Trips!%20I%20have%20a%20question%20about%20a%20group%20trip." target="_blank" rel="noopener" class="gt-faq-btn-solid">Chat With Us</a>
         </div>
       </div>
       <div class="gt-faq-list" id="gtFaqListEl"></div>
@@ -2077,12 +2081,33 @@ function notify(msg, type) {
 }
 
 /* ── BROCHURE DOWNLOAD MODAL ── */
+var brochureModalMode = 'brochure';
+var bookingDeparture = '';
+function setLeadModalCopy(mode) {
+  var booking = mode === 'booking';
+  document.getElementById('brochureModalTitle').innerHTML = booking ? 'Book This Trip' : '<span class="brochure-modal-icon">📄</span>Get the Brochure';
+  document.getElementById('brochureModalSub').textContent = booking ? 'Share your details and our trip expert will help you complete the booking.' : "Pop in your details and we'll send the full itinerary straight to you.";
+  document.getElementById('brochureSubmitBtn').textContent = booking ? 'Send Booking Request' : 'Download Brochure';
+  document.getElementById('brochureModalNote').textContent = booking ? "We'll contact you shortly to confirm availability and payment details." : "We'll only use this to share trip info — no spam, promise.";
+}
 function openBrochureModal(e) {
   if (e) e.preventDefault();
   if (!CURRENT_TRIP || !CURRENT_TRIP.brochure_link) {
     openWA('Hi EUREKA Trips! Could you send me the brochure for this trip?');
     return false;
   }
+  brochureModalMode = 'brochure';
+  bookingDeparture = '';
+  setLeadModalCopy('brochure');
+  document.getElementById('brochureOverlay').classList.add('show');
+  document.getElementById('brochureModal').classList.add('show');
+  return false;
+}
+function openBookingModal(e, encodedDeparture) {
+  if (e) e.preventDefault();
+  brochureModalMode = 'booking';
+  try { bookingDeparture = decodeURIComponent(encodedDeparture || ''); } catch (error) { bookingDeparture = ''; }
+  setLeadModalCopy('booking');
   document.getElementById('brochureOverlay').classList.add('show');
   document.getElementById('brochureModal').classList.add('show');
   return false;
@@ -2105,7 +2130,7 @@ function submitBrochureRequest() {
 
   /* Give the visitor their brochure right away — inside the same click, so the
      popup isn't blocked by the browser. */
-  if (brochureUrl) window.open(brochureUrl, '_blank');
+  if (brochureModalMode === 'brochure' && brochureUrl) window.open(brochureUrl, '_blank');
 
   closeBrochureModal();
   document.getElementById('bro_name').value = '';
@@ -2114,8 +2139,13 @@ function submitBrochureRequest() {
 
   /* Log the lead in Supabase (visible in Admin Panel → Brochure Leads) — a backup
      record even if the notification below hasn't been switched on yet. */
-  window.eurekaTrack && window.eurekaTrack.lead({ content_name: tripTitle, source: 'brochure_request', user_data: { name: name, email: email, phone: phone } });
+  var leadSource = brochureModalMode === 'booking' ? 'group_trip_booking_request' : 'brochure_request';
+  window.eurekaTrack && window.eurekaTrack.lead({ content_name: tripTitle, source: leadSource, user_data: { name: name, email: email, phone: phone } });
   sbInsert('brochure_leads', { trip_id: tripId, trip_title: tripTitle, name: name, phone: phone, email: email });
+
+  if (brochureModalMode === 'booking') {
+    openWA('Hi Eureka Trips! I would like to book the "' + tripTitle + '" group trip' + (bookingDeparture ? ' for the ' + bookingDeparture + ' departure' : '') + '.\\nName: ' + name + '\\nEmail: ' + email + '\\nPhone: ' + phone);
+  }
 
   /* Notify the admin automatically, server-side — both WhatsApp (Meta Cloud API) and
      email (Web3Forms) are sent from a Supabase Edge Function, not from the visitor's
@@ -2191,11 +2221,48 @@ var GT_REVIEWS=[
   {name:'Namrata Bhan', init:'NB', color:'#EF4444', ago:'8 months ago', stars:4, verified:true,
    q:"It was a great experience traveling to Sri Lanka with Eureka Trips! Met some amazing people on the trip, and Shubham, our trip lead, did a good job being patien..."}
 ];
+function gtLinkFaqContacts(html) {
+  var wrap = document.createElement('div');
+  wrap.innerHTML = html || '';
+  var walker = document.createTreeWalker(wrap, NodeFilter.SHOW_TEXT);
+  var nodes = [];
+  while (walker.nextNode()) {
+    if (!walker.currentNode.parentElement.closest('a')) nodes.push(walker.currentNode);
+  }
+  var links = {
+    call: 'tel:+919792496457',
+    whatsapp: 'https://wa.me/919792496457?text=Hi%20Eureka%20Trips!%20I%20have%20a%20question%20about%20a%20group%20trip.',
+    email: 'mailto:hello@eurekatrips.com'
+  };
+  nodes.forEach(function(node) {
+    var text = node.nodeValue;
+    var matches = Array.from(text.matchAll(/\b(Call|WhatsApp|Email)\b/gi));
+    if (!matches.length) return;
+    var fragment = document.createDocumentFragment();
+    var cursor = 0;
+    matches.forEach(function(match) {
+      fragment.appendChild(document.createTextNode(text.slice(cursor, match.index)));
+      var anchor = document.createElement('a');
+      anchor.className = 'gt-faq-contact-link';
+      anchor.href = links[match[0].toLowerCase()];
+      anchor.textContent = match[0];
+      if (match[0].toLowerCase() === 'whatsapp') {
+        anchor.target = '_blank';
+        anchor.rel = 'noopener';
+      }
+      fragment.appendChild(anchor);
+      cursor = match.index + match[0].length;
+    });
+    fragment.appendChild(document.createTextNode(text.slice(cursor)));
+    node.parentNode.replaceChild(fragment, node);
+  });
+  return wrap.innerHTML;
+}
 function gtBuildFaqItem(f, idx) {
   return '' +
   '<div class="gt-faq-item' + (idx===0?' open':'') + '">' +
     '<div class="gt-faq-q" data-ts="gt_faq_question" onclick="gtToggleFaq(this)">' + stripOuterParagraph(f.question||'') + '<span class="gt-faq-icon">' + (idx===0?'−':'+') + '</span></div>' +
-    '<div class="gt-faq-a"' + (idx===0?' style="max-height:600px"':'') + '><div class="gt-faq-a-in" data-ts="gt_faq_answer">' + stripOuterParagraph(f.answer||'') + '</div></div>' +
+    '<div class="gt-faq-a"' + (idx===0?' style="max-height:600px"':'') + '><div class="gt-faq-a-in" data-ts="gt_faq_answer">' + gtLinkFaqContacts(stripOuterParagraph(f.answer||'')) + '</div></div>' +
   '</div>';
 }
 var GT_RI=0,GT_RT=0,GT_REVIEW_TIMER=null;
@@ -2744,7 +2811,7 @@ function buildDateCard(d) {
           '<div class="dm-cancel" data-ts="gt_dc_cancel_label" onclick="toggleCancelPolicy(\'' + cancelId + '\',this)">' + (window.GT_DC_CANCEL_LABEL || 'Cancellation Policy') + ' <span class="chev">▾</span></div>' +
           '<div class="dm-cancel-body" data-ts="gt_dc_content" id="' + cancelId + '">' + (window.GT_CANCELLATION_POLICY || 'Cancellation policy details coming soon — contact us for specifics.') + '</div>' +
           '<div class="dm-btns">' +
-            '<a href="/booking-page.html" class="dm-btn" data-ts="gt_dc_booknow_label">' + (window.GT_DC_BOOKNOW_LABEL || '🎫 Book Now') + '</a>' +
+            '<a href="#" data-departure="' + encodeURIComponent(d.start_date_label || '') + '" onclick="return openBookingModal(event,this.dataset.departure)" class="dm-btn" data-ts="gt_dc_booknow_label">' + (window.GT_DC_BOOKNOW_LABEL || '🎫 Book Now') + '</a>' +
             '<a href="' + contactHref + '" target="_blank" rel="noopener" class="dm-btn dm-btn-secondary" data-ts="gt_dc_contactus_label">' + (window.GT_DC_CONTACTUS_LABEL || 'Contact Us') + '</a>' +
           '</div>' +
       '</div>' +
