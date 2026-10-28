@@ -91,9 +91,12 @@
   }
 
   function trackingData() {
+    if (window.eurekaTrack && window.eurekaTrack.attribution) {
+      return window.eurekaTrack.attribution();
+    }
     var params = new URLSearchParams(window.location.search);
     var data = {};
-    ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'fbclid'].forEach(function (key) {
+    ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'utm_id', 'fbclid'].forEach(function (key) {
       if (params.get(key)) data[key] = params.get(key);
     });
     return data;

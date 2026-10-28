@@ -3,7 +3,7 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
-const allowedEvents = new Set(['PageView', 'ViewContent', 'Lead', 'Contact']);
+const allowedEvents = new Set(['PageView', 'ViewContent', 'Lead', 'Contact', 'ItineraryDownload', 'ButtonClick']);
 
 function clean(value: unknown, maxLength = 500): string {
   return String(value ?? '').trim().slice(0, maxLength);

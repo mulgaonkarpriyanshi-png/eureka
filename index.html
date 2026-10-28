@@ -2321,6 +2321,9 @@ async function submitBookingPopup(event) {
     tour_title: bookingPopupTripTitle,
     source: 'homepage_featured_tours'
   };
+  if (window.eurekaTrack && window.eurekaTrack.attribution) {
+    Object.assign(payload, window.eurekaTrack.attribution());
+  }
   submit.disabled = true;
   submit.textContent = 'Sending...';
   try {

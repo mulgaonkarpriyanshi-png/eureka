@@ -2063,6 +2063,7 @@ function downloadItineraryWA() {
     return;
   }
   var tripName = (document.getElementById('gtTitleEl') && document.getElementById('gtTitleEl').textContent.trim()) || 'this trip';
+  window.eurekaTrack && window.eurekaTrack.itineraryDownload({ trip_name: tripName, file_name: 'full-itinerary-pdf', user_data: { phone: phone } });
   openWA('Hi EUREKA Trips! Please send me the full itinerary PDF for "' + tripName + '" — my WhatsApp number is +91' + phone + '.');
 }
 // Lightweight inline error message — this page has no toast() helper (that's
@@ -2130,7 +2131,10 @@ function submitBrochureRequest() {
 
   /* Give the visitor their brochure right away — inside the same click, so the
      popup isn't blocked by the browser. */
-  if (brochureModalMode === 'brochure' && brochureUrl) window.open(brochureUrl, '_blank');
+  if (brochureModalMode === 'brochure' && brochureUrl) {
+    window.eurekaTrack && window.eurekaTrack.itineraryDownload({ trip_name: tripTitle, file_name: brochureUrl.split('/').pop() || 'trip-brochure', user_data: { name: name, email: email, phone: phone } });
+    window.open(brochureUrl, '_blank');
+  }
 
   closeBrochureModal();
   document.getElementById('bro_name').value = '';
@@ -2141,7 +2145,7 @@ function submitBrochureRequest() {
      record even if the notification below hasn't been switched on yet. */
   var leadSource = brochureModalMode === 'booking' ? 'group_trip_booking_request' : 'brochure_request';
   window.eurekaTrack && window.eurekaTrack.lead({ content_name: tripTitle, source: leadSource, user_data: { name: name, email: email, phone: phone } });
-  sbInsert('brochure_leads', { trip_id: tripId, trip_title: tripTitle, name: name, phone: phone, email: email });
+  sbInsert('brochure_leads', Object.assign({ trip_id: tripId, trip_title: tripTitle, name: name, phone: phone, email: email }, window.eurekaTrack && window.eurekaTrack.attribution ? window.eurekaTrack.attribution() : {}));
 
   if (brochureModalMode === 'booking') {
     openWA('Hi Eureka Trips! I would like to book the "' + tripTitle + '" group trip' + (bookingDeparture ? ' for the ' + bookingDeparture + ' departure' : '') + '.\\nName: ' + name + '\\nEmail: ' + email + '\\nPhone: ' + phone);
