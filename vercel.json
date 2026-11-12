@@ -1,4 +1,5 @@
 {
+  "trailingSlash": false,
   "rewrites": [
     { "source": "/philippines-hop-and-chill", "destination": "/philippines-hop-and-chill.html" },
     { "source": "/egypt-and-the-nile", "destination": "/egypt-and-the-nile.html" },
