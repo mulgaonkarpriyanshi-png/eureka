@@ -55,5 +55,5 @@ export default function middleware(request) {
 }
 
 export const config = {
-  matcher: ['/admin.html']
+  matcher: ['/admin.html', '/api/admin-image-library']
 };

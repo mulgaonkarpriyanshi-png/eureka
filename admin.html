@@ -396,7 +396,7 @@ function previewImg(input, previewId) {
 }
 
 var IMAGE_LIBRARY_TARGET = null;
-var IMAGE_LIBRARY_FUNCTION = 'admin-image-library';
+var IMAGE_LIBRARY_ENDPOINT = '/api/admin-image-library';
 function setImageLibraryTarget(url) {
   if (!IMAGE_LIBRARY_TARGET || !url) return;
   var input = document.getElementById(IMAGE_LIBRARY_TARGET.inputId);
@@ -406,9 +406,8 @@ function setImageLibraryTarget(url) {
   toast('Image selected', 'success');
 }
 async function imageLibraryRequest(payload) {
-  var base = SB_URL.replace('/rest/v1','');
-  var r = await fetch(base + '/functions/v1/' + IMAGE_LIBRARY_FUNCTION, {
-    method:'POST', headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Content-Type':'application/json'}, body:JSON.stringify(payload)
+  var r = await fetch(IMAGE_LIBRARY_ENDPOINT, {
+    method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(payload)
   });
   var data = await r.json().catch(function(){ return {}; });
   if (!r.ok || data.error) throw new Error(data.error || data.message || 'Image service is not configured yet');
