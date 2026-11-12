@@ -431,10 +431,41 @@ function renderImageLibraryItems(items, source) {
     return '<button type="button" class="image-library-item" onclick="'+action+'"><img loading="lazy" src="'+esc(thumb)+'" alt=""><span>'+esc(label)+'</span>'+credit+'</button>';
   }).join('') + '</div>';
 }
+function imageLibrarySuggestedQuery(inputId) {
+  var input = document.getElementById(inputId);
+  var section = input && input.closest('.trip-editor-section');
+  var row = input && input.closest('.nrow');
+  var field = input && input.closest('.fg');
+  var label = field && field.querySelector('label') ? field.querySelector('label').textContent : '';
+  var sectionTitle = section && section.querySelector('.trip-editor-section-title') ? section.querySelector('.trip-editor-section-title').textContent : '';
+  var localTitle = '';
+  if (row) {
+    var titleField = row.querySelector('input[id*="title"], input[id*="eyebrow"], textarea[id*="title"]');
+    localTitle = titleField ? titleField.value : '';
+  }
+  function firstValue(ids) {
+    for (var i=0;i<ids.length;i++) {
+      var el = document.getElementById(ids[i]);
+      if (el && String(el.value||'').trim()) return String(el.value).trim();
+    }
+    return '';
+  }
+  var tripTitle = firstValue(['tp_name','gt_title','tp_dtitle','gt_dtitle']);
+  var destination = firstValue(['tp_route','gt_waypoints','gt_detail_route','gt_route','tp_destslug']);
+  var purpose = (label + ' ' + sectionTitle)
+    .replace(/\b(main|top|bottom|small|first|second|third|photo|image|picture|upload|optional|shown|before|playback)\b/gi,' ')
+    .replace(/\s+/g,' ').trim();
+  var base = localTitle || destination || tripTitle || 'travel';
+  var query = (base + ' ' + purpose).replace(/[|•,_–—/]+/g,' ').replace(/\s+/g,' ').trim();
+  var words = query.split(' ').filter(Boolean);
+  if (words.length > 10) words = words.slice(0,10);
+  return words.join(' ') || 'travel destination';
+}
 async function openImageLibrary(inputId, previewId, source) {
   IMAGE_LIBRARY_TARGET = { inputId:inputId, previewId:previewId };
   var title = source === 'drive' ? 'Pick from Google Drive' : source === 'stock' ? 'Search Stock Photos' : 'Website Image Gallery';
-  var search = source === 'gallery' ? '' : '<div style="display:flex;gap:8px"><input id="imageLibraryQuery" type="text" placeholder="Search by destination or activity" style="flex:1;padding:10px 13px;border:1px solid var(--border2);border-radius:8px"><button class="btn-save" onclick="searchImageLibrary(\''+source+'\')">Search</button></div>';
+  var suggestedQuery = imageLibrarySuggestedQuery(inputId);
+  var search = source === 'gallery' ? '' : '<div class="hint" style="margin-bottom:7px">Suggested automatically from this trip and image section. Edit only if you want different results.</div><div style="display:flex;gap:8px"><input id="imageLibraryQuery" type="text" value="'+esc(suggestedQuery)+'" placeholder="Search by destination or activity" style="flex:1;padding:10px 13px;border:1px solid var(--border2);border-radius:8px"><button class="btn-save" onclick="searchImageLibrary(\''+source+'\')">Search</button></div>';
   openModal(title, search + '<div id="imageLibraryResults"><div class="loading"><div class="spinner"></div> Loading images...</div></div>');
   if (source === 'gallery') {
     try {
@@ -444,7 +475,7 @@ async function openImageLibrary(inputId, previewId, source) {
       document.getElementById('imageLibraryResults').innerHTML = renderImageLibraryItems(items,'gallery');
     } catch(e) { document.getElementById('imageLibraryResults').innerHTML = '<div class="page-hint">'+esc(e.message)+'</div>'; }
   } else {
-    document.getElementById('imageLibraryResults').innerHTML = '<div class="page-hint">Type a destination, activity, or visual style, then click Search.</div>';
+    searchImageLibrary(source);
   }
 }
 async function searchImageLibrary(source) {
