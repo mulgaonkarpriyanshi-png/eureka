@@ -43,7 +43,16 @@ input,select,textarea{font-family:inherit}
 .sidebar-badge-dot{width:6px;height:6px;border-radius:50%;background:var(--teal);flex-shrink:0;animation:pulse 2s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
 .sidebar-nav{flex:1;padding:0.5rem 0}
-.nav-section{padding:1.1rem 1.5rem 0.4rem;font-size:9.5px;color:#f4a261;letter-spacing:2px;text-transform:uppercase;font-weight:700;display:flex;align-items:center;gap:6px}
+.nav-group{border-bottom:1px solid rgba(255,255,255,0.045)}
+.nav-section{width:100%;padding:0.9rem 1.25rem;font-size:9.5px;color:#f4a261;letter-spacing:1.7px;text-transform:uppercase;font-weight:700;display:flex;align-items:center;gap:7px;text-align:left;cursor:pointer;background:transparent;border:0;transition:background 0.2s,color 0.2s}
+.nav-section:hover{background:rgba(255,255,255,0.045);color:#ffb27c}
+.nav-section-icon{width:16px;text-align:center;flex-shrink:0}
+.nav-section-label{min-width:0;flex:1}
+.nav-section-arrow{font-size:13px;line-height:1;color:rgba(255,255,255,0.38);transition:transform 0.22s ease,color 0.2s}
+.nav-group.open>.nav-section{background:rgba(255,255,255,0.035)}
+.nav-group.open>.nav-section .nav-section-arrow{transform:rotate(90deg);color:#f4a261}
+.nav-group-items{display:none;padding:0.15rem 0 0.55rem}
+.nav-group.open>.nav-group-items{display:block}
 .nav-item{display:flex;align-items:center;gap:10px;padding:0.6rem 1.5rem 0.6rem 2rem;font-size:12.5px;color:rgba(255,255,255,0.55);cursor:pointer;transition:all 0.2s;border-left:2px solid transparent;font-weight:400}
 .nav-item:hover{color:rgba(255,255,255,0.9);background:rgba(255,255,255,0.04)}
 .nav-item.active{color:white;background:rgba(255,255,255,0.07);border-left-color:var(--coral)}
@@ -907,20 +916,53 @@ var TAB_CONFIG = {
 
 function buildSidebar() {
   var html = '';
-  NAV.forEach(function(group) {
-    html += '<div class="nav-section">' + group.icon + ' ' + esc(group.section) + '</div>';
+  var savedGroup = Number(localStorage.getItem('eurekaAdminOpenNavGroup'));
+  if (!Number.isInteger(savedGroup) || savedGroup < 0 || savedGroup >= NAV.length) savedGroup = 0;
+  NAV.forEach(function(group, groupIndex) {
+    var isOpen = groupIndex === savedGroup;
+    html += '<div class="nav-group' + (isOpen?' open':'') + '" data-nav-group="' + groupIndex + '">' +
+      '<button class="nav-section" type="button" aria-expanded="' + (isOpen?'true':'false') + '" onclick="toggleNavGroup(' + groupIndex + ')">' +
+        '<span class="nav-section-icon">' + group.icon + '</span>' +
+        '<span class="nav-section-label">' + esc(group.section) + '</span>' +
+        '<span class="nav-section-arrow" aria-hidden="true">›</span>' +
+      '</button><div class="nav-group-items">';
     group.items.forEach(function(item) {
-      html += '<div class="nav-item' + (item.sub?' sub':'') + '" data-tab="' + item.id + '" onclick="showTab(\'' + item.id + '\')"><span class="nav-icon">' + item.icon + '</span> ' + esc(item.label) + '</div>';
+      html += '<div class="nav-item' + (item.sub?' sub':'') + '" data-tab="' + item.id + '" data-nav-parent="' + groupIndex + '" onclick="showTab(\'' + item.id + '\')"><span class="nav-icon">' + item.icon + '</span> ' + esc(item.label) + '</div>';
     });
+    html += '</div></div>';
   });
   document.getElementById('sidebarNav').innerHTML = html;
+}
+function setOpenNavGroup(groupIndex, remember) {
+  document.querySelectorAll('.nav-group').forEach(function(group) {
+    var open = Number(group.dataset.navGroup) === groupIndex;
+    group.classList.toggle('open', open);
+    var button = group.querySelector('.nav-section');
+    if (button) button.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+  if (remember !== false) localStorage.setItem('eurekaAdminOpenNavGroup', String(groupIndex));
+}
+function toggleNavGroup(groupIndex) {
+  var group = document.querySelector('.nav-group[data-nav-group="' + groupIndex + '"]');
+  if (!group) return;
+  if (group.classList.contains('open')) {
+    group.classList.remove('open');
+    var button = group.querySelector('.nav-section');
+    if (button) button.setAttribute('aria-expanded', 'false');
+    localStorage.removeItem('eurekaAdminOpenNavGroup');
+    return;
+  }
+  setOpenNavGroup(groupIndex, true);
 }
 function showTab(tabId) {
   currentTab = tabId;
   var cfg = TAB_CONFIG[tabId];
   document.querySelectorAll('.nav-item').forEach(function(el){ el.classList.remove('active'); });
   var el = document.querySelector('.nav-item[data-tab="'+tabId+'"]');
-  if (el) el.classList.add('active');
+  if (el) {
+    el.classList.add('active');
+    setOpenNavGroup(Number(el.dataset.navParent), true);
+  }
   document.getElementById('topbarCrumb').textContent = cfg.crumb;
   document.getElementById('topbarTitle').textContent = cfg.title;
   document.getElementById('topbarAddBtn').style.display = cfg.add ? 'flex' : 'none';
