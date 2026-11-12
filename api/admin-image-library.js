@@ -43,6 +43,40 @@ async function uploadToEureka(sourceUrl, headers, filename) {
   return `${supabaseUrl}/storage/v1/object/public/eureka-images/${path}`;
 }
 
+async function driveFolderImages(token, rootFolder, nameQuery) {
+  const queue = [{ id: rootFolder, path: '' }];
+  const images = [];
+  const seen = new Set();
+  while (queue.length && seen.size < 80 && images.length < 300) {
+    const folder = queue.shift();
+    if (!folder?.id || seen.has(folder.id)) continue;
+    seen.add(folder.id);
+    const params = new URLSearchParams({
+      q: `'${String(folder.id).replace(/'/g, "\\'")}' in parents and trashed = false`,
+      fields: 'files(id,name,mimeType,thumbnailLink)',
+      pageSize: '1000',
+      orderBy: 'createdTime desc'
+    });
+    const response = await fetch(`https://www.googleapis.com/drive/v3/files?${params}`, { headers: { Authorization: `Bearer ${token}` } });
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.error?.message || 'Drive folder scan failed');
+    for (const file of data.files || []) {
+      if (file.mimeType === 'application/vnd.google-apps.folder') {
+        queue.push({ id: file.id, path: folder.path ? `${folder.path} / ${file.name}` : file.name });
+      } else if (String(file.mimeType || '').startsWith('image/')) {
+        const haystack = `${folder.path} ${file.name}`.toLowerCase();
+        const words = String(nameQuery || '').toLowerCase().split(/\s+/).filter((word) => word.length > 2);
+        const relevance = words.reduce((score, word) => score + (haystack.includes(word) ? 1 : 0), 0);
+        images.push({ id: file.id, name: file.name, thumb: file.thumbnailLink, folder: folder.path, relevance });
+      }
+    }
+  }
+  const filtered = nameQuery && images.some((file) => file.relevance > 0)
+    ? images.filter((file) => file.relevance > 0)
+    : images;
+  return filtered.sort((a, b) => b.relevance - a.relevance).slice(0, 200);
+}
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') return send(res, 405, { error: 'Method not allowed' });
   try {
@@ -72,7 +106,9 @@ export default async function handler(req, res) {
     if (mode === 'drive_search') {
       const token = await driveToken();
       const folder = process.env.GOOGLE_DRIVE_FOLDER_ID || '';
-      const query = String(body.query || '').replace(/'/g, "\\'");
+      const rawQuery = String(body.query || '').trim();
+      if (folder) return send(res, 200, { items: await driveFolderImages(token, folder, rawQuery) });
+      const query = rawQuery.replace(/'/g, "\\'");
       const clauses = ["mimeType contains 'image/'", 'trashed = false'];
       if (folder) clauses.push(`'${folder}' in parents`);
       if (query) clauses.push(`name contains '${query}'`);
