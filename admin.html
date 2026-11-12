@@ -170,6 +170,22 @@ tr:hover td{background:var(--cream)}
 
 /* ── IMAGE PREVIEW ── */
 .img-preview-lg{width:100%;height:160px;object-fit:cover;border-radius:8px;border:1px solid var(--border);margin-top:8px;display:none}
+.image-source-actions{display:flex;gap:7px;flex-wrap:wrap;margin:9px 0 2px}
+.image-source-btn{padding:7px 11px;border:1px solid var(--border2);border-radius:7px;background:var(--white);color:var(--teal-d);font-size:10.5px;font-weight:600}
+.image-source-btn:hover{border-color:var(--teal);background:var(--teal-l)}
+.image-library-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(125px,1fr));gap:10px;margin-top:14px}
+.image-library-item{border:1px solid var(--border);border-radius:9px;background:var(--cream);overflow:hidden;text-align:left;position:relative}
+.image-library-item img{width:100%;height:105px;object-fit:cover;display:block}
+.image-library-item span{display:block;padding:7px;font-size:9.5px;color:var(--body);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.trip-editor-workspace{display:grid;grid-template-columns:minmax(560px,1.05fr) minmax(390px,.95fr);gap:18px;align-items:start}
+.trip-editor-form{min-width:0}
+.trip-preview-panel{position:sticky;top:0;height:calc(100vh - 126px);min-height:600px;background:#e9efed;border:1px solid var(--border2);border-radius:12px;overflow:hidden;box-shadow:var(--shadow)}
+.trip-preview-toolbar{height:48px;background:var(--white);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:7px;padding:8px 10px}
+.trip-preview-toolbar strong{font-size:11px;margin-right:auto;color:var(--dark)}
+.trip-preview-stage{height:calc(100% - 48px);overflow:auto;padding:14px;display:flex;justify-content:center;align-items:flex-start}
+.trip-preview-frame{height:100%;min-height:720px;border:0;background:white;box-shadow:0 5px 24px rgba(0,0,0,.12);transition:width .2s ease;width:100%}
+.trip-preview-frame.mobile{width:390px;flex:0 0 390px}
+@media(max-width:1180px){.trip-editor-workspace{grid-template-columns:1fr}.trip-preview-panel{position:relative;height:760px}.trip-editor-workspace.preview-hidden .trip-preview-panel{display:none}}
 
 /* ── TABS ── */
 .sub-tabs{display:flex;gap:0;border-bottom:1px solid var(--border);margin-bottom:1.5rem}
@@ -364,6 +380,11 @@ function imageField(label, inputId, previewId, currentUrl, hint) {
     '</div>' +
     '<div class="upload-progress" id="' + progId + '"><div class="upload-progress-bar"></div></div>' +
     '<div class="upload-status" id="' + statusId + '"></div>' +
+    '<div class="image-source-actions">' +
+      '<button type="button" class="image-source-btn" onclick="openImageLibrary(\''+inputId+'\',\''+previewId+'\',\'gallery\')">🖼 Website Gallery</button>' +
+      '<button type="button" class="image-source-btn" onclick="openImageLibrary(\''+inputId+'\',\''+previewId+'\',\'drive\')">☁ Google Drive</button>' +
+      '<button type="button" class="image-source-btn" onclick="openImageLibrary(\''+inputId+'\',\''+previewId+'\',\'stock\')">✨ Stock Photos</button>' +
+    '</div>' +
     '<div class="upload-or">or paste URL</div>' +
     '<input type="text" id="' + inputId + '" value="' + esc(currentUrl||'') + '" placeholder="https://..." oninput="previewImg(this,\'' + previewId + '\')">' +
     '<img id="' + previewId + '" class="img-preview-lg" ' + (currentUrl ? 'src="' + esc(currentUrl) + '" style="display:block"' : '') + ' onerror="this.style.display=\'none\'">' +
@@ -372,6 +393,67 @@ function imageField(label, inputId, previewId, currentUrl, hint) {
 function previewImg(input, previewId) {
   var prev = document.getElementById(previewId);
   if (prev) { prev.src = input.value; prev.style.display = input.value ? 'block' : 'none'; prev.onerror = function(){ this.style.display='none'; }; }
+}
+
+var IMAGE_LIBRARY_TARGET = null;
+var IMAGE_LIBRARY_FUNCTION = 'admin-image-library';
+function setImageLibraryTarget(url) {
+  if (!IMAGE_LIBRARY_TARGET || !url) return;
+  var input = document.getElementById(IMAGE_LIBRARY_TARGET.inputId);
+  if (input) { input.value = url; input.dispatchEvent(new Event('input', { bubbles:true })); }
+  previewImg(input, IMAGE_LIBRARY_TARGET.previewId);
+  closeModal();
+  toast('Image selected', 'success');
+}
+async function imageLibraryRequest(payload) {
+  var base = SB_URL.replace('/rest/v1','');
+  var r = await fetch(base + '/functions/v1/' + IMAGE_LIBRARY_FUNCTION, {
+    method:'POST', headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Content-Type':'application/json'}, body:JSON.stringify(payload)
+  });
+  var data = await r.json().catch(function(){ return {}; });
+  if (!r.ok || data.error) throw new Error(data.error || data.message || 'Image service is not configured yet');
+  return data;
+}
+function renderImageLibraryItems(items, source) {
+  if (!items || !items.length) return '<div class="empty"><div class="empty-text">No images found.</div></div>';
+  return '<div class="image-library-grid">' + items.map(function(item, i){
+    var thumb = item.thumb || item.url || '';
+    var label = item.name || item.credit || ('Image ' + (i+1));
+    var action = source === 'gallery'
+      ? "setImageLibraryTarget('" + String(item.url||'').replace(/'/g,"\\'") + "')"
+      : "importImageLibraryItem('"+source+"','"+String(item.id||'').replace(/'/g,"\\'")+"','"+String(item.url||'').replace(/'/g,"\\'")+"')";
+    return '<button type="button" class="image-library-item" onclick="'+action+'"><img loading="lazy" src="'+esc(thumb)+'" alt=""><span>'+esc(label)+'</span></button>';
+  }).join('') + '</div>';
+}
+async function openImageLibrary(inputId, previewId, source) {
+  IMAGE_LIBRARY_TARGET = { inputId:inputId, previewId:previewId };
+  var title = source === 'drive' ? 'Pick from Google Drive' : source === 'stock' ? 'Search Stock Photos' : 'Website Image Gallery';
+  var search = source === 'gallery' ? '' : '<div style="display:flex;gap:8px"><input id="imageLibraryQuery" type="text" placeholder="Search by destination or activity" style="flex:1;padding:10px 13px;border:1px solid var(--border2);border-radius:8px"><button class="btn-save" onclick="searchImageLibrary(\''+source+'\')">Search</button></div>';
+  openModal(title, search + '<div id="imageLibraryResults"><div class="loading"><div class="spinner"></div> Loading images...</div></div>');
+  if (source === 'gallery') {
+    try {
+      var r = await fetch(STORAGE_URL + '/object/list/' + BUCKET, { method:'POST', headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Content-Type':'application/json'}, body:JSON.stringify({prefix:'',limit:100,offset:0,sortBy:{column:'created_at',order:'desc'}}) });
+      var rows = await r.json();
+      var items = (Array.isArray(rows)?rows:[]).filter(function(x){return x.name && !x.name.endsWith('/');}).map(function(x){return {name:x.name,url:STORAGE_URL+'/object/public/'+BUCKET+'/'+x.name};});
+      document.getElementById('imageLibraryResults').innerHTML = renderImageLibraryItems(items,'gallery');
+    } catch(e) { document.getElementById('imageLibraryResults').innerHTML = '<div class="page-hint">'+esc(e.message)+'</div>'; }
+  } else {
+    document.getElementById('imageLibraryResults').innerHTML = '<div class="page-hint">Type a destination, activity, or visual style, then click Search.</div>';
+  }
+}
+async function searchImageLibrary(source) {
+  var q = val('imageLibraryQuery').trim();
+  if (!q) { toast('Enter a search term', 'error'); return; }
+  var box = document.getElementById('imageLibraryResults');
+  box.innerHTML = '<div class="loading"><div class="spinner"></div> Searching...</div>';
+  try { var data = await imageLibraryRequest({mode:source+'_search',query:q}); box.innerHTML = renderImageLibraryItems(data.items||[],source); }
+  catch(e) { box.innerHTML = '<div class="page-hint" style="background:#fff3e8;border-color:#f4c79c;color:#8a4b10">'+esc(e.message)+'</div>'; }
+}
+async function importImageLibraryItem(source, id, url) {
+  var box = document.getElementById('imageLibraryResults');
+  box.innerHTML = '<div class="loading"><div class="spinner"></div> Importing image into Eureka storage...</div>';
+  try { var data = await imageLibraryRequest({mode:source+'_import',id:id,url:url}); setImageLibraryTarget(data.url); }
+  catch(e) { box.innerHTML = '<div class="page-hint" style="background:#fff3e8;border-color:#f4c79c;color:#8a4b10">'+esc(e.message)+'</div>'; }
 }
 
 // ── VIDEO UPLOAD ──────────────────────────────────────────────
@@ -673,6 +755,7 @@ function toast(msg, type) {
   t.textContent = (type === 'success' ? '✓  ' : type === 'error' ? '✕  ' : 'ℹ  ') + msg;
   t.className = 'toast show ' + (type || '');
   setTimeout(function() { t.className = 'toast'; }, 3000);
+  if (type === 'success' && document.getElementById('tripPreviewFrame')) setTimeout(reloadTripPreview, 650);
 }
 var lastActiveSubTab = null;
 function switchSubTab(el, paneId) {
@@ -682,6 +765,37 @@ function switchSubTab(el, paneId) {
   document.getElementById(paneId).classList.add('active');
   lastActiveSubTab = paneId;
   setTimeout(initRichEditors, 30);
+}
+function mountTripEditorPreview(kind, tripId) {
+  var root = document.getElementById('mainContent');
+  if (!root || !tripId || root.querySelector('.trip-editor-workspace')) return;
+  var form = document.createElement('div');
+  form.className = 'trip-editor-form';
+  while (root.firstChild) form.appendChild(root.firstChild);
+  var workspace = document.createElement('div');
+  workspace.className = 'trip-editor-workspace';
+  var page = kind === 'group' ? 'group-trip.html' : 'trip-page.html';
+  var src = page + '?trip=' + encodeURIComponent(tripId) + '&adminPreview=1';
+  workspace.appendChild(form);
+  var panel = document.createElement('aside');
+  panel.className = 'trip-preview-panel';
+  panel.innerHTML = '<div class="trip-preview-toolbar"><strong>Live saved preview</strong>' +
+    '<button type="button" class="image-source-btn" onclick="setTripPreviewMode(\'desktop\')">🖥 Desktop</button>' +
+    '<button type="button" class="image-source-btn" onclick="setTripPreviewMode(\'mobile\')">📱 Mobile</button>' +
+    '<button type="button" class="image-source-btn" onclick="reloadTripPreview()">↻ Refresh</button></div>' +
+    '<div class="trip-preview-stage"><iframe id="tripPreviewFrame" class="trip-preview-frame" title="Trip page preview" src="'+esc(src)+'"></iframe></div>';
+  workspace.appendChild(panel);
+  root.appendChild(workspace);
+}
+function setTripPreviewMode(mode) {
+  var frame = document.getElementById('tripPreviewFrame');
+  if (frame) frame.classList.toggle('mobile', mode === 'mobile');
+}
+function reloadTripPreview() {
+  var frame = document.getElementById('tripPreviewFrame');
+  if (!frame) return;
+  var clean = frame.src.replace(/([?&])previewRefresh=\d+/,'$1').replace(/[?&]$/,'');
+  frame.src = clean + (clean.indexOf('?') === -1 ? '?' : '&') + 'previewRefresh=' + Date.now();
 }
 async function deleteItem(table, id, reloadFn, idCol) {
   if (!confirm('Are you sure you want to delete this item? This cannot be undone.')) return;
@@ -1218,6 +1332,7 @@ function renderTripEditorPage(r, itin, revs) {
     '</div></div>';
 
   document.getElementById('mainContent').innerHTML = html;
+  if (r && r.id) mountTripEditorPreview('private', r.id);
   TypographyEngine.resetEditors();
   setTimeout(initRichEditors, 60);
 }
@@ -2016,6 +2131,7 @@ function renderGroupTripEditorPage(r, itin, dates, settingsMap) {
     '</div></div>';
 
   document.getElementById('mainContent').innerHTML = html;
+  if (r && r.id) mountTripEditorPreview('group', r.id);
   TypographyEngine.resetEditors();
   restoreLastActiveSubTab();
   setTimeout(initRichEditors, 60);
