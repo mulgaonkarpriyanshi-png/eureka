@@ -48,6 +48,27 @@ export default async function handler(req, res) {
   try {
     const body = req.body || {};
     const mode = String(body.mode || '');
+    if (mode === 'gallery_search') {
+      const supabaseUrl = process.env.SUPABASE_URL || 'https://caigrloiymgfxubzprbg.supabase.co';
+      const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_ANON_KEY;
+      if (!supabaseKey) throw new Error('Supabase storage key is not configured');
+      const prefixes = ['', 'library'];
+      const lists = await Promise.all(prefixes.map(async (prefix) => {
+        const response = await fetch(`${supabaseUrl}/storage/v1/object/list/eureka-images`, {
+          method: 'POST',
+          headers: { apikey: supabaseKey, Authorization: `Bearer ${supabaseKey}`, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ prefix, limit: 250, offset: 0, sortBy: { column: 'created_at', order: 'desc' } })
+        });
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.message || 'Could not load website gallery');
+        return (Array.isArray(data) ? data : []).filter((x) => x.name && x.id).map((x) => {
+          const path = prefix ? `${prefix}/${x.name}` : x.name;
+          const url = `${supabaseUrl}/storage/v1/object/public/eureka-images/${path}`;
+          return { id: path, name: x.name, url, thumb: url };
+        });
+      }));
+      return send(res, 200, { items: lists.flat() });
+    }
     if (mode === 'drive_search') {
       const token = await driveToken();
       const folder = process.env.GOOGLE_DRIVE_FOLDER_ID || '';
@@ -73,7 +94,7 @@ export default async function handler(req, res) {
         q: String(body.query || 'travel'),
         per_page: '40',
         image_type: 'photo',
-        orientation: 'horizontal',
+        orientation: ['horizontal', 'vertical'].includes(String(body.orientation || '')) ? String(body.orientation) : 'horizontal',
         safesearch: 'true'
       });
       const response = await fetch(`https://pixabay.com/api/?${params}`);

@@ -178,6 +178,14 @@ tr:hover td{background:var(--cream)}
 .image-library-item img{width:100%;height:105px;object-fit:cover;display:block}
 .image-library-item span{display:block;padding:7px;font-size:9.5px;color:var(--body);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .image-library-item .image-library-credit{padding-top:0;color:var(--muted);font-size:8.5px}
+.global-image-fill{border:1px solid #b9ded9;border-radius:12px;background:linear-gradient(135deg,#effaf8,#f9fcfb);padding:16px;margin:0 0 18px;display:grid;gap:11px}
+.global-image-fill-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.global-image-fill-title{font-size:14px;font-weight:750;color:var(--dark)}
+.global-image-fill-copy{font-size:11px;color:var(--muted);max-width:680px;margin-top:3px;line-height:1.5}
+.global-image-fill-controls{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.global-image-fill select{min-width:170px;padding:9px 11px;border:1px solid var(--border2);border-radius:8px;background:#fff;color:var(--body)}
+.global-image-progress{display:none;font-size:11px;color:var(--teal-d);background:#fff;border:1px solid #d6ebe8;border-radius:8px;padding:9px 11px}
+.global-image-progress.show{display:block}
 .trip-editor-workspace{display:grid;grid-template-columns:minmax(560px,1.05fr) minmax(390px,.95fr);gap:18px;align-items:start}
 .trip-editor-form{min-width:0}
 .trip-preview-panel{position:sticky;top:0;height:calc(100vh - 126px);min-height:600px;background:#e9efed;border:1px solid var(--border2);border-radius:12px;overflow:hidden;box-shadow:var(--shadow)}
@@ -377,7 +385,7 @@ async function uploadImage(file, targetInputId, previewId, progressId, statusId)
 }
 function imageField(label, inputId, previewId, currentUrl, hint) {
   var progId = inputId + '_prog', statusId = inputId + '_status';
-  return '<div class="fg full"><label>' + label + '</label>' +
+  return '<div class="fg full" data-image-field="1" data-image-input="'+esc(inputId)+'" data-image-preview="'+esc(previewId)+'" data-image-label="'+esc(label)+'" data-image-hint="'+esc(hint||'')+'"><label>' + label + '</label>' +
     (hint ? '<div class="hint" style="margin-bottom:.4rem">📐 ' + hint + '</div>' : '') +
     '<div class="upload-box" onclick="document.getElementById(\'' + inputId + '_file\').click()">' +
       '<input type="file" id="' + inputId + '_file" accept="image/*" style="position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%" onchange="uploadImage(this.files[0],\'' + inputId + '\',\'' + previewId + '\',\'' + progId + '\',\'' + statusId + '\')">' +
@@ -461,6 +469,115 @@ function imageLibrarySuggestedQuery(inputId) {
   if (words.length > 10) words = words.slice(0,10);
   return words.join(' ') || 'travel destination';
 }
+function imageIntentContext() {
+  function first(ids) {
+    for (var i=0;i<ids.length;i++) { var el=document.getElementById(ids[i]); if (el && String(el.value||'').trim()) return String(el.value).trim(); }
+    return '';
+  }
+  var title = first(['tp_name','gt_title','tp_dtitle','gt_dtitle']);
+  var route = first(['tp_route','gt_waypoints','gt_detail_route','gt_route']);
+  var destination = (route || title || 'travel destination').split(/[|•,–—]/)[0].trim();
+  return { title:title, route:route, destination:destination || title || 'travel destination' };
+}
+function imageIntentForField(field, index) {
+  var inputId = field.dataset.imageInput || '';
+  var label = (field.dataset.imageLabel || '').toLowerCase();
+  var section = field.closest('.trip-editor-section');
+  var sectionTitle = section && section.querySelector('.trip-editor-section-title') ? section.querySelector('.trip-editor-section-title').textContent : '';
+  var ctx = imageIntentContext();
+  var local = '';
+  var row = field.closest('.nrow');
+  if (row) {
+    var titleField = row.querySelector('input[id*="title"], input[id*="eyebrow"], textarea[id*="title"]');
+    local = titleField ? String(titleField.value||'').trim() : '';
+  }
+  var subject = local || ctx.destination;
+  var scene = 'travel landscape';
+  if (/hero|banner|background/.test(label+' '+sectionTitle)) scene = 'iconic scenic landscape';
+  else if (/accommodation|hotel|stay|resort/.test(label+' '+sectionTitle)) scene = 'beautiful boutique hotel resort';
+  else if (/beach/.test(label)) scene = 'tropical beach coast';
+  else if (/waterfall/.test(label)) scene = 'waterfall nature';
+  else if (/social|traveller|review|group/.test(label+' '+sectionTitle)) scene = 'friends travelling candid';
+  else if (/food/.test(label+' '+local)) scene = 'local food cuisine';
+  else if (/night/.test(label+' '+local)) scene = 'nightlife travel';
+  else if (/cta|final/.test(label+' '+sectionTitle)) scene = 'golden hour sunset travel';
+  else if (/card/.test(label)) scene = 'iconic destination view';
+  else if (/tall|portrait/.test(label+' '+(field.dataset.imageHint||''))) scene = 'traveller destination portrait';
+  else if (/gallery|photo|image/.test(label)) {
+    var rotations = ['landmark','local culture','nature','street scene','adventure activity','sunset','architecture','aerial view'];
+    scene = rotations[index % rotations.length];
+  }
+  return (subject+' '+scene).replace(/\s+/g,' ').trim();
+}
+function globalImageFillBar(kind) {
+  return '<div class="global-image-fill" data-global-image-kind="'+kind+'">' +
+    '<div class="global-image-fill-head"><div><div class="global-image-fill-title">✨ Auto-fill photos for this trip</div>' +
+    '<div class="global-image-fill-copy">Each image slot gets its own search intent from the destination, itinerary day, section purpose and required shape. Existing photos are protected by default.</div></div></div>' +
+    '<div class="global-image-fill-controls"><select id="globalImageSource"><option value="stock">From stock photos</option><option value="drive">From Google Drive</option><option value="gallery">From website gallery</option></select>' +
+    '<select id="globalImageMode"><option value="empty">Fill empty images only</option><option value="all">Replace all images</option></select>' +
+    '<button type="button" class="btn-save" id="globalImageRun" onclick="runGlobalImageFill()">Auto-fill images</button></div>' +
+    '<div class="global-image-progress" id="globalImageProgress"></div></div>';
+}
+function globalImageNote(message, error) {
+  var box=document.getElementById('globalImageProgress'); if (!box) return;
+  box.textContent=message; box.classList.add('show'); box.style.color=error?'#a13c24':'var(--teal-d)';
+}
+function imageNaturalRatio(url) {
+  return new Promise(function(resolve){ var im=new Image(), done=false; function finish(v){if(done)return;done=true;resolve(v);} im.onload=function(){finish(im.naturalWidth/Math.max(1,im.naturalHeight));}; im.onerror=function(){finish(0);}; setTimeout(function(){finish(0);},5000); im.src=url; });
+}
+function fieldTargetRatio(field) {
+  var h=(field.dataset.imageHint||'').toLowerCase(), l=(field.dataset.imageLabel||'').toLowerCase();
+  if (/portrait|tall/.test(h+' '+l)) return .75;
+  if (/square/.test(h+' '+l)) return 1;
+  if (/ultra-wide|32:9/.test(h)) return 3.5;
+  if (/16:9/.test(h)) return 1.78;
+  return 1.45;
+}
+function pickBestImage(items, field, used) {
+  var target=fieldTargetRatio(field), best=null, score=1e9;
+  items.forEach(function(item){ var key=String(item.id||item.url||''); if(!key||used[key])return; var ratio=item.ratio||1.45; var s=Math.abs(Math.log(ratio/target)); if(s<score){score=s;best=item;} });
+  if (!best) { Object.keys(used).forEach(function(k){delete used[k];}); return pickBestImage(items,field,used); }
+  return best;
+}
+async function websiteGalleryItems() {
+  var data=await imageLibraryRequest({mode:'gallery_search'}), items=data.items||[];
+  await Promise.all(items.slice(0,100).map(async function(x){x.ratio=await imageNaturalRatio(x.thumb);})); return items;
+}
+async function runGlobalImageFill() {
+  var source=val('globalImageSource'), mode=val('globalImageMode');
+  var form=document.querySelector('.trip-editor-form')||document.getElementById('mainContent');
+  var fields=[].slice.call(form.querySelectorAll('[data-image-field="1"]')).filter(function(f){var inp=document.getElementById(f.dataset.imageInput);return inp&&(mode==='all'||!String(inp.value||'').trim());});
+  if(!fields.length){globalImageNote('All image fields already have photos. Choose “Replace all images” if you want a fresh set.');return;}
+  if(mode==='all'&&!confirm('Replace every image currently entered on this trip? The changes will stay unsaved until you use each section’s Save button.'))return;
+  var button=document.getElementById('globalImageRun'), used={}, completed=0, gallery=null, driveItems=null;
+  button.disabled=true; globalImageNote('Preparing '+fields.length+' image slots…');
+  try {
+    if(source==='gallery') gallery=await websiteGalleryItems();
+    if(source==='drive') {
+      var dr=await imageLibraryRequest({mode:'drive_search',query:''}); driveItems=dr.items||[];
+      await Promise.all(driveItems.slice(0,100).map(async function(x){x.ratio=await imageNaturalRatio(x.thumb);}));
+    }
+    for(var i=0;i<fields.length;i++){
+      var field=fields[i], intent=imageIntentForField(field,i), item=null, items=[];
+      globalImageNote('Finding '+(i+1)+' of '+fields.length+': '+intent+'…');
+      if(source==='stock'){
+        var sr=await imageLibraryRequest({mode:'stock_search',query:intent,orientation:fieldTargetRatio(field)<.9?'vertical':'horizontal'}); items=sr.items||[];
+        await Promise.all(items.slice(0,12).map(async function(x){x.ratio=await imageNaturalRatio(x.thumb||x.url);}));
+      } else if(source==='drive') {
+        var tokens=intent.toLowerCase().split(/\s+/).filter(function(w){return w.length>3;});
+        items=(driveItems||[]).map(function(x){var name=String(x.name||'').toLowerCase(), relevance=tokens.reduce(function(n,w){return n+(name.indexOf(w)>=0?1:0);},0);return Object.assign({},x,{relevance:relevance});}).sort(function(a,b){return b.relevance-a.relevance;});
+      } else items=gallery||[];
+      item=pickBestImage(items,field,used); if(!item)continue;
+      used[String(item.id||item.url)]=1;
+      var url=item.url;
+      if(source!=='gallery'){var imported=await imageLibraryRequest({mode:source+'_import',id:item.id,url:item.url});url=imported.url;}
+      var input=document.getElementById(field.dataset.imageInput); if(input){input.value=url;input.dispatchEvent(new Event('input',{bubbles:true}));previewImg(input,field.dataset.imagePreview);completed++;}
+    }
+    globalImageNote('✓ '+completed+' of '+fields.length+' images filled. Review the preview, then save the edited sections.');
+    toast(completed+' images added — review before saving','success');
+  } catch(e){globalImageNote('Could not finish: '+e.message,true);toast('Image auto-fill stopped: '+e.message,'error');}
+  finally{button.disabled=false;}
+}
 async function openImageLibrary(inputId, previewId, source) {
   IMAGE_LIBRARY_TARGET = { inputId:inputId, previewId:previewId };
   var title = source === 'drive' ? 'Pick from Google Drive' : source === 'stock' ? 'Search Stock Photos' : 'Website Image Gallery';
@@ -469,9 +586,7 @@ async function openImageLibrary(inputId, previewId, source) {
   openModal(title, search + '<div id="imageLibraryResults"><div class="loading"><div class="spinner"></div> Loading images...</div></div>');
   if (source === 'gallery') {
     try {
-      var r = await fetch(STORAGE_URL + '/object/list/' + BUCKET, { method:'POST', headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Content-Type':'application/json'}, body:JSON.stringify({prefix:'',limit:100,offset:0,sortBy:{column:'created_at',order:'desc'}}) });
-      var rows = await r.json();
-      var items = (Array.isArray(rows)?rows:[]).filter(function(x){return x.name && !x.name.endsWith('/');}).map(function(x){return {name:x.name,url:STORAGE_URL+'/object/public/'+BUCKET+'/'+x.name};});
+      var items = await websiteGalleryItems();
       document.getElementById('imageLibraryResults').innerHTML = renderImageLibraryItems(items,'gallery');
     } catch(e) { document.getElementById('imageLibraryResults').innerHTML = '<div class="page-hint">'+esc(e.message)+'</div>'; }
   } else {
@@ -1350,6 +1465,7 @@ function renderTripEditorPage(r, itin, revs) {
     '</div>';
 
   var html = '<button class="btn-cancel" style="margin-bottom:1.25rem" onclick="loadTrips()">← Back to All Trips</button>' +
+    globalImageFillBar('private') +
     tripEditorSection('🎬','Trip Hero',heroHtml,'ttab-hero') +
     tripEditorSection('📝','Sub Hero',subheroHtml,'ttab-subhero') +
     tripEditorSection('😊','Joy Scale',joyScaleHtml,'ttab-joy') +
@@ -2134,6 +2250,7 @@ function renderGroupTripEditorPage(r, itin, dates, settingsMap) {
   '</div>';
 
   var html = '<button class="btn-cancel" style="margin-bottom:1.25rem" onclick="loadGroupTrips()">← Back to All Trips</button>' +
+    globalImageFillBar('group') +
     tripEditorSection('🎬','Group Hero',heroHtml,'gttab-hero') +
     tripEditorSection('🖼️','Group Hero Pictures',r ? galleryHtml : '<div class="empty"><div class="empty-text">Save details first.</div></div>','gttab-gallery') +
     tripEditorSection('📝','Sub Hero Text',detailCardHtml,'gttab-detailcard') +
