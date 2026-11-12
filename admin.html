@@ -300,6 +300,11 @@ tr:hover td{background:var(--cream)}
 </div>
 
 <script>
+// The image library is a server API. A file:// copy cannot call /api, so move
+// local admin sessions onto the existing Eureka development server.
+if (location.protocol === 'file:') {
+  location.replace('http://127.0.0.1:8080/admin.html' + location.search + location.hash);
+}
 // ── CONFIG ────────────────────────────────────────────────────
 var SB_URL = 'https://caigrloiymgfxubzprbg.supabase.co/rest/v1';
 var SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNhaWdybG9peW1nZnh1YnpwcmJnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODMzOTM1MjksImV4cCI6MjA5ODk2OTUyOX0.zA5Q1kAAk66fgX_Ertnrbb4TJmM5yPE71zy-alK-yqE';
