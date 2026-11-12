@@ -44,13 +44,13 @@ input,select,textarea{font-family:inherit}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
 .sidebar-nav{flex:1;padding:0.5rem 0}
 .nav-group{border-bottom:1px solid rgba(255,255,255,0.045)}
-.nav-section{width:100%;padding:0.9rem 1.25rem;font-size:9.5px;color:#f4a261;letter-spacing:1.7px;text-transform:uppercase;font-weight:700;display:flex;align-items:center;gap:7px;text-align:left;cursor:pointer;background:transparent;border:0;transition:background 0.2s,color 0.2s}
-.nav-section:hover{background:rgba(255,255,255,0.045);color:#ffb27c}
+.nav-section{width:100%;padding:0.9rem 1.25rem;font-size:10px;color:rgba(255,255,255,.72);letter-spacing:.9px;text-transform:none;font-weight:600;display:flex;align-items:center;gap:9px;text-align:left;cursor:pointer;background:transparent;border:0;transition:background 0.2s,color 0.2s}
+.nav-section:hover{background:rgba(255,255,255,0.045);color:#fff}
 .nav-section-icon{width:16px;text-align:center;flex-shrink:0}
 .nav-section-label{min-width:0;flex:1}
 .nav-section-arrow{font-size:13px;line-height:1;color:rgba(255,255,255,0.38);transition:transform 0.22s ease,color 0.2s}
-.nav-group.open>.nav-section{background:rgba(255,255,255,0.035)}
-.nav-group.open>.nav-section .nav-section-arrow{transform:rotate(90deg);color:#f4a261}
+.nav-group.open>.nav-section{background:rgba(2,169,162,.1);color:#79ddd8;box-shadow:inset 2px 0 0 var(--teal)}
+.nav-group.open>.nav-section .nav-section-arrow{transform:rotate(90deg);color:#79ddd8}
 .nav-group-items{display:none;padding:0.15rem 0 0.55rem}
 .nav-group.open>.nav-group-items{display:block}
 .nav-item{display:flex;align-items:center;gap:10px;padding:0.6rem 1.5rem 0.6rem 2rem;font-size:12.5px;color:rgba(255,255,255,0.55);cursor:pointer;transition:all 0.2s;border-left:2px solid transparent;font-weight:400}
@@ -187,6 +187,11 @@ tr:hover td{background:var(--cream)}
 .trip-preview-frame{height:100%;min-height:720px;border:0;background:white;box-shadow:0 5px 24px rgba(0,0,0,.12);transition:width .2s ease;width:100%}
 .trip-preview-frame.mobile{width:390px;flex:0 0 390px}
 @media(max-width:1180px){.trip-editor-workspace{grid-template-columns:1fr}.trip-preview-panel{position:relative;height:760px}.trip-editor-workspace.preview-hidden .trip-preview-panel{display:none}}
+.trip-editor-section{border:1px solid var(--border);border-radius:11px;background:var(--white);overflow:hidden;margin-bottom:18px;scroll-margin-top:16px}
+.trip-editor-section-head{display:flex;align-items:center;gap:10px;padding:13px 16px;background:#eef5f3;border-bottom:1px solid var(--border)}
+.trip-editor-section-icon{width:28px;height:28px;border-radius:8px;background:rgba(2,169,162,.12);display:flex;align-items:center;justify-content:center;font-size:14px}
+.trip-editor-section-title{font-size:13px;font-weight:700;color:var(--dark);letter-spacing:.15px}
+.trip-editor-section-body{padding:20px}
 
 /* ── TABS ── */
 .sub-tabs{display:flex;gap:0;border-bottom:1px solid var(--border);margin-bottom:1.5rem}
@@ -1138,6 +1143,11 @@ async function editTrip(id) {
   CURRENT_ADMIN_SETTINGS = settingsMap;
   renderTripEditorPage(r, Array.isArray(results[0])?results[0]:[], Array.isArray(results[1])?results[1]:[]);
 }
+function tripEditorSection(icon, title, content, id) {
+  return '<section class="trip-editor-section"' + (id ? ' id="'+id+'"' : '') + '>' +
+    '<div class="trip-editor-section-head"><span class="trip-editor-section-icon">'+icon+'</span><h3 class="trip-editor-section-title">'+esc(title)+'</h3></div>' +
+    '<div class="trip-editor-section-body">'+content+'</div></section>';
+}
 function renderTripEditorPage(r, itin, revs) {
   TP_EDITOR_SNAPSHOT = r || {}; // baseline for typography auto-stamp — see saveTrip/saveTripFinalCta/saveTripItinHeader
   document.querySelectorAll('.nav-item').forEach(function(el){ el.classList.remove('active'); });
@@ -1309,28 +1319,15 @@ function renderTripEditorPage(r, itin, revs) {
     '</div>';
 
   var html = '<button class="btn-cancel" style="margin-bottom:1.25rem" onclick="loadTrips()">← Back to All Trips</button>' +
-    '<div class="card"><div class="card-body">' +
-    '<div class="sub-tabs">' +
-      '<div class="sub-tab active" onclick="switchSubTab(this,\'ttab-hero\')">🎬 Trip Hero</div>' +
-      '<div class="sub-tab" onclick="switchSubTab(this,\'ttab-subhero\')">📝 Sub Hero</div>' +
-      '<div class="sub-tab" onclick="switchSubTab(this,\'ttab-joy\')">😊 Joy Scale</div>' +
-      '<div class="sub-tab" onclick="switchSubTab(this,\'ttab-accordions\')">📂 Trip Accordions</div>' +
-      '<div class="sub-tab" onclick="switchSubTab(this,\'ttab-reel\')">🎞️ Reel Roll</div>' +
-      '<div class="sub-tab" onclick="switchSubTab(this,\'ttab-info\')">📋 Trip Info</div>' +
-      '<div class="sub-tab" onclick="switchSubTab(this,\'ttab-itin\')">🌟 Trip Highlights</div>' +
-      '<div class="sub-tab" onclick="switchSubTab(this,\'ttab-fcta\')">📣 Final CTA</div>' +
-      '<div class="sub-tab" onclick="switchSubTab(this,\'ttab-rev\')">⭐ Reviews</div>' +
-    '</div>' +
-    '<div id="ttab-hero" class="sub-pane active">' + heroHtml + '</div>' +
-    '<div id="ttab-subhero" class="sub-pane">' + subheroHtml + '</div>' +
-    '<div id="ttab-joy" class="sub-pane">' + joyScaleHtml + '</div>' +
-    '<div id="ttab-accordions" class="sub-pane">' + accordionsHtml + '</div>' +
-    '<div id="ttab-reel" class="sub-pane">' + reelRollHtml + '</div>' +
-    '<div id="ttab-info" class="sub-pane">' + infoHtml + '</div>' +
-    '<div id="ttab-itin" class="sub-pane">' + (r ? itinHtml : '<div class="empty"><div class="empty-text">Save the trip details first, then add itinerary days.</div></div>') + '</div>' +
-    '<div id="ttab-fcta" class="sub-pane">' + finalCtaHtml + '</div>' +
-    '<div id="ttab-rev" class="sub-pane">' + (r ? revHtml : '<div class="empty"><div class="empty-text">Save the trip details first, then add reviews.</div></div>') + '</div>' +
-    '</div></div>';
+    tripEditorSection('🎬','Trip Hero',heroHtml,'ttab-hero') +
+    tripEditorSection('📝','Sub Hero',subheroHtml,'ttab-subhero') +
+    tripEditorSection('😊','Joy Scale',joyScaleHtml,'ttab-joy') +
+    tripEditorSection('📂','Trip Accordions',accordionsHtml,'ttab-accordions') +
+    tripEditorSection('🎞️','Reel Roll',reelRollHtml,'ttab-reel') +
+    tripEditorSection('📋','Trip Info',infoHtml,'ttab-info') +
+    tripEditorSection('🌟','Trip Highlights',r ? itinHtml : '<div class="empty"><div class="empty-text">Save the trip details first, then add itinerary days.</div></div>','ttab-itin') +
+    tripEditorSection('📣','Final CTA',finalCtaHtml,'ttab-fcta') +
+    tripEditorSection('⭐','Reviews',r ? revHtml : '<div class="empty"><div class="empty-text">Save the trip details first, then add reviews.</div></div>','ttab-rev');
 
   document.getElementById('mainContent').innerHTML = html;
   if (r && r.id) mountTripEditorPreview('private', r.id);
@@ -2106,35 +2103,20 @@ function renderGroupTripEditorPage(r, itin, dates, settingsMap) {
   '</div>';
 
   var html = '<button class="btn-cancel" style="margin-bottom:1.25rem" onclick="loadGroupTrips()">← Back to All Trips</button>' +
-    '<div class="card"><div class="card-body">' +
-    '<div class="sub-tabs">' +
-      '<div class="sub-tab active" onclick="switchSubTab(this,\'gttab-hero\')">🎬 Group Hero</div>' +
-      '<div class="sub-tab" onclick="switchSubTab(this,\'gttab-gallery\')">🖼️ Group Hero Pics</div>' +
-      '<div class="sub-tab" onclick="switchSubTab(this,\'gttab-detailcard\')">📝 Sub Hero Text</div>' +
-      '<div class="sub-tab" onclick="switchSubTab(this,\'gttab-highlights\')">✨ Highlights</div>' +
-      '<div class="sub-tab" onclick="switchSubTab(this,\'gttab-social\')">📸 Group Gallery</div>' +
-      '<div class="sub-tab" onclick="switchSubTab(this,\'gttab-inclusions\')">✅ Inclusions</div>' +
-      '<div class="sub-tab" onclick="switchSubTab(this,\'gttab-accom\')">🏨 Accom. & Exclusions</div>' +
-      '<div class="sub-tab" onclick="switchSubTab(this,\'gttab-itin\')">🗓️ Itinerary</div>' +
-      '<div class="sub-tab" onclick="switchSubTab(this,\'gttab-dates\')">📅 Available Dates</div>' +
-      '<div class="sub-tab" onclick="switchSubTab(this,\'gttab-fcta\')">📣 Final CTA</div>' +
-    '</div>' +
-    '<div id="gttab-hero" class="sub-pane active">' + heroHtml + '</div>' +
-    '<div id="gttab-gallery" class="sub-pane">' + (r ? galleryHtml : '<div class="empty"><div class="empty-text">Save details first.</div></div>') + '</div>' +
-    '<div id="gttab-detailcard" class="sub-pane">' + detailCardHtml + '</div>' +
-    '<div id="gttab-highlights" class="sub-pane">' + (r ? highlightsHtml : '<div class="empty"><div class="empty-text">Save details first.</div></div>') + '</div>' +
-    '<div id="gttab-social" class="sub-pane">' + (r ? socialHtml : '<div class="empty"><div class="empty-text">Save details first.</div></div>') + '</div>' +
-    '<div id="gttab-inclusions" class="sub-pane">' + (r ? inclusionsHtml : '<div class="empty"><div class="empty-text">Save details first.</div></div>') + '</div>' +
-    '<div id="gttab-accom" class="sub-pane">' + (r ? accomHtml : '<div class="empty"><div class="empty-text">Save details first.</div></div>') + '</div>' +
-    '<div id="gttab-itin" class="sub-pane">' + (r ? itinHtml : '<div class="empty"><div class="empty-text">Save details first.</div></div>') + '</div>' +
-    '<div id="gttab-dates" class="sub-pane">' + (r ? datesHtml : '<div class="empty"><div class="empty-text">Save details first.</div></div>') + '</div>' +
-    '<div id="gttab-fcta" class="sub-pane">' + (r ? fctaHtml : '<div class="empty"><div class="empty-text">Save details first.</div></div>') + '</div>' +
-    '</div></div>';
+    tripEditorSection('🎬','Group Hero',heroHtml,'gttab-hero') +
+    tripEditorSection('🖼️','Group Hero Pictures',r ? galleryHtml : '<div class="empty"><div class="empty-text">Save details first.</div></div>','gttab-gallery') +
+    tripEditorSection('📝','Sub Hero Text',detailCardHtml,'gttab-detailcard') +
+    tripEditorSection('✨','Highlights',r ? highlightsHtml : '<div class="empty"><div class="empty-text">Save details first.</div></div>','gttab-highlights') +
+    tripEditorSection('📸','Group Gallery',r ? socialHtml : '<div class="empty"><div class="empty-text">Save details first.</div></div>','gttab-social') +
+    tripEditorSection('✅','Inclusions',r ? inclusionsHtml : '<div class="empty"><div class="empty-text">Save details first.</div></div>','gttab-inclusions') +
+    tripEditorSection('🏨','Accommodation & Exclusions',r ? accomHtml : '<div class="empty"><div class="empty-text">Save details first.</div></div>','gttab-accom') +
+    tripEditorSection('🗓️','Itinerary',r ? itinHtml : '<div class="empty"><div class="empty-text">Save details first.</div></div>','gttab-itin') +
+    tripEditorSection('📅','Available Dates',r ? datesHtml : '<div class="empty"><div class="empty-text">Save details first.</div></div>','gttab-dates') +
+    tripEditorSection('📣','Final CTA',r ? fctaHtml : '<div class="empty"><div class="empty-text">Save details first.</div></div>','gttab-fcta');
 
   document.getElementById('mainContent').innerHTML = html;
   if (r && r.id) mountTripEditorPreview('group', r.id);
   TypographyEngine.resetEditors();
-  restoreLastActiveSubTab();
   setTimeout(initRichEditors, 60);
 }
 var dayImageListCounters = {};
