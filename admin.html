@@ -375,7 +375,7 @@ async function uploadImage(file, targetInputId, previewId, progressId, statusId)
     if (previewId) { var prev = document.getElementById(previewId); if (prev) { prev.src = publicUrl; prev.style.display = 'block'; } }
     if (prog) prog.querySelector('.upload-progress-bar').style.width = '100%';
     if (status) { status.textContent = '✓ Uploaded successfully!'; status.style.color = 'var(--teal-d)'; }
-    toast('Image uploaded!', 'success');
+    toast('Image uploaded!', 'success', true);
     setTimeout(function() {
       if (prog) prog.style.display = 'none';
       if (status) { status.style.display = 'none'; status.style.color = ''; }
@@ -422,7 +422,7 @@ function setImageLibraryTarget(url) {
   if (input) { input.value = url; input.dispatchEvent(new Event('input', { bubbles:true })); }
   previewImg(input, IMAGE_LIBRARY_TARGET.previewId);
   closeModal();
-  toast('Image selected', 'success');
+  toast('Image selected', 'success', true);
 }
 async function imageLibraryRequest(payload) {
   var r = await fetch(IMAGE_LIBRARY_ENDPOINT, {
@@ -599,7 +599,7 @@ async function runGlobalImageFill() {
       var input=document.getElementById(field.dataset.imageInput); if(input){input.value=url;input.dispatchEvent(new Event('input',{bubbles:true}));previewImg(input,field.dataset.imagePreview);completed++;}
     }
     globalImageNote('✓ '+completed+' of '+fields.length+' images filled. Review the preview, then save the edited sections.');
-    toast(completed+' images added — review before saving','success');
+    toast(completed+' images added — review before saving','success',true);
   } catch(e){globalImageNote('Could not finish: '+e.message,true);toast('Image auto-fill stopped: '+e.message,'error');}
   finally{button.disabled=false;}
 }
@@ -656,7 +656,7 @@ async function uploadVideo(file, targetInputId, previewId, progressId, statusId)
     if (previewId) { var prev = document.getElementById(previewId); if (prev) { prev.src = publicUrl; prev.style.display = 'block'; prev.load(); } }
     if (prog) prog.querySelector('.upload-progress-bar').style.width = '100%';
     if (status) { status.textContent = '✓ Uploaded successfully!'; status.style.color = 'var(--teal-d)'; }
-    toast('Video uploaded!', 'success');
+    toast('Video uploaded!', 'success', true);
     setTimeout(function() {
       if (prog) prog.style.display = 'none';
       if (status) { status.style.display = 'none'; status.style.color = ''; }
@@ -927,12 +927,12 @@ function markSlugManual(idFieldId) {
 function toggle(id, checked, label) {
   return '<div class="toggle-wrap"><button type="button" id="'+id+'" class="toggle'+(checked?' on':'')+'" onclick="this.classList.toggle(\'on\')"></button><span class="toggle-label">'+esc(label)+'</span></div>';
 }
-function toast(msg, type) {
+function toast(msg, type, skipPreviewReload) {
   var t = document.getElementById('toast');
   t.textContent = (type === 'success' ? '✓  ' : type === 'error' ? '✕  ' : 'ℹ  ') + msg;
   t.className = 'toast show ' + (type || '');
   setTimeout(function() { t.className = 'toast'; }, 3000);
-  if (type === 'success' && document.getElementById('tripPreviewFrame')) setTimeout(reloadTripPreview, 650);
+  if (type === 'success' && !skipPreviewReload && document.getElementById('tripPreviewFrame')) setTimeout(reloadTripPreview, 650);
 }
 var lastActiveSubTab = null;
 function switchSubTab(el, paneId) {
