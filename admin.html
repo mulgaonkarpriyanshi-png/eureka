@@ -177,6 +177,7 @@ tr:hover td{background:var(--cream)}
 .image-library-item{border:1px solid var(--border);border-radius:9px;background:var(--cream);overflow:hidden;text-align:left;position:relative}
 .image-library-item img{width:100%;height:105px;object-fit:cover;display:block}
 .image-library-item span{display:block;padding:7px;font-size:9.5px;color:var(--body);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.image-library-item .image-library-credit{padding-top:0;color:var(--muted);font-size:8.5px}
 .trip-editor-workspace{display:grid;grid-template-columns:minmax(560px,1.05fr) minmax(390px,.95fr);gap:18px;align-items:start}
 .trip-editor-form{min-width:0}
 .trip-preview-panel{position:sticky;top:0;height:calc(100vh - 126px);min-height:600px;background:#e9efed;border:1px solid var(--border2);border-radius:12px;overflow:hidden;box-shadow:var(--shadow)}
@@ -421,7 +422,8 @@ function renderImageLibraryItems(items, source) {
     var action = source === 'gallery'
       ? "setImageLibraryTarget('" + String(item.url||'').replace(/'/g,"\\'") + "')"
       : "importImageLibraryItem('"+source+"','"+String(item.id||'').replace(/'/g,"\\'")+"','"+String(item.url||'').replace(/'/g,"\\'")+"')";
-    return '<button type="button" class="image-library-item" onclick="'+action+'"><img loading="lazy" src="'+esc(thumb)+'" alt=""><span>'+esc(label)+'</span></button>';
+    var credit = item.credit ? '<span class="image-library-credit">'+esc(item.credit)+'</span>' : '';
+    return '<button type="button" class="image-library-item" onclick="'+action+'"><img loading="lazy" src="'+esc(thumb)+'" alt=""><span>'+esc(label)+'</span>'+credit+'</button>';
   }).join('') + '</div>';
 }
 async function openImageLibrary(inputId, previewId, source) {
