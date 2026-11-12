@@ -482,7 +482,13 @@ function imageIntentContext() {
   var title = first(['tp_name','gt_title','tp_dtitle','gt_dtitle']);
   var route = first(['tp_route','gt_waypoints','gt_detail_route','gt_route']);
   var destination = (route || title || 'travel destination').split(/[|•,–—]/)[0].trim();
-  return { title:title, route:route, destination:destination || title || 'travel destination' };
+  var detail = first(['tp_dtitle','gt_dtitle','tp_overview','gt_detaildesc']);
+  var countryMatch = (title+' '+route+' '+detail).match(/\b(Vietnam|Indonesia|Thailand|Philippines|Malaysia|Singapore|Sri Lanka|India|Egypt|Japan|Cambodia|Laos|Bhutan|Nepal|Maldives|UAE|Dubai)\b/i);
+  return { title:title, route:route, destination:destination || title || 'travel destination', country:countryMatch?countryMatch[0]:'' };
+}
+function imageSearchWords(text, limit) {
+  var stop={the:1,and:1,with:1,from:1,this:1,that:1,your:1,trip:1,travel:1,photo:1,image:1,main:1,small:1,top:1,bottom:1,hidden:1,paradise:1,unforgettable:1,best:1,beautiful:1,through:1,into:1,where:1,after:1,before:1,day:1};
+  var seen={}; return String(text||'').replace(/[^a-zA-ZÀ-ž0-9 ]+/g,' ').split(/\s+/).filter(function(w){var k=w.toLowerCase();if(w.length<3||stop[k]||seen[k])return false;seen[k]=1;return true;}).slice(0,limit||6);
 }
 function imageIntentForField(field, index) {
   var inputId = field.dataset.imageInput || '';
@@ -491,12 +497,17 @@ function imageIntentForField(field, index) {
   var sectionTitle = section && section.querySelector('.trip-editor-section-title') ? section.querySelector('.trip-editor-section-title').textContent : '';
   var ctx = imageIntentContext();
   var local = '';
+  var localDescription = '';
   var row = field.closest('.nrow');
   if (row) {
     var titleField = row.querySelector('input[id*="title"], input[id*="eyebrow"], textarea[id*="title"]');
     local = titleField ? String(titleField.value||'').trim() : '';
+    var descField = row.querySelector('textarea[id*="para"], textarea[id*="desc"], .rich-editor');
+    localDescription = descField ? String(descField.value||descField.textContent||'').trim() : '';
   }
-  var subject = local || ctx.destination;
+  var cleanLocal = local.split(/\s[-–—:]\s/)[0].replace(/^day\s*\d+\s*/i,'').trim();
+  var subjectWords = imageSearchWords(cleanLocal || ctx.destination, 4);
+  var subject = subjectWords.join(' ') || ctx.destination;
   var scene = 'travel landscape';
   if (/hero|banner|background/.test(label+' '+sectionTitle)) scene = 'iconic scenic landscape';
   else if (/accommodation|hotel|stay|resort/.test(label+' '+sectionTitle)) scene = 'beautiful boutique hotel resort';
@@ -512,7 +523,10 @@ function imageIntentForField(field, index) {
     var rotations = ['landmark','local culture','nature','street scene','adventure activity','sunset','architecture','aerial view'];
     scene = rotations[index % rotations.length];
   }
-  return (subject+' '+scene).replace(/\s+/g,' ').trim();
+  var visualVocabulary = /\b(limestone|mountain|mountains|river|rivers|boat|boats|cave|caves|beach|island|islands|waterfall|waterfalls|temple|temples|market|markets|street|streets|rice|terrace|terraces|jungle|forest|coast|ocean|lake|desert|wildlife|safari|snorkeling|diving|kayak|cruise|sunset|city|village|architecture)\b/gi;
+  var visualMatches = (localDescription.match(visualVocabulary)||[]).filter(function(v,i,a){return a.map(function(x){return x.toLowerCase();}).indexOf(v.toLowerCase())===i;}).slice(0,3);
+  if (row && local) scene = 'scenic destination landscape';
+  return (subject+' '+(ctx.country||'')+' '+visualMatches.join(' ')+' '+scene).replace(/\s+/g,' ').trim();
 }
 function globalImageFillBar(kind) {
   return '<div class="global-image-fill" data-global-image-kind="'+kind+'">' +
@@ -539,8 +553,9 @@ function fieldTargetRatio(field) {
   return 1.45;
 }
 function pickBestImage(items, field, used) {
+  if (!items || !items.length) return null;
   var target=fieldTargetRatio(field), best=null, score=1e9;
-  items.forEach(function(item){ var key=String(item.id||item.url||''); if(!key||used[key])return; var ratio=item.ratio||1.45; var s=Math.abs(Math.log(ratio/target)); if(s<score){score=s;best=item;} });
+  items.forEach(function(item){ var key=String(item.id||item.url||''); if(!key||used[key])return; var ratio=item.ratio||1.45; var s=Math.abs(Math.log(ratio/target))+(item.searchRank||0)*.035-(item.relevance||0)*1.25; if(s<score){score=s;best=item;} });
   if (!best) { Object.keys(used).forEach(function(k){delete used[k];}); return pickBestImage(items,field,used); }
   return best;
 }
@@ -566,7 +581,12 @@ async function runGlobalImageFill() {
       var field=fields[i], intent=imageIntentForField(field,i), item=null, items=[];
       globalImageNote('Finding '+(i+1)+' of '+fields.length+': '+intent+'…');
       if(source==='stock'){
-        var sr=await imageLibraryRequest({mode:'stock_search',query:intent,orientation:fieldTargetRatio(field)<.9?'vertical':'horizontal'}); items=sr.items||[];
+        var queryWords=imageSearchWords(intent,7), conciseQuery=queryWords.join(' ');
+        var sr=await imageLibraryRequest({mode:'stock_search',query:conciseQuery,orientation:fieldTargetRatio(field)<.9?'vertical':'horizontal'}); items=sr.items||[];
+        var relevanceWords=queryWords.filter(function(w){return !/^(travel|scenic|iconic|landscape|destination|view|friends|candid|local)$/i.test(w);});
+        items.forEach(function(x,rank){var hay=String((x.name||'')+' '+(x.credit||'')).toLowerCase();x.searchRank=rank;x.relevance=relevanceWords.reduce(function(n,w){return n+(hay.indexOf(w.toLowerCase())>=0?1:0);},0);});
+        items.sort(function(a,b){return b.relevance-a.relevance||a.searchRank-b.searchRank;});
+        if(items.length&&!items.some(function(x){return x.relevance>0;}))items=[];
         await Promise.all(items.slice(0,12).map(async function(x){x.ratio=await imageNaturalRatio(x.thumb||x.url);}));
       } else if(source==='drive') {
         var tokens=intent.toLowerCase().split(/\s+/).filter(function(w){return w.length>3;});
@@ -943,6 +963,8 @@ function mountTripEditorPreview(kind, tripId) {
     '<div class="trip-preview-stage"><iframe id="tripPreviewFrame" class="trip-preview-frame" title="Trip page preview" src="'+esc(src)+'"></iframe></div>';
   workspace.appendChild(panel);
   root.appendChild(workspace);
+  form.addEventListener('input', function(e){ scheduleTripPreviewSync(e.target, kind); });
+  form.addEventListener('change', function(e){ scheduleTripPreviewSync(e.target, kind); });
 }
 function setTripPreviewMode(mode) {
   var frame = document.getElementById('tripPreviewFrame');
@@ -953,6 +975,52 @@ function reloadTripPreview() {
   if (!frame) return;
   var clean = frame.src.replace(/([?&])previewRefresh=\d+/,'$1').replace(/[?&]$/,'');
   frame.src = clean + (clean.indexOf('?') === -1 ? '?' : '&') + 'previewRefresh=' + Date.now();
+}
+var TRIP_PREVIEW_SYNC_TIMER = null;
+function scheduleTripPreviewSync(target, kind) {
+  if (!target) return;
+  if (target.closest && target.closest('[data-image-field="1"]')) { syncTripPreviewInput(target, kind); return; }
+  clearTimeout(TRIP_PREVIEW_SYNC_TIMER);
+  TRIP_PREVIEW_SYNC_TIMER = setTimeout(function(){ syncTripPreviewInput(target, kind); }, 160);
+}
+function previewSetText(doc, id, value) { var el=doc.getElementById(id); if(el)el.textContent=value||''; }
+function previewSetImage(doc, id, value) { var el=doc.getElementById(id); if(el&&value){el.src=value;el.style.display='';} }
+function syncTripPreviewInput(input, kind) {
+  var frame=document.getElementById('tripPreviewFrame'); if(!frame||!input.id)return;
+  var win,doc; try{win=frame.contentWindow;doc=frame.contentDocument;}catch(e){return;} if(!doc)return;
+  var id=input.id, value=input.value!=null?input.value:input.textContent||'';
+  if(kind==='private'){
+    var textMap={tp_name:'heroTitleEl',tp_dtitle:'subheroTitleEl',tp_overview:'subheroDescEl',tp_accomtext:'accomTextEl',tp_itinh:'highlightsHEl',tp_itinsub:'highlightsSubEl',tp_fcta_heading:'fctaHeadingEl',tp_fcta_lead:'fctaLeadEl'};
+    var imageMap={tp_img:'heroImgEl',tp_fcta_img:'fctaImgEl'};
+    if(textMap[id])previewSetText(doc,textMap[id],value);
+    if(imageMap[id])previewSetImage(doc,imageMap[id],value);
+    if(id==='tp_route'){
+      var route=doc.getElementById('heroRouteEl'); if(route)route.innerHTML=String(value).split(',').map(function(s){return s.trim();}).filter(Boolean).map(function(s,i,a){return '<span>'+esc(s)+'</span>'+(i<a.length-1?'<span class="sep">➾</span>':'');}).join('');
+    }
+    var joyMatch=id.match(/^tp_joy([1-4])(icon|label|pct)$/); if(joyMatch){var jn=joyMatch[1],part=joyMatch[2];if(part==='icon')previewSetText(doc,'joy'+jn+'Icon',value);else if(part==='label')previewSetText(doc,'joy'+jn+'Label',value);else{var fill=doc.getElementById('joy'+jn+'Fill');if(fill)fill.style.width=Math.max(0,Math.min(100,Number(value)||0))+'%';}}
+    if(id==='tp_incl'||id==='tp_excl'){var list=doc.getElementById(id==='tp_incl'?'inclusionsList':'exclusionsList');if(list)list.innerHTML=String(value).split(/\n+/).filter(Boolean).map(function(x){return '<li>'+esc(x)+'</li>';}).join('');}
+    if(id==='tp_accomlist'){var hotels=doc.getElementById('accomHotelList');if(hotels)hotels.innerHTML=String(value).split(/\n+/).filter(Boolean).map(function(x){return '<li>'+esc(x)+'</li>';}).join('');}
+    if(/^tp_ap_\d+$/.test(id))previewSetImage(doc,'accomImg',value);
+    var row=input.closest&&input.closest('[id^="itinrow_"]');
+    if(row&&win.DAYS){
+      var rows=[].slice.call(document.querySelectorAll('.trip-editor-form [id^="itinrow_"]')), dayIndex=rows.indexOf(row), day=win.DAYS[dayIndex];
+      if(day){
+        if(/^itintitle_/.test(id))day.title=value;
+        else if(/^itineyebrow_/.test(id))day.eyebrow=value;
+        else if(/^itinparas_/.test(id))day.paras=String(value).split(/\n+/).filter(Boolean);
+        else if(/^itinphoto([123])_/.test(id)){var slot=Number(id.match(/^itinphoto([123])_/)[1])-1;day.photos=day.photos||[];day.photos[slot]=value;var shown=doc.querySelectorAll('#dayPhotos img');if(shown[slot]&&value)shown[slot].src=value;}
+        var tabs=doc.querySelectorAll('.day-tab'), active=[].slice.call(tabs).findIndex(function(t){return t.classList.contains('active');});
+        if(active===dayIndex&&typeof win.selectDay==='function'&&!/^itinphoto[123]_/.test(id))win.selectDay(dayIndex);
+      }
+    }
+  } else {
+    var gtText={gt_title:'gtTitleEl',gt_price:'gtPriceEl',gt_duration:'gtDurationEl',gt_detail_route:'gtLocationEl',gt_age:'gtAgeEl',gt_dtitle:'gtDetailTitleEl',gt_social_heading:'gtSocHeading',gt_social_subheading:'gtSocSubheading',gt_fcta_heading:'gtFinalH',gt_fcta_text:'gtFinalP'};
+    var gtImages={gt_galphoto1:'gtPhoto1',gt_galphoto2:'gtPhoto2',gt_galphoto3:'gtPhoto3',gt_galphoto4:'gtPhoto4',gt_galphoto5:'gtPhoto5',gt_soc_p1:'gtSocP1',gt_soc_p2:'gtSocP2',gt_soc_p3:'gtSocP3',gt_soc_p4:'gtSocP4',gt_soc_p5:'gtSocP5',gt_soc_wf:'gtSocWaterfall',gt_soc_beach:'gtSocBeach'};
+    if(gtText[id])previewSetText(doc,gtText[id],value);
+    if(gtImages[id])previewSetImage(doc,gtImages[id],value);
+    if(id==='gt_waypoints'){var routeEl=doc.getElementById('gtRouteEl');if(routeEl)routeEl.textContent=value;}
+    if(id==='gt_tags'){var tagsEl=doc.getElementById('gtTagsEl');if(tagsEl)tagsEl.innerHTML=String(value).split(',').filter(Boolean).map(function(x){return '<span>'+esc(x.trim())+'</span>';}).join('');}
+  }
 }
 async function deleteItem(table, id, reloadFn, idCol) {
   if (!confirm('Are you sure you want to delete this item? This cannot be undone.')) return;
