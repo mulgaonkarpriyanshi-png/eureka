@@ -129,6 +129,7 @@ export default async function handler(req, res) {
         key: process.env.PIXABAY_API_KEY,
         q: String(body.query || 'travel'),
         per_page: '40',
+        page: String(Math.max(1, Math.min(20, Number(body.page) || 1))),
         image_type: 'photo',
         orientation: ['horizontal', 'vertical'].includes(String(body.orientation || '')) ? String(body.orientation) : 'horizontal',
         safesearch: 'true'
@@ -143,6 +144,7 @@ export default async function handler(req, res) {
           credit: p.user ? `Pixabay / ${p.user}` : 'Pixabay',
           thumb: p.webformatURL,
           url: p.largeImageURL || p.webformatURL,
+          ratio: p.imageWidth && p.imageHeight ? p.imageWidth / p.imageHeight : 1.45,
           sourcePage: p.pageURL
         }))
       });

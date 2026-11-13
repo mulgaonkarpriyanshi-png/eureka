@@ -326,6 +326,7 @@ async function sbFetch(table, params) {
   return data;
 }
 async function sbInsert(table, data) {
+  data = await materializeDraftImages(data);
   var r = await fetch(SB_URL + '/' + table, { method: 'POST', headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=representation' }, body: JSON.stringify(data) });
   var result = await r.json();
   if (!r.ok) { console.error('Supabase insert error [' + table + ']', result); throw new Error(result.message || 'Insert failed'); }
@@ -333,6 +334,7 @@ async function sbInsert(table, data) {
 }
 async function sbUpdate(table, id, data, idCol) {
   idCol = idCol || 'id';
+  data = await materializeDraftImages(data);
   var r = await fetch(SB_URL + '/' + table + '?' + idCol + '=eq.' + id, { method: 'PATCH', headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=representation' }, body: JSON.stringify(data) });
   var result = await r.json();
   if (!r.ok) { console.error('Supabase update error [' + table + ']', result); throw new Error(result.message || 'Update failed'); }
@@ -344,6 +346,7 @@ async function sbDelete(table, id, idCol) {
   if (!r.ok) { var result = await r.json().catch(function(){return {};}); console.error('Supabase delete error [' + table + ']', result); throw new Error(result.message || 'Delete failed'); }
 }
 async function sbUpsert(table, data, onConflict) {
+  data = await materializeDraftImages(data);
   var url = SB_URL + '/' + table;
   if (onConflict) url += '?on_conflict=' + onConflict;
   var r = await fetch(url, { method: 'POST', headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json', 'Prefer': 'resolution=merge-duplicates,return=representation' }, body: JSON.stringify(data) });
@@ -416,6 +419,50 @@ function previewImg(input, previewId) {
 
 var IMAGE_LIBRARY_TARGET = null;
 var IMAGE_LIBRARY_ENDPOINT = '/api/admin-image-library';
+var DRAFT_IMAGE_IMPORTS = {};
+var IMAGE_REGENERATION_COUNTER = 0;
+var LAST_DRAFT_IMAGE_BY_INPUT = {};
+
+function registerDraftImage(input, source, id, previewUrl, sourceUrl) {
+  if (!input || !previewUrl) return;
+  DRAFT_IMAGE_IMPORTS[previewUrl] = { source:source, id:id||'', url:sourceUrl||'' };
+  input.dataset.draftImageUrl = previewUrl;
+  input.value = previewUrl;
+  input.dispatchEvent(new Event('input', { bubbles:true }));
+}
+
+async function materializeDraftImages(value) {
+  var imported = {};
+  async function walk(node) {
+    if (typeof node === 'string') {
+      var draft = DRAFT_IMAGE_IMPORTS[node];
+      if (!draft) return node;
+      if (draft.persistedUrl) return draft.persistedUrl;
+      if (!imported[node]) {
+        var result = await imageLibraryRequest({ mode:draft.source+'_import', id:draft.id, url:draft.url });
+        imported[node] = result.url;
+        draft.persistedUrl = result.url;
+        document.querySelectorAll('input[data-draft-image-url]').forEach(function(input){
+          if (input.dataset.draftImageUrl===node) {
+            input.value=result.url; delete input.dataset.draftImageUrl;
+            input.dispatchEvent(new Event('input',{bubbles:true}));
+            var field=input.closest('[data-image-field="1"]'); if(field)previewImg(input,field.dataset.imagePreview);
+          }
+        });
+      }
+      return imported[node];
+    }
+    if (Array.isArray(node)) return Promise.all(node.map(walk));
+    if (node && typeof node === 'object') {
+      var out = {};
+      for (var key in node) if (Object.prototype.hasOwnProperty.call(node,key)) out[key]=await walk(node[key]);
+      return out;
+    }
+    return node;
+  }
+  return walk(value);
+}
+
 function setImageLibraryTarget(url) {
   if (!IMAGE_LIBRARY_TARGET || !url) return;
   var input = document.getElementById(IMAGE_LIBRARY_TARGET.inputId);
@@ -438,8 +485,8 @@ function renderImageLibraryItems(items, source) {
     var thumb = item.thumb || item.url || '';
     var label = item.name || item.credit || ('Image ' + (i+1));
     var action = source === 'gallery'
-      ? "setImageLibraryTarget('" + String(item.url||'').replace(/'/g,"\\'") + "')"
-      : "importImageLibraryItem('"+source+"','"+String(item.id||'').replace(/'/g,"\\'")+"','"+String(item.url||'').replace(/'/g,"\\'")+"')";
+      ? "setImageLibraryTarget(" + JSON.stringify(String(item.url||'')) + ")"
+      : "selectDraftImageLibraryItem("+JSON.stringify(source)+","+JSON.stringify(String(item.id||''))+","+JSON.stringify(String(item.thumb||item.url||''))+","+JSON.stringify(String(item.url||''))+")";
     var credit = item.credit ? '<span class="image-library-credit">'+esc(item.credit)+'</span>' : '';
     return '<button type="button" class="image-library-item" onclick="'+action+'"><img loading="lazy" src="'+esc(thumb)+'" alt=""><span>'+esc(label)+'</span>'+credit+'</button>';
   }).join('') + '</div>';
@@ -531,9 +578,9 @@ function imageIntentForField(field, index) {
 function globalImageFillBar(kind) {
   return '<div class="global-image-fill" data-global-image-kind="'+kind+'">' +
     '<div class="global-image-fill-head"><div><div class="global-image-fill-title">✨ Auto-fill photos for this trip</div>' +
-    '<div class="global-image-fill-copy">Each image slot gets its own search intent from the destination, itinerary day, section purpose and required shape. Existing photos are protected by default.</div></div></div>' +
+    '<div class="global-image-fill-copy">Each image slot gets its own search intent from the destination, itinerary day, section purpose and required shape. Generated images stay as drafts and are stored only when you save their section.</div></div></div>' +
     '<div class="global-image-fill-controls"><select id="globalImageSource"><option value="stock">From stock photos</option><option value="drive">From Google Drive</option><option value="gallery">From website gallery</option></select>' +
-    '<select id="globalImageMode"><option value="empty">Fill empty images only</option><option value="all">Replace all images</option></select>' +
+    '<select id="globalImageMode"><option value="empty">Fill empty / regenerate drafts</option><option value="all">Regenerate all images</option></select>' +
     '<button type="button" class="btn-save" id="globalImageRun" onclick="runGlobalImageFill()">Auto-fill images</button></div>' +
     '<div class="global-image-progress" id="globalImageProgress"></div></div>';
 }
@@ -566,10 +613,11 @@ async function websiteGalleryItems() {
 async function runGlobalImageFill() {
   var source=val('globalImageSource'), mode=val('globalImageMode');
   var form=document.querySelector('.trip-editor-form')||document.getElementById('mainContent');
-  var fields=[].slice.call(form.querySelectorAll('[data-image-field="1"]')).filter(function(f){var inp=document.getElementById(f.dataset.imageInput);return inp&&(mode==='all'||!String(inp.value||'').trim());});
-  if(!fields.length){globalImageNote('All image fields already have photos. Choose “Replace all images” if you want a fresh set.');return;}
+  var fields=[].slice.call(form.querySelectorAll('[data-image-field="1"]')).filter(function(f){var inp=document.getElementById(f.dataset.imageInput);return inp&&(mode==='all'||!String(inp.value||'').trim()||inp.dataset.draftImageUrl);});
+  if(!fields.length){globalImageNote('All image fields already have saved photos. Choose “Regenerate all images” to preview a fresh set.');return;}
   if(mode==='all'&&!confirm('Replace every image currently entered on this trip? The changes will stay unsaved until you use each section’s Save button.'))return;
   var button=document.getElementById('globalImageRun'), used={}, completed=0, gallery=null, driveItems=null;
+  IMAGE_REGENERATION_COUNTER++;
   button.disabled=true; globalImageNote('Preparing '+fields.length+' image slots…');
   try {
     if(source==='gallery') gallery=await websiteGalleryItems();
@@ -582,7 +630,8 @@ async function runGlobalImageFill() {
       globalImageNote('Finding '+(i+1)+' of '+fields.length+': '+intent+'…');
       if(source==='stock'){
         var queryWords=imageSearchWords(intent,7), conciseQuery=queryWords.join(' ');
-        var sr=await imageLibraryRequest({mode:'stock_search',query:conciseQuery,orientation:fieldTargetRatio(field)<.9?'vertical':'horizontal'}); items=sr.items||[];
+        var resultPage=1+((IMAGE_REGENERATION_COUNTER+i)%10);
+        var sr=await imageLibraryRequest({mode:'stock_search',query:conciseQuery,orientation:fieldTargetRatio(field)<.9?'vertical':'horizontal',page:resultPage}); items=sr.items||[];
         var relevanceWords=queryWords.filter(function(w){return !/^(travel|scenic|iconic|landscape|destination|view|friends|candid|local)$/i.test(w);});
         items.forEach(function(x,rank){var hay=String((x.name||'')+' '+(x.credit||'')).toLowerCase();x.searchRank=rank;x.relevance=relevanceWords.reduce(function(n,w){return n+(hay.indexOf(w.toLowerCase())>=0?1:0);},0);});
         items.sort(function(a,b){return b.relevance-a.relevance||a.searchRank-b.searchRank;});
@@ -592,14 +641,19 @@ async function runGlobalImageFill() {
         var tokens=intent.toLowerCase().split(/\s+/).filter(function(w){return w.length>3;});
         items=(driveItems||[]).map(function(x){var name=String(x.name||'').toLowerCase(), relevance=tokens.reduce(function(n,w){return n+(name.indexOf(w)>=0?1:0);},0);return Object.assign({},x,{relevance:relevance});}).sort(function(a,b){return b.relevance-a.relevance;});
       } else items=gallery||[];
+      var previousKey=LAST_DRAFT_IMAGE_BY_INPUT[field.dataset.imageInput];
+      if(previousKey&&items.length>1){var freshItems=items.filter(function(x){return String(x.id||x.url||'')!==previousKey;});if(freshItems.length)items=freshItems;}
       item=pickBestImage(items,field,used); if(!item)continue;
-      used[String(item.id||item.url)]=1;
-      var url=item.url;
-      if(source!=='gallery'){var imported=await imageLibraryRequest({mode:source+'_import',id:item.id,url:item.url});url=imported.url;}
-      var input=document.getElementById(field.dataset.imageInput); if(input){input.value=url;input.dispatchEvent(new Event('input',{bubbles:true}));previewImg(input,field.dataset.imagePreview);completed++;}
+      var itemKey=String(item.id||item.url); used[itemKey]=1; LAST_DRAFT_IMAGE_BY_INPUT[field.dataset.imageInput]=itemKey;
+      var input=document.getElementById(field.dataset.imageInput);
+      if(input){
+        if(source==='gallery'){input.value=item.url;delete input.dataset.draftImageUrl;input.dispatchEvent(new Event('input',{bubbles:true}));}
+        else registerDraftImage(input,source,item.id,item.thumb||item.url,item.url||'');
+        previewImg(input,field.dataset.imagePreview);completed++;
+      }
     }
-    globalImageNote('✓ '+completed+' of '+fields.length+' images filled. Review the preview, then save the edited sections.');
-    toast(completed+' images added — review before saving','success',true);
+    globalImageNote('✓ '+completed+' of '+fields.length+' draft images ready. Regenerate again or save only the sections you want to keep.');
+    toast(completed+' draft images ready — nothing stored yet','success',true);
   } catch(e){globalImageNote('Could not finish: '+e.message,true);toast('Image auto-fill stopped: '+e.message,'error');}
   finally{button.disabled=false;}
 }
@@ -623,14 +677,16 @@ async function searchImageLibrary(source) {
   if (!q) { toast('Enter a search term', 'error'); return; }
   var box = document.getElementById('imageLibraryResults');
   box.innerHTML = '<div class="loading"><div class="spinner"></div> Searching...</div>';
-  try { var data = await imageLibraryRequest({mode:source+'_search',query:q}); box.innerHTML = renderImageLibraryItems(data.items||[],source); }
+  try { IMAGE_REGENERATION_COUNTER++; var data = await imageLibraryRequest({mode:source+'_search',query:q,page:source==='stock'?1+(IMAGE_REGENERATION_COUNTER%10):undefined}); box.innerHTML = renderImageLibraryItems(data.items||[],source); }
   catch(e) { box.innerHTML = '<div class="page-hint" style="background:#fff3e8;border-color:#f4c79c;color:#8a4b10">'+esc(e.message)+'</div>'; }
 }
-async function importImageLibraryItem(source, id, url) {
-  var box = document.getElementById('imageLibraryResults');
-  box.innerHTML = '<div class="loading"><div class="spinner"></div> Importing image into Eureka storage...</div>';
-  try { var data = await imageLibraryRequest({mode:source+'_import',id:id,url:url}); setImageLibraryTarget(data.url); }
-  catch(e) { box.innerHTML = '<div class="page-hint" style="background:#fff3e8;border-color:#f4c79c;color:#8a4b10">'+esc(e.message)+'</div>'; }
+function selectDraftImageLibraryItem(source, id, previewUrl, sourceUrl) {
+  if (!IMAGE_LIBRARY_TARGET || !previewUrl) return;
+  var input=document.getElementById(IMAGE_LIBRARY_TARGET.inputId);
+  registerDraftImage(input,source,id,previewUrl,sourceUrl);
+  previewImg(input,IMAGE_LIBRARY_TARGET.previewId);
+  closeModal();
+  toast('Draft image selected — save this section to store it','success',true);
 }
 
 // ── VIDEO UPLOAD ──────────────────────────────────────────────
@@ -956,7 +1012,7 @@ function mountTripEditorPreview(kind, tripId) {
   workspace.appendChild(form);
   var panel = document.createElement('aside');
   panel.className = 'trip-preview-panel';
-  panel.innerHTML = '<div class="trip-preview-toolbar"><strong>Live saved preview</strong>' +
+  panel.innerHTML = '<div class="trip-preview-toolbar"><strong>Live draft preview</strong>' +
     '<button type="button" class="image-source-btn" onclick="setTripPreviewMode(\'desktop\')">🖥 Desktop</button>' +
     '<button type="button" class="image-source-btn" onclick="setTripPreviewMode(\'mobile\')">📱 Mobile</button>' +
     '<button type="button" class="image-source-btn" onclick="reloadTripPreview()">↻ Refresh</button></div>' +
