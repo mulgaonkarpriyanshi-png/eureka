@@ -205,6 +205,13 @@ tr:hover td{background:var(--cream)}
 .canva-toolbar-btn:hover:not(:disabled){border-color:var(--teal);color:var(--teal-d);background:var(--teal-l)}
 .canva-toolbar-btn:disabled{opacity:.35;cursor:not-allowed}
 .canva-draft-pill{padding:5px 8px;border-radius:999px;background:#fff3d7;color:#805c00;font-size:9px;font-weight:700;white-space:nowrap}
+.canva-draft-pill.saved{background:#e5f7f2;color:#08796f}.canva-draft-pill.error{background:#ffe7e3;color:#a93226}
+.canva-tool-group{display:none;align-items:center;gap:4px;padding-left:7px;border-left:1px solid var(--border)}
+.canva-tool-group.show{display:flex}.canva-publish-btn{background:var(--teal)!important;color:#fff!important;border-color:var(--teal)!important;width:auto!important;padding:0 11px!important}
+.canva-history-pop{position:absolute;z-index:30;right:12px;top:52px;width:310px;max-height:420px;overflow:auto;background:#fff;border:1px solid var(--border2);border-radius:10px;box-shadow:0 14px 36px rgba(0,0,0,.18);padding:12px;display:none}
+.canva-history-pop.open{display:block}.canva-history-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:9px}.canva-history-item{display:flex;align-items:center;gap:8px;padding:9px 0;border-top:1px solid var(--border)}.canva-history-item div{flex:1;font-size:10px}.canva-history-empty{padding:18px;text-align:center;color:var(--muted);font-size:10px}
+.canva-drop-target{outline:3px dashed #00aaa5!important;outline-offset:-5px}.canva-image-selected{outline:3px solid #ff9f2f!important;outline-offset:-3px;cursor:move!important}.canva-drag-source{cursor:grab}.canva-section-drag{margin-left:auto;color:var(--muted);cursor:grab;font-size:16px}.trip-editor-section.canva-section-over{outline:2px dashed var(--teal)}
+.canva-validation{position:absolute;z-index:31;left:12px;right:12px;bottom:12px;background:#fff;border:1px solid #f0c4bd;border-radius:9px;box-shadow:0 8px 26px rgba(0,0,0,.16);padding:12px;display:none;font-size:10px}.canva-validation.open{display:block}.canva-validation strong{color:#a93226;display:block;margin-bottom:6px}
 .canva-phase1-note{padding:10px 12px;margin:0 0 12px;border:1px solid #b9ded9;border-radius:9px;background:#effaf8;color:var(--teal-d);font-size:10px;line-height:1.5}
 .trip-preview-stage{height:calc(100% - 48px);overflow:auto;padding:14px;display:flex;justify-content:center;align-items:flex-start}
 .trip-preview-frame{height:100%;min-height:720px;border:0;background:white;box-shadow:0 5px 24px rgba(0,0,0,.12);transition:width .2s ease;width:100%}
@@ -1021,7 +1028,7 @@ function mountTripEditorPreview(kind, tripId) {
   form.className = 'trip-editor-form';
   while (root.firstChild) form.appendChild(root.firstChild);
   var workspace = document.createElement('div');
-  workspace.className = 'trip-editor-workspace canva-phase1';
+  workspace.className = 'trip-editor-workspace canva-phase1 canva-phase3';
   var page = kind === 'group' ? 'group-trip.html' : 'trip-page.html';
   var src = page + '?trip=' + encodeURIComponent(tripId) + '&adminPreview=1';
   workspace.appendChild(form);
@@ -1031,39 +1038,62 @@ function mountTripEditorPreview(kind, tripId) {
     '<span class="canva-draft-pill" id="canvaDraftStatus">Not saved</span>' +
     '<button type="button" class="canva-toolbar-btn" id="canvaUndoBtn" onclick="canvaUndo()" title="Undo" disabled>↶</button>' +
     '<button type="button" class="canva-toolbar-btn" id="canvaRedoBtn" onclick="canvaRedo()" title="Redo" disabled>↷</button>' +
+    '<span class="canva-tool-group" id="canvaImageTools"><button type="button" class="canva-toolbar-btn" onclick="canvaImageZoom(-.1)" title="Zoom out">−</button><button type="button" class="canva-toolbar-btn" onclick="canvaImageZoom(.1)" title="Zoom in">＋</button><button type="button" class="canva-toolbar-btn" onclick="canvaToggleImageFit()" title="Toggle crop fit">▣</button><button type="button" class="canva-toolbar-btn" onclick="canvaResetImageStyle()" title="Reset image">↺</button></span>' +
+    '<button type="button" class="canva-toolbar-btn" onclick="saveCanvaVersion()" title="Save draft version">💾</button>' +
+    '<button type="button" class="canva-toolbar-btn" onclick="toggleCanvaHistory()" title="Version history">◴</button>' +
+    '<button type="button" class="canva-toolbar-btn" onclick="discardCanvaDraft()" title="Discard local changes">×</button>' +
     '<button type="button" class="image-source-btn" id="canvaPanelToggle" onclick="toggleCanvaEditorPanel()">☰ Editor</button>' +
     '<button type="button" class="image-source-btn" onclick="setTripPreviewMode(\'desktop\')">🖥 Desktop</button>' +
     '<button type="button" class="image-source-btn" onclick="setTripPreviewMode(\'mobile\')">📱 Mobile</button>' +
-    '<button type="button" class="image-source-btn" onclick="reloadTripPreview()">↻ Refresh</button></div>' +
+    '<button type="button" class="image-source-btn" onclick="reloadTripPreview()">↻ Refresh</button>' +
+    '<button type="button" class="canva-toolbar-btn canva-publish-btn" onclick="canvaReviewPublish()">Publish</button></div>' +
+    '<div class="canva-history-pop" id="canvaHistoryPop"></div><div class="canva-validation" id="canvaValidation"></div>' +
     '<div class="trip-preview-stage"><iframe id="tripPreviewFrame" class="trip-preview-frame" title="Trip page preview" src="'+esc(src)+'"></iframe></div>';
   workspace.appendChild(panel);
   root.appendChild(workspace);
   var phaseNote = document.createElement('div');
   phaseNote.className = 'canva-phase1-note';
-  phaseNote.innerHTML = '<strong>Phase 1 draft mode:</strong> double-click supported text in the preview to edit it. Undo/redo works locally. Section Save buttons are hidden, so this workspace cannot publish to the website.';
+  phaseNote.innerHTML = '<strong>Canva editor:</strong> double-click supported text to edit. Drag an image from the editor onto a preview image to replace it; select it to zoom, fit or reposition. Drafts and versions stay in this browser until you review and publish.';
   form.insertBefore(phaseNote, form.firstChild);
-  initCanvaDraftHistory(form, kind);
+  initCanvaDraftHistory(form, kind, tripId); initCanvaSectionOrdering(form); enableCanvaImageSources(form);
   var previewFrame = document.getElementById('tripPreviewFrame');
-  previewFrame.addEventListener('load', function(){ enableCanvaInlineEditing(kind); syncAllCanvaDraftFields(kind); });
+  previewFrame.addEventListener('load', function(){ enableCanvaInlineEditing(kind); syncAllCanvaDraftFields(kind); enableCanvaPreviewImages(kind); applyCanvaImageStyles(); });
   form.addEventListener('input', function(e){ scheduleTripPreviewSync(e.target, kind); });
   form.addEventListener('change', function(e){ scheduleTripPreviewSync(e.target, kind); });
 }
 var CANVA_UNDO_STACK = [], CANVA_REDO_STACK = [], CANVA_FIELD_VALUES = {}, CANVA_HISTORY_LOCK = false;
+var CANVA_CONTEXT=null,CANVA_BASELINE=null,CANVA_DRAFT_TIMER=null,CANVA_SELECTED_IMAGE=null,CANVA_IMAGE_STYLES={desktop:{},mobile:{}},CANVA_PREVIEW_MODE='desktop';
 function toggleCanvaEditorPanel() {
   var workspace=document.querySelector('.trip-editor-workspace'); if(!workspace)return;
   var hidden=workspace.classList.toggle('editor-hidden'), btn=document.getElementById('canvaPanelToggle');
   if(btn){btn.textContent=hidden?'☰ Show editor':'☰ Editor';btn.title=hidden?'Show editor':'Hide editor';}
 }
 function canvaFieldValue(el){return el&&el.value!=null?String(el.value):'';}
-function initCanvaDraftHistory(form, kind) {
+function canvaStorageKey(type){return 'eureka_canva_'+type+'_'+CANVA_CONTEXT.kind+'_'+CANVA_CONTEXT.tripId;}
+function captureCanvaSnapshot(){
+  var fields={};document.querySelectorAll('.trip-editor-form input[id],.trip-editor-form textarea[id],.trip-editor-form select[id]').forEach(function(el){if(el.type!=='file')fields[el.id]=canvaFieldValue(el);});
+  return {fields:fields,imageStyles:JSON.parse(JSON.stringify(CANVA_IMAGE_STYLES)),sectionOrder:[].slice.call(document.querySelectorAll('.trip-editor-form .trip-editor-section[id]')).map(function(x){return x.id;}),savedAt:new Date().toISOString()};
+}
+function restoreCanvaSnapshot(snapshot,quiet){
+  if(!snapshot||!snapshot.fields)return;CANVA_HISTORY_LOCK=true;
+  Object.keys(snapshot.fields).forEach(function(id){var el=document.getElementById(id);if(el){el.value=snapshot.fields[id];CANVA_FIELD_VALUES[id]=snapshot.fields[id];el.dispatchEvent(new Event('input',{bubbles:true}));}});
+  CANVA_IMAGE_STYLES=snapshot.imageStyles||{desktop:{},mobile:{}};restoreCanvaSectionOrder(snapshot.sectionOrder||[]);CANVA_HISTORY_LOCK=false;syncAllCanvaDraftFields(CANVA_CONTEXT.kind);applyCanvaImageStyles();
+  if(!quiet)setCanvaStatus('Draft restored','saved');
+}
+function persistCanvaDraft(){if(!CANVA_CONTEXT)return;localStorage.setItem(canvaStorageKey('draft'),JSON.stringify(captureCanvaSnapshot()));setCanvaStatus('Draft saved locally','saved');}
+function scheduleCanvaDraftSave(){clearTimeout(CANVA_DRAFT_TIMER);setCanvaStatus('Unsaved draft','');CANVA_DRAFT_TIMER=setTimeout(persistCanvaDraft,550);}
+function setCanvaStatus(text,state){var s=document.getElementById('canvaDraftStatus');if(s){s.textContent=text;s.className='canva-draft-pill'+(state?' '+state:'');}}
+function initCanvaDraftHistory(form, kind, tripId) {
+  CANVA_CONTEXT={kind:kind,tripId:tripId};
   CANVA_UNDO_STACK=[];CANVA_REDO_STACK=[];CANVA_FIELD_VALUES={};CANVA_HISTORY_LOCK=false;
   form.querySelectorAll('input[id],textarea[id],select[id]').forEach(function(el){CANVA_FIELD_VALUES[el.id]=canvaFieldValue(el);});
+  CANVA_BASELINE=captureCanvaSnapshot();var stored=localStorage.getItem(canvaStorageKey('draft'));if(stored){try{setTimeout(function(){restoreCanvaSnapshot(JSON.parse(stored));},80);}catch(e){}}
   form.addEventListener('input',function(e){
     var el=e.target;if(CANVA_HISTORY_LOCK||!el||!el.id||el.type==='file')return;
     var next=canvaFieldValue(el),prev=Object.prototype.hasOwnProperty.call(CANVA_FIELD_VALUES,el.id)?CANVA_FIELD_VALUES[el.id]:next;
     if(prev===next)return;
     CANVA_UNDO_STACK.push({id:el.id,from:prev,to:next,kind:kind});if(CANVA_UNDO_STACK.length>100)CANVA_UNDO_STACK.shift();
-    CANVA_REDO_STACK=[];CANVA_FIELD_VALUES[el.id]=next;updateCanvaHistoryUi();
+    CANVA_REDO_STACK=[];CANVA_FIELD_VALUES[el.id]=next;updateCanvaHistoryUi();scheduleCanvaDraftSave();
   });
 }
 function applyCanvaHistoryEntry(entry,value){
@@ -1076,7 +1106,18 @@ function canvaRedo(){var entry=CANVA_REDO_STACK.pop();if(!entry)return;CANVA_UND
 function updateCanvaHistoryUi(){
   var undo=document.getElementById('canvaUndoBtn'),redo=document.getElementById('canvaRedoBtn');if(undo)undo.disabled=!CANVA_UNDO_STACK.length;if(redo)redo.disabled=!CANVA_REDO_STACK.length;markCanvaDraftChanged();
 }
-function markCanvaDraftChanged(){var status=document.getElementById('canvaDraftStatus');if(status)status.textContent='Unsaved draft';}
+function markCanvaDraftChanged(){setCanvaStatus('Unsaved draft','');scheduleCanvaDraftSave();}
+function saveCanvaVersion(){
+  persistCanvaDraft();var versions=[];try{versions=JSON.parse(localStorage.getItem(canvaStorageKey('versions'))||'[]');}catch(e){}
+  versions.unshift(captureCanvaSnapshot());versions=versions.slice(0,20);localStorage.setItem(canvaStorageKey('versions'),JSON.stringify(versions));setCanvaStatus('Version saved','saved');renderCanvaHistory();
+}
+function toggleCanvaHistory(){var pop=document.getElementById('canvaHistoryPop');if(!pop)return;pop.classList.toggle('open');renderCanvaHistory();}
+function renderCanvaHistory(){
+  var pop=document.getElementById('canvaHistoryPop');if(!pop||!CANVA_CONTEXT)return;var versions=[];try{versions=JSON.parse(localStorage.getItem(canvaStorageKey('versions'))||'[]');}catch(e){}
+  pop.innerHTML='<div class="canva-history-head"><strong>Version history</strong><button class="canva-toolbar-btn" onclick="toggleCanvaHistory()">×</button></div>'+(versions.length?versions.map(function(v,i){return '<div class="canva-history-item"><div><strong>Draft '+(versions.length-i)+'</strong><br>'+new Date(v.savedAt).toLocaleString()+'</div><button class="image-source-btn" onclick="restoreCanvaVersion('+i+')">Restore</button></div>';}).join(''):'<div class="canva-history-empty">No saved versions yet.</div>');
+}
+function restoreCanvaVersion(i){var v=JSON.parse(localStorage.getItem(canvaStorageKey('versions'))||'[]')[i];if(v){restoreCanvaSnapshot(v);persistCanvaDraft();toggleCanvaHistory();}}
+function discardCanvaDraft(){if(!confirm('Discard all local changes and return to the last loaded website version?'))return;localStorage.removeItem(canvaStorageKey('draft'));restoreCanvaSnapshot(CANVA_BASELINE,true);CANVA_UNDO_STACK=[];CANVA_REDO_STACK=[];updateCanvaHistoryUi();setCanvaStatus('Draft discarded','saved');}
 function canvaInlineMap(kind){
   return kind==='private'?{heroTitleEl:'tp_name',subheroTitleEl:'tp_dtitle',subheroDescEl:'tp_overview',accomTextEl:'tp_accomtext',highlightsHEl:'tp_itinh',highlightsSubEl:'tp_itinsub',fctaHeadingEl:'tp_fcta_heading',fctaLeadEl:'tp_fcta_lead'}:{gtTitleEl:'gt_title',gtPriceEl:'gt_price',gtDurationEl:'gt_duration',gtLocationEl:'gt_detail_route',gtAgeEl:'gt_age',gtDetailTitleEl:'gt_dtitle',gtSocHeading:'gt_social_heading',gtSocSubheading:'gt_social_subheading',gtFinalH:'gt_fcta_heading',gtFinalP:'gt_fcta_text'};
 }
@@ -1092,9 +1133,43 @@ function enableCanvaInlineEditing(kind){
   });
 }
 function syncAllCanvaDraftFields(kind){document.querySelectorAll('.trip-editor-form input[id],.trip-editor-form textarea[id],.trip-editor-form select[id]').forEach(function(el){if(el.type!=='file')syncTripPreviewInput(el,kind);});}
+function initCanvaSectionOrdering(form){
+  form.querySelectorAll('.trip-editor-section[id]').forEach(function(section){section.draggable=true;var head=section.querySelector('.trip-editor-section-head');if(head&&!head.querySelector('.canva-section-drag'))head.insertAdjacentHTML('beforeend','<span class="canva-section-drag" title="Drag to reorder editor sections">⠿</span>');
+    section.addEventListener('dragstart',function(e){if(!e.target.closest('.canva-section-drag')){e.preventDefault();return;}e.dataTransfer.setData('application/x-canva-section',section.id);});
+    section.addEventListener('dragover',function(e){if(e.dataTransfer.types.indexOf('application/x-canva-section')>-1){e.preventDefault();section.classList.add('canva-section-over');}});
+    section.addEventListener('dragleave',function(){section.classList.remove('canva-section-over');});
+    section.addEventListener('drop',function(e){var id=e.dataTransfer.getData('application/x-canva-section'),source=document.getElementById(id);section.classList.remove('canva-section-over');if(source&&source!==section){e.preventDefault();section.parentNode.insertBefore(source,section);scheduleCanvaDraftSave();}});
+  });
+}
+function restoreCanvaSectionOrder(order){var form=document.querySelector('.trip-editor-form');if(!form)return;order.forEach(function(id){var el=document.getElementById(id);if(el&&el.parentNode)el.parentNode.appendChild(el);});}
+function enableCanvaImageSources(form){form.querySelectorAll('[data-image-field="1"] img,.img-preview-lg,.img-preview').forEach(function(img){img.draggable=true;img.classList.add('canva-drag-source');img.addEventListener('dragstart',function(e){var field=img.closest('[data-image-field="1"]'),input=field&&field.querySelector('input[type="text"]'),url=input?input.value:img.src;if(url){e.dataTransfer.setData('text/uri-list',url);e.dataTransfer.setData('text/plain',url);e.dataTransfer.setData('application/x-canva-input',input&&input.id||'');}});});}
+function canvaPreviewImageMap(kind,doc){
+  var out={};if(kind==='private'){out.heroImgEl='tp_img';out.fctaImgEl='tp_fcta_img';var first=document.querySelector('[id^="tp_ap_"]');if(first)out.accomImg=first.id;[].slice.call(doc.querySelectorAll('#dayPhotos img')).forEach(function(_,i){var active=doc.querySelector('.day-tab.active'),idx=[].slice.call(doc.querySelectorAll('.day-tab')).indexOf(active),rows=document.querySelectorAll('.trip-editor-form [id^="itinrow_"]');if(rows[idx]){var inp=rows[idx].querySelector('[id^="itinphoto'+(i+1)+'_"]');if(inp)out['__day'+i]=inp.id;}});}else{var m={gtPhoto1:'gt_galphoto1',gtPhoto2:'gt_galphoto2',gtPhoto3:'gt_galphoto3',gtPhoto4:'gt_galphoto4',gtPhoto5:'gt_galphoto5',gtSocP1:'gt_soc_p1',gtSocP2:'gt_soc_p2',gtSocP3:'gt_soc_p3',gtSocP4:'gt_soc_p4',gtSocP5:'gt_soc_p5',gtSocWaterfall:'gt_soc_wf',gtSocBeach:'gt_soc_beach'};out=m;}return out;
+}
+function enableCanvaPreviewImages(kind){
+  var frame=document.getElementById('tripPreviewFrame'),doc=frame&&frame.contentDocument;if(!doc)return;var map=canvaPreviewImageMap(kind,doc),nodes=[];
+  Object.keys(map).forEach(function(key){var node=key.indexOf('__day')===0?doc.querySelectorAll('#dayPhotos img')[Number(key.replace('__day',''))]:doc.getElementById(key);if(node)nodes.push({node:node,inputId:map[key],key:key});});
+  nodes.forEach(function(item){var node=item.node;node.dataset.canvaKey=item.key;node.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();selectCanvaImage(item);});node.addEventListener('dragover',function(e){e.preventDefault();node.classList.add('canva-drop-target');});node.addEventListener('dragleave',function(){node.classList.remove('canva-drop-target');});node.addEventListener('drop',function(e){e.preventDefault();node.classList.remove('canva-drop-target');var url=e.dataTransfer.getData('text/uri-list')||e.dataTransfer.getData('text/plain'),input=document.getElementById(item.inputId);if(url&&input){input.value=url;input.dispatchEvent(new Event('input',{bubbles:true}));node.src=url;selectCanvaImage(item);}});
+    var start=null;node.addEventListener('pointerdown',function(e){if(!node.classList.contains('canva-image-selected'))return;start={x:e.clientX,y:e.clientY,base:getCanvaImageStyle(item.key)};node.setPointerCapture(e.pointerId);});node.addEventListener('pointermove',function(e){if(!start)return;var s=getCanvaImageStyle(item.key);s.x=Math.max(0,Math.min(100,start.base.x+(e.clientX-start.x)/2));s.y=Math.max(0,Math.min(100,start.base.y+(e.clientY-start.y)/2));applyCanvaImageStyle(node,s);});node.addEventListener('pointerup',function(){if(start){start=null;scheduleCanvaDraftSave();}});
+  });
+}
+function selectCanvaImage(item){var frame=document.getElementById('tripPreviewFrame'),doc=frame&&frame.contentDocument;if(doc)doc.querySelectorAll('.canva-image-selected').forEach(function(x){x.classList.remove('canva-image-selected');});CANVA_SELECTED_IMAGE=item;item.node.classList.add('canva-image-selected');var tools=document.getElementById('canvaImageTools');if(tools)tools.classList.add('show');}
+function getCanvaImageStyle(key){var bucket=CANVA_IMAGE_STYLES[CANVA_PREVIEW_MODE]||(CANVA_IMAGE_STYLES[CANVA_PREVIEW_MODE]={});return bucket[key]||(bucket[key]={zoom:1,fit:'cover',x:50,y:50});}
+function applyCanvaImageStyle(node,s){if(!node||!s)return;node.style.objectFit=s.fit;node.style.objectPosition=s.x+'% '+s.y+'%';node.style.transform='scale('+s.zoom+')';node.style.transformOrigin=s.x+'% '+s.y+'%';}
+function applyCanvaImageStyles(){var frame=document.getElementById('tripPreviewFrame'),doc=frame&&frame.contentDocument;if(!doc)return;var bucket=CANVA_IMAGE_STYLES[CANVA_PREVIEW_MODE]||{};Object.keys(bucket).forEach(function(key){var node=key.indexOf('__day')===0?doc.querySelectorAll('#dayPhotos img')[Number(key.replace('__day',''))]:doc.getElementById(key);applyCanvaImageStyle(node,bucket[key]);});}
+function canvaImageZoom(delta){if(!CANVA_SELECTED_IMAGE)return;var s=getCanvaImageStyle(CANVA_SELECTED_IMAGE.key),max=CANVA_PREVIEW_MODE==='mobile'?1.35:1.7;s.zoom=Math.max(.75,Math.min(max,s.zoom+delta));applyCanvaImageStyle(CANVA_SELECTED_IMAGE.node,s);scheduleCanvaDraftSave();}
+function canvaToggleImageFit(){if(!CANVA_SELECTED_IMAGE)return;var s=getCanvaImageStyle(CANVA_SELECTED_IMAGE.key);s.fit=s.fit==='cover'?'contain':'cover';applyCanvaImageStyle(CANVA_SELECTED_IMAGE.node,s);scheduleCanvaDraftSave();}
+function canvaResetImageStyle(){if(!CANVA_SELECTED_IMAGE)return;CANVA_IMAGE_STYLES[CANVA_PREVIEW_MODE][CANVA_SELECTED_IMAGE.key]={zoom:1,fit:'cover',x:50,y:50};applyCanvaImageStyle(CANVA_SELECTED_IMAGE.node,getCanvaImageStyle(CANVA_SELECTED_IMAGE.key));scheduleCanvaDraftSave();}
+function validateCanvaDraft(){var errors=[],name=document.getElementById(CANVA_CONTEXT.kind==='private'?'tp_name':'gt_title');if(!name||!name.value.trim())errors.push('Trip title is required.');document.querySelectorAll('.trip-editor-form [data-image-field="1"] input[type="text"]').forEach(function(x){if(x.value&&!/^(https?:\/\/|data:image\/)/i.test(x.value))errors.push('Invalid image URL in '+(x.id||'an image field')+'.');});return errors;}
+async function canvaReviewPublish(){
+  var errors=validateCanvaDraft(),box=document.getElementById('canvaValidation');if(errors.length){box.innerHTML='<strong>Fix before publishing</strong>'+errors.map(function(x){return '• '+esc(x);}).join('<br>');box.classList.add('open');setCanvaStatus('Needs review','error');return;}box.classList.remove('open');
+  if(!confirm('Publish this draft to the website now? A local version will be saved first.'))return;saveCanvaVersion();setCanvaStatus('Publishing…','');
+  var mainName=CANVA_CONTEXT.kind==='private'?'saveTrip':'saveGroupTripDetails',calls=[];document.querySelectorAll('.trip-editor-form button[onclick^="save"]').forEach(function(btn){var code=btn.getAttribute('onclick')||'';if(code.indexOf(mainName+'(')!==0&&calls.indexOf(code)<0)calls.push(code);});
+  try{for(var i=0;i<calls.length;i++){var result=eval(calls[i]);if(result&&result.then)await result;}var id=CANVA_CONTEXT.tripId;if(CANVA_CONTEXT.kind==='private')await saveTrip(id);else await saveGroupTripDetails(id);localStorage.removeItem(canvaStorageKey('draft'));setCanvaStatus('Published','saved');}catch(e){console.error(e);setCanvaStatus('Publish failed','error');toast('Publish failed — no local draft was lost.','error');}
+}
 function setTripPreviewMode(mode) {
   var frame = document.getElementById('tripPreviewFrame');
-  if (frame) frame.classList.toggle('mobile', mode === 'mobile');
+  CANVA_PREVIEW_MODE=mode;CANVA_SELECTED_IMAGE=null;var tools=document.getElementById('canvaImageTools');if(tools)tools.classList.remove('show');if (frame) frame.classList.toggle('mobile', mode === 'mobile');applyCanvaImageStyles();
 }
 function reloadTripPreview() {
   var frame = document.getElementById('tripPreviewFrame');
