@@ -1239,6 +1239,10 @@ function syncTripPreviewInput(input, kind) {
   var frame=document.getElementById('tripPreviewFrame'); if(!frame||!input.id)return;
   var win,doc; try{win=frame.contentWindow;doc=frame.contentDocument;}catch(e){return;} if(!doc)return;
   var id=input.id, value=input.classList&&input.classList.contains('rich-editor')&&window.TypographyEngine?TypographyEngine.valueOf(input.getAttribute('data-richid')||id):(input.value!=null?input.value:input.textContent||'');
+  // The preview is the source while a person is typing directly in it. Do
+  // not echo the admin-field update back into that same DOM subtree: doing
+  // so replaces the editable node and sends the caret to the beginning.
+  if(CANVA_INLINE_EDIT&&CANVA_INLINE_EDIT.fieldId===id)return;
   if(kind==='private'){
     var textMap={tp_name:'heroTitleEl',tp_dtitle:'subheroTitleEl',tp_itinh:'highlightsHEl',tp_itinsub:'highlightsSubEl',tp_fcta_heading:'fctaHeadingEl',tp_fcta_lead:'fctaLeadEl'};
     var htmlMap={tp_overview:'subheroDescEl',tp_accomtext:'accomTextEl'};
