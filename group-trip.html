@@ -2788,7 +2788,7 @@ function buildDateCard(d) {
   var monthFull = String(d.date_month || '');
   var monthShort = monthFull.slice(0, 3);
   return '' +
-  '<div class="date-card">' +
+  '<div class="date-card" data-date-id="' + esc(d.id) + '">' +
     '<div class="date-card-main">' +
       '<div class="date-card-date" data-ts="gt_dc_date"><div class="day">' + esc(d.date_day) + '</div><div class="month month-full">' + esc(monthFull) + '</div><div class="month month-short">' + esc(monthShort) + '</div><div class="dur">' + esc(d.duration_label) + '</div></div>' +
       '<div class="date-card-days" data-ts="gt_dc_date">' +
@@ -2800,7 +2800,7 @@ function buildDateCard(d) {
     '</div>' +
     '<div class="date-card-more" id="moreBtn' + d.id + '" data-ts="gt_dc_labels" onclick="toggleDateMore(\'' + d.id + '\',this)">More Info <span class="chev">›</span></div>' +
   '</div>' +
-    '<div class="date-more" id="moreInfo' + d.id + '">' +
+    '<div class="date-more" data-date-id="' + esc(d.id) + '" id="moreInfo' + d.id + '">' +
       '<div class="date-more-grid">' +
         '<div class="dm-left">' +
           '<div class="dm-row"><span class="dm-ic">' + icStart + '</span><div><div class="dm-lbl" data-ts="gt_dc_labels">Trip Start</div><div class="dm-val" data-ts="gt_dc_content">' + esc(d.trip_start_location) + '</div></div></div>' +
