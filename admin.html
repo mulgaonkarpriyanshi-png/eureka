@@ -1164,6 +1164,9 @@ function canvaListTextNode(item){
   if(!item)return null;var existing=item.querySelector(':scope > .canva-list-text');if(existing)return existing;
   var span=item.ownerDocument.createElement('span');span.className='canva-list-text';[].slice.call(item.childNodes).forEach(function(child){if(child.nodeType===3&&child.textContent.trim())span.appendChild(child);});item.appendChild(span);return span;
 }
+function canvaPriceNumberNode(doc){
+  var price=doc.getElementById('gtPriceEl');if(!price)return null;var existing=price.querySelector(':scope > .canva-price-value');if(existing)return existing;var span=doc.createElement('span');span.className='canva-price-value';[].slice.call(price.childNodes).forEach(function(child){if(child.nodeType===3&&child.textContent.trim())span.appendChild(child);});price.insertBefore(span,price.firstChild);return span;
+}
 function enablePrivateCanvaRepeatEditing(doc){
   bindCanvaLineItems([].slice.call(doc.querySelectorAll('#inclusionsList li')).map(canvaListTextNode).filter(Boolean),'tp_incl');
   bindCanvaLineItems([].slice.call(doc.querySelectorAll('#exclusionsList li')).map(canvaListTextNode).filter(Boolean),'tp_excl');
@@ -1193,7 +1196,7 @@ function enableGroupCanvaDateEditing(doc){
 }
 function bindCanvaPreviewContent(kind,doc){
   var map=canvaInlineMap(kind);Object.keys(map).forEach(function(previewId){var cfg=map[previewId];bindCanvaInlineNode(doc.getElementById(previewId),cfg[0],cfg[1]);});
-  if(kind==='group')enableGroupCanvaRepeatEditing(doc);else enablePrivateCanvaRepeatEditing(doc);
+  if(kind==='group'){var priceNode=canvaPriceNumberNode(doc);bindCanvaInlineNode(priceNode,'gt_price','',function(node){return canvaPlainText(node).replace(/[^0-9.]/g,'');});enableGroupCanvaRepeatEditing(doc);}else enablePrivateCanvaRepeatEditing(doc);
   enableCanvaPreviewImages(kind);
 }
 function observeCanvaPreviewContent(kind,doc){
@@ -1331,10 +1334,11 @@ function syncTripPreviewInput(input, kind) {
       }
     }
   } else {
-    var gtText={gt_title:'gtTitleEl',gt_price:'gtPriceEl',gt_duration:'gtDurationEl',gt_detail_route:'gtLocationEl',gt_age:'gtAgeEl',gt_btn1:'gtBtn1El',gt_btn2:'gtBtn2El',gt_videocap:'gtVideoCapEl',gt_dtitle:'gtDetailTitleEl',gt_mapnote:'gtMapNoteEl',gt_itinh:'gtItinTitleEl',gt_itinsub:'gtItinSubEl',gt_soc_beachcap:'gtSocBeachCap',gt_soc_bl1:'gtSocBannerL1',gt_soc_bl2:'gtSocBannerL2',gt_social_heading:'gtSocHeading',gt_social_subheading:'gtSocSubheading',gt_fcta_heading:'gtFinalH',gt_fcta_text:'gtFinalP',gt_fcta_btntext:'gtFinalBtn'};
+    var gtText={gt_title:'gtTitleEl',gt_duration:'gtDurationEl',gt_detail_route:'gtLocationEl',gt_age:'gtAgeEl',gt_btn1:'gtBtn1El',gt_btn2:'gtBtn2El',gt_videocap:'gtVideoCapEl',gt_dtitle:'gtDetailTitleEl',gt_mapnote:'gtMapNoteEl',gt_itinh:'gtItinTitleEl',gt_itinsub:'gtItinSubEl',gt_soc_beachcap:'gtSocBeachCap',gt_soc_bl1:'gtSocBannerL1',gt_soc_bl2:'gtSocBannerL2',gt_social_heading:'gtSocHeading',gt_social_subheading:'gtSocSubheading',gt_fcta_heading:'gtFinalH',gt_fcta_text:'gtFinalP',gt_fcta_btntext:'gtFinalBtn'};
     var gtHtml={gt_dp1:'gtDetailP1El',gt_dp2:'gtDetailP2El',gt_accomtext:'gtAccomTextEl'};
     var gtImages={gt_galphoto1:'gtPhoto1',gt_galphoto2:'gtPhoto2',gt_galphoto3:'gtPhoto3',gt_galphoto4:'gtPhoto4',gt_galphoto5:'gtPhoto5',gt_soc_p1:'gtSocP1',gt_soc_p2:'gtSocP2',gt_soc_p3:'gtSocP3',gt_soc_p4:'gtSocP4',gt_soc_p5:'gtSocP5',gt_soc_wf:'gtSocWaterfall',gt_soc_beach:'gtSocBeach'};
     if(gtText[id])previewSetText(doc,gtText[id],value);
+    if(id==='gt_price'){var priceNode=canvaPriceNumberNode(doc);if(priceNode)priceNode.textContent='₹'+Number(value||0).toLocaleString('en-IN');}
     if(gtHtml[id])previewSetHtml(doc,gtHtml[id],value);
     if(gtImages[id])previewSetImage(doc,gtImages[id],value);
     if(id==='gt_waypoints'){var routeEl=doc.getElementById('gtRouteEl');if(routeEl)routeEl.innerHTML=String(value).split(',').map(function(x){return x.trim();}).filter(Boolean).map(function(x,i,a){return '<span>'+esc(x)+'</span>'+(i<a.length-1?'<span class="sep">➾</span>':'');}).join('');}
