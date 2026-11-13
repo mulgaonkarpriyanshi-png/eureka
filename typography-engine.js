@@ -399,6 +399,19 @@
     return el ? el.innerHTML : '';
   }
 
+  // Updates a rich-text editor from another editing surface (for example the
+  // Canva-style live preview) without rebuilding the editor or losing its
+  // typography controls.
+  function setValue(id, html) {
+    var value = html == null ? '' : String(html);
+    if (richEditors[id]) {
+      richEditors[id].clipboard.dangerouslyPasteHTML(value, 'silent');
+      return;
+    }
+    var el = document.querySelector('.rich-editor[data-richid="' + id + '"]');
+    if (el) el.innerHTML = value;
+  }
+
   // Call before re-rendering a modal/tab that will build fresh .rich-editor
   // boxes, so old Quill instances (and their selection memory) are dropped.
   function resetEditors() {
@@ -643,6 +656,7 @@
     resetEditors: resetEditors,
     applyPen: applyPen,
     valueOf: valueOf,
+    setValue: setValue,
     debug: renderDebugPanel
   };
 })(window);
