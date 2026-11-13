@@ -1265,6 +1265,13 @@ function scheduleTripPreviewSync(target, kind) {
 function previewSetText(doc, id, value) { var el=doc.getElementById(id); if(el&&(!CANVA_INLINE_EDIT||CANVA_INLINE_EDIT.node!==el))el.textContent=value||''; }
 function previewSetHtml(doc, id, value) { var el=doc.getElementById(id); if(el&&(!CANVA_INLINE_EDIT||CANVA_INLINE_EDIT.node!==el))el.innerHTML=value||''; }
 function previewSetImage(doc, id, value) { var el=doc.getElementById(id); if(el&&value){el.src=value;el.style.display='';} }
+function syncPrivatePreviewList(doc,listId,value,isExclusion){
+  var host=doc.getElementById(listId);if(!host)return;var lines=String(value).split(/\n+/).map(function(x){return x.trim();}).filter(Boolean),list=isExclusion?(host.querySelector('ul')||host.appendChild(doc.createElement('ul'))):host,items=[].slice.call(list.querySelectorAll(':scope > li'));
+  var existingIcon=items.map(function(li){var icon=li.querySelector(':scope > .li-ic');return icon&&icon.outerHTML;}).filter(Boolean)[0];
+  var fallback=isExclusion?'<span class="li-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg></span>':'<span class="li-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg></span>';
+  lines.forEach(function(text,i){var li=items[i];if(!li){li=doc.createElement('li');li.innerHTML=(existingIcon||fallback)+'<span class="canva-list-text"></span>';list.appendChild(li);items.push(li);}var icon=li.querySelector(':scope > .li-ic');if(!icon)li.insertAdjacentHTML('afterbegin',existingIcon||fallback);var textNode=canvaListTextNode(li);if(textNode&&(!CANVA_INLINE_EDIT||CANVA_INLINE_EDIT.node!==textNode))textNode.textContent=text;});
+  items.slice(lines.length).forEach(function(li){li.remove();});
+}
 function syncTripPreviewInput(input, kind) {
   var frame=document.getElementById('tripPreviewFrame'); if(!frame||!input.id)return;
   var win,doc; try{win=frame.contentWindow;doc=frame.contentDocument;}catch(e){return;} if(!doc)return;
@@ -1284,7 +1291,7 @@ function syncTripPreviewInput(input, kind) {
       var route=doc.getElementById('heroRouteEl'); if(route)route.innerHTML=String(value).split(',').map(function(s){return s.trim();}).filter(Boolean).map(function(s,i,a){return '<span>'+esc(s)+'</span>'+(i<a.length-1?'<span class="sep">➾</span>':'');}).join('');
     }
     var joyMatch=id.match(/^tp_joy([1-4])(icon|label|pct)$/); if(joyMatch){var jn=joyMatch[1],part=joyMatch[2];if(part==='icon')previewSetText(doc,'joy'+jn+'Icon',value);else if(part==='label')previewSetText(doc,'joy'+jn+'Label',value);else{var fill=doc.getElementById('joy'+jn+'Fill');if(fill)fill.style.width=Math.max(0,Math.min(100,Number(value)||0))+'%';}}
-    if(id==='tp_incl'||id==='tp_excl'){var list=doc.getElementById(id==='tp_incl'?'inclusionsList':'exclusionsList');if(list)list.innerHTML=String(value).split(/\n+/).filter(Boolean).map(function(x){return '<li>'+esc(x)+'</li>';}).join('');}
+    if(id==='tp_incl'||id==='tp_excl')syncPrivatePreviewList(doc,id==='tp_incl'?'inclusionsList':'exclusionsList',value,id==='tp_excl');
     if(id==='tp_accomlist'){var hotels=doc.getElementById('accomHotelList');if(hotels)hotels.innerHTML=String(value).split(/\n+/).filter(Boolean).map(function(x){return '<li>'+esc(x)+'</li>';}).join('');}
     if(/^tp_ap_\d+$/.test(id))previewSetImage(doc,'accomImg',value);
     var row=input.closest&&input.closest('[id^="itinrow_"]');
