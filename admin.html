@@ -1174,11 +1174,20 @@ function enableGroupCanvaRepeatEditing(doc){
   var rows=[].slice.call(document.querySelectorAll('.trip-editor-form [id^="gtitinrow_"]'));
   [].slice.call(doc.querySelectorAll('#gtDaysContainer .gt-day')).forEach(function(day,index){var row=rows[index];if(!row)return;var suffix=row.id.replace('gtitinrow_',''),title=day.querySelector('.gt-day-head-txt span:nth-child(2)'),desc=day.querySelector('.gt-day-p'),tags=day.querySelectorAll('.gt-day-tag');bindCanvaInlineNode(title,'gtitintitle_'+suffix);bindCanvaInlineNode(desc,'gtitindesc_'+suffix,'rich');if(tags[0])bindCanvaInlineNode(tags[0],'gtitinmeals_'+suffix);if(tags[1])bindCanvaInlineNode(tags[1],'gtitinincluded_'+suffix);});
 }
+function bindCanvaPreviewContent(kind,doc){
+  var map=canvaInlineMap(kind);Object.keys(map).forEach(function(previewId){var cfg=map[previewId];bindCanvaInlineNode(doc.getElementById(previewId),cfg[0],cfg[1]);});
+  if(kind==='group')enableGroupCanvaRepeatEditing(doc);else enablePrivateCanvaRepeatEditing(doc);
+}
+function observeCanvaPreviewContent(kind,doc){
+  if(doc.documentElement.dataset.canvaObserverBound)return;doc.documentElement.dataset.canvaObserverBound='1';var timer=null;
+  new MutationObserver(function(mutations){
+    var needsBind=mutations.some(function(m){return m.type==='childList'&&m.addedNodes.length;});if(!needsBind)return;
+    clearTimeout(timer);timer=setTimeout(function(){bindCanvaPreviewContent(kind,doc);},30);
+  }).observe(doc.body,{childList:true,subtree:true});
+}
 function enableCanvaInlineEditing(kind){
   var frame=document.getElementById('tripPreviewFrame'),doc;try{doc=frame.contentDocument;}catch(e){return;}if(!doc)return;
-  var map=canvaInlineMap(kind);
-  Object.keys(map).forEach(function(previewId){var cfg=map[previewId];bindCanvaInlineNode(doc.getElementById(previewId),cfg[0],cfg[1]);});
-  if(kind==='group')enableGroupCanvaRepeatEditing(doc);else enablePrivateCanvaRepeatEditing(doc);
+  bindCanvaPreviewContent(kind,doc);observeCanvaPreviewContent(kind,doc);
 }
 function syncAllCanvaDraftFields(kind){document.querySelectorAll('.trip-editor-form input[id],.trip-editor-form textarea[id],.trip-editor-form select[id],.trip-editor-form .rich-editor[data-richid]').forEach(function(el){if(el.type!=='file'){if(!el.id)el.id=el.getAttribute('data-richid');syncTripPreviewInput(el,kind);}});}
 function initCanvaSectionOrdering(form){
