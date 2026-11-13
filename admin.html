@@ -186,15 +186,30 @@ tr:hover td{background:var(--cream)}
 .global-image-fill select{min-width:170px;padding:9px 11px;border:1px solid var(--border2);border-radius:8px;background:#fff;color:var(--body)}
 .global-image-progress{display:none;font-size:11px;color:var(--teal-d);background:#fff;border:1px solid #d6ebe8;border-radius:8px;padding:9px 11px}
 .global-image-progress.show{display:block}
-.trip-editor-workspace{display:grid;grid-template-columns:minmax(560px,1.05fr) minmax(390px,.95fr);gap:18px;align-items:start}
+.trip-editor-workspace{display:grid;grid-template-columns:minmax(300px,25%) minmax(0,75%);gap:14px;align-items:start;position:relative}
 .trip-editor-form{min-width:0}
+.trip-editor-workspace.canva-phase1 .trip-editor-form{max-height:calc(100vh - 126px);overflow:auto;padding-right:4px}
+.trip-editor-workspace.canva-phase1 .trip-editor-form .btn-save{display:none!important}
+.trip-editor-workspace.canva-phase1 .trip-editor-form button[onclick^="save"],
+.trip-editor-workspace.canva-phase1 .trip-editor-form button[onclick^="delete"],
+.trip-editor-workspace.canva-phase1 .trip-editor-form button[onclick*="addItineraryDay"],
+.trip-editor-workspace.canva-phase1 .trip-editor-form button[onclick*="addGtItineraryDay"],
+.trip-editor-workspace.canva-phase1 .trip-editor-form button[onclick*="addTripReview"],
+.trip-editor-workspace.canva-phase1 .trip-editor-form button[onclick*="addGroupTrip"]{display:none!important}
+.trip-editor-workspace.editor-hidden{grid-template-columns:1fr}
+.trip-editor-workspace.editor-hidden .trip-editor-form{display:none}
 .trip-preview-panel{position:sticky;top:0;height:calc(100vh - 126px);min-height:600px;background:#e9efed;border:1px solid var(--border2);border-radius:12px;overflow:hidden;box-shadow:var(--shadow)}
 .trip-preview-toolbar{height:48px;background:var(--white);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:7px;padding:8px 10px}
 .trip-preview-toolbar strong{font-size:11px;margin-right:auto;color:var(--dark)}
+.canva-toolbar-btn{width:32px;height:30px;padding:0;border:1px solid var(--border2);border-radius:7px;background:#fff;color:var(--dark);font-size:14px;font-weight:700;display:inline-flex;align-items:center;justify-content:center}
+.canva-toolbar-btn:hover:not(:disabled){border-color:var(--teal);color:var(--teal-d);background:var(--teal-l)}
+.canva-toolbar-btn:disabled{opacity:.35;cursor:not-allowed}
+.canva-draft-pill{padding:5px 8px;border-radius:999px;background:#fff3d7;color:#805c00;font-size:9px;font-weight:700;white-space:nowrap}
+.canva-phase1-note{padding:10px 12px;margin:0 0 12px;border:1px solid #b9ded9;border-radius:9px;background:#effaf8;color:var(--teal-d);font-size:10px;line-height:1.5}
 .trip-preview-stage{height:calc(100% - 48px);overflow:auto;padding:14px;display:flex;justify-content:center;align-items:flex-start}
 .trip-preview-frame{height:100%;min-height:720px;border:0;background:white;box-shadow:0 5px 24px rgba(0,0,0,.12);transition:width .2s ease;width:100%}
 .trip-preview-frame.mobile{width:390px;flex:0 0 390px}
-@media(max-width:1180px){.trip-editor-workspace{grid-template-columns:1fr}.trip-preview-panel{position:relative;height:760px}.trip-editor-workspace.preview-hidden .trip-preview-panel{display:none}}
+@media(max-width:1180px){.trip-editor-workspace{grid-template-columns:1fr}.trip-editor-workspace.canva-phase1 .trip-editor-form{max-height:none}.trip-preview-panel{position:relative;height:760px}.trip-editor-workspace.preview-hidden .trip-preview-panel{display:none}}
 .trip-editor-section{border:1px solid var(--border);border-radius:11px;background:var(--white);overflow:hidden;margin-bottom:18px;scroll-margin-top:16px}
 .trip-editor-section-head{display:flex;align-items:center;gap:10px;padding:13px 16px;background:#eef5f3;border-bottom:1px solid var(--border)}
 .trip-editor-section-icon{width:28px;height:28px;border-radius:8px;background:rgba(2,169,162,.12);display:flex;align-items:center;justify-content:center;font-size:14px}
@@ -1006,22 +1021,77 @@ function mountTripEditorPreview(kind, tripId) {
   form.className = 'trip-editor-form';
   while (root.firstChild) form.appendChild(root.firstChild);
   var workspace = document.createElement('div');
-  workspace.className = 'trip-editor-workspace';
+  workspace.className = 'trip-editor-workspace canva-phase1';
   var page = kind === 'group' ? 'group-trip.html' : 'trip-page.html';
   var src = page + '?trip=' + encodeURIComponent(tripId) + '&adminPreview=1';
   workspace.appendChild(form);
   var panel = document.createElement('aside');
   panel.className = 'trip-preview-panel';
-  panel.innerHTML = '<div class="trip-preview-toolbar"><strong>Live draft preview</strong>' +
+  panel.innerHTML = '<div class="trip-preview-toolbar"><strong>Canva editor · local draft</strong>' +
+    '<span class="canva-draft-pill" id="canvaDraftStatus">Not saved</span>' +
+    '<button type="button" class="canva-toolbar-btn" id="canvaUndoBtn" onclick="canvaUndo()" title="Undo" disabled>↶</button>' +
+    '<button type="button" class="canva-toolbar-btn" id="canvaRedoBtn" onclick="canvaRedo()" title="Redo" disabled>↷</button>' +
+    '<button type="button" class="image-source-btn" id="canvaPanelToggle" onclick="toggleCanvaEditorPanel()">☰ Editor</button>' +
     '<button type="button" class="image-source-btn" onclick="setTripPreviewMode(\'desktop\')">🖥 Desktop</button>' +
     '<button type="button" class="image-source-btn" onclick="setTripPreviewMode(\'mobile\')">📱 Mobile</button>' +
     '<button type="button" class="image-source-btn" onclick="reloadTripPreview()">↻ Refresh</button></div>' +
     '<div class="trip-preview-stage"><iframe id="tripPreviewFrame" class="trip-preview-frame" title="Trip page preview" src="'+esc(src)+'"></iframe></div>';
   workspace.appendChild(panel);
   root.appendChild(workspace);
+  var phaseNote = document.createElement('div');
+  phaseNote.className = 'canva-phase1-note';
+  phaseNote.innerHTML = '<strong>Phase 1 draft mode:</strong> double-click supported text in the preview to edit it. Undo/redo works locally. Section Save buttons are hidden, so this workspace cannot publish to the website.';
+  form.insertBefore(phaseNote, form.firstChild);
+  initCanvaDraftHistory(form, kind);
+  var previewFrame = document.getElementById('tripPreviewFrame');
+  previewFrame.addEventListener('load', function(){ enableCanvaInlineEditing(kind); syncAllCanvaDraftFields(kind); });
   form.addEventListener('input', function(e){ scheduleTripPreviewSync(e.target, kind); });
   form.addEventListener('change', function(e){ scheduleTripPreviewSync(e.target, kind); });
 }
+var CANVA_UNDO_STACK = [], CANVA_REDO_STACK = [], CANVA_FIELD_VALUES = {}, CANVA_HISTORY_LOCK = false;
+function toggleCanvaEditorPanel() {
+  var workspace=document.querySelector('.trip-editor-workspace'); if(!workspace)return;
+  var hidden=workspace.classList.toggle('editor-hidden'), btn=document.getElementById('canvaPanelToggle');
+  if(btn){btn.textContent=hidden?'☰ Show editor':'☰ Editor';btn.title=hidden?'Show editor':'Hide editor';}
+}
+function canvaFieldValue(el){return el&&el.value!=null?String(el.value):'';}
+function initCanvaDraftHistory(form, kind) {
+  CANVA_UNDO_STACK=[];CANVA_REDO_STACK=[];CANVA_FIELD_VALUES={};CANVA_HISTORY_LOCK=false;
+  form.querySelectorAll('input[id],textarea[id],select[id]').forEach(function(el){CANVA_FIELD_VALUES[el.id]=canvaFieldValue(el);});
+  form.addEventListener('input',function(e){
+    var el=e.target;if(CANVA_HISTORY_LOCK||!el||!el.id||el.type==='file')return;
+    var next=canvaFieldValue(el),prev=Object.prototype.hasOwnProperty.call(CANVA_FIELD_VALUES,el.id)?CANVA_FIELD_VALUES[el.id]:next;
+    if(prev===next)return;
+    CANVA_UNDO_STACK.push({id:el.id,from:prev,to:next,kind:kind});if(CANVA_UNDO_STACK.length>100)CANVA_UNDO_STACK.shift();
+    CANVA_REDO_STACK=[];CANVA_FIELD_VALUES[el.id]=next;updateCanvaHistoryUi();
+  });
+}
+function applyCanvaHistoryEntry(entry,value){
+  var el=document.getElementById(entry.id);if(!el)return;
+  CANVA_HISTORY_LOCK=true;el.value=value;CANVA_FIELD_VALUES[entry.id]=value;el.dispatchEvent(new Event('input',{bubbles:true}));CANVA_HISTORY_LOCK=false;
+  syncTripPreviewInput(el,entry.kind);markCanvaDraftChanged();
+}
+function canvaUndo(){var entry=CANVA_UNDO_STACK.pop();if(!entry)return;CANVA_REDO_STACK.push(entry);applyCanvaHistoryEntry(entry,entry.from);updateCanvaHistoryUi();}
+function canvaRedo(){var entry=CANVA_REDO_STACK.pop();if(!entry)return;CANVA_UNDO_STACK.push(entry);applyCanvaHistoryEntry(entry,entry.to);updateCanvaHistoryUi();}
+function updateCanvaHistoryUi(){
+  var undo=document.getElementById('canvaUndoBtn'),redo=document.getElementById('canvaRedoBtn');if(undo)undo.disabled=!CANVA_UNDO_STACK.length;if(redo)redo.disabled=!CANVA_REDO_STACK.length;markCanvaDraftChanged();
+}
+function markCanvaDraftChanged(){var status=document.getElementById('canvaDraftStatus');if(status)status.textContent='Unsaved draft';}
+function canvaInlineMap(kind){
+  return kind==='private'?{heroTitleEl:'tp_name',subheroTitleEl:'tp_dtitle',subheroDescEl:'tp_overview',accomTextEl:'tp_accomtext',highlightsHEl:'tp_itinh',highlightsSubEl:'tp_itinsub',fctaHeadingEl:'tp_fcta_heading',fctaLeadEl:'tp_fcta_lead'}:{gtTitleEl:'gt_title',gtPriceEl:'gt_price',gtDurationEl:'gt_duration',gtLocationEl:'gt_detail_route',gtAgeEl:'gt_age',gtDetailTitleEl:'gt_dtitle',gtSocHeading:'gt_social_heading',gtSocSubheading:'gt_social_subheading',gtFinalH:'gt_fcta_heading',gtFinalP:'gt_fcta_text'};
+}
+function enableCanvaInlineEditing(kind){
+  var frame=document.getElementById('tripPreviewFrame'),doc;try{doc=frame.contentDocument;}catch(e){return;}if(!doc)return;
+  var map=canvaInlineMap(kind);
+  Object.keys(map).forEach(function(previewId){
+    var node=doc.getElementById(previewId),field=document.getElementById(map[previewId]);if(!node||!field)return;
+    node.style.cursor='text';node.title='Double-click to edit';
+    node.addEventListener('dblclick',function(ev){ev.preventDefault();ev.stopPropagation();node.contentEditable='true';node.style.outline='2px solid #00aaa5';node.style.outlineOffset='3px';node.focus();var sel=doc.getSelection(),range=doc.createRange();range.selectNodeContents(node);sel.removeAllRanges();sel.addRange(range);});
+    node.addEventListener('input',function(){field.value=node.innerText;field.dispatchEvent(new Event('input',{bubbles:true}));});
+    node.addEventListener('blur',function(){node.contentEditable='false';node.style.outline='';markCanvaDraftChanged();});
+  });
+}
+function syncAllCanvaDraftFields(kind){document.querySelectorAll('.trip-editor-form input[id],.trip-editor-form textarea[id],.trip-editor-form select[id]').forEach(function(el){if(el.type!=='file')syncTripPreviewInput(el,kind);});}
 function setTripPreviewMode(mode) {
   var frame = document.getElementById('tripPreviewFrame');
   if (frame) frame.classList.toggle('mobile', mode === 'mobile');
