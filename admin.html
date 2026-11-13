@@ -1337,7 +1337,7 @@ function syncTripPreviewInput(input, kind) {
     if(gtText[id])previewSetText(doc,gtText[id],value);
     if(gtHtml[id])previewSetHtml(doc,gtHtml[id],value);
     if(gtImages[id])previewSetImage(doc,gtImages[id],value);
-    if(id==='gt_waypoints'){var routeEl=doc.getElementById('gtRouteEl');if(routeEl)routeEl.textContent=value;}
+    if(id==='gt_waypoints'){var routeEl=doc.getElementById('gtRouteEl');if(routeEl)routeEl.innerHTML=String(value).split(',').map(function(x){return x.trim();}).filter(Boolean).map(function(x,i,a){return '<span>'+esc(x)+'</span>'+(i<a.length-1?'<span class="sep">➾</span>':'');}).join('');}
     if(id==='gt_tags'){var tagsEl=doc.getElementById('gtTagsEl');if(tagsEl)tagsEl.innerHTML=String(value).split(',').filter(Boolean).map(function(x){return '<span>'+esc(x.trim())+'</span>';}).join('');}
     if(id==='gt_accomlist'){var accomList=doc.getElementById('gtAccomListEl');if(accomList)accomList.innerHTML=String(value).split(/\n+/).filter(Boolean).map(function(x){return '<li>'+esc(x)+'</li>';}).join('');}
     if(id==='gt_exclusions'){var excl=doc.getElementById('gtExclusionsListEl');if(excl)excl.innerHTML=String(value).split(/\n+/).filter(Boolean).map(function(x){return '<div class="gt-inc-item"><span class="gt-inc-ic">✓</span><span>'+esc(x)+'</span></div>';}).join('');}
